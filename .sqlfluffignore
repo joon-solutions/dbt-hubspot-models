@@ -1,0 +1,10 @@
+target/
+dbt_modules/
+dbt_packages/
+macros/
+utils/
+analysis/
+archived_models/
+.github/
+data/
+generated_base_models/

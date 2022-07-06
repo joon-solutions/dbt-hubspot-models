@@ -1,0 +1,54 @@
+name: pr_to_main
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'models/**'
+      - 'snapshots/**'
+      - 'dbt_project.yml'
+      - 'packages.yml'
+      - 'requirement.txt'
+
+env:
+  DBT_PROFILES_DIR: ./
+  DBT_USER: ${{ secrets.DBT_USER }}
+  DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
+  DBT_SCHEMA: ${{ secrets.DBT_SCHEMA }}
+
+jobs:
+  pr_to_main:
+    name: pr_to_main
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@main
+
+      - uses: actions/setup-python@v1
+        with:
+          python-version: "3.7.x"
+
+      - name: Install dependencies
+        run: |
+          pip3 install -r requirements.txt
+          dbt deps
+
+      - name: Seeding
+        run: dbt seed
+
+      - name: Check required tests
+        run: |
+          dbt run-operation --profiles-dir . required_tests
+
+      - name: Lint with sqlfluff
+        run: |
+          git fetch origin main:main
+          git diff main --name-only --diff-filter=d | egrep '^models/.*sql$$' | xargs -r sqlfluff lint
+
+      - name: Run dbt model
+        run: dbt run
+
+      - name: Test dbt model
+        run: dbt test --exclude tag:manual_input_test
