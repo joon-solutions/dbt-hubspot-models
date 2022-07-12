@@ -98,8 +98,8 @@ jobs:
       ## Lint model files
       - name: Lint with sqlfluff
         run: |
-          git fetch origin master:master
-          git diff master --name-only --diff-filter=d | egrep '^models/.*sql$$' | xargs -r sqlfluff lint
+          git fetch origin main:main
+          git diff main --name-only --diff-filter=d | egrep '^models/.*sql$$' | xargs -r sqlfluff lint
 
       ## Check required dbt tests
       - name: Check required tests
