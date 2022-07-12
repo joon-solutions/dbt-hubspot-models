@@ -30,6 +30,9 @@ env:
   ARTIFACT_DBT_MANIFEST_NAME: dbt_manifest
 
   DBT_PROFILES_DIR: ./
+  DBT_USER: ${{ secrets.DBT_USER }}
+  DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
+  DBT_SCHEMA: ${{ secrets.DBT_SCHEMA }}
 
   ## Environment variables for running Dbt on Google BigQuery
   # DBT_GOOGLE_PROJECT_DEV: google-project-id

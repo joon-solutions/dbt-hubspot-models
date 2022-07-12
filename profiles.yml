@@ -5,7 +5,6 @@ canvas_dbt:
       type: snowflake
       account: om37979.ap-southeast-1
       # Replace by your user/password or set the environment variables
-      # DBT_USER & DBT_PASSWORD
       user: "{{ env_var('DBT_USER') }}"
       password: "{{ env_var('DBT_PASSWORD') }}"
 
