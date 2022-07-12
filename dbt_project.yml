@@ -32,23 +32,8 @@ seeds:
 
 vars:
   # RE_DATA
-  re_data:anomaly_detection_look_back_days: 1000
-  re_data:metrics_base: #custom field
-    table:
-      - row_count
-      - distinct_table_rows
+  email_metrics: ['bounces', 'clicks', 'deferrals', 'deliveries', 'drops', 'forwards', 'opens', 'prints', 'spam_reports', 'unsubscribes']
 
-    column:
-      numeric:
-        - nulls_percent
-        - distinct_values
-      text:
-        - min_length
-        - max_length
-        - avg_length
-        - nulls_percent
-        - missing_percent
-        - distinct_values
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
 
@@ -65,7 +50,7 @@ models:
     
     base:
       +required_tests: {"unique.*|not_null": 2}
-      +materialized: view
+      +materialized: table
 
     intermediate:
       +required_tests: {"unique.*|not_null|at_least_one": 3}
