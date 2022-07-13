@@ -7,9 +7,9 @@ with source as (
 renamed as (
 
     select
-        id,
+        id as email_subscription_id,
         portal_id,
-        name,
+        name as subscription_name,
         description,
         active,
         _fivetran_synced
@@ -19,3 +19,4 @@ renamed as (
 )
 
 select * from renamed
+

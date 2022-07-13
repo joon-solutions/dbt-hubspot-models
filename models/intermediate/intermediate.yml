@@ -3,7 +3,7 @@ version: 2
 models:
   - name: stg_hubspot__email_aggregate_status_change
     columns:
-      - name: email_send_id
+      - name: email_event_id
         tests:
           - unique
           - not_null

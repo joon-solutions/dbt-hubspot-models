@@ -11,16 +11,16 @@ with source as (
 renamed as (
 
     select
-        id,
+        id as email_campaign_id,
         app_id,
         app_name,
         content_id,
-        name,
+        name as email_campaign_name,
         num_included,
         num_queued,
         sub_type,
         subject,
-        type,
+        type as email_campaign_type,
         _fivetran_synced
 
     from source
@@ -28,3 +28,4 @@ renamed as (
 )
 
 select * from renamed
+

@@ -8,14 +8,14 @@ renamed as (
 
     select
         recipient,
-        timestamp,
+        timestamp as created_at,
         change,
         change_type,
         portal_id,
         source,
         caused_by_event_id,
         email_subscription_id,
-        _fivetran_id,
+        _fivetran_id as id,
         _fivetran_synced
 
     from source
@@ -23,3 +23,4 @@ renamed as (
 )
 
 select * from renamed
+

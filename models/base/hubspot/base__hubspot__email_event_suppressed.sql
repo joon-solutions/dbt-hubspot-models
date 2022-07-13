@@ -7,8 +7,7 @@ with source as (
 renamed as (
 
     select
-        id,
-        from,
+        id as email_event_id,
         subject,
         cc,
         bcc,
@@ -21,3 +20,4 @@ renamed as (
 )
 
 select * from renamed
+

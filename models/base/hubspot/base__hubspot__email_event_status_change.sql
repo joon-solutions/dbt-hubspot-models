@@ -7,10 +7,10 @@ with source as (
 renamed as (
 
     select
-        id,
+        id as email_event_id,
         source,
         requested_by,
-        portal_subscription_status,
+        portal_subscription_status as subscription_status,
         subscriptions,
         bounced,
         _fivetran_synced
@@ -20,3 +20,4 @@ renamed as (
 )
 
 select * from renamed
+

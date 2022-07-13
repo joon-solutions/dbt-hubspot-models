@@ -7,7 +7,7 @@ with source as (
 renamed as (
 
     select
-        id,
+        id as email_event_id,
         ip_address,
         user_agent,
         browser,
@@ -21,3 +21,4 @@ renamed as (
 )
 
 select * from renamed
+

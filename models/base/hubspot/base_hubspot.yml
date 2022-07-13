@@ -14,7 +14,7 @@ models:
               If an appropriate category couldn't be determined, this property is omitted. See below for the possible values. 
               Note that this is a derived value, and may be modified at any time to improve the accuracy of classification.
 
-      - name: event_id
+      - name: email_event_id
         description: The ID of the event.
         tests:
           - unique
@@ -56,7 +56,7 @@ models:
       - name: click_url
         description: The URL within the message that the recipient clicked.
 
-      - name: event_id
+      - name: email_event_id
         description: The ID of the event.
         tests:
           - unique
@@ -101,7 +101,7 @@ models:
       - name: attempt_number
         description: The delivery attempt number.
 
-      - name: event_id
+      - name: email_event_id
         description: The ID of the event.
         tests:
           - unique
@@ -134,7 +134,7 @@ models:
       - name: _fivetran_synced
         description: ''
 
-      - name: event_id
+      - name: email_event_id
         description: The ID of the event.
         tests:
           - unique
@@ -185,7 +185,7 @@ models:
       - name: email_subject
         description: The subject line of the email message.
 
-      - name: event_id
+      - name: email_event_id
         description: The ID of the event.
         tests:
           - unique
@@ -224,7 +224,7 @@ models:
       - name: browser
         description: ''
 
-      - name: event_id
+      - name: email_event_id
         description: The ID of the event.
         tests:
           - unique
@@ -269,7 +269,7 @@ models:
       - name: duration_open
         description: If provided and nonzero, the approximate number of milliseconds the user had opened the email.
 
-      - name: event_id
+      - name: email_event_id
         description: The ID of the event.
         tests:
           - unique
@@ -311,7 +311,7 @@ models:
       - name: browser
         description: ''
 
-      - name: event_id
+      - name: email_event_id
         description: The ID of the event.
         tests:
           - unique
@@ -359,7 +359,7 @@ models:
       - name: email_subject
         description: The subject line of the email message.
 
-      - name: event_id
+      - name: email_send_id
         description: The ID of the event.
         tests:
           - unique
@@ -395,7 +395,7 @@ models:
       - name: _fivetran_synced
         description: ''
 
-      - name: event_id
+      - name: email_event_id
         description: The ID of the event.
         tests:
           - unique
@@ -434,7 +434,7 @@ models:
       - name: change_source
         description: The source of the subscription change. 
 
-      - name: event_id
+      - name: email_event_id
         description: The ID of the event.
         tests:
           - unique

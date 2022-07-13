@@ -32,7 +32,7 @@ seeds:
 
 vars:
   # RE_DATA
-  email_metrics: ['bounces', 'clicks', 'deferrals', 'deliveries', 'drops', 'forwards', 'opens', 'prints', 'spam_reports', 'unsubscribes']
+  email_metrics: ['sends', 'bounces', 'clicks', 'deferrals', 'deliveries', 'drops', 'forwards', 'opens', 'prints', 'spam_reports']
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models

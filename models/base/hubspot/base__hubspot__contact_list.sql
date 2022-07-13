@@ -7,8 +7,8 @@ with source as (
 renamed as (
 
     select
-        id,
-        name,
+        id as contact_list_id,
+        name as contact_list_name,
         deleteable,
         dynamic,
         portal_id,
@@ -28,3 +28,4 @@ renamed as (
 )
 
 select * from renamed
+

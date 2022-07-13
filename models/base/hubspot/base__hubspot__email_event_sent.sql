@@ -7,16 +7,17 @@ with source as (
 renamed as (
 
     select
-        id,
+        id as email_send_id,
         subject,
-        from,
         reply_to,
         cc,
         bcc,
-        _fivetran_synced
+        _fivetran_synced,
+        identifier('from')
 
     from source
 
 )
 
 select * from renamed
+

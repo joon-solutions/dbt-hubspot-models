@@ -7,7 +7,7 @@ with source as (
 renamed as (
 
     select
-        id,
+        id as email_event_id,
         user_agent,
         ip_address,
         _fivetran_synced
@@ -17,3 +17,4 @@ renamed as (
 )
 
 select * from renamed
+
