@@ -8,7 +8,7 @@ models:
         tests:
           - unique
           - not_null
-          - at_least_one
+          - dbt_utils.at_least_one
 
   - name: stg__hubspot__email_events_aggregates
     description: "Each record represents a send event and its metrics (clicks, opens,...)"
@@ -17,7 +17,7 @@ models:
         tests:
           - unique
           - not_null
-          - at_least_one
+          - dbt_utils.at_least_one
 
   - name: stg__hubspot__email_conversions_aggregates
     description: "Each record represents a contact and the times they submitted a contact form (conversion event)"
@@ -26,7 +26,7 @@ models:
         tests:
           - unique
           - not_null
-          - at_least_one
+          - dbt_utils.at_least_one
 
   - name: stg__hubspot__contacts_joins
     description: "Each record represents a combination of a contact and the member list that they belong to"
@@ -35,4 +35,4 @@ models:
         tests:
           - unique
           - not_null
-          - at_least_one
+          - dbt_utils.at_least_one
