@@ -27,8 +27,7 @@ aggregates as (
         email_send_at,
         recipient,
         {% for item in column_names %}
-        count(case when event_type = '{{ item }}' then email_event_id end) as {{ column_names[item] }}
-        {% if not loop.last %},{% endif %}
+        count(case when event_type = '{{ item }}' then email_event_id end) as {{ column_names[item] }}{% if not loop.last %},{% endif %}
         {% endfor %}
 
     from events
