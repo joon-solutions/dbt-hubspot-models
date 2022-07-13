@@ -1,14 +1,14 @@
 {% set column_names = {
-        'OPEN' : 'opens'
-        , 'SENT' : 'sends'
-        , 'DELIVERED' : 'deliveries'
-        , 'DROPPED' : 'drops'
-        , 'CLICK': 'clicks' 
-        , 'FORWARD': 'forwards' 
-        , 'DEFERRED': 'deferrals' 
-        , 'BOUNCE': 'bounces' 
-        , 'SPAMREPORT': 'spam_reports' 
-        , 'PRINT': 'prints'                         
+        'OPEN' : 'opens',
+        'SENT' : 'sends',
+        'DELIVERED' : 'deliveries',
+        'DROPPED' : 'drops',
+        'CLICK': 'clicks',
+        'FORWARD': 'forwards',
+        'DEFERRED': 'deferrals',
+        'BOUNCE': 'bounces',
+        'SPAMREPORT': 'spam_reports',
+        'PRINT': 'prints'                         
 }
 %}
 
