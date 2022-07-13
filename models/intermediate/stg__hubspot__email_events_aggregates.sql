@@ -29,9 +29,9 @@ aggregates as (
         {% for item in column_names %}
         count(case when event_type = '{{ item }}' then email_event_id end) as {{ column_names[item] }}{% if not loop.last %},{% endif %}
         {% endfor %}
-
     from events
     {{ dbt_utils.group_by(4) }}
 )
 
 select * from aggregates
+

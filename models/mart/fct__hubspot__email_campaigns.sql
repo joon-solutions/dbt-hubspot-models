@@ -79,8 +79,7 @@ aggregates as (
         ----
         {% for metric in var('email_metrics') %}
         sum({{ metric }}) as {{ metric }},
-        count(distinct case when {{ metric }} > 0 then recipient end) as total_recip_{{ metric }}
-        {% if not loop.last %},{% endif %}
+        count(distinct case when {{ metric }} > 0 then recipient end) as total_recip_{{ metric }}{% if not loop.last %},{% endif %}
         {% endfor %}
     from joins
     group by 1
@@ -123,7 +122,7 @@ final as (
            aggregates.total_recip_subscribes,
             ---- booleans
             aggregates.was_converted,
-            aggregates.bounces + drops + deferrals as undeliveries,
+            aggregates.bounces + aggregates.drops + aggregates.deferrals as undeliveries,
             aggregates.bounces > 0 as was_bounced,
             aggregates.clicks > 0 as was_clicked,
             aggregates.deferrals > 0 as was_deferred,
@@ -149,3 +148,4 @@ final as (
 )
 
 select * from final
+
