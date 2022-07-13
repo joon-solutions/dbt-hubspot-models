@@ -7,6 +7,7 @@ with source as (
 renamed as (
 
     select
+        {{ dbt_utils.surrogate_key(['contact_id','contact_list_id']) }} as id,
         contact_id,
         contact_list_id,
         added_at,

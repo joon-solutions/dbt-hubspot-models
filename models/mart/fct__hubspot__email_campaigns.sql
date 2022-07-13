@@ -52,14 +52,14 @@ joins as (
             events.prints,
             subscriptions.count_subscribe_events,
             subscriptions.count_unsubscribe_events,
-            subscriptions.count_spam_report_events,
             subscriptions.net_subscription_events,
-            conversions.conversions,
+            subscriptions.is_subscriber,
+            conversions.conversions / count(*) over (partition by events.recipient) as conversions, ---to avoid duplications as conversions is calculated per contact_id
             conversions.contact_id is not null as was_converted
     from events
-    left join contact on contact.contact_email = events.recipient ---many_to_one
+    left join contact on events.recipient = contact.contact_email ---many_to_one
     left join conversions on contact.contact_id = conversions.contact_id ---one-to-one
-    left join subscriptions on events.email_send_id = subscriptions.caused_by_event_id and events.recipient = subscriptions.recipient  --one-to-one
+    left join subscriptions on events.email_send_id = subscriptions.caused_by_event_id  --one-to-one
 ),
 
 aggregates as (
@@ -67,14 +67,15 @@ aggregates as (
     select
         email_campaign_id,
         min(email_send_at) as email_send_at,
+        ---conversion event
         max(was_converted) as was_converted,
         sum(conversions) as conversions,
+        count(distinct case when was_converted then recipient end) as total_recip_conversions,
+        ---subscribe event
         sum(count_subscribe_events) as subscribes,
         sum(count_unsubscribe_events) as unsubscribes,
-        -- sum(count_spam_report_events) as spam_reports,
         sum(net_subscription_events) as net_subscribes,
-        count(distinct case when was_converted then recipient end) as total_recip_conversions,
-        count(distinct case when net_subscription_events > 0 then recipient end) as total_recip_subscribes,
+        count(distinct case when is_subscriber then recipient end) as total_recip_subscribes,
         ----
         {% for metric in var('email_metrics') %}
         sum({{ metric }}) as {{ metric }},
@@ -87,6 +88,7 @@ aggregates as (
 
 final as (
     select
+            ---campaign attributes
             campaigns.email_campaign_id,
             campaigns.email_campaign_name,
             campaigns.email_campaign_type,
@@ -106,8 +108,7 @@ final as (
             aggregates.subscribes,
             aggregates.unsubscribes,
             aggregates.net_subscribes,
-            aggregates.was_converted,
-            ----booleans
+            ----total recipients by event type 
            aggregates.total_recip_opens,
            aggregates.total_recip_sends,
            aggregates.total_recip_deliveries,
@@ -118,9 +119,10 @@ final as (
            aggregates.total_recip_bounces,
            aggregates.total_recip_spam_reports,
            aggregates.total_recip_prints,
-            ---- total recipients by event type
-            aggregates.total_recip_conversions,
-            aggregates.total_recip_subscribes,
+           aggregates.total_recip_conversions,
+           aggregates.total_recip_subscribes,
+            ---- booleans
+            aggregates.was_converted,
             aggregates.bounces + drops + deferrals as undeliveries,
             aggregates.bounces > 0 as was_bounced,
             aggregates.clicks > 0 as was_clicked,
