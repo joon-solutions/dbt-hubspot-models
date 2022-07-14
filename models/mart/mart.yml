@@ -1,0 +1,13 @@
+version: 2
+
+models:
+
+  - name: fct__hubspot__email_campaigns
+    description: Each record represents an email campaign in Hubspot.
+    columns:
+      - name: email_campaign_id
+        description: The ID of the email campaign.
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one

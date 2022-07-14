@@ -12,7 +12,11 @@ on:
       - 'requirement.txt'
 
 env:
+  ARTIFACT_DBT_MANIFEST_WORKFLOW: push_to_master.yml
+  ARTIFACT_DBT_MANIFEST_NAME: dbt_manifest
+
   DBT_PROFILES_DIR: ./
+  
   DBT_USER: ${{ secrets.DBT_USER }}
   DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
   DBT_SCHEMA: ${{ secrets.DBT_SCHEMA }}

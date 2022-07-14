@@ -1,0 +1,75 @@
+version: 2
+
+models:
+  - name: base__hubspot__contact_form_submission
+    description: Each record represents a contact form is submitted
+    columns:
+      - name: id
+        description: The ID of the event.
+        tests: 
+          - unique
+          - not_null
+
+  - name: base__hubspot__contact_list_member
+    description: Each record represents a combination of a contact and the list they belong to
+    columns:
+      - name: id
+        description: The ID of the event.
+        tests: 
+          - unique
+          - not_null
+
+  - name: base__hubspot__contact_list
+    description: Each record represents a contact list, used to map contact & contact_list_member
+    columns:
+      - name: contact_list_id
+        description: Contact List ID
+        tests: 
+          - unique
+          - not_null
+
+  - name: base__hubspot__contact
+    description: Each record represents a contact and its attributes
+    columns:
+      - name: contact_id
+        description: Contact ID
+        tests: 
+          - unique
+          - not_null
+
+  - name: base__hubspot__email_campaign
+    description: Each record represents an email campaign and its atributes
+    columns:
+      - name: email_campaign_id
+        description: The ID of the email campaign.
+        tests: 
+          - unique
+          - not_null
+
+  - name: base__hubspot__email_event
+    description: Each record represents an email event (send, open, click,...)
+    columns:
+      - name: email_event_id
+        description: The ID of the event.
+        tests: 
+          - unique
+          - not_null
+
+  - name: base__hubspot__email_subscription_change
+    description: Each record represents subscription event (subribe, unsubcribe,..)
+    columns:
+      - name: id
+        description: The ID of the event.
+        tests: 
+          - unique
+          - not_null
+
+  - name: base__hubspot__email_subscription
+    description: Each record represents a subscription
+    columns:
+      - name: email_subscription_id
+        description: The ID of the email subscription.
+        tests: 
+          - unique
+          - not_null
+
