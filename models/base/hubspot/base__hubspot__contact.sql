@@ -157,7 +157,7 @@ renamed as (
         property_hs_analytics_num_visits,
         property_hs_email_sends_since_last_engagement,
         property_hs_lifecyclestage_lead_date,
-        property_createdate,
+        property_createdate as created_at,
         property_hs_social_twitter_clicks,
         _fivetran_synced,
         property_hs_lifecyclestage_subscriber_date,

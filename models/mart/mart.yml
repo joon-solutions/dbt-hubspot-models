@@ -6,7 +6,27 @@ models:
     description: Each record represents an email campaign in Hubspot.
     columns:
       - name: email_campaign_id
-        description: The ID of the email campaign.
+        description: The ID of the Hubspot email campaign.
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+
+  - name: fct__hubspot__contacts
+    description: Each record represents a contact with metrics in Hubspot.
+    columns:
+      - name: contact_id
+        description: The ID of the Hubspot contact.
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+
+  - name: fct__hubspot__contacts_list
+    description: Each record represents a contact list in Hubspot.
+    columns:
+      - name: contact_list_id
+        description: The ID of the Hubspot contact list.
         tests:
           - unique
           - not_null

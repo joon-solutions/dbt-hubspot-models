@@ -22,7 +22,7 @@ with events as (
 aggregates as (
 
     select
-        email_send_id,
+        email_send_id, --PK
         email_campaign_id,
         email_send_at,
         recipient,

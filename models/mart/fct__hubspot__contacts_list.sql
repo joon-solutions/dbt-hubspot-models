@@ -29,73 +29,65 @@ conversions as (
 contact as (
 
     select distinct
-                contact_id,
-                contact_email
+                contact_list_id,
+                contact_list_name,
+                contact_email,
+                contact_id
     from {{ ref('stg__hubspot__contacts_joins') }}
+    where contact_list_id is not null
 
 ),
 
-joins as (
-
+events_aggregates as (
     select
-            events.email_send_id,
-            events.email_campaign_id,
-            events.email_send_at,
             events.recipient,
-            events.opens,
-            events.sends,
-            events.deliveries,
-            events.drops,
-            events.clicks,
-            events.forwards,
-            events.deferrals,
-            events.bounces,
-            events.spam_reports,
-            events.prints,
-            subscriptions.count_subscribe_events,
-            subscriptions.count_unsubscribe_events,
-            subscriptions.net_subscription_events,
+            ---subscribe event
             subscriptions.is_subscriber,
-            conversions.conversions / count(*) over (partition by events.recipient) as conversions ---to avoid duplications as conversions is calculated per contact_id
+            sum(subscriptions.count_subscribe_events) as subscribes,
+            sum(subscriptions.count_unsubscribe_events) as unsubscribes,
+            sum(subscriptions.net_subscription_events) as net_subscribes,
+            ----
+            {% for metric in var('email_metrics') %}
+            sum(events.{{ metric }}) as {{ metric }}{% if not loop.last %},{% endif %}
+            {% endfor %}
+
     from events
-    left join contact on events.recipient = contact.contact_email ---many_to_one
-    left join conversions on contact.contact_id = conversions.contact_id ---one-to-one
     left join subscriptions on events.email_send_id = subscriptions.caused_by_event_id  --one-to-one
+    group by 1, 2
 ),
 
 aggregates as (
 
     select
-        ---campaign attributes
-        campaigns.email_campaign_id,
-        campaigns.email_campaign_name,
-        campaigns.email_campaign_type,
-        min(joins.email_send_at) as email_send_at,
-        ---conversion event
-        coalesce(sum(joins.conversions), 0) as conversions,
-        coalesce(count(distinct case when joins.conversions > 0 then joins.recipient end), 0) as total_recip_conversions,
-        ---subscribe event
-        coalesce(sum(joins.count_subscribe_events), 0) as subscribes,
-        coalesce(sum(joins.count_unsubscribe_events), 0) as unsubscribes,
-        coalesce(sum(joins.net_subscription_events), 0) as net_subscribes,
-        coalesce(count(distinct case when joins.is_subscriber then joins.recipient end), 0) as total_recip_subscribes,
-        ----
-        {% for metric in var('email_metrics') %}
-        coalesce(sum(joins.{{ metric }}), 0) as {{ metric }},
-        coalesce(count(distinct case when joins.{{ metric }} > 0 then joins.recipient end), 0) as total_recip_{{ metric }}{% if not loop.last %},{% endif %}
-        {% endfor %}
-    from campaigns
-    left join joins on campaigns.email_campaign_id = joins.email_campaign_id ---one-to-one
-    group by 1, 2, 3
+            ---contact attributes\
+            contact.contact_list_id,
+            contact.contact_list_name,
+            ---conversion event
+            coalesce(sum(conversions.conversions), 0) as conversions,
+            coalesce(count(distinct case when conversions.contact_id is not null then contact.contact_id end), 0) as total_recip_conversions,
+            ---subscribe event
+            coalesce(sum(events_aggregates.subscribes), 0) as subscribes,
+            coalesce(sum(events_aggregates.unsubscribes), 0) as unsubscribes,
+            coalesce(sum(events_aggregates.net_subscribes), 0) as net_subscribes,
+            coalesce(count(distinct case when events_aggregates.is_subscriber then events_aggregates.recipient end), 0) as total_recip_subscribes,
+            ----
+            {% for metric in var('email_metrics') %}
+            coalesce(sum(events_aggregates.{{ metric }}), 0) as {{ metric }},
+            coalesce(count(distinct case when events_aggregates.{{ metric }} > 0 then events_aggregates.recipient end), 0) as total_recip_{{ metric }}{% if not loop.last %},{% endif %}
+            {% endfor %}
+
+    from contact
+    left join conversions on contact.contact_id = conversions.contact_id ---many-to-one
+    left join events_aggregates on contact.contact_email = events_aggregates.recipient ---one_to_one
+    group by 1, 2
+
 ),
 
 final as (
     select
             ---campaign attributes
-            email_campaign_id,
-            email_campaign_name,
-            email_campaign_type,
-            email_send_at,
+            contact_list_id,
+            contact_list_name,
             ----total events by event type
             opens,
             sends,
@@ -111,8 +103,8 @@ final as (
             subscribes,
             unsubscribes,
             net_subscribes,
-            total_recip_opens,
             ----total recipients by event type 
+           total_recip_opens,
            total_recip_sends,
            total_recip_deliveries,
            total_recip_drops,
@@ -124,9 +116,9 @@ final as (
            total_recip_prints,
            total_recip_conversions,
            total_recip_subscribes,
-           bounces + drops + deferrals as undeliveries,
             ---- booleans
             conversions > 0 as was_converted,
+            bounces + drops + deferrals as undeliveries,
             bounces > 0 as was_bounced,
             clicks > 0 as was_clicked,
             deferrals > 0 as was_deferred,
@@ -156,7 +148,6 @@ final as (
             total_recip_subscribes / nullif(total_recip_sends, 0) as unique_subscribes_ratio
 
     from aggregates
-
 )
 
 select * from final
