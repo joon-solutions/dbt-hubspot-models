@@ -129,23 +129,22 @@ final as (
             spam_reports > 0 as was_spam_reported,
             net_subscribes > 0 as was_subscribed,
             ---ratio by event type
-            opens / nullif(sends, 0) as open_ratio,
-            clicks / nullif(sends, 0) as click_ratio,
-            deliveries / nullif(sends, 0) as delivered_ratio,
-            deferrals / nullif(sends, 0) as deferred_ratio,
-            drops / nullif(sends, 0) as dropped_ratio,
-            bounces / nullif(sends, 0) as bounced_ratio,
-            conversions / nullif(sends, 0) as conversions_ratio,
-            net_subscribes / nullif(sends, 0) as subscribes_ratio,
-            -----
-            total_recip_opens / nullif(total_recip_sends, 0) as unique_open_ratio,
-            total_recip_clicks / nullif(total_recip_sends, 0) as unique_click_ratio,
-            total_recip_deliveries / nullif(total_recip_sends, 0) as unique_delivered_ratio,
-            total_recip_deferrals / nullif(total_recip_sends, 0) as unique_deferred_ratio,
-            total_recip_drops / nullif(total_recip_sends, 0) as unique_dropped_ratio,
-            total_recip_bounces / nullif(total_recip_sends, 0) as unique_bounced_ratio,
-            total_recip_conversions / nullif(total_recip_sends, 0) as unique_conversions_ratio,
-            total_recip_subscribes / nullif(total_recip_sends, 0) as unique_subscribes_ratio
+            div0(opens, sends) as open_ratio,
+            div0(clicks, sends) as click_ratio,
+            div0(deliveries, sends) as delivered_ratio,
+            div0(deferrals, sends) as deferred_ratio,
+            div0(drops, sends) as dropped_ratio,
+            div0(bounces, sends) as bounced_ratio,
+            div0(conversions, sends) as conversions_ratio,
+            div0(net_subscribes, sends) as subscribes_ratio,
+            div0(total_recip_opens, total_recip_sends) as unique_open_ratio,
+            div0(total_recip_clicks, total_recip_sends) as unique_click_ratio,
+            div0(total_recip_deliveries, total_recip_sends) as unique_delivered_ratio,
+            div0(total_recip_deferrals, total_recip_sends) as unique_deferred_ratio,
+            div0(total_recip_drops, total_recip_sends) as unique_dropped_ratio,
+            div0(total_recip_bounces, total_recip_sends) as unique_bounced_ratio,
+            div0(total_recip_conversions, total_recip_sends) as unique_conversions_ratio,
+            div0(total_recip_subscribes, total_recip_sends) as unique_subscribes_ratio
 
     from aggregates
 )

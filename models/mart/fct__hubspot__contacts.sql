@@ -106,14 +106,14 @@ final as (
             spam_reports > 0 as was_spam_reported,
             net_subscribes > 0 as was_subscribed,
             ---ratio by event type
-            opens / nullif(sends, 0) as open_ratio,
-            clicks / nullif(sends, 0) as click_ratio,
-            deliveries / nullif(sends, 0) as delivered_ratio,
-            deferrals / nullif(sends, 0) as deferred_ratio,
-            drops / nullif(sends, 0) as dropped_ratio,
-            bounces / nullif(sends, 0) as bounced_ratio,
-            conversions / nullif(sends, 0) as conversions_ratio,
-            net_subscribes / nullif(sends, 0) as subscribes_ratio
+            div0(opens, sends) as open_ratio,
+            div0(clicks, sends) as click_ratio,
+            div0(deliveries, sends) as delivered_ratio,
+            div0(deferrals, sends) as deferred_ratio,
+            div0(drops, sends) as dropped_ratio,
+            div0(bounces, sends) as bounced_ratio,
+            div0(conversions, sends) as conversions_ratio,
+            div0(net_subscribes, sends) as subscribes_ratio
     from aggregates
 
 
