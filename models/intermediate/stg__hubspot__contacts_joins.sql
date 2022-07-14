@@ -34,6 +34,7 @@ final as (
         contact.contact_company,
         contact_list.contact_list_name,
         coalesce(contact.property_phone, contact.property_mobilephone) as contact_phone,
+        contact.created_at,
         {{ dbt_utils.surrogate_key(['contact.contact_id','contact_list_member.contact_list_id']) }} as id
     from contact
     left join contact_list_member on contact.contact_id = contact_list_member.contact_id ---one-to-man
