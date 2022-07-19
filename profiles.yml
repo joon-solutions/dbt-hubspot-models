@@ -8,7 +8,7 @@ canvas_dbt:
       user: "{{ env_var('DBT_USER') }}"
       password: "{{ env_var('DBT_PASSWORD') }}"
 
-      role: TRANSFORMER
+      role: JOON_SOLUTIONS_ROLE
       database: JOON_SOLUTIONS
       warehouse: COMPUTE_WH
       # Replace with dbt_yourname or set environment variable DBT_SCHEMA
