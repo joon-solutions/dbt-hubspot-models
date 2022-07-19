@@ -3,13 +3,13 @@ canvas_dbt:
   outputs:
     dev:
       type: snowflake
-      account: om37979.ap-southeast-1
+      account: vta74817
       # Replace by your user/password or set the environment variables
       user: "{{ env_var('DBT_USER') }}"
       password: "{{ env_var('DBT_PASSWORD') }}"
 
-      role: TRANSFORMER
-      database: ANALYTICS
+      role: JOON_SOLUTIONS_ROLE
+      database: JOON_SOLUTIONS
       warehouse: COMPUTE_WH
       # Replace with dbt_yourname or set environment variable DBT_SCHEMA
       schema: "{{ env_var('DBT_SCHEMA') }}"

@@ -42,11 +42,8 @@ vars:
 models:
   canvas_dbt:
     materialized: table
-    +database: 'ANALYTICS'
+    +database: 'JOON_SOLUTIONS'
 
-    re_data:
-      +schema: re_data
-    
     base:
       +required_tests: {"unique.*|not_null": 2}
       +materialized: table
