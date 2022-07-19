@@ -2,7 +2,8 @@ version: 2
 
 sources:
   - name: hubspot
-    database: raw
+    database: joon_solutions
+    schema: hubspot
     tables:
       - name: calendar_event
       # - name: calendar_user
