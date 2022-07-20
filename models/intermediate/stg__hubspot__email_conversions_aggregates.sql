@@ -1,3 +1,5 @@
+{{ config(enabled = var('contact_form_submission_enabled') ) }}
+
 with contact_form_submission as (
 
     select *

@@ -1,3 +1,5 @@
+{{ config(enabled = var('email_event_enabled') ) }}
+
 with source as (
 
     select * from {{ source('hubspot', 'email_event') }}

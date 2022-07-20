@@ -158,6 +158,16 @@ A data project must have observability on data ETL pipeline as well as BI platfo
     ```bash
     re_data overview generate && re_data overview serve
     ```
+### Disabling models
+
+When setting up your connection in Fivetran, it is possible that not every table this package expects will be synced. This can occur because you either don't use that functionality or have actively decided to not sync some tables. In order to disable the relevant functionality in the package, you will need to add the relevant variables. By default, all variables are assumed to be `true`. You only need to change the value for variables for the tables you would like to disable or enable respectively in fct_project.yml.
+For example:
+
+....
+config-version: 2
+...
+vars:
+    contact_form_submission_enabled: false
 
 ### Resources:
 - Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)

@@ -1,3 +1,5 @@
+{{ config(enabled = var('contact_list_member_enabled') ) }}
+
 with source as (
 
     select * from {{ source('hubspot', 'contact_list_member') }}

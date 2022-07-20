@@ -1,6 +1,4 @@
-{{ config(
-    materialized="table"
-) }}
+{{ config(enabled = var('email_campaign_enabled') ) }}
 
 with source as (
 

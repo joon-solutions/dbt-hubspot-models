@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: google_analytics
+    database: joon_solutions
+    schema: google_analytics
+    tables:
+      - name: ga_channel_traffic
+      - name: ga_events_overview
+      - name: ga_campaign_performance
+      - name: ga_social_media_acquisitions
+      - name: ga_traffic
+      - name: ga_adwords_campaigns
+      - name: ga_adwords_hourly_stats
+      - name: ga_adwords_keyword
+      - name: ga_audience_overview
+      - name: ga_browser_and_operating_system_overview
