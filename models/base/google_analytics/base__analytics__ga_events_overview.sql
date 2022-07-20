@@ -1,3 +1,5 @@
+{{ config(enabled = var('ga_events_overview_enabled') ) }}
+
 with source as (
 
     select * from {{ source('google_analytics', 'ga_events_overview') }}

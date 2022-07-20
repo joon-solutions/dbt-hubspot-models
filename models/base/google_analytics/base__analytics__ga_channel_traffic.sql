@@ -1,3 +1,5 @@
+{{ config(enabled = var('ga_channel_traffic_enabled') ) }}
+
 with source as (
 
     select * from {{ source('google_analytics', 'ga_channel_traffic') }}
@@ -17,7 +19,7 @@ renamed as (
         sessions,
         avg_session_duration,
         goal_completions_all,
-        pageviews_per_session,
+        page_views_per_session,
         goal_conversion_rate_all,
         users,
         bounce_rate,

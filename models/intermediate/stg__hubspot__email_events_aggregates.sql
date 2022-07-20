@@ -1,3 +1,5 @@
+{{ config(enabled = var('email_event_enabled') ) }}
+
 {% set column_names = {
         'OPEN' : 'opens',
         'SENT' : 'sends',

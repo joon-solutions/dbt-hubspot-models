@@ -1,0 +1,994 @@
+version: 2
+models:
+  - name: base__analytics__ga_adwords_campaigns
+    columns:
+      - name: id
+        description: "PK of the table"
+        tests:
+          - not_null
+          - unique
+        meta:
+          dimension:
+            type: string
+
+      - name: date
+        description: "Report date"
+        meta:
+          dimension:
+            type: date
+
+      - name: adwords_campaign_id
+        description: "Campaign ID of an adword campaign"
+        meta:
+          dimension:
+            type: string
+          metrics:
+            count_adwords_campaigns:
+              type: count_distinct
+
+      - name: _fivetran_id
+        description: "Fivetran ID"
+        meta:
+          dimension:
+            type: string
+
+      - name: ad_clicks
+        description: "Total number of times users have clicked on an ad to reach the property."
+        meta:
+          metrics:
+              total_clicks:
+                type: sum
+
+      - name: ad_cost
+        description: "Derived cost for the advertising campaign. Its currency is the one you set in the AdWords account."
+        meta:
+          metrics:
+            total_cost:
+              type: sum
+
+      - name: cpc
+        description: "Cost to advertiser per click."
+        meta:
+          metrics:
+            average_cpc:
+              type: average
+
+      - name: users
+        description: "The total number of users for the requested time period."
+        meta:
+          metrics:
+            total_users:
+              type: sum
+
+      - name: sessions
+        description: "The total number of sessions."
+        meta:
+          metrics:
+            total_sessions:
+              type: sum
+
+      - name: bounce_rate
+        description: "The percentage of single-page session (i.e., session in which the person left the property from the first page)."
+        meta:
+          metrics:
+            average_bounce_rate:
+              type: average
+
+      - name: goal_conversion_rate_all
+        description: "The percentage of sessions which resulted in a conversion to at least one of the goals."
+        meta:
+          metrics:
+            avg_goal_conversion_rate_all:
+              type: sum
+
+      - name: goal_completions_all
+        description: "Total number of completions for all goals defined in the profile."
+        meta:
+          metrics:
+            total_goal_complettions_all:
+              type: sum
+
+      - name: goal_value_all
+        description: "Total numeric value for all goals defined in the profile."
+        meta:
+          metrics:
+            total_goal_value_all:
+              type: sum
+
+      - name: _fivetran_synced
+        description: "fivetran synced timestamp"
+        meta:
+          dimension:
+            type: timestamp
+################################
+
+  - name: base__analytics__ga_adwords_hourly_stats
+    columns:
+      - name: id
+        description: "PK of the table"
+        tests:
+          - not_null
+          - unique
+        meta:
+          dimension:
+            type: string
+
+      - name: date
+        description: "Report date"
+        meta:
+          dimension:
+            type: date
+
+      - name: datehour
+        description: "Datehour in YYYYMMDDHH format"
+        meta:
+          dimension:
+            type: string
+
+      - name: hour
+        description: "Hour in HH format"
+        meta:
+          dimension:
+            type: string
+
+      - name: _fivetran_id
+        description: "Fivetran ID"
+        meta:
+          dimension:
+            type: string
+
+      - name: ad_clicks
+        description: "Total number of times users have clicked on an ad to reach the property."
+        meta:
+          metrics:
+              total_clicks:
+                type: sum
+
+      - name: ad_cost
+        description: "Derived cost for the advertising campaign. Its currency is the one you set in the AdWords account."
+        meta:
+          metrics:
+            total_cost:
+              type: sum
+
+      - name: cpc
+        description: "Cost to advertiser per click."
+        meta:
+          metrics:
+            average_cpc:
+              type: average
+
+      - name: users
+        description: "The total number of users for the requested time period."
+        meta:
+          metrics:
+            total_users:
+              type: sum
+
+      - name: sessions
+        description: "The total number of sessions."
+        meta:
+          metrics:
+            total_sessions:
+              type: sum
+
+      - name: bounce_rate
+        description: "The percentage of single-page session (i.e., session in which the person left the property from the first page)."
+        meta:
+          metrics:
+            average_bounce_rate:
+              type: average
+
+      - name: goal_conversion_rate_all
+        description: "The percentage of sessions which resulted in a conversion to at least one of the goals."
+        meta:
+          metrics:
+            avg_goal_conversion_rate_all:
+              type: sum
+
+      - name: goal_completions_all
+        description: "Total number of completions for all goals defined in the profile."
+        meta:
+          metrics:
+            total_goal_complettions_all:
+              type: sum
+
+      - name: goal_value_all
+        description: "Total numeric value for all goals defined in the profile."
+        meta:
+          metrics:
+            total_goal_value_all:
+              type: sum
+
+      - name: _fivetran_synced
+        description: "fivetran synced timestamp"
+        meta:
+          dimension:
+            type: timestamp
+
+################
+
+  - name: base__analytics__ga_adwords_keyword
+    columns:
+      - name: id
+        description: "PK of the table"
+        tests:
+          - not_null
+          - unique
+        meta:
+          dimension:
+            type: string
+
+      - name: date
+        description: "Report date"
+        meta:
+          dimension:
+            type: date
+
+      - name: keyword
+        description: ""
+        meta:
+          dimension:
+            type: string
+          metrics:
+            count_keywords:
+              type: count_distinct
+
+      - name: _fivetran_id
+        description: "Fivetran ID"
+        meta:
+          dimension:
+            type: string
+
+      - name: ad_clicks
+        description: "Total number of times users have clicked on an ad to reach the property."
+        meta:
+          metrics:
+              total_clicks:
+                type: sum
+
+      - name: ad_cost
+        description: "Derived cost for the advertising campaign. Its currency is the one you set in the AdWords account."
+        meta:
+          metrics:
+            total_cost:
+              type: sum
+
+      - name: cpc
+        description: "Cost to advertiser per click."
+        meta:
+          metrics:
+            average_cpc:
+              type: average
+
+      - name: users
+        description: "The total number of users for the requested time period."
+        meta:
+          metrics:
+            total_users:
+              type: sum
+
+      - name: sessions
+        description: "The total number of sessions."
+        meta:
+          metrics:
+            total_sessions:
+              type: sum
+
+      - name: bounce_rate
+        description: "The percentage of single-page session (i.e., session in which the person left the property from the first page)."
+        meta:
+          metrics:
+            average_bounce_rate:
+              type: average
+
+      - name: goal_conversion_rate_all
+        description: "The percentage of sessions which resulted in a conversion to at least one of the goals."
+        meta:
+          metrics:
+            avg_goal_conversion_rate_all:
+              type: sum
+
+      - name: goal_completions_all
+        description: "Total number of completions for all goals defined in the profile."
+        meta:
+          metrics:
+            total_goal_complettions_all:
+              type: sum
+
+      - name: goal_value_all
+        description: "Total numeric value for all goals defined in the profile."
+        meta:
+          metrics:
+            total_goal_value_all:
+              type: sum
+
+      - name: _fivetran_synced
+        description: "fivetran synced timestamp"
+        meta:
+          dimension:
+            type: timestamp
+
+##############################
+
+  - name: base__analytics__ga_audience_overview
+    columns:
+      - name: id
+        description: "PK of the table"
+        tests:
+          - not_null
+          - unique
+        meta:
+          dimension:
+            type: string
+
+      - name: date
+        description: "Report date"
+        meta:
+          dimension:
+            type: date
+
+      - name: _fivetran_id
+        description: "Fivetran ID"
+        meta:
+          dimension:
+            type: string
+
+      - name: users
+        description: "The total number of users for the requested time period."
+        meta:
+          metrics:
+            total_users:
+              type: sum
+
+      - name: new_users
+        description: "The number of sessions marked as a user's first sessions."
+        meta:
+          metrics:
+            total_new_users:
+              type: sum
+
+      - name: sessions
+        description: "The total number of sessions."
+        meta:
+          metrics:
+            total_sessions:
+              type: sum
+
+      - name: sessions_per_user
+        description: "The total number of sessions."
+        meta:
+          metrics:
+            avg_sessions_per_user:
+              type: average
+
+      - name: page_views
+        description: "The total number of pageviews for the property."
+        meta:
+          metrics:
+            total_page_views:
+              type: sum
+
+      - name: page_views_per_session
+        description: "The average number of pages viewed during a session, including repeated views of a single page."
+        meta:
+          metrics:
+            avg_page_views_per_session:
+              type: average
+
+      - name: avg_session_duration
+        description: "The average duration (in seconds) of users' sessions."
+        meta:
+          metrics:
+            avg_session_duration_agg:
+              type: average
+
+      - name: bounce_rate
+        description: "The percentage of single-page session (i.e., session in which the person left the property from the first page)."
+        meta:
+          metrics:
+            avg_bounce_rate:
+              type: average
+
+      - name: _fivetran_synced
+        description: "fivetran synced timestamp"
+        meta:
+          dimension:
+            type: timestamp
+########################
+
+  - name: base__analytics__ga_browser_and_operating_system_overview
+    columns:
+      - name: id
+        description: "PK of the table"
+        tests:
+          - not_null
+          - unique
+        meta:
+          dimension:
+            type: string
+
+      - name: date
+        description: "Report date"
+        meta:
+          dimension:
+            type: date
+
+      - name: _fivetran_id
+        description: "Fivetran ID"
+        meta:
+          dimension:
+            type: string
+
+      - name: operating_system
+        description: "Users' operating system, for example, Windows, Linux, Macintosh, or iOS."
+        meta:
+          dimension:
+            type: string
+
+      - name: browser
+        description: "The name of users' browsers, for example, Internet Explorer or Firefox."
+        meta:
+          dimension:
+            type: string
+
+      - name: users
+        description: "The total number of users for the requested time period."
+        meta:
+          metrics:
+            total_users:
+              type: sum
+
+      - name: new_users
+        description: "The number of sessions marked as a user's first sessions."
+        meta:
+          metrics:
+            total_new_users:
+              type: sum
+
+      - name: sessions
+        description: "The total number of sessions."
+        meta:
+          metrics:
+            total_sessions:
+              type: sum
+
+      - name: bounce_rate
+        description: "The percentage of single-page session (i.e., session in which the person left the property from the first page)."
+        meta:
+          metrics:
+            avg_bounce_rate:
+              type: average
+
+      - name: page_views_per_session
+        description: "The average number of pages viewed during a session, including repeated views of a single page."
+        meta:
+          metrics:
+            avg_page_views_per_session:
+              type: average
+
+      - name: avg_session_duration
+        description: "The average duration (in seconds) of users' sessions."
+        meta:
+          metrics:
+            avg_session_duration_agg:
+              type: average
+
+      - name: goal_conversion_rate_all
+        description: "The percentage of sessions which resulted in a conversion to at least one of the goals."
+        meta:
+          metrics:
+            avg_goal_conversion_rate_all:
+              type: sum
+
+      - name: goal_completions_all
+        description: "Total number of completions for all goals defined in the profile."
+        meta:
+          metrics:
+            total_goal_complettions_all:
+              type: sum
+
+      - name: goal_value_all
+        description: "Total numeric value for all goals defined in the profile."
+        meta:
+          metrics:
+            total_goal_value_all:
+              type: sum
+              
+      - name: _fivetran_synced
+        description: "fivetran synced timestamp"
+        meta:
+          dimension:
+            type: timestamp
+
+################
+
+  - name: base__analytics__ga_campaign_performance
+    columns:
+      - name: id
+        description: "PK of the table"
+        tests:
+          - not_null
+          - unique
+        meta:
+          dimension:
+            type: string
+
+      - name: date
+        description: "Report date"
+        meta:
+          dimension:
+            type: date
+
+      - name: campaign
+        description: "For manual campaign tracking, it is the value of the utm_campaign campaign tracking parameter. For AdWords autotagging, it is the name(s) of the online ad campaign(s) you use for the property. If you use neither, its value is (not set)."
+        meta:
+          dimension:
+            type: string
+          metrics:
+            count_campaigns:
+              type: count_distinct
+
+      - name: _fivetran_id
+        description: "Fivetran ID"
+        meta:
+          dimension:
+            type: string
+
+      - name: users
+        description: "The total number of users for the requested time period."
+        meta:
+          metrics:
+            total_users:
+              type: sum
+
+      - name: new_users
+        description: "The number of sessions marked as a user's first sessions."
+        meta:
+          metrics:
+            total_new_users:
+              type: sum
+
+      - name: sessions
+        description: "The total number of sessions."
+        meta:
+          metrics:
+            total_sessions:
+              type: sum
+
+      - name: bounce_rate
+        description: "The percentage of single-page session (i.e., session in which the person left the property from the first page)."
+        meta:
+          metrics:
+            avg_bounce_rate:
+              type: average
+
+      - name: page_views_per_session
+        description: "The average number of pages viewed during a session, including repeated views of a single page."
+        meta:
+          metrics:
+            avg_page_views_per_session:
+              type: average
+
+      - name: goal_conversion_rate_all
+        description: "The percentage of sessions which resulted in a conversion to at least one of the goals."
+        meta:
+          metrics:
+            avg_goal_conversion_rate_all:
+              type: sum
+
+      - name: goal_completions_all
+        description: "Total number of completions for all goals defined in the profile."
+        meta:
+          metrics:
+            total_goal_complettions_all:
+              type: sum
+
+      - name: goal_value_all
+        description: "Total numeric value for all goals defined in the profile."
+        meta:
+          metrics:
+            total_goal_value_all:
+              type: sum
+              
+      - name: _fivetran_synced
+        description: "fivetran synced timestamp"
+        meta:
+          dimension:
+            type: timestamp
+######################
+
+  - name: base__analytics__ga_events_overview
+    columns:
+      - name: id
+        description: "PK of the table"
+        tests:
+          - not_null
+          - unique
+        meta:
+          dimension:
+            type: string
+
+      - name: date
+        description: "Report date"
+        meta:
+          dimension:
+            type: date
+
+      - name: profile
+        description: "Events ID"
+        meta:
+          dimension:
+            type: string
+          metrics:
+            count_events:
+              type: count_distinct
+
+      - name: _fivetran_id
+        description: "Fivetran ID"
+        meta:
+          dimension:
+            type: string
+
+      - name: event_category
+        description: "Event category"
+        meta:
+          dimension:
+            type: string
+
+      - name: event_value
+        description: "Total value of events for the profile"
+        meta:
+          dimension:
+            type: number
+
+      - name: total_events
+        description: "The total number of events for the profile, across all categories."
+        meta:
+          metrics:
+            total_events_agg:
+              type: sum
+
+      - name: sessions_with_event
+        description: "The total number of sessions."
+        meta:
+          metrics:
+            total_sessions_with_event:
+              type: sum
+
+      - name: events_per_session_with_event
+        description: "The average number of events per session with event."
+        meta:
+          metrics:
+            avg_events_per_session_with_event:
+              type: average
+
+      - name: avg_event_value
+        description: "The average value of an event."
+        meta:
+          metrics:
+            avg_event_value_agg:
+              type: average
+
+      - name: unique_events
+        description: "The number of unique events. Events in different sessions are counted as separate events."
+        meta:
+          metrics:
+            total_unique_events:
+              type: sum
+
+      - name: _fivetran_synced
+        description: "fivetran synced timestamp"
+        meta:
+          dimension:
+            type: timestamp
+###################
+
+  - name: base__analytics__ga_social_media_acquisitions
+    columns:
+      - name: id
+        description: "PK of the table"
+        tests:
+          - not_null
+          - unique
+        meta:
+          dimension:
+            type: string
+
+      - name: date
+        description: "Report date"
+        meta:
+          dimension:
+            type: date
+
+      - name: social_network
+        description: "The social network name. This is related to the referring social network for traffic sources; e.g., Google+, Blogger."
+        meta:
+          dimension:
+            type: string
+          metrics:
+            count_social_network:
+              type: count_distinct
+
+      - name: _fivetran_id
+        description: "Fivetran ID"
+        meta:
+          dimension:
+            type: string
+
+      - name: sessions
+        description: "The total number of sessions."
+        meta:
+          metrics:
+            total_sessions:
+              type: sum
+
+      - name: percent_new_sessions
+        description: "The percentage of sessions by users who had never visited the property before."
+        meta:
+          metrics:
+            avg_percent_new_sessions:
+              type: average
+
+      - name: new_users
+        description: "The number of sessions marked as a user's first sessions."
+        meta:
+          metrics:
+            total_new_users:
+              type: sum
+
+      - name: bounce_rate
+        description: "The percentage of single-page session (i.e., session in which the person left the property from the first page)."
+        meta:
+          metrics:
+            avg_bounce_rate:
+              type: average
+
+      - name: page_views
+        description: "The total number of pageviews for the property."
+        meta:
+          metrics:
+            total_page_views:
+              type: sum
+
+      - name: page_views_per_session
+        description: "The average number of pages viewed during a session, including repeated views of a single page."
+        meta:
+          metrics:
+            avg_page_views_per_session:
+              type: average
+
+      - name: avg_session_duration
+        description: "The average duration (in seconds) of users' sessions."
+        meta:
+          metrics:
+            avg_session_duration_agg:
+              type: average
+
+      - name: transactions_per_session
+        description: "The average number of transactions in a session."
+        meta:
+          metrics:
+            avg_transactions_per_session:
+              type: average
+
+      - name: transaction_revenue
+        description: "The total sale revenue (excluding shipping and tax) of the transaction."
+        meta:
+          metrics:
+            total_transaction_revenue:
+              type: sum
+
+      - name: _fivetran_synced
+        description: "fivetran synced timestamp"
+        meta:
+          dimension:
+            type: timestamp
+##############
+
+  - name: base__analytics__ga_traffic
+    columns:
+      - name: id
+        description: "PK of the table"
+        tests:
+          - not_null
+          - unique
+        meta:
+          dimension:
+            type: string
+
+      - name: date
+        description: "Report date"
+        meta:
+          dimension:
+            type: date
+
+      - name: page_title
+        description: "Title of a page"
+        meta:
+          dimension:
+            type: string
+          metrics:
+            count_page_title:
+              type: count_distinct
+
+      - name: _fivetran_id
+        description: "Fivetran ID"
+        meta:
+          dimension:
+            type: string
+
+      - name: users
+        description: "The total number of users for the requested time period."
+        meta:
+          metrics:
+            total_users:
+              type: sum
+
+      - name: page_value
+        description: "The average value of this page or set of pages, which is equal to (ga:transactionRevenue + ga:goalValueAll) / ga:uniquePageviews."
+        meta:
+          dimension:
+            type: string
+
+      - name: entrances
+        description: "The number of entrances to the property measured as the first pageview in a session, typically used with landingPagePath."
+        meta:
+          metrics:
+            total_entrances:
+              type: sum
+
+      - name: page_views
+        description: "The total number of pageviews for the property."
+        meta:
+          metrics:
+            total_page_views:
+              type: sum
+
+      - name: unique_page_views
+        description: "Unique Pageviews is the number of sessions during which the specified page was viewed at least once. A unique pageview is counted for each page URL + page title combination."
+        meta:
+          metrics:
+            avg_unique_page_views:
+              type: average
+
+      - name: avg_time_on_page
+        description: "The average time users spent viewing this page or a set of pages."
+        meta:
+          metrics:
+            avg_time_on_page_agg:
+              type: average
+
+      - name: percent_exit
+        description: "The percentage of exits from the property that occurred out of the total pageviews."
+        meta:
+          metrics:
+            avg_percent_exit:
+              type: average
+
+      - name: bounce_rate
+        description: "The percentage of single-page session (i.e., session in which the person left the property from the first page)."
+        meta:
+          metrics:
+            avg_bounce_rate:
+              type: average
+              
+      - name: _fivetran_synced
+        description: "fivetran synced timestamp"
+        meta:
+          dimension:
+            type: timestamp
+############
+
+  - name: base__analytics__ga_channel_traffic
+    columns:
+      - name: id
+        description: "PK of the table"
+        tests:
+          - not_null
+          - unique
+        meta:
+          dimension:
+            type: string
+
+      - name: date
+        description: "Report date"
+        meta:
+          dimension:
+            type: date
+
+      - name: profile
+        description: "Channel names"
+        meta:
+          dimension:
+            type: string
+          metrics:
+            count_channels:
+              type: count_distinct
+
+      - name: _fivetran_id
+        description: "Fivetran ID"
+        meta:
+          dimension:
+            type: string
+
+      - name: channel_grouping
+        description: "Channel grouping"
+        meta:
+          dimension:
+            type: string
+      - name: goal_value_all
+        description: "Total numeric value for all goals defined in the profile."
+        meta:
+          metrics:
+            total_goal_value_all:
+              type: sum
+            
+      - name: new_users
+        description: "The number of sessions marked as a user's first sessions."
+        meta:
+          metrics:
+            total_new_users:
+              type: sum
+
+      - name: sessions
+        description: "The total number of sessions."
+        meta:
+          metrics:
+            total_sessions:
+              type: sum
+
+      - name: avg_session_duration
+        description: "The average duration (in seconds) of users' sessions."
+        meta:
+          metrics:
+            avg_session_duration_agg:
+              type: average
+
+      - name: goal_completions_all
+        description: "Total number of completions for all goals defined in the profile."
+        meta:
+          metrics:
+            total_goal_completions_all:
+              type: sum
+
+      - name: page_views_per_session
+        description: "The average number of pages viewed during a session, including repeated views of a single page."
+        meta:
+          metrics:
+            avg_page_views_per_session:
+              type: average
+
+      - name: goal_conversion_rate_all
+        description: "The percentage of sessions which resulted in a conversion to at least one of the goals."
+        meta:
+          metrics:
+            avg_goal_conversion_rate_all:
+              type: average
+
+      - name: users
+        description: "The total number of users for the requested time period."
+        meta:
+          metrics:
+            total_users:
+              type: sum
+
+      - name: bounce_rate
+        description: "The percentage of single-page session (i.e., session in which the person left the property from the first page)."
+        meta:
+          metrics:
+            avg_bounce_rate:
+              type: average
+
+      - name: percent_new_sessions
+        description: "The percentage of sessions by users who had never visited the property before."
+        meta:
+          metrics:
+            avg_percent_new_sessions:
+              type: average
+
+      - name: _fivetran_synced
+        description: "fivetran synced timestamp"
+        meta:
+          dimension:
+            type: timestamp

@@ -1,3 +1,5 @@
+{{ config(enabled = var('ga_adwords_hourly_stats_enabled') ) }}
+
 with source as (
 
     select * from {{ source('google_analytics', 'ga_adwords_hourly_stats') }}
@@ -10,6 +12,7 @@ renamed as (
         {{ dbt_utils.surrogate_key(['date','datehour', '_fivetran_id']) }} as id,
         date,
         datehour,
+        right(datehour, 2) as hour,
         _fivetran_id,
         ad_clicks,
         ad_cost,

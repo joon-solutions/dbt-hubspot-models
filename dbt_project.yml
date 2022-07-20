@@ -31,7 +31,28 @@ seeds:
   schema: analytics
 
 vars:
+# Hubpost source
   email_metrics: ['sends', 'bounces', 'clicks', 'deferrals', 'deliveries', 'drops', 'forwards', 'opens', 'prints', 'spam_reports']
+  contact_form_submission_enabled: true
+  contact_list_member_enabled: true
+  contact_list_enabled: true
+  contact_enabled: true
+  email_campaign_enabled: true
+  email_event_enabled: true
+  email_subscription_change_enabled: true
+  email_subscription_enabled: true
+
+# Google analytics source
+  ga_adwords_campaigns_enabled: true
+  ga_adwords_hourly_stats_enabled: true
+  ga_adwords_keyword_enabled: true
+  ga_audience_overview_enabled: true
+  ga_browser_and_operating_system_overview_enabled: true
+  ga_campaign_performance_enabled: true
+  ga_channel_traffic_enabled: true
+  ga_events_overview_enabled: true
+  ga_social_media_acquisitions_enabled: true
+  ga_traffic_enabled: true
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models

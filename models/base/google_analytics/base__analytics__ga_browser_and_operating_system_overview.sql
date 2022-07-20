@@ -1,3 +1,6 @@
+
+{{ config(enabled = var('ga_browser_and_operating_system_overview_enabled') ) }}
+
 with source as (
 
     select * from {{ source('google_analytics', 'ga_browser_and_operating_system_overview') }}
@@ -7,10 +10,10 @@ with source as (
 renamed as (
 
     select
-        {{ dbt_utils.surrogate_key(['date','_fivetran_id','operatingsystem','browser']) }} as id,
+        {{ dbt_utils.surrogate_key(['date','_fivetran_id','operating_system','browser']) }} as id,
         date,
         _fivetran_id,
-        operatingsystem,
+        operating_system,
         browser,
         users,
         new_users,

@@ -1,3 +1,5 @@
+{{ config(enabled = var('contact_form_submission_enabled') ) }}
+
 with source as (
 
     select * from {{ source('hubspot', 'contact_form_submission') }}

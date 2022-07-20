@@ -1,3 +1,5 @@
+{{ config(enabled = var('ga_adwords_campaigns_enabled') ) }}
+
 with source as (
 
     select * from {{ source('google_analytics', 'ga_adwords_campaigns') }}
@@ -17,7 +19,7 @@ renamed as (
         users,
         sessions,
         bounce_rate,
-        goalconversion_rate_all,
+        goal_conversion_rate_all,
         goal_completions_all,
         goal_value_all,
         _fivetran_synced

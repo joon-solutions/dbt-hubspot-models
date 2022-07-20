@@ -1,3 +1,5 @@
+{{ config(enabled = var('ga_social_media_acquisitions_enabled') ) }}
+
 with source as (
 
     select * from {{ source('google_analytics', 'ga_social_media_acquisitions') }}

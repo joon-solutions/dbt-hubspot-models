@@ -1,3 +1,5 @@
+{{ config(enabled = var('contact_enabled') ) }}
+
 with source as (
 
     select * from {{ source('hubspot', 'contact') }}

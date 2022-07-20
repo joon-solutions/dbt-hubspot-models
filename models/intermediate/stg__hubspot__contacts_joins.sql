@@ -1,3 +1,5 @@
+{{ config(enabled=fivetran_utils.enabled_vars(['contact_enabled','contact_list_member_enabled','contact_list_enabled'])) }}
+
 with contact as (
 
     select *

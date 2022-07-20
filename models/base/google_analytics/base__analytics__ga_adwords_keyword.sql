@@ -1,3 +1,5 @@
+{{ config(enabled = var('ga_adwords_keyword_enabled') ) }}
+
 with source as (
 
     select * from {{ source('google_analytics', 'ga_adwords_keyword') }}

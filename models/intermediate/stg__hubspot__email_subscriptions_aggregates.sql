@@ -1,3 +1,5 @@
+{{ config(enabled = var('email_subscription_change_enabled') ) }}
+
 with subscription_change as (
     select
         caused_by_event_id,
