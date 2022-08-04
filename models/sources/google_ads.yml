@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: google_ads
+    database: joon_solutions
+    tables:
+      - name: account_history
+      - name: ad_group_history
+      - name: ad_history
+      - name: ad_stats
+      - name: campaign_history
+      - name: click_performance
+      - name: criteria_performance
+      - name: final_url_performance

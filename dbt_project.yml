@@ -15,9 +15,16 @@ profile: 'canvas_dbt'
 model-paths: ["models"]
 analysis-paths: ["analysis"]
 test-paths: ["tests"]
-seed-paths: ["data"]
+seed-paths: ["seeds"]
 macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
+docs-paths: ["docs"]
+
+dispatch:
+  - macro_namespace: fivetran_utils
+    search_order: ['spark_utils', 'fivetran_utils']
+  - macro_namespace: dbt_utils
+    search_order: ['spark_utils', 'fivetran_utils', 'dbt_utils']
 
 target-path: "target"  # directory which will store compiled SQL files
 clean-targets:         # directories to be removed by `dbt clean`
@@ -26,9 +33,6 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 sources:
   canvas_dbt:
-
-seeds:
-  schema: analytics
 
 vars:
 # Hubpost source
@@ -53,6 +57,19 @@ vars:
   ga_events_overview_enabled: true
   ga_social_media_acquisitions_enabled: true
   ga_traffic_enabled: true
+
+# Ads source
+  ad_reporting__pinterest_enabled: true
+  ad_reporting__microsoft_ads_enabled: true
+  ad_reporting__linkedin_ads_enabled: true
+  ad_reporting__google_ads_enabled: true
+  ad_reporting__twitter_ads_enabled: true
+  ad_reporting__facebook_ads_enabled: true
+  ad_reporting__snapchat_ads_enabled: true
+  ad_reporting__tiktok_ads_enabled: true
+
+  microsoft_auto_tagging_enabled: false 
+  linkedin__use_local_currency: true
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models

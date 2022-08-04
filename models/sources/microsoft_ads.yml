@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: microsoft_ads
+    database: joon_solutions
+    tables:
+      - name: account_history
+      - name: ad_group_history
+      - name: ad_history
+      - name: ad_performance_daily_report
+      - name: campaign_history

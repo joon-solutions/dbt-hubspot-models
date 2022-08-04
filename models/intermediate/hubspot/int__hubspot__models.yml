@@ -1,0 +1,38 @@
+version: 2
+
+models:
+  - name: int__hubspot__email_subscriptions_aggregates
+    description: "Total subscribe/unsubscribe events aggregated by the event_id which leads to that subscribe/unsubscribe events"
+    columns:
+      - name: caused_by_event_id
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+
+  - name: int__hubspot__email_events_aggregates
+    description: "Each record represents a send event and its metrics (clicks, opens,...)"
+    columns:
+      - name: email_send_id
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+
+  - name: int__hubspot__email_conversions_aggregates
+    description: "Each record represents a contact and the times they submitted a contact form (conversion event)"
+    columns:
+      - name: contact_id
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+
+  - name: int__hubspot__contacts_joins
+    description: "Each record represents a combination of a contact and the member list that they belong to"
+    columns:
+      - name: id
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
