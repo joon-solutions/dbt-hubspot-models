@@ -4,15 +4,19 @@ with base as (
     from {{ ref('base__snapchat_ads__creative_history') }}
     where is_most_recent_record = true
 
-), url_tags as (
+),
+
+url_tags as (
 
     select *
     from {{ ref('base__snapchat_ads__creative_url_tag_history') }}
     where is_most_recent_record = true
 
-), url_tags_pivoted as (
+),
 
-    select 
+url_tags_pivoted as (
+
+    select
         creative_id,
         min(case when param_key = 'utm_source' then param_value end) as utm_source,
         min(case when param_key = 'utm_medium' then param_value end) as utm_medium,
@@ -22,7 +26,9 @@ with base as (
     from url_tags
     group by 1
 
-), fields as (
+),
+
+fields as (
 
     select
         base.creative_id, --PK
@@ -39,7 +45,7 @@ with base as (
         coalesce(url_tags_pivoted.utm_term, {{ dbt_utils.get_url_parameter('base.url', 'utm_term') }}) as utm_term
     from base
     left join url_tags_pivoted
-        using (creative_id)
+        on base.creative_id = url_tags_pivoted.creative_id
 
 )
 

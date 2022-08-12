@@ -12,7 +12,7 @@ renamed as (
         account_id,
         cast(created_time as {{ dbt_utils.type_timestamp() }}) as created_at,
         name as campaign_group_name,
-        case 
+        case
             when row_number() over (partition by campaign_group_id order by last_modified_at) = 1 then created_at
             else last_modified_at
             end as valid_from,

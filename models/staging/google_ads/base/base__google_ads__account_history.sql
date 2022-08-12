@@ -7,7 +7,7 @@ with source as (
 renamed as (
 
     select
-        
+
         id as account_id,
         updated_at,
         _fivetran_synced,

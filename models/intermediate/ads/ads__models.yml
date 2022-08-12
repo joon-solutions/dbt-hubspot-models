@@ -67,7 +67,7 @@ models:
   - name: int__twitter_ads
     description: "Each record in this table represents the daily performance of a Twitter ad."
     columns:
-      - name: unique
+      - name: unique_id
         description: unique ID of the table
         tests:
           - unique

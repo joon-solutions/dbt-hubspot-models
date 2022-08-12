@@ -3,27 +3,37 @@ with metrics as (
     select *
     from {{ ref('base__linkedin_ads__ad_analytics_by_creative') }}
 
-), creatives as (
+),
+
+creatives as (
 
     select *
     from {{ ref('base__linkedin_ads__creative_history') }}
 
-), campaigns as (
-    
+),
+
+campaigns as (
+
     select *
     from {{ ref('base__linkedin_ads__campaign_history') }}
 
-), campaign_groups as (
-    
+),
+
+campaign_groups as (
+
     select *
     from {{ ref('base__linkedin_ads__campaign_group_history') }}
 
-), accounts as (
-    
+),
+
+accounts as (
+
     select *
     from {{ ref('base__linkedin_ads__account_history') }}
 
-), joined as (
+),
+
+joined as (
 
     select
         metrics.creative_id,

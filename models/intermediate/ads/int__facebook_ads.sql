@@ -5,7 +5,9 @@ with base as (
     select *
     from {{ ref('stg__facebook_ads__ad_adapter')}}
 
-), fields as (
+),
+
+fields as (
 
     select
         cast(date_day as date) as date_day,
@@ -33,6 +35,7 @@ with base as (
 
 )
 
-select *,
+select
+*,
         {{ dbt_utils.surrogate_key(['account_id','date_day','ad_group_id','campaign_id']) }} as unique_id
 from fields

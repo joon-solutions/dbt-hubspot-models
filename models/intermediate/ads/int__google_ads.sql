@@ -5,7 +5,9 @@ with base as (
     select *
     from {{ ref('stg__google_ads__url_ad_adapter')}}
 
-), fields as (
+),
+
+fields as (
 
     select
         unique_id,

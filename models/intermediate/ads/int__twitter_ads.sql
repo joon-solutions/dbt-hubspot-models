@@ -5,7 +5,9 @@ with base as (
     select *
     from {{ ref('stg__twitter_ads__ad_adapter')}}
 
-), fields as (
+),
+
+fields as (
 
     select
         daily_ad_id as unique_id,

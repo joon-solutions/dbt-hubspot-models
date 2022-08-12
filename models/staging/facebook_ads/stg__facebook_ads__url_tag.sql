@@ -3,7 +3,9 @@ with base as (
     select *
     from {{ ref('base__facebook_ads__creative_history') }}
 
-), required_fields as (
+),
+
+required_fields as (
 
     select
         _fivetran_id,
@@ -13,7 +15,9 @@ with base as (
     where url_tags is not null
 
 
-), flattened_url_tags as (
+),
+
+flattened_url_tags as (
 
     select
         _fivetran_id,
@@ -27,6 +31,7 @@ with base as (
 
 )
 
-select *,
+select
+*,
         {{ dbt_utils.surrogate_key(['_fivetran_id','key','type']) }} as unique_id
 from flattened_url_tags

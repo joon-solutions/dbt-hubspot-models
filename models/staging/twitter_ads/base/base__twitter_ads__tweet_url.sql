@@ -21,7 +21,8 @@ renamed as (
 
 )
 
-select *,
+select
+*,
         {{ dbt_utils.split_part('expanded_url', "'?'", 1) }} as base_url,
         {{ dbt_utils.get_url_host('expanded_url') }} as url_host,
         '/' || {{ dbt_utils.get_url_path('expanded_url') }} as url_path,

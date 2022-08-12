@@ -14,7 +14,7 @@ renamed as (
         cast(created_time as {{ dbt_utils.type_timestamp() }}) as created_at,
         name as campaign_name,
         cast(version_tag as numeric) as version_tag,
-        case 
+        case
             when row_number() over (partition by campaign_id order by version_tag) = 1 then created_at
             else last_modified_at
             end as valid_from,

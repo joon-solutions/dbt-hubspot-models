@@ -20,7 +20,8 @@ renamed as (
 
 )
 
-select *,
+select
+*,
         row_number() over (partition by line_item_id order by updated_timestamp asc) = 1 as is_latest_version,
         {{ dbt_utils.surrogate_key(['line_item_id','_fivetran_synced']) }} as unique_id
 from renamed

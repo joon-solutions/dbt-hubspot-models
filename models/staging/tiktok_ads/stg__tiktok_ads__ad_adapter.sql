@@ -1,36 +1,46 @@
 {{ config(enabled=var('ad_reporting__tiktok_ads_enabled')) }}
 
 with hourly as (
-    
+
     select *
     from {{ ref('base__tiktok_ads__ad_report_hourly') }}
 
-), campaigns as (
+),
+
+campaigns as (
 
     select *
     from {{ ref('base__tiktok_ads__campaign_history') }}
     where is_most_recent_record
 
-), advertiser as (
+),
+
+advertiser as (
 
     select *
     from {{ ref('base__tiktok_ads__advertiser') }}
 
-), ad_groups as (
+),
+
+ad_groups as (
 
     select *
     from {{ ref('base__tiktok_ads__adgroup_history') }}
     where is_most_recent_record
 
-), ads as (
+),
+
+ads as (
 
     select *
     from {{ ref('base__tiktok_ads__ad_history') }}
     where is_most_recent_record
 
-), joined as (
+),
 
-    select 
+joined as (
+
+    select
         cast(hourly.stat_time_hour as date) as date_day,
         advertiser.advertiser_id,
         advertiser.name as advertiser_name,
@@ -58,29 +68,30 @@ with hourly as (
         sum(hourly.shares) as shares,
         sum(hourly.profile_visits) as profile_visits,
         sum(hourly.follows) as follows,
-        sum(hourly.video_watched_2_s) as video_watched_2_s, 
-        sum(hourly.video_watched_6_s) as video_watched_6_s, 
-        sum(hourly.video_views_p_25) as video_views_p_25, 
+        sum(hourly.video_watched_2_s) as video_watched_2_s,
+        sum(hourly.video_watched_6_s) as video_watched_6_s,
+        sum(hourly.video_views_p_25) as video_views_p_25,
         sum(hourly.video_views_p_50) as video_views_p_50,
         sum(hourly.video_views_p_75) as video_views_p_75,
-        sum(hourly.spend)/nullif(sum(hourly.clicks),0) as daily_cpc,
-        (sum(hourly.spend)/nullif(sum(hourly.impressions),0))*1000 as daily_cpm,
-        (sum(hourly.clicks)/nullif(sum(hourly.impressions),0))*100 as daily_ctr
+        sum(hourly.spend) / nullif(sum(hourly.clicks), 0) as daily_cpc,
+        (sum(hourly.spend) / nullif(sum(hourly.impressions), 0)) * 1000 as daily_cpm,
+        (sum(hourly.clicks) / nullif(sum(hourly.impressions), 0)) * 100 as daily_ctr
     from hourly
     left join ads
         on hourly.ad_id = ads.ad_id
-    left join ad_groups 
+    left join ad_groups
         on ads.ad_group_id = ad_groups.ad_group_id
     left join campaigns
         on ads.campaign_id = campaigns.campaign_id
     left join advertiser
         on campaigns.advertiser_id = advertiser.advertiser_id
     {{ dbt_utils.group_by(17) }}
-    
+
 
 
 )
 
-select *,
+select
+*,
         {{ dbt_utils.surrogate_key(['ad_id','date_day']) }} as unique_id
 from joined

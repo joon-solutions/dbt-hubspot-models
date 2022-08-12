@@ -3,34 +3,44 @@ with report as (
     select *
     from {{ ref('base__microsoft_ads__ad_performance_daily_report') }}
 
-), ads as (
+),
+
+ads as (
 
     select *
     from {{ ref('stg__microsoft_ads__ad_history') }}
     where is_most_recent_version = True
 
-), ad_groups as (
+),
+
+ad_groups as (
 
     select *
     from {{ ref('base__microsoft_ads__ad_group_history') }}
     where is_most_recent_version = True
 
-), campaigns as (
+),
+
+campaigns as (
 
     select *
     from {{ ref('base__microsoft_ads__campaign_history') }}
     where is_most_recent_version = True
 
-), accounts as (
+),
+
+accounts as (
 
     select *
     from {{ ref('base__microsoft_ads__account_history') }}
     where is_most_recent_version = True
 
-), joined as (
+),
+
+joined as (
 
     select
-        {{ dbt_utils.surrogate_key(['report.account_id','report.campaign_id', 'report.ad_group_id', 'report.ad_id', 'report.date_day']) }} as unique_id
+        {{ dbt_utils.surrogate_key(['report.account_id','report.campaign_id', 'report.ad_group_id', 'report.ad_id', 'report.date_day']) }} as unique_id,
         report.date_day,
         accounts.account_name,
         accounts.account_id,

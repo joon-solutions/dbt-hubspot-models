@@ -3,31 +3,41 @@ with stats as (
     select *
     from {{ ref('base__google_ads__ad_stats') }}
 
-), accounts as (
+),
+
+accounts as (
 
     select *
     from {{ ref('base__google_ads__account_history') }}
     where is_most_recent_record = True
-    
-), campaigns as (
+
+),
+
+campaigns as (
 
     select *
     from {{ ref('base__google_ads__campaign_history') }}
     where is_most_recent_record = True
-    
-), ad_groups as (
+
+),
+
+ad_groups as (
 
     select *
     from {{ ref('base__google_ads__ad_group_history') }}
     where is_most_recent_record = True
-    
-), ads as (
+
+),
+
+ads as (
 
     select *
     from {{ ref('base__google_ads__ad_history') }}
     where is_most_recent_record = True
-    
-), fields as (
+
+),
+
+fields as (
     select
         stats.unique_id,
         stats.date_day,

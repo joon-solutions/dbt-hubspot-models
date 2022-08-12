@@ -3,36 +3,48 @@ with report as (
     select *
     from {{ ref('base__snapchat_ads__ad_hourly_report') }}
 
-), creatives as (
+),
+
+creatives as (
 
     select *
     from {{ ref('stg__snapchat_ads__creative_history_prep') }}
 
-), accounts as (
+),
+
+accounts as (
 
     select *
     from {{ ref('base__snapchat_ads__ad_account_history') }}
     where is_most_recent_record = true
 
-), ads as (
+),
+
+ads as (
 
     select *
     from {{ ref('base__snapchat_ads__ad_history') }}
     where is_most_recent_record = true
 
-), ad_squads as (
+),
+
+ad_squads as (
 
     select *
     from {{ ref('base__snapchat_ads__ad_squad_history') }}
     where is_most_recent_record = true
 
-), campaigns as (
+),
+
+campaigns as (
 
     select *
     from {{ ref('base__snapchat_ads__campaign_history') }}
     where is_most_recent_record = true
 
-), joined as (
+),
+
+joined as (
 
     select
         report.unique_id,
@@ -57,7 +69,7 @@ with report as (
         sum(report.impressions) as impressions,
         sum(report.swipes) as swipes
     from report
-    left join ads 
+    left join ads
         on report.ad_id = ads.ad_id --many-to-one
     left join creatives
         on ads.creative_id = creatives.creative_id --many-to-one
@@ -73,4 +85,4 @@ with report as (
 )
 
 select *
-from joined 
+from joined

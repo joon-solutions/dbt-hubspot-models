@@ -8,7 +8,7 @@ with source as (
 
 final as (
 
-    select  
+    select
         adgroup_id as ad_group_id,
         updated_at,
         advertiser_id,
@@ -25,16 +25,16 @@ final as (
         frequency,
         frequency_schedule,
         gender,
-        languages, 
+        languages,
         landing_page_url,
         _fivetran_synced
     from source
 
-), 
+),
 
 most_recent as (
 
-    select 
+    select
         *,
         row_number() over (partition by ad_group_id order by updated_at desc) = 1 as is_most_recent_record,
         {{ dbt_utils.surrogate_key(['ad_group_id','_fivetran_synced']) }} as unique_id

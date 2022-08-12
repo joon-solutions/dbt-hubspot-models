@@ -3,36 +3,48 @@ with report as (
     select *
     from {{ ref('base__facebook_ads__basic_ad') }}
 
-), creatives as (
+),
+
+creatives as (
 
     select *
     from {{ ref('stg__facebook_ads__creative_history_prep') }}
 
-), accounts as (
+),
+
+accounts as (
 
     select *
     from {{ ref('base__facebook_ads__account_history') }}
     where is_most_recent_record = true
 
-), ads as (
+),
+
+ads as (
 
     select *
     from {{ ref('base__facebook_ads__ad_history') }}
     where is_most_recent_record = true
 
-), ad_sets as (
+),
+
+ad_sets as (
 
     select *
     from {{ ref('base__facebook_ads__ad_set_history') }}
     where is_most_recent_record = true
 
-), campaigns as (
+),
+
+campaigns as (
 
     select *
     from {{ ref('base__facebook_ads__campaign_history') }}
     where is_most_recent_record = true
 
-), joined as (
+),
+
+joined as (
 
     select
         report.date_day,
@@ -73,6 +85,7 @@ with report as (
 
 )
 
-select *,
+select
+*,
         {{ dbt_utils.surrogate_key(['ad_id','account_id','date_day','creative_id','ad_set_id','campaign_id']) }} as unique_id
 from joined

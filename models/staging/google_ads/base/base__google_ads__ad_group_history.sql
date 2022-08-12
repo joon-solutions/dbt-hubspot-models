@@ -7,7 +7,7 @@ with source as (
 renamed as (
 
     select
-        
+
         id as ad_group_id,
         updated_at,
         ad_group_rotation_mode,
@@ -44,7 +44,7 @@ renamed as (
         final_url_suffix,
         tracking_url_template,
         campaign_name,
-        name as ad_group_name, 
+        name as ad_group_name,
         status as ad_group_status,
         _fivetran_synced,
         row_number() over (partition by ad_group_id order by updated_at desc) = 1 as is_most_recent_record,

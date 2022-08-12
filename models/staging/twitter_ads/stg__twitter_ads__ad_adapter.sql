@@ -4,35 +4,47 @@ with accounts as (
     from {{ ref('base__twitter_ads__account_history') }}
     where is_latest_version = True
 
-), campaigns as (
+),
+
+campaigns as (
 
     select *
     from {{ ref('base__twitter_ads__campaign_history') }}
     where is_latest_version = True
 
-), line_items as (
+),
+
+line_items as (
 
     select *
     from {{ ref('base__twitter_ads__line_item_history') }}
     where is_latest_version = True
 
-), metrics as (
+),
+
+metrics as (
 
     select *
     from {{ ref('base__twitter_ads__promoted_tweet_report') }}
 
-), promoted_tweet as (
+),
+
+promoted_tweet as (
 
     select *
     from {{ ref('base__twitter_ads__promoted_tweet_history')}}
     where is_latest_version = True
 
-), tweet_url as (
+),
+
+tweet_url as (
 
     select *
     from {{ ref('base__twitter_ads__tweet_url') }}
 
-), joined as (
+),
+
+joined as (
 
     select
         metrics.date_day,
@@ -63,7 +75,9 @@ with accounts as (
         on line_items.campaign_id = campaigns.campaign_id --many-to-many
     {{ dbt_utils.group_by(13) }}
 
-), unique_id as (
+),
+
+unique_id as (
 
     select
         *,

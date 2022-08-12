@@ -12,7 +12,7 @@ renamed as (
         name as creative_name,
         web_view_url as url,
         _fivetran_synced,
-        row_number() over (partition by creative_id order by _fivetran_synced desc) =1 as is_most_recent_record
+        row_number() over (partition by creative_id order by _fivetran_synced desc) = 1 as is_most_recent_record
 
     from source
 

@@ -10,8 +10,8 @@ renamed as (
         ad_id,
         date as date_hour,
         impressions,
-        (spend / 1000000.0) as spend,
         swipes,
+        (spend / 1000000.0) as spend,
         {{ dbt_utils.surrogate_key(['ad_id','date_hour']) }} as unique_id
 
     from source

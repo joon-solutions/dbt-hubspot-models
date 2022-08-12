@@ -1,6 +1,6 @@
 with base as (
 
-    select * 
+    select *
     from {{ ref('base__microsoft_ads__ad_history') }}
 
 {% if var('microsoft_auto_tagging_enabled', false) %}
@@ -17,9 +17,11 @@ with base as (
 
 {% endif %}
 
-), url_fields as (
+),
 
-    select 
+url_fields as (
+
+    select
         base.*,
         {{ dbt_utils.split_part('base.final_url', "'?'", 1) }} as base_url,
         {{ dbt_utils.get_url_host('base.final_url') }} as url_host,
@@ -58,5 +60,5 @@ with base as (
 
 )
 
-select * 
+select *
 from url_fields

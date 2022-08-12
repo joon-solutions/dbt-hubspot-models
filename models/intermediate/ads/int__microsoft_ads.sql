@@ -5,7 +5,9 @@ with base as (
     select *
     from {{ ref('stg__microsoft_ads__ad_adapter')}}
 
-), fields as (
+),
+
+fields as (
 
     select
         unique_id,

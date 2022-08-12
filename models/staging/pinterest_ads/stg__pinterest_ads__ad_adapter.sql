@@ -3,27 +3,35 @@ with report as (
     select *
     from {{ ref('base__pinterest_ads__pin_promotion_report') }}
 
-), pins as (
+),
+
+pins as (
 
     select *
     from {{ ref('base__pinterest_ads__pin_promotion_history') }}
-    where is_latest_version = True 
+    where is_latest_version = True
 
-), ad_groups as (
+),
+
+ad_groups as (
 
     select *
     from {{ ref('base__pinterest_ads__ad_group_history') }}
     where is_latest_version = True
 
-), campaigns as (
+),
+
+campaigns as (
 
     select *
     from {{ ref('base__pinterest_ads__campaign_history') }}
     where is_latest_version = True
 
-), joined as (
+),
 
-    select 
+joined as (
+
+    select
         report.date_day as campaign_date,
         report.ad_group_id,
         report.campaign_id,
@@ -41,17 +49,19 @@ with report as (
         pins.utm_campaign,
         pins.utm_content,
         pins.utm_term
-    from report 
-    left join pins 
+    from report
+    left join pins
         on report.pin_promotion_id = pins.pin_promotion_id
     left join ad_groups
         on report.ad_group_id = ad_groups.ad_group_id
-    left join campaigns 
+    left join campaigns
         on report.campaign_id = campaigns.campaign_id
 
-), aggregates as (
+),
 
-    select         
+aggregates as (
+
+    select
         {{ dbt_utils.surrogate_key(
             [
                 'campaign_date',
@@ -81,8 +91,8 @@ with report as (
         sum(spend) as spend
     from joined
     {{ dbt_utils.group_by(15) }}
-    
+
 )
 
-select * 
+select *
 from aggregates
