@@ -182,14 +182,28 @@ models:
         description: Timestamp of when Fivetran synced a record.
       - name: account_id
         description: The ID of the related account.
+        meta:
+          dimension:
+            type: string
       - name: spend_micro
         description: The spend (in micros) for the promoted tweet on that day.
       - name: spend
         description: The spend for the promoted tweet on that day.
+        meta:
+          metrics:
+              total_spend:
+                type: sum
       - name: clicks
         description: The clicks for the promoted tweet on that day.
+        meta:
+          metrics:
+              total_clicks:
+                type: sum
       - name: date_day
         description: The date of the performance.
+        meta:
+          dimension:
+            type: date
       - name: impressions
         description: The impressions for the promoted tweet on that day.BD
       - name: promoted_tweet_id
@@ -202,6 +216,9 @@ models:
           - unique
           - not_null
           - dbt_utils.at_least_one
+        meta:
+          dimension:
+            type: string
   - name: base__twitter_ads__tweet_url
     description: Each record represents a URL used in a tweet.
     columns:

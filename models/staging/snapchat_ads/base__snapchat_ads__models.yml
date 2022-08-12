@@ -50,16 +50,34 @@ models:
           - unique
           - not_null
           - dbt_utils.at_least_one
+        meta:
+          dimension:
+            type: string
       - name: ad_id
         description: The ID of the ad that the report relates to in Snapchat.
       - name: date_hour
         description: The hour that the report relates to.
+        meta:
+          dimension:
+            type: date
       - name: impressions
         description: The number of impressions for an ad in the hour of the record.
+        meta:
+          metrics:
+              total_impressions:
+                type: sum
       - name: spend
         description: The amount of spend for an ad in the hour of the record converted from micros.
+        meta:
+          metrics:
+              total_spend:
+                type: sum
       - name: swipes
         description: The number of swipes for an ad in the hour of the record.
+        meta:
+          metrics:
+              total_swipes:
+                type: sum
 
   - name: base__snapchat__ads_squad_history
     description: Each record in this table represents a historic version of an ad squad in Snapchat.

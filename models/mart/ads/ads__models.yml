@@ -18,12 +18,21 @@ models:
           - dbt_utils.at_least_one
       - name: campaign_name
         description: A label for the campaign. For LinkedIn Ads this field is the `campaign_group_name` field.
+        meta:
+          dimension:
+            type: string
 
       - name: ad_group_name
         description: A label for the ad group, if present in the source data. Mapped from fields including `campaign_group_name`. For LinkedIn Ads this field is the `campaign_name` field.
+        meta:
+          dimension:
+            type: string
 
       - name: account_name
         description: A label for the account.
+        meta:
+          dimension:
+            type: string
 
       - name: campaign_id
         description: The ID representing the campaign. For LinkedIn Ads this field is the `campaign_group_id` field.
@@ -36,15 +45,30 @@ models:
 
       - name: date_day
         description: The day of the activity.
+        meta:
+          dimension:
+            type: date
 
       - name: clicks
         description: The count of clicks.
+        meta:
+          metrics:
+              total_clicks:
+                type: sum
 
       - name: impressions
         description: The count of impressions.
+        meta:
+          metrics:
+              total_impressions:
+                type: sum
 
       - name: spend
         description: The cost of the ads.
+        meta:
+          metrics:
+              total_spend:
+                type: sum
 
       - name: base_url
         description: The base URL of the ad.
@@ -72,3 +96,6 @@ models:
 
       - name: platform
         description: The ad platform the records relate to.
+        meta:
+          dimension:
+            type: string

@@ -130,15 +130,39 @@ models:
           - unique
           - not_null
           - dbt_utils.at_least_one
+        meta:
+          dimension:
+            type: string
       - name: ad_id
         description: The ID of the ad the report relates to.
       - name: date_day
         description: The date of the reported performance.
+        meta:
+          dimension:
+            type: date
       - name: account_id
         description: The ID of the ad account that this ad belongs to.
       - name: impressions
         description: The number of impressions the ad had on the given day.
+        meta:
+          metrics:
+              total_impressions:
+                type: sum
+          dimension:
+              type: number
       - name: clicks
         description: The number of clicks the ad had on the given day.
+        meta:
+          dimension:
+              type: number
+          metrics:
+              total_clicks:
+                type: sum
       - name: spend
         description: The spend on the ad in the given day.
+        meta:
+          dimension:
+            type: number
+          metrics:
+              total_spend:
+                type: sum

@@ -99,8 +99,14 @@ models:
     columns: 
       - name: date_day
         description: The performance date of the record.
+        meta:
+          dimension:
+            type: date
       - name: pin_promotion_id
         description: The ID of the related Pin promotion.
+        meta:
+          dimension:
+            type: string
       - name: ad_group_id
         description: The ID of the related Ad group.
       - name: campaign_id
@@ -111,10 +117,22 @@ models:
         description: The time Fivetran synced a record.
       - name: impressions
         description: The number of impressions that occurred on the day of the record.
+        meta:
+          metrics:
+              total_impressions:
+                type: sum
       - name: clicks
         description: The number of clicks that occurred on the day of the record.
+        meta:
+          metrics:
+              total_clicks:
+                type: sum
       - name: spend
         description: The amount of spend that occurred on the day of the record.
+        meta:
+          metrics:
+              total_spend:
+                type: sum
       - name: report_id
         description: The unique ID of each report record.
         tests:

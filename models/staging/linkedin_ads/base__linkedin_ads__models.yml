@@ -10,23 +10,44 @@ models:
           - unique
           - not_null
           - dbt_utils.at_least_one
+        meta:
+          dimension:
+            type: string
 
       - name: creative_id
         description: The ID of the related creative.
         tests:
           - not_null
+        meta:
+          dimension:
+            type: string
 
       - name: date_day
         description: The day of the activity.
+        meta:
+          dimension:
+            type: date
 
       - name: clicks
         description: The count of chargeable clicks.
+        meta:
+          metrics:
+              total_clicks:
+                type: sum
 
       - name: impressions
         description: This is the count of "impressions" for Direct Ads and Sponsored Updates and "sends" for InMails.
+        meta:
+          metrics:
+              total_impressions:
+                type: sum
 
       - name: cost
         description: The cost of the ads in the local currency or USD.
+        meta:
+          metrics:
+              total_cost:
+                type: sum
 
   - name: base__linkedin_ads__creative_history
     columns:
@@ -41,6 +62,9 @@ models:
         description: Unique internal ID representing the creative.
         tests:
           - not_null
+        meta:
+          dimension:
+            type: string
 
       - name: valid_from
         description: The timestamp the version is valid from.
@@ -70,6 +94,9 @@ models:
           FOLLOW_COMPANY_V2 - Dynamic Follow Ad
           SPOTLIGHT_V2 - Dynamic Spotlight Ad
           JOBS_V2 - Dynamic Job Ad
+        meta:
+          dimension:
+            type: string
 
       - name: version_tag
         description: An integer representation of the version of the creative.
@@ -81,6 +108,9 @@ models:
           DRAFT - Creative creation is incomplete and may still be edited.
           ARCHIVED - Creative creation is complete, but creative should not be served and should be separated from non-archived creatives in any UI.
           CANCELED - Creative is permanently canceled.
+        meta:
+          dimension:
+            type: string
 
       - name: click_uri
         description: |

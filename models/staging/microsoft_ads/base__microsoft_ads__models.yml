@@ -64,9 +64,15 @@ models:
         tests:
           - unique
           - not_null
-          - dbt_utils.at_least_one        
+          - dbt_utils.at_least_one    
+        meta:
+          dimension:
+            type: string    
       - name: date_day
         description: The date of the ad performance.
+        meta:
+          dimension:
+            type: date
       - name: account_id
         description: The ID of the corresponding account.
       - name: campaign_id
@@ -79,10 +85,24 @@ models:
         description: The currency that spend and other metrics are reported in.
       - name: clicks
         description: The number of clicks that occurred for that ad on the date of the record.
+        meta:
+          dimension:
+            type: number
+          metrics:
+              total_clicks:
+                type: sum
       - name: impressions
         description: The number of impressions that occurred for that ad on the date of the record.
+        meta:
+          metrics:
+              total_impressions:
+                type: sum
       - name: spend
         description: The amount of advertising spend that occurred for that ad on the date of the record.
+        meta:
+          metrics:
+              total_spend:
+                type: sum
   - name: base__microsoft_ads__campaign_history
     description: Each record in this table represents a version of a Microsoft campaign.
     columns:
