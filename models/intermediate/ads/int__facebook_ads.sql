@@ -33,5 +33,6 @@ with base as (
 
 )
 
-select *
+select *,
+        {{ dbt_utils.surrogate_key(['account_id','date_day','ad_group_id','campaign_id']) }} as unique_id
 from fields

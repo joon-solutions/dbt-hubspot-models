@@ -4,19 +4,32 @@ models:
   - name: stg__facebook_ads__creative_history_prep
     description: ""
     columns:
-      - name: ""
+      - name: _fivetran_id
+        description: Unique record identifier
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
       
-  - name: stg_facebook_ads__url_tag
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - _fivetran_id
-            - key
-            - type
+  - name: stg__facebook_ads__url_tag
+    description: Each record represents a combination of url key & type of a creative version
+    columns:
+      - name: unique_id
+        description: PK = _fivetran_id || key || type
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one     
 
-  - name: facebook_ads__ad_adapter
+  - name: stg__facebook_ads__ad_adapter
     description: Each record represents the daily performance of a Facebook ad at the URL level.
     columns:
+      - name: unique_id
+        description: PK = ad_id || account_id || date_day
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one     
       - name: date_day
         description: The date of the performance.
       - name: account_id

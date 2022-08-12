@@ -8,6 +8,7 @@ with base as (
 ), fields as (
 
     select
+        unique_id,
         ad_account_name as account_name,
         cast(ad_account_id as {{ dbt_utils.type_string() }}) as account_id,
         cast(date_day as date) as date_day,

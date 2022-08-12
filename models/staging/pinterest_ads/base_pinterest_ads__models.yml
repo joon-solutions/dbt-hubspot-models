@@ -25,6 +25,7 @@ models:
         tests:
           - unique
           - not_null
+          - dbt_utils.at_least_one 
 
   - name: base__pinterest_ads__campaign_history
     description: Each record represents a version of a Pinterest Campaign.
@@ -44,6 +45,7 @@ models:
         tests:
           - unique
           - not_null
+          - dbt_utils.at_least_one 
 
   - name: base__pinterest_ads__pin_promotion_history
     description: Each record represents a version of a Pinterest Pin promotion.
@@ -74,6 +76,7 @@ models:
         tests:
           - unique
           - not_null
+          - dbt_utils.at_least_one 
       - name: base_url
         description: The base URL of the ad, extracted from the `destination_url`.
       - name: url_host
@@ -117,3 +120,4 @@ models:
         tests:
           - unique
           - not_null
+          - dbt_utils.at_least_one 

@@ -30,6 +30,7 @@ with report as (
 ), joined as (
 
     select
+        {{ dbt_utils.surrogate_key(['report.account_id','report.campaign_id', 'report.ad_group_id', 'report.ad_id', 'report.date_day']) }} as unique_id
         report.date_day,
         accounts.account_name,
         accounts.account_id,
@@ -57,7 +58,7 @@ with report as (
         on report.campaign_id = campaigns.campaign_id
     left join accounts
         on report.account_id = accounts.account_id
-    {{ dbt_utils.group_by(15) }}
+    {{ dbt_utils.group_by(16) }}
 
 )
 

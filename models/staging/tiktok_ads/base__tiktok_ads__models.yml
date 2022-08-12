@@ -9,8 +9,9 @@ models:
       - name: advertiser_id
         description: Advertiser ID
         tests:
-          - uniqueßß
+          - unique
           - not_null
+          - dbt_utils.at_least_one
       - name: address
         description: Advertiser address information
       - name: balance
@@ -53,12 +54,13 @@ models:
 
   - name: base__tiktok_ads__adgroup_history
     description: Each record represents data for each ad group.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - ad_group_id
-            - updated_at 
     columns:
+      - name: unique_id
+        description: PK = ad_group_id || updated_at
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
       - name: ad_group_id
         description: Ad group ID
         tests:
@@ -107,12 +109,13 @@ models:
 
   - name: base__tiktok_ads__ad_history
     description: Each record represents data for each ad.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - ad_id
-            - updated_at
     columns:
+      - name: unique_id
+        description: PK = ad_id || updated_at
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
       - name: ad_id
         description: Ad ID
         tests:
@@ -163,12 +166,13 @@ models:
 
   - name: base__tiktok_ads__campaign_history
     description: Each record represents data for each campaign.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - campaign_id
-            - updated_at
     columns:
+      - name: unique_id
+        description: PK = campaign_id || updated_at
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
       - name: campaign_id
         description: Campaign ID
         tests:
@@ -191,12 +195,13 @@ models:
  
   - name: base__tiktok_ads__ad_report_hourly
     description: Each record represents data for each ad for each hour.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - ad_id
-            - stat_time_hour
     columns:
+      - name: unique_id
+        description: PK = ad_id || stat_time_hour
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
       - name: ad_id
         description: Ad id
       - name: stat_time_hour

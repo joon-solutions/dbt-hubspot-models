@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: pinterest_ads__ad_adapter
+  - name: stg__pinterest_ads__ad_adapter
     description: Each record in this table represents the daily performance of ads at the ad group and url level.
     columns:
       - name: daily_id
@@ -9,6 +9,7 @@ models:
         tests:
           - unique
           - not_null
+          - dbt_utils.at_least_one 
       - name: campaign_date
         description: The performance date of the record.
       - name: base_url

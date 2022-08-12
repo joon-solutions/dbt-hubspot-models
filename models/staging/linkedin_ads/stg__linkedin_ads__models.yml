@@ -2,14 +2,15 @@ version: 2
 
 models:
 
-  - name: stg__linkedin__ads__ad_adapter
+  - name: stg__linkedin_ads__ad_adapter
     description: Each record in this table represents the daily performance of ads at the creative level.
     columns:
       - name: daily_creative_id
         description: A unique key, a combination of creative_id and date_day.
         tests:
           - unique
-          - not_nulls
+          - not_null
+          - dbt_utils.at_least_one
 
       - name: creative_id
         description: The ID of the related creative.

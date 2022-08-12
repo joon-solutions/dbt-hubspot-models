@@ -35,6 +35,7 @@ with report as (
 ), joined as (
 
     select
+        report.unique_id,
         cast(report.date_hour as date) as date_day,
         accounts.ad_account_id,
         accounts.ad_account_name,
@@ -57,19 +58,19 @@ with report as (
         sum(report.swipes) as swipes
     from report
     left join ads 
-        on report.ad_id = ads.ad_id
+        on report.ad_id = ads.ad_id --many-to-one
     left join creatives
-        on ads.creative_id = creatives.creative_id
+        on ads.creative_id = creatives.creative_id --many-to-one
     left join ad_squads
-        on ads.ad_squad_id = ad_squads.ad_squad_id
+        on ads.ad_squad_id = ad_squads.ad_squad_id--many-to-one
     left join campaigns
-        on ad_squads.campaign_id = campaigns.campaign_id
+        on ad_squads.campaign_id = campaigns.campaign_id--many-to-one
     left join accounts
-        on campaigns.ad_account_id = accounts.ad_account_id
-    {{ dbt_utils.group_by(17) }}
+        on campaigns.ad_account_id = accounts.ad_account_id--many-to-one
+    {{ dbt_utils.group_by(18) }}
 
 
 )
 
 select *
-from joined
+from joined 

@@ -58,20 +58,21 @@ with report as (
         sum(report.impressions) as impressions,
         sum(report.spend) as spend
     from report
-    left join ads 
+    left join ads --many-to-one
         on cast(report.ad_id as {{ dbt_utils.type_bigint() }}) = cast(ads.ad_id as {{ dbt_utils.type_bigint() }})
-    left join creatives
+    left join creatives --many-to-one
         on cast(ads.creative_id as {{ dbt_utils.type_bigint() }}) = cast(creatives.creative_id as {{ dbt_utils.type_bigint() }})
-    left join ad_sets
+    left join ad_sets --many-to-one
         on cast(ads.ad_set_id as {{ dbt_utils.type_bigint() }}) = cast(ad_sets.ad_set_id as {{ dbt_utils.type_bigint() }})
-    left join campaigns
+    left join campaigns --many-to-one
         on cast(ads.campaign_id as {{ dbt_utils.type_bigint() }}) = cast(campaigns.campaign_id as {{ dbt_utils.type_bigint() }})
-    left join accounts
+    left join accounts --many-to-one
         on cast(report.account_id as {{ dbt_utils.type_bigint() }}) = cast(accounts.account_id as {{ dbt_utils.type_bigint() }})
     {{ dbt_utils.group_by(19) }}
 
 
 )
 
-select *
+select *,
+        {{ dbt_utils.surrogate_key(['ad_id','account_id','date_day','creative_id','ad_set_id','campaign_id']) }} as unique_id
 from joined

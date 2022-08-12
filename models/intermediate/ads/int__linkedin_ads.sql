@@ -8,6 +8,7 @@ with base as (
 ), fields as (
 
     select
+        daily_creative_id as unique_id,
         'LinkedIn Ads' as platform,
         cast(date_day as date) as date_day,
         account_name,

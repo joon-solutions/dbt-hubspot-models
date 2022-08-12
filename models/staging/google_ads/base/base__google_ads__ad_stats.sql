@@ -31,7 +31,8 @@ renamed as (
         interaction_event_types,
         interactions,
         keyword_ad_group_criterion,
-        view_through_conversions
+        view_through_conversions,
+        {{ dbt_utils.surrogate_key(['date_day','ad_group_id', 'campaign_id', 'account_id']) }} as unique_id
 
     from source
 

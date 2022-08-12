@@ -15,7 +15,8 @@ renamed as (
         currency_code,
         clicks,
         impressions,
-        spend
+        spend,
+        row_number() over (order by random()) as unique_id
 
     from source
 

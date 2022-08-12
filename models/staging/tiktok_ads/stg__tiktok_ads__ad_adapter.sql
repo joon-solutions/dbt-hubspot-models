@@ -81,5 +81,6 @@ with hourly as (
 
 )
 
-select *
+select *,
+        {{ dbt_utils.surrogate_key(['ad_id','date_day']) }} as unique_id
 from joined

@@ -6,5 +6,6 @@ with unioned as (
 
 )
 
-select *
+select *,
+        {{ dbt_utils.surrogate_key(['unique_id','platform']) }} as id
 from unioned

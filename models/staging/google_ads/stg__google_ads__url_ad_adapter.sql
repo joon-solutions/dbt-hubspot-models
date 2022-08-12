@@ -28,8 +28,8 @@ with stats as (
     where is_most_recent_record = True
     
 ), fields as (
-
     select
+        stats.unique_id,
         stats.date_day,
         accounts.account_name,
         accounts.account_id,
@@ -51,14 +51,14 @@ with stats as (
 
     from stats
     left join ads
-        on stats.ad_id = ads.ad_id
+        on stats.ad_id = ads.ad_id ---many-to-one
     left join ad_groups
-        on ads.ad_group_id = ad_groups.ad_group_id
+        on ads.ad_group_id = ad_groups.ad_group_id --many-to-one
     left join campaigns
-        on ad_groups.campaign_id = campaigns.campaign_id
+        on ad_groups.campaign_id = campaigns.campaign_id --many-to-one
     left join accounts
-        on campaigns.account_id = accounts.account_id
-    {{ dbt_utils.group_by(15) }}
+        on campaigns.account_id = accounts.account_id --many-to-one
+    {{ dbt_utils.group_by(16) }}
 
 )
 

@@ -4,6 +4,12 @@ models:
   - name: base__twitter_ads__account_history
     description: Each record represents a version of each account. The versions can be differentiated by the updated_at timestamp.
     columns:
+      - name: unique_id
+        description: PK = account_id || updated_timestamp
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
       - name: _fivetran_synced
         description: Timestamp of when Fivetran synced a record.
       - name: approval_status
@@ -18,9 +24,6 @@ models:
         description: Whether the record has been deleted or not.
       - name: account_id
         description: The ID of the account.
-        tests:
-          - unique
-          - not_null
       - name: industry_type
         description: The industry of the accounts.
       - name: name
@@ -38,6 +41,12 @@ models:
   - name: base__twitter_ads__campaign_history
     description: Each record represents a version of each campaign. The versions can be differentiated by the updated_at timestamp.
     columns:
+      - name: unique_id
+        description: PK = campaign_id || updated_timestamp
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
       - name: _fivetran_synced
         description: Timestamp of when Fivetran synced a record.
       - name: account_id
@@ -60,9 +69,6 @@ models:
         description: The maximum number of times an ad could be delivered to a user.
       - name: campaign_id
         description: The ID of the campaign.
-        tests:
-          - unique
-          - not_null
       - name: campaign_name
         description: The name of the campaign.
       - name: is_servable
@@ -82,6 +88,12 @@ models:
   - name: base__twitter_ads__line_item_history
     description: Each record represents a version of each line item. The versions can be differentiated by the updated_at timestamp.
     columns:
+      - name: unique_id
+        description: PK = line_item_id || updated_timestamp
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
       - name: _fivetran_synced
         description: Timestamp of when Fivetran synced a record.
       - name: advertiser_domain
@@ -114,9 +126,6 @@ models:
         description: The status of the line item.
       - name: line_item_id
         description: The ID of the line item.
-        tests:
-          - unique
-          - not_null
       - name: name
         description: The name of the line item.
       - name: objective
@@ -160,11 +169,12 @@ models:
         description: The timestamp the account was last updated.
       - name: is_latest_version
         description: Whether the record is the most latest version for the promoted tweet.
-      - name: promoted_tweet_id || updated_timestamp
-        description: PK
+      - name: unique_id
+        description: PK = promoted_tweet_id || updated_timestamp
         tests:
           - unique
           - not_null
+          - dbt_utils.at_least_one
   - name: base__twitter_ads__promoted_tweet_report
     description: Each record represents the performance of a promoted tweet on a given day.
     columns:
@@ -186,11 +196,12 @@ models:
         description: The ID of the related promoted tweet.
       - name: url_clicks
         description: The url clicks for the promoted tweet on that day.
-      - name: promoted_tweet_id || date_day
-        description: PK
+      - name: unique_id
+        description: PK = promoted_tweet_id || date_day || account_id
         tests:
           - unique
           - not_null
+          - dbt_utils.at_least_one
   - name: base__twitter_ads__tweet_url
     description: Each record represents a URL used in a tweet.
     columns:
@@ -224,8 +235,9 @@ models:
         description: The utm_content parameter of the ad, extracted from the `expanded_url`.
       - name: utm_term
         description: The utm_term parameter of the ad, extracted from the `expanded_url`.
-      - name: expanded_url || tweet_id
-        description: PK
+      - name: unique_id
+        description: PK = index || tweet_id
         tests:
           - unique
           - not_null
+          - dbt_utils.at_least_one

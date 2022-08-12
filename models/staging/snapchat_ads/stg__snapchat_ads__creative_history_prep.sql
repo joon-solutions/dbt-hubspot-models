@@ -25,7 +25,7 @@ with base as (
 ), fields as (
 
     select
-        base.creative_id,
+        base.creative_id, --PK
         base.ad_account_id,
         base.creative_name,
         base.url,

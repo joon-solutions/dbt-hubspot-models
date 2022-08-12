@@ -8,6 +8,7 @@ with base as (
 ), fields as (
 
     select
+        unique_id,
         'Google Ads' as platform,
         cast(date_day as date) as date_day,
         account_name,

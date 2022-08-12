@@ -27,5 +27,6 @@ with base as (
 
 )
 
-select *
+select *,
+        {{ dbt_utils.surrogate_key(['_fivetran_id','key','type']) }} as unique_id
 from flattened_url_tags

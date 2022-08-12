@@ -47,7 +47,8 @@ url_fields as (
         {{ dbt_utils.get_url_parameter('final_url', 'utm_medium') }} as utm_medium,
         {{ dbt_utils.get_url_parameter('final_url', 'utm_campaign') }} as utm_campaign,
         {{ dbt_utils.get_url_parameter('final_url', 'utm_content') }} as utm_content,
-        {{ dbt_utils.get_url_parameter('final_url', 'utm_term') }} as utm_term
+        {{ dbt_utils.get_url_parameter('final_url', 'utm_term') }} as utm_term,
+        {{ dbt_utils.surrogate_key(['ad_id','_fivetran_synced']) }} as unique_id
     from most_recent
 )
 

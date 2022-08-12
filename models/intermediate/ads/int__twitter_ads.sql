@@ -8,6 +8,7 @@ with base as (
 ), fields as (
 
     select
+        daily_ad_id as unique_id,
         'Twitter Ads' as platform,
         date_day,
         campaign_name,

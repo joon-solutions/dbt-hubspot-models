@@ -11,8 +11,9 @@ renamed as (
         account_id,
         campaign_id,
         name as ad_set_name,
-        row_number() over (partition by id order by _fivetran_synced desc) = 1 as is_most_recent_record,
-        _fivetran_synced
+        row_number() over (partition by id order by updated_time desc) = 1 as is_most_recent_record,
+        updated_time,
+        {{ dbt_utils.surrogate_key(['ad_set_id','updated_time']) }} as unique_id
 
     from source
 

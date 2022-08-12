@@ -54,13 +54,13 @@ with accounts as (
         sum(metrics.impressions) as impressions
     from metrics
     left join promoted_tweet
-        on metrics.promoted_tweet_id = promoted_tweet.promoted_tweet_id
+        on metrics.promoted_tweet_id = promoted_tweet.promoted_tweet_id --many-to-one
     left join tweet_url
-        on promoted_tweet.tweet_id = tweet_url.tweet_id
+        on promoted_tweet.tweet_id = tweet_url.tweet_id --many-to-many
     left join line_items
-        on promoted_tweet.line_item_id = line_items.line_item_id
+        on promoted_tweet.line_item_id = line_items.line_item_id --many-to-many
     left join campaigns
-        on line_items.campaign_id = campaigns.campaign_id
+        on line_items.campaign_id = campaigns.campaign_id --many-to-many
     {{ dbt_utils.group_by(13) }}
 
 ), unique_id as (

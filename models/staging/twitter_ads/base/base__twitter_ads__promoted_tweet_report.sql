@@ -16,7 +16,8 @@ renamed as (
     cast(date as date) as date_day,
     impressions,
     promoted_tweet_id,
-    url_clicks
+    url_clicks,
+    {{ dbt_utils.surrogate_key(['account_id','promoted_tweet_id','date_day']) }} as unique_id
     from source
 
 )

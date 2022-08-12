@@ -4,7 +4,7 @@ models:
   - name: stg__snapchat_ads__creative_history_prep
     description: Each record in this table represents a historic version of a creative in Snapchat.
     columns:
-      - name: creatve_id
+      - name: creative_id
         description: The ID of the creative in Snapchat.
         tests:
           - unique
@@ -19,6 +19,12 @@ models:
   - name: stg__snapchat_ads__ad_adapter
     description: Each record represents the daily performance of a Snapchat ad at the URL level.
     columns:
+      - name: unique_id
+        description: PK = ad_id || date_hour
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
       - name: date_day
         description: The date of the report.
       - name: ad_account_id

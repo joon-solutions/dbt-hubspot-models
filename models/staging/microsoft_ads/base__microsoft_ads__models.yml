@@ -15,6 +15,7 @@ models:
         tests:
           - unique
           - not_null
+          - dbt_utils.at_least_one
       - name: is_most_recent_version
         description: A boolean field for whether the version is the most up-to-date version of the account.
   - name: base__microsoft_ads__ad_group_history
@@ -33,6 +34,7 @@ models:
         tests:
           - unique
           - not_null
+          - dbt_utils.at_least_one
       - name: is_most_recent_version
         description: A boolean field for whether the version is the most up-to-date version of the ad group.
   - name: base__microsoft_ads__ad_history
@@ -51,11 +53,18 @@ models:
         tests:
           - unique
           - not_null
+          - dbt_utils.at_least_one
       - name: is_most_recent_version
         description: A boolean field for whether the version is the most up-to-date version of the ad.
   - name: base__microsoft_ads__ad_performance_daily_report
     description: Each record in this table represents the daily performance of a Microsoft ad.
     columns:
+      - name: unique_id
+        description: A unique ID = 'account_id' || 'campaign_id' || 'ad_group_id' || 'ad_id' || 'date_day'
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one        
       - name: date_day
         description: The date of the ad performance.
       - name: account_id
@@ -90,5 +99,6 @@ models:
         tests:
           - unique
           - not_null
+          - dbt_utils.at_least_one
       - name: is_most_recent_version
         description: A boolean field for whether the version is the most up-to-date version of the campaign.

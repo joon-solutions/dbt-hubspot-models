@@ -55,9 +55,9 @@ The number of clicks.
 The sum of your cost-per-click (CPC) and cost-per-thousand impressions (CPM) costs during this period.
 {% enddocs %}
 
-{% docs date %}
+{% docs date -%}
 The date being reported on.
-{% enddocs %}
+{%- enddocs %}
 
 {% docs effective_final_url %}
 Effective final URL of the impressions.

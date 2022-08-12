@@ -8,6 +8,7 @@ with base as (
 ), fields as (
 
     select
+        daily_id as unique_id,
         cast(campaign_date as date) as date_day,
         base_url,
         url_host,

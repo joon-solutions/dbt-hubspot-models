@@ -49,7 +49,8 @@ renamed as (
         real_time_result_rate,
         spend,
         likes,
-        _fivetran_synced
+        _fivetran_synced,
+        {{ dbt_utils.surrogate_key(['ad_id','stat_time_hour']) }} as unique_id
 
     from source
 

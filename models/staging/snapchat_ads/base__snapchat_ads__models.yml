@@ -1,14 +1,15 @@
 version: 2
 
 models:
-  - name: base__snapchat__ads_account_history
+  - name: base__snapchat_ads__ad_account_history
     description: Each record in this table represents a historic version of an ad account in Snapchat.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - ad_account_id
-            - _fivetran_synced 
     columns:
+      - name: unique_id
+        description: PK = ad_account_id || _fivetran_synced
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
       - name: _fivetran_synced
         description: When the record was last synced by Fivetran.
       - name: ad_account_id
@@ -18,14 +19,15 @@ models:
       - name: is_most_recent_record
         description: Boolean representing whether a record is the most recent version of that record.
 
-  - name: base__snapchat__ads_history
+  - name: base__snapchat_ads__ad_history
     description: Each record in this table represents a historic version of an ad in Snapchat.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - ad_id
-            - _fivetran_synced 
     columns:
+      - name: unique_id
+        description: PK = ad_id || _fivetran_synced
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
       - name: _fivetran_synced
         description: When the record was last synced by Fivetran.
       - name: ad_id
@@ -39,14 +41,15 @@ models:
       - name: is_most_recent_record
         description: Boolean representing whether a record is the most recent version of that record.
 
-  - name: base__snapchat__ads_hourly_report
+  - name: base__snapchat_ads__ad_hourly_report
     description: Each record represents an hourly performance summary for an ad in Snapchat.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - ad_id
-            - date_hour 
     columns:
+      - name: unique_id
+        description: PK = ad_id || date_hour
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
       - name: ad_id
         description: The ID of the ad that the report relates to in Snapchat.
       - name: date_hour
@@ -61,11 +64,13 @@ models:
   - name: base__snapchat__ads_squad_history
     description: Each record in this table represents a historic version of an ad squad in Snapchat.
     tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - ad_squad_id
-            - _fivetran_synced 
     columns:
+      - name: unique_id
+        description: PK = ad_squad_id || date_hour
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
       - name: _fivetran_synced
         description: When the record was last synced by Fivetran.
       - name: ad_squad_id

@@ -2,13 +2,14 @@ version: 2
 
 models:
 
-  - name: base__linkedin__ad_analytics_by_creative
+  - name: base__linkedin_ads__ad_analytics_by_creative
     columns:
       - name: daily_creative_id
         description: A unique key, a combination of creative_id and date_day.
         tests:
           - unique
           - not_null
+          - dbt_utils.at_least_one
 
       - name: creative_id
         description: The ID of the related creative.
@@ -27,13 +28,14 @@ models:
       - name: cost
         description: The cost of the ads in the local currency or USD.
 
-  - name: base__linkedin__creative_history
+  - name: base__linkedin_ads__creative_history
     columns:
       - name: creative_version_id
         description: A unique key, a combination of creative_id and version_tag.
         tests:
           - unique
           - not_null
+          - dbt_utils.at_least_one
           
       - name: creative_id
         description: Unique internal ID representing the creative.
@@ -109,13 +111,14 @@ models:
       - name: utm_term
         description: The utm_term parameter of the ad, extracted from the `click_uri`.
 
-  - name: base__linkedin__campaign_history
+  - name: base__linkedin_ads__campaign_history
     columns:
       - name: campaign_version_id
         description: A unique key, a combination of campaign_id and version_tag.
         tests:
           - unique
           - not_null
+          - dbt_utils.at_least_one
 
       - name: campaign_id
         description: Unique internal ID representing the campaign.
@@ -148,13 +151,14 @@ models:
       - name: valid_to
         description: The timestamp the version is valid to, null if record is still active.
 
-  - name: base__linkedin__campaign_group_history
+  - name: base__linkedin_ads__campaign_group_history
     columns:
       - name: campaign_group_version_id
         description: A unique key, a combination of campaign_group_id and last_modified_at.
         tests:
           - unique
           - not_null
+          - dbt_utils.at_least_one
 
       - name: campaign_group_id
         description: Unique internal ID representing the campaign group.
@@ -181,13 +185,14 @@ models:
       - name: valid_to
         description: The timestamp the version is valid to, null if record is still active.
           
-  - name: base__linkedin__account_history
+  - name: base__linkedin_ads__account_history
     columns:
       - name: account_version_id
         description: A unique key, a combination of account_id and version_tag.
         tests:
           - unique
           - not_null
+          - dbt_utils.at_least_one
 
       - name: account_id
         description: Unique internal ID representing the account.

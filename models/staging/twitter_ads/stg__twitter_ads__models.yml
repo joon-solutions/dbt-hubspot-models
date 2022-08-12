@@ -9,6 +9,7 @@ models:
         tests:
           - unique
           - not_null
+          - dbt_utils.at_least_one
       - name: campaign_id
         description: The ID of the campaign.
       - name: campaign_name

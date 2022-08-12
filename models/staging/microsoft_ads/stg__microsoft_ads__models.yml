@@ -4,6 +4,12 @@ models:
   - name: stg__microsoft_ads__ad_adapter
     description: Each record in this table represents the daily performance of ads at the ad and url level.
     columns:
+      - name: unique_id
+        description: A unique ID = 'account_id' || 'campaign_id' || 'ad_group_id' || 'ad_id' || 'date_day'
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one 
       - name: date_day
         description: The performance date of the record.
       - name: base_url
@@ -57,6 +63,7 @@ models:
         tests:
           - unique
           - not_null
+          - dbt_utils.at_least_one
       - name: is_most_recent_version
         description: A boolean field for whether the version is the most up-to-date version of the ad.
       - name: base_url

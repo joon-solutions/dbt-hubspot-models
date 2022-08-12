@@ -7,6 +7,7 @@ with source as (
 renamed as (
 
     select
+        
         id as ad_group_id,
         updated_at,
         ad_group_rotation_mode,
@@ -46,7 +47,8 @@ renamed as (
         name as ad_group_name, 
         status as ad_group_status,
         _fivetran_synced,
-        row_number() over (partition by ad_group_id order by updated_at desc) = 1 as is_most_recent_record
+        row_number() over (partition by ad_group_id order by updated_at desc) = 1 as is_most_recent_record,
+        {{ dbt_utils.surrogate_key(['ad_group_id','_fivetran_synced']) }} as unique_id
 
     from source
 

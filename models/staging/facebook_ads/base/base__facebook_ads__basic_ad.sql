@@ -12,7 +12,8 @@ renamed as (
         account_id,
         impressions,
         inline_link_clicks as clicks,
-        spend
+        spend,
+        {{ dbt_utils.surrogate_key(['ad_id','account_id','date_day']) }} as unique_id
 
     from source
 

@@ -5,12 +5,13 @@ version: 2
 models:
   - name: stg__tiktok_ads__ad_adapter
     description: Each record in this table represents the daily performance of ads at the ad level and URL level.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - ad_id
-            - date_day
     columns:
+      - name: unique_id
+        description: PK = ad_id || date_day
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
       - name: date_day
         description: Day of record.
       - name: ad_id

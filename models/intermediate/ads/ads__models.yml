@@ -1,0 +1,75 @@
+version: 2
+
+models:
+  - name: int__facebook_ads
+    description: "Each record in this table represents the daily performance of a Facebook ad."
+    columns:
+      - name: unique_id
+        description: unique ID of the table 
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+  - name: int__google_ads
+    description: "Each record in this table represents the daily performance of a Google ad."
+    columns:
+      - name: unique_id
+        description: unique ID of the table 
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+  - name: int__linkedin_ads
+    description: "Each record in this table represents the daily performance of a Linkedin ad."
+    columns:
+      - name: unique_id
+        description: unique ID of the table
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+  - name: int__microsoft_ads
+    description: "Each record in this table represents the daily performance of a Microsoft ad."
+    columns:
+      - name: unique_id
+        description: A unique ID = 'account_id' || 'campaign_id' || 'ad_group_id' || 'ad_id' || 'date_day'
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+  - name: int__pinterest_ads
+    description: "Each record in this table represents the daily performance of a Pinterest ad."
+    columns:
+      - name: unique_id
+        description: unique ID of the table
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+  - name: int__snapchat_ads
+    description: "Each record in this table represents the daily performance of a Snapchat ad."
+    columns:
+      - name: unique_id
+        description: unique ID of the table
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+  - name: int__tiktok_ads
+    description: "Each record in this table represents the daily performance of a Tiktok ad."
+    columns:
+      - name: unique_id
+        description: unique ID of the table
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+  - name: int__twitter_ads
+    description: "Each record in this table represents the daily performance of a Twitter ad."
+    columns:
+      - name: unique
+        description: unique ID of the table
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
