@@ -1,0 +1,52 @@
+version: 2
+
+models:
+  - name: stg__google_ads__url_ad_adapter
+    description: Each record in this table represents the daily performance of URLs at the ad group level.
+    columns:
+      - name: unique_id
+        description: PK = date_day || ad_group_id || campaign_id || account_id
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+      - name: date_day
+        description: The date being reported on.
+      - name: account_name
+        description: The descriptive name of the Customer account.
+      - name: external_customer_id
+        description: The Customer ID.
+      - name: campaign_name
+        description: The name of the Campaign.
+      - name: campaign_id
+        description: The ID of the Campaign.
+      - name: ad_group_name
+        description: The name of the AdGroup.
+      - name: ad_group_id
+        description: The ID of the AdGroup.
+      - name: base_url
+        description: The base URL of the ad, extracted from the `effective_final_url`.
+      - name: url_host
+        description: The URL host of the ad, extracted from the `effective_final_url`.
+      - name: url_path
+        description: The URL path of the ad, extracted from the `effective_final_url`.
+      - name: utm_source
+        description: The utm_source parameter of the ad, extracted from the `effective_final_url`.
+      - name: utm_medium
+        description: The utm_medium parameter of the ad, extracted from the `effective_final_url`.
+      - name: utm_campaign
+        description: The utm_campaign parameter of the ad, extracted from the `effective_final_url`.
+      - name: utm_content
+        description: The utm_content parameter of the ad, extracted from the `effective_final_url`.
+      - name: utm_term
+        description: The utm_term parameter of the ad, extracted from the `effective_final_url`.
+      - name: spend
+        description: The sum of your cost-per-click (CPC) and cost-per-thousand impressions (CPM) costs during this period.
+      - name: clicks
+        description: The number of clicks.
+      - name: impressions
+        description: Count of how often your ad has appeared on a search results page or website on the Google Network.
+      - name: criteria
+        description: The Criterion ID.
+      - name: criteria_type
+        description: The type of the Criterion.

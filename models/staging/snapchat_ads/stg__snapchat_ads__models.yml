@@ -1,0 +1,67 @@
+version: 2
+
+models:
+  - name: stg__snapchat_ads__creative_history_prep
+    description: Each record in this table represents a historic version of a creative in Snapchat.
+    columns:
+      - name: creative_id
+        description: The ID of the creative in Snapchat.
+        tests:
+          - unique
+          - not_null
+      - name: ad_account_id
+        description: The ID of the related ad account in Snapchat.
+      - name: creative_name
+        description: The name of the creative in Snapchat.s
+      - name: urls
+        description: The URL of the creative if the creative is of type 'web view'.
+
+  - name: stg__snapchat_ads__ad_adapter
+    description: Each record represents the daily performance of a Snapchat ad at the URL level.
+    columns:
+      - name: unique_id
+        description: PK = ad_id || date_hour
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+      - name: date_day
+        description: The date of the report.
+      - name: ad_account_id
+        description: The ID of the account in Snapchat.
+      - name: ad_account_name
+        description: The name of the account in Snapchat.
+      - name: campaign_id
+        description: The ID of the campaign in Snapchat.
+      - name: campaign_name
+        description: The name of the campaign in Snapchat.
+      - name: ad_squad_id
+        description: The ID of the ad squad in Snapchat.
+      - name: ad_squad_name
+        description: The name of the ad squad in Snapchat.
+      - name: ad_id
+        description: The ID of the ad in Snapchat.
+      - name: ad_name
+        description: The name of the ad in Snapchat.
+      - name: base_url
+        description: The base URL of the ad, extracted from the web_view_url.
+      - name: url_host
+        description: The URL host of the ad, extracted from the web_view_url.
+      - name: url_path
+        description: The URL path of the ad, extracted from the web_view_url.
+      - name: utm_source
+        description: The utm_source parameter of the ad, extracted from the web_view_url.
+      - name: utm_medium
+        description: The utm_medium parameter of the ad, extracted from the web_view_url.
+      - name: utm_campaign
+        description: The utm_campaign parameter of the ad, extracted from the web_view_url.
+      - name: utm_content
+        description: The utm_content parameter of the ad, extracted from the web_view_url.
+      - name: utm_term
+        description: The utm_term parameter of the ad, extracted from the web_view_url.
+      - name: spend
+        description: The spend on the ad in the given day.
+      - name: impressions
+        description: The number of impressions the ad had on the given day.
+      - name: swipes
+        description: The number of swipes the ad had on the given day.
