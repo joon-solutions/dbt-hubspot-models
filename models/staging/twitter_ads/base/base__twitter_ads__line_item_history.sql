@@ -1,5 +1,4 @@
 {{ config(enabled=var('ad_reporting__twitter_ads_enabled')) }}
-
 with source as (
 
     select * from {{ source('twitter_ads', 'line_item_history') }}

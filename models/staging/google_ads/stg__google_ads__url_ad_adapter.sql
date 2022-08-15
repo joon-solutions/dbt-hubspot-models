@@ -1,3 +1,4 @@
+{{ config(enabled=var('ad_reporting__google_ads_enabled')) }}
 with stats as (
 
     select *

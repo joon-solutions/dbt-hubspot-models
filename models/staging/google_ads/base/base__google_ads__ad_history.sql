@@ -1,3 +1,4 @@
+{{ config(enabled=var('ad_reporting__google_ads_enabled')) }}
 with source as (
 
     select * from {{ source('google_ads', 'ad_history') }}

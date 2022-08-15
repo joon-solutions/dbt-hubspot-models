@@ -1,3 +1,4 @@
+{{ config(enabled=var('ad_reporting__snapchat_ads_enabled')) }}
 with source as (
 
     select * from {{ source('snapchat_ads', 'creative_history') }}

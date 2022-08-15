@@ -1,3 +1,4 @@
+{{ config(enabled=var('ad_reporting__microsoft_ads_enabled')) }}
 with source as (
 
     select * from {{ source('microsoft_ads', 'ad_performance_daily_report') }}

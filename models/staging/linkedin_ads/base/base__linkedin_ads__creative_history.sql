@@ -1,3 +1,4 @@
+{{ config(enabled=var('ad_reporting__linkedin_ads_enabled')) }}
 with source as (
 
     select * from {{ source('linkedin_ads', 'creative_history') }}

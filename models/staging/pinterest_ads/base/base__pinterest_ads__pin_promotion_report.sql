@@ -1,3 +1,4 @@
+{{ config(enabled=var('ad_reporting__pinterest_enabled')) }}
 with source as (
 
     select * from {{ source('pinterest_ads', 'pin_promotion_report') }}

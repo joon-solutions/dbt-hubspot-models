@@ -1,3 +1,4 @@
+{{ config(enabled=var('ad_reporting__microsoft_ads_enabled')) }}
 with base as (
 
     select *

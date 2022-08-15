@@ -1,3 +1,4 @@
+{{ config(enabled=var('ad_reporting__pinterest_enabled')) }}
 with report as (
 
     select *
