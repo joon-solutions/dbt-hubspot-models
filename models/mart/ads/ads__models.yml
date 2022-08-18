@@ -62,6 +62,10 @@ models:
           metrics:
               total_impressions:
                 type: sum
+              click_rate:
+                type: number
+                sql: "div0(${total_clicks},${total_impressions})"
+
 
       - name: spend
         description: The cost of the ads.
