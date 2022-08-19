@@ -160,7 +160,7 @@ A data project must have observability on data ETL pipeline as well as BI platfo
     ```
 ### Disabling models
 
-When setting up your connection in Fivetran, it is possible that not every table this package expects will be synced. This can occur because you either don't use that functionality or have actively decided to not sync some tables. In order to disable the relevant functionality in the package, you will need to add the relevant variables. By default, all variables are assumed to be `true`. You only need to change the value for variables for the tables you would like to disable or enable respectively in fct_project.yml.
+When setting up your connection in Fivetran, it is possible that not every table this package expects will be synced. This can occur because you either don't use that functionality or have actively decided to not sync some tables. In order to disable the relevant functionality in the package, you will need to add the relevant variables. By default, all variables are assumed to be `true`. You only need to change the value for variables for the tables you would like to disable or enable respectively in dbt_project.yml.
 For example:
 
 ....
@@ -168,6 +168,29 @@ config-version: 2
 ...
 vars:
     contact_form_submission_enabled: false
+
+### UTM Auto Tagging Feature
+This package assumes you are manually adding UTM tags to the `final_url` field within the `ad_history` table. If you are leveraging the auto-tag feature within Microsoft Ads then you will want to enable the `microsoft_auto_tagging_enabled` variable to correctly populate the UTM fields within the `int_microsoft_ads__ad_history` model in dbt_project.yml.
+
+For example:
+
+....
+config-version: 2
+...
+vars:
+  microsoft_auto_tagging_enabled: true # False by default
+
+### Switching to Local Currency
+Additionally, the package allows you to select whether you want to add in costs in USD or the local currency of the ad. By default, the package uses USD. If you would like to have costs in the local currency, add the following variable to your `dbt_project.yml` file:
+
+For example:
+
+....
+config-version: 2
+...
+vars:
+    linkedin__use_local_currency: True
+```
 
 ### Resources:
 - Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
