@@ -16,7 +16,7 @@ renamed as (
         case
             when row_number() over (partition by campaign_group_id order by last_modified_at) = 1 then created_at
             else last_modified_at
-            end as valid_from,
+        end as valid_from,
         lead(last_modified_at) over (partition by campaign_group_id order by last_modified_at) as valid_to,
         {{ dbt_utils.surrogate_key(['campaign_group_id','last_modified_at']) }} as campaign_group_version_id
 

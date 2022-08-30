@@ -30,4 +30,3 @@ aggregates as (
 )
 
 select * from aggregates
-

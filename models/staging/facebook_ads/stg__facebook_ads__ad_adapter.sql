@@ -87,6 +87,6 @@ joined as (
 )
 
 select
-*,
-        {{ dbt_utils.surrogate_key(['ad_id','account_id','date_day','creative_id','ad_set_id','campaign_id']) }} as unique_id
+    *,
+    {{ dbt_utils.surrogate_key(['ad_id','account_id','date_day','creative_id','ad_set_id','campaign_id']) }} as unique_id
 from joined

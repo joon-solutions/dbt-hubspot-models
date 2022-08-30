@@ -3,7 +3,7 @@
 with base as (
 
     select *
-    from {{ ref('stg__google_ads__url_ad_adapter')}}
+    from {{ ref('stg__google_ads__url_ad_adapter') }}
 
 ),
 
@@ -14,7 +14,7 @@ fields as (
         'Google Ads' as platform,
         cast(date_day as date) as date_day,
         account_name,
-        {% if var('api_source','google_ads') == 'google_ads' %} cast(account_id as {{ dbt_utils.type_string() }}) as account_id {% else %} cast(external_customer_id as {{ dbt_utils.type_string() }}) as account_id {% endif %} ,
+        {% if var('api_source','google_ads') == 'google_ads' -%} cast(account_id as {{ dbt_utils.type_string() }}) as account_id {% else %} cast(external_customer_id as {{ dbt_utils.type_string() }}) as account_id {% endif -%},
         campaign_name,
         cast(campaign_id as {{ dbt_utils.type_string() }}) as campaign_id,
         ad_group_name,

@@ -25,7 +25,7 @@ renamed as (
         status,
         creative_type,
         _fivetran_synced,
-        {{ dbt_utils.surrogate_key(['pin_promotion_id','_fivetran_synced'] )}} as version_id,
+        {{ dbt_utils.surrogate_key(['pin_promotion_id','_fivetran_synced'] ) }} as version_id,
         row_number() over (partition by pin_promotion_id order by _fivetran_synced desc) as is_latest_version
 
     from source

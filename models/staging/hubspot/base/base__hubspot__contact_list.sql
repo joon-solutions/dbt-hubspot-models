@@ -21,7 +21,7 @@ renamed as (
         metadata_last_size_change_at,
         metadata_error,
         metadata_size,
-        offset,
+        -- offset,
         _fivetran_deleted,
         _fivetran_synced
 
@@ -30,4 +30,3 @@ renamed as (
 )
 
 select * from renamed
-
