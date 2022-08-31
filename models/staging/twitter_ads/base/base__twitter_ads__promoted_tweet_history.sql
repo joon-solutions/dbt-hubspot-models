@@ -20,7 +20,7 @@ renamed as (
 )
 
 select
-*,
-        row_number() over (partition by promoted_tweet_id order by updated_timestamp asc) = 1 as is_latest_version,
-        {{ dbt_utils.surrogate_key(['promoted_tweet_id','updated_timestamp']) }} as unique_id
+    *,
+    row_number() over (partition by promoted_tweet_id order by updated_timestamp asc) = 1 as is_latest_version,
+    {{ dbt_utils.surrogate_key(['promoted_tweet_id','updated_timestamp']) }} as unique_id
 from renamed

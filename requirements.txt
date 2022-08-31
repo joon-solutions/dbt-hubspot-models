@@ -1,5 +1,5 @@
-sqlfluff==1.1.0
+sqlfluff==0.11.2
+sqlfluff-templater-dbt==0.11.2
 pre-commit==2.15.0
 dbt-snowflake==1.0.0
-sqlfluff-templater-dbt==0.10.1
 MarkupSafe==2.0.1

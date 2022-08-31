@@ -3,9 +3,11 @@
 with base as (
 
     select *
-    from {{ ref('stg__linkedin_ads__ad_adapter')}}
+    from {{ ref('stg__linkedin_ads__ad_adapter') }}
 
-), fields as (
+),
+
+fields as (
 
     select
         daily_creative_id as unique_id,

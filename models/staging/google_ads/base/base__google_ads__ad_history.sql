@@ -6,22 +6,22 @@ with source as (
 ),
 
 final as (
-    
-    select 
-        ad_group_id, 
-        id as ad_id, 
-        updated_at as updated_timestamp, 
-        _fivetran_synced, 
+
+    select
+        ad_group_id,
+        id as ad_id,
+        updated_at as updated_timestamp,
+        _fivetran_synced,
         type as ad_type,
         status as ad_status,
         final_urls as source_final_urls,
-        replace(replace(final_urls, '[', ''),']','') as final_urls
+        replace(replace(final_urls, '[', ''), ']', '') as final_urls
     from source
 ),
 
 most_recent as (
 
-    select 
+    select
         ad_group_id,
         ad_id,
         updated_timestamp,
@@ -39,7 +39,7 @@ most_recent as (
 ),
 
 url_fields as (
-    select 
+    select
         *,
         {{ dbt_utils.split_part('final_url', "'?'", 1) }} as base_url,
         {{ dbt_utils.get_url_host('final_url') }} as url_host,
@@ -53,5 +53,5 @@ url_fields as (
     from most_recent
 )
 
-select * 
+select *
 from url_fields

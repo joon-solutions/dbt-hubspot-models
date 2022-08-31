@@ -3,7 +3,7 @@
 with base as (
 
     select *
-    from {{ ref('stg__microsoft_ads__ad_adapter')}}
+    from {{ ref('stg__microsoft_ads__ad_adapter') }}
 
 ),
 

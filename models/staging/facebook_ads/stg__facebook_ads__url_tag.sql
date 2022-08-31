@@ -21,18 +21,18 @@ required_fields as (
 flattened_url_tags as (
 
     select
-        _fivetran_id,
-        creative_id,
+        required_fields._fivetran_id,
+        required_fields.creative_id,
         url_tags.value:key::string as key,
         url_tags.value:value::string as value,
         url_tags.value:type::string as type
     from required_fields,
-    lateral flatten( input => url_tags ) as url_tags
+        lateral flatten( input => url_tags ) as url_tags
 
 
 )
 
 select
-*,
-        {{ dbt_utils.surrogate_key(['_fivetran_id','key','type']) }} as unique_id
+    *,
+    {{ dbt_utils.surrogate_key(['_fivetran_id','key','type']) }} as unique_id
 from flattened_url_tags

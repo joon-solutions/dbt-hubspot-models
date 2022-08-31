@@ -7,6 +7,6 @@ with unioned as (
 )
 
 select
-*,
-        {{ dbt_utils.surrogate_key(['unique_id','platform']) }} as id
+    *,
+    {{ dbt_utils.surrogate_key(['unique_id','platform']) }} as id
 from unioned

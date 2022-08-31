@@ -4,7 +4,7 @@ with base as (
     select *
     from {{ ref('base__microsoft_ads__ad_history') }}
 
-{% if var('microsoft_auto_tagging_enabled', false) %}
+    {% if var('microsoft_auto_tagging_enabled', false) %}
 
 ), campaigns as (
     
@@ -37,10 +37,10 @@ url_fields as (
 
         {% else %}
 
-        {{ dbt_utils.get_url_parameter('base.final_url', 'utm_source') }} as utm_source,
-        {{ dbt_utils.get_url_parameter('base.final_url', 'utm_medium') }} as utm_medium,
-        {{ dbt_utils.get_url_parameter('base.final_url', 'utm_campaign') }} as utm_campaign,
-        {{ dbt_utils.get_url_parameter('base.final_url', 'utm_content') }} as utm_content,
+            {{ dbt_utils.get_url_parameter('base.final_url', 'utm_source') }} as utm_source,
+            {{ dbt_utils.get_url_parameter('base.final_url', 'utm_medium') }} as utm_medium,
+            {{ dbt_utils.get_url_parameter('base.final_url', 'utm_campaign') }} as utm_campaign,
+            {{ dbt_utils.get_url_parameter('base.final_url', 'utm_content') }} as utm_content,
 
         {% endif %}
 

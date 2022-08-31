@@ -1,13 +1,5 @@
 {{ config(enabled=var('ad_reporting__twitter_ads_enabled')) }}
-with accounts as (
-
-    select *
-    from {{ ref('base__twitter_ads__account_history') }}
-    where is_latest_version = True
-
-),
-
-campaigns as (
+with campaigns as (
 
     select *
     from {{ ref('base__twitter_ads__campaign_history') }}
@@ -33,7 +25,7 @@ metrics as (
 promoted_tweet as (
 
     select *
-    from {{ ref('base__twitter_ads__promoted_tweet_history')}}
+    from {{ ref('base__twitter_ads__promoted_tweet_history') }}
     where is_latest_version = True
 
 ),

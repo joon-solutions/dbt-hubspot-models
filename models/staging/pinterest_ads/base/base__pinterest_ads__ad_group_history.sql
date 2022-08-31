@@ -16,7 +16,7 @@ renamed as (
         start_time,
         end_time,
         _fivetran_synced,
-        {{ dbt_utils.surrogate_key(['ad_group_id','_fivetran_synced'] )}} as version_id,
+        {{ dbt_utils.surrogate_key(['ad_group_id','_fivetran_synced'] ) }} as version_id,
         row_number() over (partition by ad_group_id order by _fivetran_synced desc) as is_latest_version
 
     from source
