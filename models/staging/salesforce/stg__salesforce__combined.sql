@@ -10,14 +10,11 @@ users as (
     from {{ ref('base__salesforce__user') }}
 ),
 
--- If using user_role table, the following will be included, otherwise it will not.
-{% if var('salesforce__user_role_enabled', True) %}
 user_role as (
 
     select *
     from {{ ref('base__salesforce__user_role') }}
 ),
-{% endif %}
 
 account as (
 
@@ -46,10 +43,10 @@ joined as (
 
         -- If using user_role table, the following will be included, otherwise it will not.
         {% if var('salesforce__user_role_enabled', True) %}
-        user_role.user_role_name as opportunity_owner_position,
-        user_role.developer_name as opportunity_owner_developer_name,
-        user_role.parent_role_id as opportunity_owner_parent_role_id,
-        user_role.rollup_description as opportunity_owner_rollup_description,
+            user_role.user_role_name as opportunity_owner_position,
+            user_role.developer_name as opportunity_owner_developer_name,
+            user_role.parent_role_id as opportunity_owner_parent_role_id,
+            user_role.rollup_description as opportunity_owner_rollup_description,
         {% endif %}
 
         case
@@ -84,14 +81,14 @@ joined as (
 
     -- If using user_role table, the following will be included, otherwise it will not.
     {% if var('salesforce__user_role_enabled', True) %}
-    left join user_role
-        on opportunity_owner.user_role_id = user_role.user_role_id
+        left join user_role
+            on opportunity_owner.user_role_id = user_role.user_role_id
 
     {% endif %}
-    )
+)
 
-select 
+select
     *,
-    {{ dbt_utils.surrogate_key(['opportunity_id','opportunity_owner_id']) }} as id 
+    {{ dbt_utils.surrogate_key(['opportunity_id','opportunity_owner_id']) }} as id
 
 from joined
