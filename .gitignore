@@ -5,3 +5,4 @@ dbt_packages/
 logs/
 .vscode
 generated_base_models/
+env/
