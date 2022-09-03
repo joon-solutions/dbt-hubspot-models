@@ -1,0 +1,74 @@
+version: 2
+
+models:
+
+  - name: fct__salesforce__sales_snapshot
+    description: This snapshot provides monthly and quarterly metrics that help you understand how your opportunities are performing. Metrics around bookings, the current pipeline and loses are included.
+    columns:
+      - name: id
+        description: unique ID of the table
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+    # - name: avg_bookings_amount
+    #   description: '{{ doc("avg_bookings_amount") }}'
+    # - name: avg_days_open
+    #   description: '{{ doc("avg_days_open") }}'
+    # - name: avg_days_to_close
+    #   description: '{{ doc("avg_days_to_close") }}'
+    # - name: avg_pipeline_opp_amount
+    #   description: '{{ doc("avg_pipeline_opp_amount") }}'
+    # - name: bookings_amount_closed_this_month
+    #   description: '{{ doc("bookings_amount_closed_this_month") }}'
+    # - name: bookings_amount_closed_this_quarter
+    #   description: '{{ doc("bookings_amount_closed_this_quarter") }}'
+    # - name: bookings_count_closed_this_month
+    #   description: '{{ doc("bookings_count_closed_this_month") }}'
+    # - name: bookings_count_closed_this_quarter
+    #   description: '{{ doc("bookings_count_closed_this_quarter") }}'
+    # - name: largest_booking
+    #   description: '{{ doc("largest_booking") }}'
+    # - name: largest_deal_in_pipeline
+    #   description: '{{ doc("largest_deal_in_pipeline") }}'
+    # - name: lost_amount_this_month
+    #   description: '{{ doc("lost_amount_this_month") }}'
+    # - name: lost_amount_this_quarter
+    #     description: '{{ doc("lost_amount_this_quarter") }}'
+    #   - name: lost_count_this_month
+    #     description: '{{ doc("lost_count_this_month") }}'
+    #   - name: lost_count_this_quarter
+    #     description: '{{ doc("lost_count_this_quarter") }}'
+    #   - name: pipeline_count_created_this_month
+    #     description: '{{ doc("pipeline_count_created_this_month") }}'
+    #   - name: pipeline_count_created_this_quarter
+    #     description: '{{ doc("pipeline_count_created_this_quarter") }}'
+    #   - name: pipeline_created_amount_this_month
+    #     description: '{{ doc("pipeline_created_amount_this_month") }}'
+    #   - name: pipeline_created_amount_this_quarter
+    #     description: '{{ doc("pipeline_created_amount_this_quarter") }}'
+    #   - name: pipeline_created_forecast_amount_this_month
+    #     description: '{{ doc("pipeline_created_forecast_amount_this_month") }}'
+    #   - name: pipeline_created_forecast_amount_this_quarter
+    #     description: '{{ doc("pipeline_created_forecast_amount_this_quarter") }}'
+    #   - name: total_bookings_amount
+    #     description: '{{ doc("total_bookings_amount") }}'
+    #   - name: total_lost_amount
+    #     description: '{{ doc("total_lost_amount") }}'
+    #   - name: total_number_bookings
+    #     description: '{{ doc("total_number_bookings") }}'
+    #   - name: total_number_lost
+    #     description: '{{ doc("total_number_lost") }}'
+    #   - name: total_number_pipeline
+    #     description: '{{ doc("total_number_pipeline") }}'
+    #   - name: total_pipeline_amount
+    #     description: '{{ doc("total_pipeline_amount") }}'
+    #   - name: total_pipeline_forecast_amount
+    #     description: '{{ doc("total_pipeline_forecast_amount") }}'
+    #   - name: total_win_percent
+    #     description: '{{ doc("total_win_percent") }}'
+    #   - name: win_percent_this_month
+    #     description: '{{ doc("win_percent_this_month") }}'
+    #   - name: win_percent_this_quarter
+    #     description: '{{ doc("win_percent_this_quarter") }}'
+
