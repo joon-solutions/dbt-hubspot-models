@@ -1,9 +1,21 @@
 {{ config(enabled=fivetran_utils.enabled_vars(['contact_form_submission_enabled','contact_list_member_enabled','contact_list_enabled','contact_enabled','email_campaign_enabled','email_event_enabled','email_subscription_change_enabled','email_subscription_enabled'])) }}
-
+{% set column_names = {
+        'OPEN' : 'opens',
+        'SENT' : 'sends',
+        'DELIVERED' : 'deliveries',
+        'DROPPED' : 'drops',
+        'CLICK': 'clicks',
+        'FORWARD': 'forwards',
+        'DEFERRED': 'deferrals',
+        'BOUNCE': 'bounces',
+        'SPAMREPORT': 'spam_reports',
+        'PRINT': 'prints'                         
+}
+%}
 with events as (
 
     select *
-    from {{ ref('int__hubspot__email_events_aggregates') }}
+    from {{ ref('base__hubspot__email_event') }}
 
 ),
 
@@ -37,18 +49,21 @@ events_aggregates as (
     select
         events.recipient,
         ---subscribe event
-        subscriptions.is_subscriber,
+        max(subscriptions.is_subscriber) as is_subscriber,
         sum(subscriptions.count_subscribe_events) as subscribes,
         sum(subscriptions.count_unsubscribe_events) as unsubscribes,
         sum(subscriptions.net_subscription_events) as net_subscribes,
         ----
-        {% for metric in var('email_metrics') %}
-            sum(events.{{ metric }}) as {{ metric }}{% if not loop.last %},{% endif %}
+        -- {% for metric in var('email_metrics') %}
+        --     sum(events.{{ metric }}) as {{ metric }}{% if not loop.last %},{% endif %}
+        -- {% endfor %}
+        {% for item in column_names %}
+        count(case when events.event_type = '{{ item }}' then events.email_event_id end) as {{ column_names[item] }}{% if not loop.last %},{% endif %}
         {% endfor %}
 
     from events
-    left join subscriptions on events.email_send_id = subscriptions.caused_by_event_id  --one-to-one
-    group by 1, 2
+    left join subscriptions on events.email_event_id = subscriptions.caused_by_event_id  --one-to-one
+    group by 1
 ),
 
 aggregates as (
@@ -59,7 +74,7 @@ aggregates as (
         contact.contact_list_name,
         ---conversion event
         coalesce(sum(conversions.conversions), 0) as conversions,
-        coalesce(count(distinct case when conversions.contact_id is not null then contact.contact_id end), 0) as total_recip_conversions,
+        coalesce(count(distinct conversions.contact_id), 0) as total_recip_conversions,
         ---subscribe event
         coalesce(sum(events_aggregates.subscribes), 0) as subscribes,
         coalesce(sum(events_aggregates.unsubscribes), 0) as unsubscribes,
@@ -67,8 +82,8 @@ aggregates as (
         coalesce(count(distinct case when events_aggregates.is_subscriber then events_aggregates.recipient end), 0) as total_recip_subscribes,
         ----
         {% for metric in var('email_metrics') %}
-            coalesce(sum(events_aggregates.{{ metric }}), 0) as {{ metric }},
-            coalesce(count(distinct case when events_aggregates.{{ metric }} > 0 then events_aggregates.recipient end), 0) as total_recip_{{ metric }}{% if not loop.last %},{% endif %}
+        coalesce(sum(events_aggregates.{{ metric }}), 0) as {{ metric }},
+        coalesce(count(distinct case when events_aggregates.{{ metric }} > 0 then events_aggregates.recipient end), 0) as total_recip_{{ metric }}{% if not loop.last %},{% endif %}
         {% endfor %}
 
     from contact

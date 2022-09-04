@@ -1,3 +1,4 @@
+
 {{ config(enabled = var('contact_form_submission_enabled') ) }}
 
 with source as (
@@ -9,18 +10,20 @@ with source as (
 renamed as (
 
     select
-        {{ dbt_utils.surrogate_key(['contact_id','conversion_id']) }} as id,
-        contact_id,
-        conversion_id,
-        timestamp,
-        title,
-        form_id,
-        portal_id,
-        page_url,
-        _fivetran_synced
+
+        {{
+            fivetran_utils.fill_staging_columns(
+                source_columns=adapter.get_columns_in_relation(source('hubspot', 'contact_form_submission')),
+                staging_columns = get_hubspot_contact_form_submission_columns()
+            )
+        }}
 
     from source
 
 )
 
-select * from renamed
+select
+    *,
+    {{ dbt_utils.surrogate_key(['contact_id','conversion_id']) }} as id
+
+from renamed
