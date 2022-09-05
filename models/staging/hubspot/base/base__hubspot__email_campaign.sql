@@ -9,17 +9,12 @@ with source as (
 renamed as (
 
     select
-        id as email_campaign_id,
-        app_id,
-        app_name,
-        content_id,
-        name as email_campaign_name,
-        num_included,
-        num_queued,
-        sub_type,
-        subject,
-        type as email_campaign_type,
-        _fivetran_synced
+        {{
+            fivetran_utils.fill_staging_columns(
+                source_columns=adapter.get_columns_in_relation(source('hubspot', 'email_campaign')),
+                staging_columns = get_hubspot_email_campaign_columns()
+            )
+        }}
 
     from source
 

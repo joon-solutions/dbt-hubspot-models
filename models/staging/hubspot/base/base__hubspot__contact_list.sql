@@ -9,22 +9,12 @@ with source as (
 renamed as (
 
     select
-        id as contact_list_id,
-        name as contact_list_name,
-        deleteable,
-        dynamic,
-        portal_id,
-        updated_at,
-        created_at,
-        metadata_last_processing_state_change_at,
-        metadata_processing,
-        metadata_last_size_change_at,
-        metadata_error,
-        metadata_size,
-        -- offset,
-        _fivetran_deleted,
-        _fivetran_synced
-
+        {{
+            fivetran_utils.fill_staging_columns(
+                source_columns=adapter.get_columns_in_relation(source('hubspot', 'contact_list')),
+                staging_columns = get_hubspot_contact_list_columns()
+            )
+        }}
     from source
 
 )

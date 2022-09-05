@@ -9,21 +9,13 @@ with source as (
 renamed as (
 
     select
-        id as email_event_id,
-        created,
-        type as event_type,
-        recipient,
-        portal_id,
-        app_id,
-        filtered_event,
-        email_campaign_id,
-        sent_by_id as email_send_id,
-        sent_by_created as email_send_at,
-        caused_by_id,
-        caused_by_created,
-        obsoleted_by_id,
-        obsoleted_by_created,
-        _fivetran_synced
+
+        {{
+            fivetran_utils.fill_staging_columns(
+                source_columns=adapter.get_columns_in_relation(source('hubspot', 'email_event')),
+                staging_columns = get_hubspot_email_event_columns()
+            )
+        }}
 
     from source
 

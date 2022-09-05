@@ -9,15 +9,20 @@ with source as (
 renamed as (
 
     select
-        {{ dbt_utils.surrogate_key(['contact_id','contact_list_id']) }} as id,
-        contact_id,
-        contact_list_id,
-        added_at,
-        _fivetran_deleted,
-        _fivetran_synced
+
+        {{
+            fivetran_utils.fill_staging_columns(
+                source_columns=adapter.get_columns_in_relation(source('hubspot', 'contact_list_member')),
+                staging_columns = get_hubspot_contact_list_member_columns()
+            )
+        }}
 
     from source
 
 )
 
-select * from renamed
+select
+    *,
+    {{ dbt_utils.surrogate_key(['contact_id','contact_list_id']) }} as id
+
+from renamed

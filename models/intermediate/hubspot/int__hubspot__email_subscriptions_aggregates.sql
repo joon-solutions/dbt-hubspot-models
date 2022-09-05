@@ -10,11 +10,6 @@ with subscription_change as (
     from {{ ref('base__hubspot__email_subscription_change') }}
 ),
 
--- subscription as (
---     select *
---     from {{ ref('base__hubspot__email_subscription') }}
--- ),
-
 aggregates as (
     select
         caused_by_event_id,

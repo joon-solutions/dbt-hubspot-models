@@ -5,21 +5,17 @@ with source as (
     select * from {{ source('hubspot', 'email_subscription_change') }}
 
 ),
+---caused_by_event_id:recipient - n:1
 
 renamed as (
 
     select
-        {{ dbt_utils.surrogate_key(['recipient','timestamp']) }} as id,
-        recipient,
-        timestamp as created_at,
-        change,
-        change_type,
-        portal_id,
-        source,
-        caused_by_event_id, ---caused_by_event_id:recipient - n:1
-        email_subscription_id,
-        _fivetran_id,
-        _fivetran_synced
+        {{
+            fivetran_utils.fill_staging_columns(
+                source_columns=adapter.get_columns_in_relation(source('hubspot', 'email_subscription_change')),
+                staging_columns = get_hubspot_email_subscription_change_columns()
+            )
+        }}
 
     from source
 
