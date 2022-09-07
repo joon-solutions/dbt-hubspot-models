@@ -8,14 +8,12 @@ with source as (
 renamed as (
 
     select
-        id as creative_id,
-        cast(last_modified_time as {{ dbt_utils.type_timestamp() }}) as last_modified_at,
-        cast(created_time as {{ dbt_utils.type_timestamp() }}) as created_at,
-        campaign_id,
-        type as creative_type,
-        cast(version_tag as numeric) as version_tag,
-        status as creative_status,
-        click_uri
+        {{
+            fivetran_utils.fill_staging_columns(
+                source_columns=adapter.get_columns_in_relation(source('linkedin_ads', 'creative_history')),
+                staging_columns=get_linkedin_ads_creative_history_columns()
+            )
+        }}
     from source
 
 ),

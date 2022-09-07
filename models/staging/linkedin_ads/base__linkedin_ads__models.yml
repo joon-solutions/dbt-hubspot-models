@@ -18,6 +18,11 @@ models:
         description: The ID of the related creative.
         tests:
           - not_null
+          - relationships:
+              to: ref('base__linkedin_ads__creative_history')
+              field: creative_id
+              config:
+                severity: warn
         meta:
           dimension:
             type: string
@@ -82,6 +87,12 @@ models:
 
       - name: campaign_id
         description: The ID of the campaign the creative belongs to.
+        tests:
+          - relationships:
+              to: ref('base__linkedin_ads__campaign_history')
+              field: campaign_id
+              config:
+                severity: warn
 
       - name: creative_type
         description: |
@@ -168,6 +179,12 @@ models:
 
       - name: campaign_group_id
         description: The ID of the campaign group the campaign belongs to.
+        test:
+          - relationships:
+              to: ref('base__linkedin_ads__campaign_group_history')
+              field: campaign_group_id
+              config:
+                severity: warn
 
       - name: created_at
         description: The timestamp of when the campaign was created.
@@ -205,7 +222,13 @@ models:
           
       - name: account_id
         description: The ID of the account the campaign group belongs to.
-          
+        test:
+          - relationships:
+              to: ref('base__linkedin_ads__account_history')
+              field: account_id
+              config:
+                severity: warn
+                          
       - name: created_at
         description: The timestamp of when the campaign group was created.
           

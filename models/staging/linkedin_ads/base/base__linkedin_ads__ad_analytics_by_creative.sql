@@ -6,21 +6,38 @@ with source as (
 ),
 
 renamed as (
+    select
+
+        {{
+            fivetran_utils.fill_staging_columns(
+                source_columns=adapter.get_columns_in_relation(source('linkedin_ads', 'ad_analytics_by_creative')),
+                staging_columns=get_linkedin_ads_ad_analytics_by_creative_columns()
+            )
+        }}
+    from source
+),
+
+
+final as (
 
     select
         creative_id,
-        cast(day as {{ dbt_utils.type_timestamp() }}) as date_day,
+        date_day,
         clicks,
         impressions,
         {% if var('linkedin__use_local_currency') %}
             cost_in_local_currency as cost,
         {% else %}
-        cost_in_usd as cost,
+            cost_in_usd as cost,
+        {% endif %}
+        --- passthrough metrics
+        {% if var('linkedin__passthrough_metrics') %}
+        , {{ var('linkedin__passthrough_metrics' )  | join(', ') }}
         {% endif %}
         {{ dbt_utils.surrogate_key(['date_day','creative_id']) }} as daily_creative_id
 
-    from source
+    from renamed
 
 )
 
-select * from renamed
+select * from final

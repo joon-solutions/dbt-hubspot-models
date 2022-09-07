@@ -181,7 +181,7 @@ vars:
   microsoft_auto_tagging_enabled: true # False by default
 
 ### Switching to Local Currency
-Additionally, the package allows you to select whether you want to add in costs in USD or the local currency of the ad. By default, the package uses USD. If you would like to have costs in the local currency, add the following variable to your `dbt_project.yml` file:
+Additionally, the model allows you to select whether you want to add in costs in USD or the local currency of the ad. By default, the package uses USD. If you would like to have costs in the local currency, add the following variable to your `dbt_project.yml` file:
 
 For example:
 
@@ -190,7 +190,18 @@ config-version: 2
 ...
 vars:
     linkedin__use_local_currency: True
-```
+
+### Passing Through Additional Metrics
+By default, the model will select `clicks`, `impressions`, and `costs` from the source `ad_analytics_by_creative` table to store into the `*_ad_adapter` model. If you would like to pass through additional metrics to the ad adapter model, add the following configuration to your `dbt_project.yml` file:
+
+For example:
+
+....
+config-version: 2
+...
+vars:
+    linkedin__passthrough_metrics: ['the', 'list', 'of', 'metric', 'columns', 'to', 'include']
+
 
 ### Resources:
 - Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)

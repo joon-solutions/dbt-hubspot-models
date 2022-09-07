@@ -59,17 +59,23 @@ vars:
   ga_traffic_enabled: true
 
 # Ads source
+  ## Linkedin
+  ad_reporting__linkedin_ads_enabled: true
+  linkedin__use_local_currency: false
+  linkedin__passthrough_metrics: []
+
+  ## 
   ad_reporting__pinterest_enabled: true
   ad_reporting__microsoft_ads_enabled: true
-  ad_reporting__linkedin_ads_enabled: true
+  
   ad_reporting__google_ads_enabled: true
   ad_reporting__twitter_ads_enabled: true
   ad_reporting__facebook_ads_enabled: true
   ad_reporting__snapchat_ads_enabled: true
   ad_reporting__tiktok_ads_enabled: true
 
-  microsoft_auto_tagging_enabled: false 
-  linkedin__use_local_currency: true
+  microsoft_auto_tagging_enabled: false
+
 
 # Salesforce
   salesforce__user_role_enabled: true
