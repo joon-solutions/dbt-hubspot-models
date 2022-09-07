@@ -10,11 +10,13 @@ with base as (
     
     select * 
     from {{ ref('base__microsoft_ads__campaign_history') }}
+    where is_most_recent_version = true
 
 ), ad_groups as (
     
     select *
     from {{ ref('base__microsoft_ads__ad_group_history') }}
+    where is_most_recent_version = true
 
 {% endif %}
 
@@ -51,11 +53,9 @@ url_fields as (
     
     left join ad_groups
         on ad_groups.ad_group_id = base.ad_group_id
-        and coalesce(ad_groups.is_most_recent_version, true)
 
     left join campaigns
     on campaigns.campaign_id = ad_groups.campaign_id
-        and coalesce(campaigns.is_most_recent_version, true)
 
     {% endif %}
 
