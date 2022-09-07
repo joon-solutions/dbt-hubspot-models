@@ -22,7 +22,7 @@ final as (
 
     select
         creative_id,
-        date_day,
+        cast(date_day as date) as date_day,
         clicks,
         impressions,
         {% if var('linkedin__use_local_currency') %}

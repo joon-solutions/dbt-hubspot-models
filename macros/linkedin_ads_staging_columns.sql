@@ -4,7 +4,7 @@
     {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
     {"name": "created_time", "datatype": dbt_utils.type_timestamp(), "alias": "created_at"},
     {"name": "currency", "datatype": dbt_utils.type_string()},
-    {"name": "id", "datatype": dbt_utils.type_int(), "alias": "account_id"},
+    {"name": "id", "datatype": dbt_utils.type_string(), "alias": "account_id"},
     {"name": "last_modified_time", "datatype": dbt_utils.type_timestamp(), "alias": "last_modified_at"},
     {"name": "name", "datatype": dbt_utils.type_string(), "alias": "account_name"},
     {"name": "version_tag", "datatype": dbt_utils.type_int()}
@@ -97,9 +97,9 @@
 
 {% set columns = [
     {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
-    {"name": "account_id", "datatype": dbt_utils.type_int()},
+    {"name": "account_id", "datatype": dbt_utils.type_string()},
     {"name": "created_time", "datatype": dbt_utils.type_timestamp(), "alias": "created_at"},
-    {"name": "id", "datatype": dbt_utils.type_int(), "alias": "campaign_group_id"},
+    {"name": "id", "datatype": dbt_utils.type_string(), "alias": "campaign_group_id"},
     {"name": "last_modified_time", "datatype": dbt_utils.type_timestamp(), "alias": "last_modified_at"},
     {"name": "name", "datatype": dbt_utils.type_string(), "alias": "campaign_group_name"}
 ] %}
@@ -113,11 +113,11 @@
 
 {% set columns = [
     {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
-    {"name": "account_id", "datatype": dbt_utils.type_int()},
-    {"name": "campaign_group_id", "datatype": dbt_utils.type_int()},
+    {"name": "account_id", "datatype": dbt_utils.type_string()},
+    {"name": "campaign_group_id", "datatype": dbt_utils.type_string()},
     {"name": "cost_type", "datatype": dbt_utils.type_string()},
     {"name": "created_time", "datatype": dbt_utils.type_timestamp(), "alias": "created_at"},
-    {"name": "id", "datatype": dbt_utils.type_int(), "alias": "campaign_id"},
+    {"name": "id", "datatype": dbt_utils.type_string(), "alias": "campaign_id"},
     {"name": "last_modified_time", "datatype": dbt_utils.type_timestamp(), "alias": "last_modified_at"},
     {"name": "name", "datatype": dbt_utils.type_string(), "alias": "campaign_name"},
     {"name": "version_tag", "datatype": dbt_utils.type_int()}
@@ -133,7 +133,7 @@
 
 {% set columns = [
     {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
-    {"name": "campaign_id", "datatype": dbt_utils.type_int()},
+    {"name": "campaign_id", "datatype": dbt_utils.type_string()},
     {"name": "click_uri", "datatype": dbt_utils.type_string()},
     {"name": "created_time", "datatype": dbt_utils.type_timestamp(), "alias": "created_at"},
     {"name": "id", "datatype": dbt_utils.type_int(), "alias": "creative_id"},
