@@ -63,12 +63,13 @@ vars:
   ad_reporting__linkedin_ads_enabled: true
   linkedin__use_local_currency: false
   linkedin__passthrough_metrics: []
-
   ## Microsoft
   ad_reporting__microsoft_ads_enabled: true
   microsoft_auto_tagging_enabled: false
-
+  ## Pinterest
   ad_reporting__pinterest_enabled: true
+  pin_promotion_report_pass_through_metric: []
+  
   ad_reporting__google_ads_enabled: true
   ad_reporting__twitter_ads_enabled: true
   ad_reporting__facebook_ads_enabled: true

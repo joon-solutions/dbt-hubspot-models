@@ -8,16 +8,25 @@ with source as (
 renamed as (
 
     select
-        id as campaign_id,
-        created_time,
-        name,
-        status,
-        _fivetran_synced,
-        {{ dbt_utils.surrogate_key(['campaign_id','_fivetran_synced'] ) }} as version_id,
-        row_number() over (partition by campaign_id order by _fivetran_synced desc) as is_latest_version
+        {{
+            fivetran_utils.fill_staging_columns(
+                source_columns=adapter.get_columns_in_relation(source('pinterest_ads', 'campaign_history')),
+                staging_columns = get_pinterest_ads_campaign_history_columns()
+            )
+        }}
+        -- id as campaign_id,
+        -- created_time,
+        -- name,
+        -- status,
+        -- _fivetran_synced,
+
 
     from source
 
 )
 
-select * from renamed
+select 
+        *,
+        {{ dbt_utils.surrogate_key(['campaign_id','_fivetran_synced'] ) }} as version_id,
+        row_number() over (partition by campaign_id order by _fivetran_synced desc) as is_latest_version
+from renamed
