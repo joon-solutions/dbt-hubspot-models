@@ -9,25 +9,12 @@ with source as (
 final as (
 
     select
-        adgroup_id as ad_group_id,
-        updated_at,
-        advertiser_id,
-        campaign_id,
-        action_days,
-        action_categories,
-        adgroup_name as ad_group_name,
-        age,
-        audience_type,
-        budget,
-        category,
-        display_name,
-        interest_category_v_2 as interest_category,
-        frequency,
-        frequency_schedule,
-        gender,
-        languages,
-        landing_page_url,
-        _fivetran_synced
+        {{
+            fivetran_utils.fill_staging_columns(
+                source_columns=adapter.get_columns_in_relation(source('tiktok_ads', 'adgroup_history')),
+                staging_columns=get_tiktok_ads_adgroup_history_columns()
+            )
+        }}
     from source
 
 ),

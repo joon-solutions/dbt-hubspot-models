@@ -78,17 +78,14 @@ joined as (
         (sum(hourly.clicks) / nullif(sum(hourly.impressions), 0)) * 100 as daily_ctr
     from hourly
     left join ads
-        on hourly.ad_id = ads.ad_id
+        on hourly.ad_id = ads.ad_id --many-to-one
     left join ad_groups
-        on ads.ad_group_id = ad_groups.ad_group_id
+        on ads.ad_group_id = ad_groups.ad_group_id --many-to-one
     left join campaigns
-        on ads.campaign_id = campaigns.campaign_id
+        on ad_groups.campaign_id = campaigns.campaign_id --many-to-one
     left join advertiser
-        on campaigns.advertiser_id = advertiser.advertiser_id
+        on campaigns.advertiser_id = advertiser.advertiser_id --many-to-one
     {{ dbt_utils.group_by(17) }}
-
-
-
 )
 
 select

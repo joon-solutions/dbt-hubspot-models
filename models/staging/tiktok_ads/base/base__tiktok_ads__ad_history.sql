@@ -1,17 +1,32 @@
 {{ config(enabled=var('ad_reporting__tiktok_ads_enabled')) }}
 
-with source as (
+with base as (
 
-    select * from {{ source('tiktok_ads', 'ad_history') }}
+    select *
+    from {{ source('tiktok_ads', 'ad_history') }}
 
 ),
 
-final as (
+fields as (
 
     select
+        {{
+            fivetran_utils.fill_staging_columns(
+                source_columns=adapter.get_columns_in_relation(source('tiktok_ads', 'ad_history')),
+                staging_columns=get_tiktok_ads_history_columns()
+            )
+        }}
+
+    from base
+
+), 
+
+final as (
+
+    select  
         ad_id,
         updated_at,
-        adgroup_id as ad_group_id,
+        ad_group_id,
         advertiser_id,
         campaign_id,
         ad_name,
@@ -30,13 +45,13 @@ final as (
         landing_page_url,
         video_id,
         _fivetran_synced
-    from source
+    from fields
 
-),
+), 
 
 most_recent as (
 
-    select
+    select 
         *,
         row_number() over (partition by ad_id order by updated_at desc) = 1 as is_most_recent_record,
         {{ dbt_utils.surrogate_key(['ad_id','updated_at']) }} as unique_id
