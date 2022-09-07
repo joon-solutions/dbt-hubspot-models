@@ -38,6 +38,7 @@ models:
         description: Whether the record is the most latest version for the account
       - name: salt
         description: The random encryption key used to has data.
+
   - name: base__twitter_ads__campaign_history
     description: Each record represents a version of each campaign. The versions can be differentiated by the updated_at timestamp.
     columns:
@@ -51,6 +52,12 @@ models:
         description: Timestamp of when Fivetran synced a record.
       - name: account_id
         description: The ID of the related account.
+        tests:
+          - relationships:
+              to: ref('base__twitter_ads__account_history')
+              field: account_id
+              config:
+                severity: warn
       - name: created_timestamp
         description: The timestamp the account was last updated.
       - name: currency
@@ -85,6 +92,7 @@ models:
         description: Whether the record is the most latest version for the campaign
       - name: funding_instrument_id
         description: Reference to the funding instrument.
+
   - name: base__twitter_ads__line_item_history
     description: Each record represents a version of each line item. The versions can be differentiated by the updated_at timestamp.
     columns:
@@ -110,6 +118,12 @@ models:
         description: The bid unit for this line item.
       - name: campaign_id
         description: The ID of the related campaign.
+        tests:
+          - relationships:
+              to: ref('base__twitter_ads__campaign_history')
+              field: campaign_id
+              config:
+                severity: warn
       - name: charge_by
         description: The unit to charge this line item by.
       - name: created_timestamp
@@ -146,6 +160,7 @@ models:
         description: The timestamp the account was last updated.
       - name: is_latest_version
         description: Whether the record is the most latest version for the line item.
+
   - name: base__twitter_ads__promoted_tweet_history
     description: TEach record represents a version of each promoted tweet. The versions can be differentiated by the updated_at timestamp.BD
     columns:
@@ -163,6 +178,12 @@ models:
         description: The ID of the promoted tweet.
       - name: line_item_id
         description: The ID of the related line item.
+        tests:
+          - relationships:
+              to: ref('base__twitter_ads__line_item_history')
+              field: line_item_id
+              config:
+                severity: warn
       - name: tweet_id
         description: The ID of the related tweet.
       - name: updated_timestamp
@@ -175,6 +196,7 @@ models:
           - unique
           - not_null
           - dbt_utils.at_least_one
+
   - name: base__twitter_ads__promoted_tweet_report
     description: Each record represents the performance of a promoted tweet on a given day.
     columns:
@@ -208,6 +230,12 @@ models:
         description: The impressions for the promoted tweet on that day.BD
       - name: promoted_tweet_id
         description: The ID of the related promoted tweet.
+        tests:
+          - relationships:
+              to: ref('base__twitter_ads__promoted_tweet_history')
+              field: promoted_tweet_id
+              config:
+                severity: warn
       - name: url_clicks
         description: The url clicks for the promoted tweet on that day.
       - name: unique_id
@@ -219,6 +247,7 @@ models:
         meta:
           dimension:
             type: string
+
   - name: base__twitter_ads__tweet_url
     description: Each record represents a URL used in a tweet.
     columns:

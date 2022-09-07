@@ -71,6 +71,7 @@ vars:
   pin_promotion_report_pass_through_metric: []
   
   ad_reporting__google_ads_enabled: true
+  ## Twitter
   ad_reporting__twitter_ads_enabled: true
   ad_reporting__facebook_ads_enabled: true
   ad_reporting__snapchat_ads_enabled: true

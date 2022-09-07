@@ -11,7 +11,7 @@ renamed as (
         {{
             fivetran_utils.fill_staging_columns(
                 source_columns=adapter.get_columns_in_relation(source('twitter_ads', 'account_history')),
-                staging_columns=get_account_history_columns()
+                staging_columns=get_twitter_ads_account_history_columns()
             )
         }}
     -- _fivetran_synced,

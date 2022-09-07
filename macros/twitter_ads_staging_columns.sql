@@ -1,4 +1,4 @@
-{% macro get_account_history_columns() %}
+{% macro get_twitter_ads_account_history_columns() %}
 
 {% set columns = [
     {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
@@ -20,7 +20,7 @@
 
 {% endmacro %}
 
-{% macro get_campaign_history_columns() %}
+{% macro get_twitter_ads_campaign_history_columns() %}
 
 {% set columns = [
     {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
@@ -47,7 +47,7 @@
 
 {% endmacro %}
 
-{% macro get_line_item_history_columns() %}
+{% macro get_twitter_ads_line_item_history_columns() %}
 
 {% set columns = [
     {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
@@ -81,7 +81,7 @@
 
 {% endmacro %}
 
-{% macro get_promoted_tweet_history_columns() %}
+{% macro get_twitter_ads_promoted_tweet_history_columns() %}
 
 {% set columns = [
     {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
@@ -99,7 +99,7 @@
 
 {% endmacro %}
 
-{% macro get_tweet_url_columns() %}
+{% macro get_twitter_ads_tweet_url_columns() %}
 
 {% set columns = [
     {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
@@ -115,14 +115,14 @@
 
 {% endmacro %}
 
-{% macro get_promoted_tweet_report_columns() %}
+{% macro get_twitter_ads_promoted_tweet_report_columns() %}
 
 {% set columns = [
     {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
     {"name": "account_id", "datatype": dbt_utils.type_string()},
-    {"name": "billed_charge_local_micro", "datatype": dbt_utils.type_int(), "alias": "spend_micro"},
+    {"name": "billed_charge_local_micro", "datatype": dbt_utils.type_int()},
     {"name": "clicks", "datatype": dbt_utils.type_int()},
-    {"name": "date", "datatype": dbt_utils.type_timestamp(), "alias": "date_day"},
+    {"name": "date", "datatype": dbt_utils.type_timestamp()},
     {"name": "impressions", "datatype": dbt_utils.type_int()},
     {"name": "promoted_tweet_id", "datatype": dbt_utils.type_string()},
     {"name": "url_clicks", "datatype": dbt_utils.type_int()}
