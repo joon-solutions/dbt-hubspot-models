@@ -34,8 +34,20 @@ models:
         description: The ID of the ad in Snapchat.
       - name: ad_squad_id
         description: The ID of the related ad squad in Snapchat.
+        tests:
+          - relationships:
+              to: ref('base__snapchat_ads__ad_squad_history')
+              field: ad_squad_id
+              config:
+                severity: warn
       - name: creative_id
         description: The ID of the related creative in Snapchat.
+        tests:
+          - relationships:
+              to: ref('base__snapchat_ads__creative_history')
+              field: creative_id
+              config:
+                severity: warn
       - name: ad_name
         description: The name of the ad in Snapchat.
       - name: is_most_recent_record
@@ -55,6 +67,12 @@ models:
             type: string
       - name: ad_id
         description: The ID of the ad that the report relates to in Snapchat.
+        tests:
+          - relationships:
+              to: ref('base__snapchat_ads__ad_history')
+              field: ad_id
+              config:
+                severity: warn
       - name: date_hour
         description: The hour that the report relates to.
         meta:
@@ -95,7 +113,87 @@ models:
         description: The ID fo the ad squad in Snapchat.
       - name: campaign_id
         description: The ID of the related campaign in Snapchat.
+        tests:
+          - relationships:
+              to: ref('base__snapchat_ads__campaign_history')
+              field: campaign_id
+              config:
+                severity: warn
       - name: ad_squad_name
         description: The name of the ad squad in Snapchat.
       - name: is_most_recent_record
         description: Boolean representing whether a record is the most recent version of that record.
+
+  - name: base__snapchat_ads__campaign_history
+    description: Each record in this table represents a historic version of a campaign in Snapchat.
+    columns:
+      - name: unique_id
+        description: PK = campaign_id || _fivetran_synced
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+      - name: _fivetran_synced
+        description: When the record was last synced by Fivetran.
+      - name: campaign_id
+        description: The name of the campaign in Snapchat.
+      - name: ad_account_id
+        description: The ID of the related ad account in Snapchat.
+        tests:
+          - relationships:
+              to: ref('base__snapchat_ads__ad_account_history')
+              field: ad_account_id
+              config:
+                severity: warn
+      - name: campaign_name
+        description: The name of the campaign in Snapchat.
+
+  - name: base__snapchat_ads__creative_history
+    description: Each record in this table represents a historic version of a creative in Snapchat.
+    columns:
+      - name: unique_id
+        description: PK = creative_id || _fivetran_synced
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+      - name: _fivetran_synced
+        description: When the record was last synced by Fivetran.
+      - name: creative_id
+        description: The ID of the creative in Snapchat.
+      - name: ad_account_id
+        description: The ID of the related ad account in Snapchat.
+        tests:
+          - relationships:
+              to: ref('base__snapchat_ads__ad_account_history')
+              field: ad_account_id
+              config:
+                severity: warn
+      - name: creative_name
+        description: The name of the creative in Snapchat.
+      - name: web_view_url
+        description: The URL of the creative if the creative is of type 'web view'.
+
+  - name: base__snapchat_ads__creative_url_tag_history
+    description: Each record in this table represents a URL paramter key-value pair for a creative in Snapchat.
+    columns:
+      - name: updated_at
+        description: When the creative_id was last updated.
+        tests:
+          - relationships:
+              to: ref('base__snapchat_ads__creative_history')
+              field: updated_at
+              config:
+                severity: warn
+      - name: creative_id
+        description: The ID of the related creative in Snapchat.
+        tests:
+          - relationships:
+              to: ref('base__snapchat_ads__creative_history')
+              field: creative_id
+              config:
+                severity: warn
+      - name: key
+        description: The URL parameter key, i.e. UTM_SOURCE.
+      - name: value
+        description: The URL parameter value, i.e. Snapchat.

@@ -74,6 +74,7 @@ vars:
   ## Twitter
   ad_reporting__twitter_ads_enabled: true
   ad_reporting__facebook_ads_enabled: true
+  ## Snapchat
   ad_reporting__snapchat_ads_enabled: true
   ## Tiktok
   ad_reporting__tiktok_ads_enabled: true

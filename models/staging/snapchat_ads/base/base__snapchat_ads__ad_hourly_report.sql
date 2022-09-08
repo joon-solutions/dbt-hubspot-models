@@ -8,15 +8,21 @@ with source as (
 renamed as (
 
     select
-        ad_id,
-        date as date_hour,
-        impressions,
-        swipes,
-        (spend / 1000000.0) as spend,
-        {{ dbt_utils.surrogate_key(['ad_id','date_hour']) }} as unique_id
-
+        {{
+            fivetran_utils.fill_staging_columns(
+                source_columns=adapter.get_columns_in_relation(source('snapchat_ads', 'ad_hourly_report')),
+                staging_columns=get_snapchat_ads_ad_hourly_report_columns()
+            )
+        }}
     from source
 
 )
 
-select * from renamed
+select 
+        ad_id,
+        date_hour,
+        impressions,
+        swipes,
+        (spend / 1000000.0) as spend,
+        {{ dbt_utils.surrogate_key(['ad_id','date_hour']) }} as unique_id
+from renamed
