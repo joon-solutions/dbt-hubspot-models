@@ -69,10 +69,11 @@ vars:
   ## Pinterest
   ad_reporting__pinterest_enabled: true
   pin_promotion_report_pass_through_metric: []
-  
+  ## Google 
   ad_reporting__google_ads_enabled: true
   ## Twitter
   ad_reporting__twitter_ads_enabled: true
+  ## Facebook
   ad_reporting__facebook_ads_enabled: true
   ## Snapchat
   ad_reporting__snapchat_ads_enabled: true

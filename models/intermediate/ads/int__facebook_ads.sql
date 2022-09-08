@@ -10,9 +10,9 @@ with base as (
 fields as (
 
     select
-        cast(date_day as date) as date_day,
+        date_day,
         account_name,
-        cast(account_id as {{ dbt_utils.type_string() }}) as account_id,
+        account_id,
         base_url,
         url_host,
         url_path,
@@ -21,9 +21,9 @@ fields as (
         utm_campaign,
         utm_content,
         utm_term,
-        cast(campaign_id as {{ dbt_utils.type_string() }}) as campaign_id,
+        campaign_id,
         campaign_name,
-        cast(ad_set_id as {{ dbt_utils.type_string() }}) as ad_group_id,
+        ad_set_id as ad_group_id,
         ad_set_name as ad_group_name,
         'Facebook Ads' as platform,
         sum(coalesce(clicks, 0)) as clicks,

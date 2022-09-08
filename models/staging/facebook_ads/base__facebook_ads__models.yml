@@ -30,12 +30,36 @@ models:
         description: The ID of this ad.
       - name: account_id
         description: The ID of the ad account that this ad belongs to.
+        tests:
+            - relationships:
+                to: ref('base__facebook_ads__account_history')
+                field: account_id
+                config:
+                  severity: warn
       - name: ad_set_id
         description: ID of the ad set that contains the ad.
+        tests:
+            - relationships:
+                to: ref('base__facebook_ads__ad_set_history')
+                field: ad_set_id
+                config:
+                  severity: warn
       - name: campaign_id
         description: Ad campaign that contains this ad.
+        tests:
+            - relationships:
+                to: ref('base__facebook_ads__campaign_history')
+                field: campaign_id
+                config:
+                  severity: warn
       - name: creative_id
         description: The ID of the ad creative to be used by this ad.
+        tests:
+            - relationships:
+                to: ref('base__facebook_ads__creative_history')
+                field: creative_id
+                config:
+                  severity: warn
       - name: ad_name
         description: Name of the ad.
       - name: is_most_recent_record
@@ -48,10 +72,28 @@ models:
         description: PK = ad_set_id || _fivetran_synced
       - name: ad_set_id
         description: The ID of the ad set.
+        tests:
+            - relationships:
+                to: ref('base__facebook_ads__ad_set_history')
+                field: ad_set_id
+                config:
+                  severity: warn
       - name: account_id
         description: The ID of the ad account that this ad set belongs to.
+        tests:
+            - relationships:
+                to: ref('base__facebook_ads__account_history')
+                field: account_id
+                config:
+                  severity: warn
       - name: campaign_id
         description: Ad campaign that contains this ad set.
+        tests:
+            - relationships:
+                to: ref('base__facebook_ads__campaign_history')
+                field: campaign_id
+                config:
+                  severity: warn
       - name: ad_set_name
         description: The name of the ad set.
       - name: is_most_recent_record
@@ -70,6 +112,12 @@ models:
         description: The ID of the campaign.
       - name: account_id
         description: The ID of the ad account that this campaign belongs to.
+        tests:
+            - relationships:
+                to: ref('base__facebook_ads__account_history')
+                field: account_id
+                config:
+                  severity: warn
       - name: campaign_name
         description: The name of the campaign.
       - name: is_most_recent_record
@@ -90,6 +138,12 @@ models:
         description: Unique ID for an ad creative.
       - name: account_id
         description: Ad account ID for the account this ad creative belongs to.
+        tests:
+            - relationships:
+                to: ref('base__facebook_ads__account_history')
+                field: account_id
+                config:
+                  severity: warn
       - name: creative_name
         description: Name of this ad creative as seen in the ad account's library.
       - name: url_tags
@@ -135,6 +189,12 @@ models:
             type: string
       - name: ad_id
         description: The ID of the ad the report relates to.
+        tests:
+            - relationships:
+                to: ref('base__facebook_ads__ad_history')
+                field: ad_id
+                config:
+                  severity: warn
       - name: date_day
         description: The date of the reported performance.
         meta:
@@ -142,6 +202,12 @@ models:
             type: date
       - name: account_id
         description: The ID of the ad account that this ad belongs to.
+        tests:
+            - relationships:
+                to: ref('base__facebook_ads__account_history')
+                field: account_id
+                config:
+                  severity: warn
       - name: impressions
         description: The number of impressions the ad had on the given day.
         meta:

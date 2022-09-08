@@ -73,16 +73,16 @@ joined as (
 
     from opportunity
     left join account
-        on opportunity.account_id = account.account_id
+        on opportunity.account_id = account.account_id --many-to-one
     left join users as opportunity_owner
-        on opportunity.owner_id = opportunity_owner.user_id
+        on opportunity.owner_id = opportunity_owner.user_id --many-to-one
     left join users as opportunity_manager
-        on opportunity_owner.manager_id = opportunity_manager.user_id
+        on opportunity_owner.manager_id = opportunity_manager.user_id --many-to-one
 
     -- If using user_role table, the following will be included, otherwise it will not.
     {% if var('salesforce__user_role_enabled', True) %}
         left join user_role
-            on opportunity_owner.user_role_id = user_role.user_role_id
+            on opportunity_owner.user_role_id = user_role.user_role_id --many-to-one
 
     {% endif %}
 )

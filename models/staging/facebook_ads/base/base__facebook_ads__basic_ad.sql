@@ -8,16 +8,29 @@ with source as (
 renamed as (
 
     select
+        {{
+            fivetran_utils.fill_staging_columns(
+                source_columns=adapter.get_columns_in_relation(source('facebook_ads', 'basic_ad')),
+                staging_columns=get_facebook_ads_basic_ad_columns()
+            )
+        }}
+        
+    from source
+),
+
+final as (
+
+    select
         ad_id,
-        date as date_day,
+        date_day,
         account_id,
         impressions,
-        inline_link_clicks as clicks,
+        clicks,
         spend,
         {{ dbt_utils.surrogate_key(['ad_id','account_id','date_day']) }} as unique_id
 
-    from source
+    from renamed
 
 )
 
-select * from renamed
+select * from final
