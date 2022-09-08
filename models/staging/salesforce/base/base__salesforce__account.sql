@@ -7,6 +7,25 @@ with source as (
 renamed as (
 
     select
+
+    {{
+        fivetran_utils.fill_staging_columns(
+            source_columns=adapter.get_columns_in_relation(source('salesforce', 'account')),
+            staging_columns = get_salesforce_account_columns()
+        )
+    }}
+
+        --The below script allows for pass through columns.
+        {% if var('account_pass_through_columns',[]) != [] %},
+        {{ var('account_pass_through_columns') | join (", ") }}
+    {% endif %}
+
+    from source
+),
+
+final as (
+
+    select
         id as account_id,
         account_source,
         name as account_name,
@@ -25,13 +44,13 @@ renamed as (
         industry
 
         --The below script allows for pass through columns.
-        {% if var('account_pass_through_columns',[]) != [] %}
-        , {{ var('account_pass_through_columns') | join (", ") }}
+        {% if var('account_pass_through_columns',[]) != [] %},
+            {{ var('account_pass_through_columns') | join (", ") }}
 
         {% endif %}
 
-    from source
+    from renamed
 
 )
 
-select * from renamed
+select * from final
