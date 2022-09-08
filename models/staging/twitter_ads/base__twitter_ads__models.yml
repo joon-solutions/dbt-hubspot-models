@@ -1,43 +1,43 @@
 version: 2
 
 models:
-  - name: base__twitter_ads__account_history
-    description: Each record represents a version of each account. The versions can be differentiated by the updated_at timestamp.
-    columns:
-      - name: unique_id
-        description: PK = account_id || updated_timestamp
-        tests:
-          - unique
-          - not_null
-          - dbt_utils.at_least_one
-      - name: _fivetran_synced
-        description: Timestamp of when Fivetran synced a record.
-      - name: approval_status
-        description: The approval status of the account.
-      - name: business_id
-        description: The ID of the related business.
-      - name: business_name
-        description: The name of the related business.
-      - name: created_timestamp
-        description: The timestamp the account was last updated.
-      - name: is_deleted
-        description: Whether the record has been deleted or not.
-      - name: account_id
-        description: The ID of the account.
-      - name: industry_type
-        description: The industry of the accounts.
-      - name: name
-        description: The name of the account.
-      - name: timezone
-        description: The timezone the account is set to.
-      - name: timezone_switch_at
-        description: The timestamp the account's timezone was last changed.
-      - name: updated_timestamp
-        description: The timestamp the account was last updated.
-      - name: is_latest_version
-        description: Whether the record is the most latest version for the account
-      - name: salt
-        description: The random encryption key used to has data.
+  # - name: base__twitter_ads__account_history
+  #   description: Each record represents a version of each account. The versions can be differentiated by the updated_at timestamp.
+  #   columns:
+  #     - name: unique_id
+  #       description: PK = account_id || updated_timestamp
+  #       tests:
+  #         - unique
+  #         - not_null
+  #         - dbt_utils.at_least_one
+  #     - name: _fivetran_synced
+  #       description: Timestamp of when Fivetran synced a record.
+  #     - name: approval_status
+  #       description: The approval status of the account.
+  #     - name: business_id
+  #       description: The ID of the related business.
+  #     - name: business_name
+  #       description: The name of the related business.
+  #     - name: created_timestamp
+  #       description: The timestamp the account was last updated.
+  #     - name: is_deleted
+  #       description: Whether the record has been deleted or not.
+  #     - name: account_id
+  #       description: The ID of the account.
+  #     - name: industry_type
+  #       description: The industry of the accounts.
+  #     - name: name
+  #       description: The name of the account.
+  #     - name: timezone
+  #       description: The timezone the account is set to.
+  #     - name: timezone_switch_at
+  #       description: The timestamp the account's timezone was last changed.
+  #     - name: updated_timestamp
+  #       description: The timestamp the account was last updated.
+  #     - name: is_latest_version
+  #       description: Whether the record is the most latest version for the account
+  #     - name: salt
+  #       description: The random encryption key used to has data.
 
   - name: base__twitter_ads__campaign_history
     description: Each record represents a version of each campaign. The versions can be differentiated by the updated_at timestamp.
@@ -52,12 +52,12 @@ models:
         description: Timestamp of when Fivetran synced a record.
       - name: account_id
         description: The ID of the related account.
-        tests:
-          - relationships:
-              to: ref('base__twitter_ads__account_history')
-              field: account_id
-              config:
-                severity: warn
+        # tests:
+        #   - relationships:
+        #       to: ref('base__twitter_ads__account_history')
+        #       field: account_id
+        #       config:
+        #         severity: warn
       - name: created_timestamp
         description: The timestamp the account was last updated.
       - name: currency
