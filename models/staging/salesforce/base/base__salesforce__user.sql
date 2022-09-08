@@ -1,3 +1,6 @@
+--To disable this model, set the below variable within your dbt_project.yml file to False.
+{{ config(enabled=var('salesforce__user_enabled', True)) }}
+
 with source as (
 
     select * from {{ source('salesforce', 'user') }}
@@ -5,10 +8,28 @@ with source as (
 ),
 
 renamed as (
+    select
+
+    {{
+        fivetran_utils.fill_staging_columns(
+            source_columns=adapter.get_columns_in_relation(source('salesforce', 'user')),
+            staging_columns = get_salesforce_user_columns()
+        )
+    }}
+
+        --The below script allows for pass through columns.
+        {% if var('user_pass_through_columns',[]) != [] %},
+        {{ var('user_pass_through_columns') | join (", ") }}
+    {% endif %}
+
+    from source
+),
+
+final as (
 
     select
         -- PK
-        id as user_id,
+        user_id,
         -- FK
         user_role_id,
         individual_id,
@@ -25,7 +46,7 @@ renamed as (
         department,
         user_type,
         alias,
-        name as user_name,
+        user_name,
         company_name,
         email,
         last_name,
@@ -41,13 +62,12 @@ renamed as (
         cast(last_login_date as {{ dbt_utils.type_timestamp() }}) as last_login_date
 
         --The below script allows for pass through columns.
-        {% if var('user_pass_through_columns',[]) != [] %}
-        , {{ var('user_pass_through_columns') | join (", ") }}
-
+        {% if var('user_pass_through_columns',[]) != [] %},
+            {{ var('user_pass_through_columns') | join (", ") }}
         {% endif %}
 
-    from source
+    from renamed
 
 )
 
-select * from renamed
+select * from final

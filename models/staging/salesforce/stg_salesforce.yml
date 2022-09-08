@@ -2,10 +2,10 @@ version: 2
 
 models:
 
-  - name: stg__salesforce__combined
+  - name: stg__salesforce__opportunity
     description: Represents salesforce information with users, opportunity & account information.
     columns:
-      - name: id
+      - name: opportunity_id
         description: The unique, system-generated ID assigned during creation
         tests: 
           - not_null
