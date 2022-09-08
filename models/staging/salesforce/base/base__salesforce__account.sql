@@ -1,3 +1,6 @@
+--To disable this model, set the below variable within your dbt_project.yml file to False.
+{{ config(enabled=var('salesforce__account_enabled', True)) }}
+
 with source as (
 
     select * from {{ source('salesforce', 'account') }}
