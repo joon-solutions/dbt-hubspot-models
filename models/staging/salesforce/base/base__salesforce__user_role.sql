@@ -10,20 +10,38 @@ with source as (
 renamed as (
 
     select
+
+    {{
+        fivetran_utils.fill_staging_columns(
+            source_columns=adapter.get_columns_in_relation(source('salesforce', 'user_role')),
+            staging_columns = get_salesforce_user_role_columns()
+        )
+    }}
+
+        --The below script allows for pass through columns.
+        {% if var('user_role_pass_through_columns',[]) != [] %},
+        {{ var('user_role_pass_through_columns') | join (", ") }}
+    {% endif %}
+
+    from source
+),
+
+final as (
+
+    select
         developer_name,
-        id as user_role_id,
-        name as user_role_name,
+        user_role_id,
+        user_role_name,
         cast(_fivetran_synced as {{ dbt_utils.type_timestamp() }}) as _fivetran_synced,
         parent_role_id,
         rollup_description
 
         --The below script allows for pass through columns.
-        {% if var('user_role_pass_through_columns',[]) != [] %}
-        , {{ var('user_role_pass_through_columns') | join (", ") }}
-
+        {% if var('user_pass_through_columns',[]) != [] %},
+            {{ var('user_pass_through_columns') | join (", ") }}
         {% endif %}
 
-    from source
+    from renamed
 )
 
-select * from renamed
+select * from final

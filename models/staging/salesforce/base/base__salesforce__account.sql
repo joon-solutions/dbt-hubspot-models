@@ -1,3 +1,6 @@
+--To disable this model, set the below variable within your dbt_project.yml file to False.
+{{ config(enabled=var('salesforce__account_enabled', True)) }}
+
 with source as (
 
     select * from {{ source('salesforce', 'account') }}
@@ -7,14 +10,33 @@ with source as (
 renamed as (
 
     select
-        id as account_id,
+
+    {{
+        fivetran_utils.fill_staging_columns(
+            source_columns=adapter.get_columns_in_relation(source('salesforce', 'account')),
+            staging_columns = get_salesforce_account_columns()
+        )
+    }}
+
+        --The below script allows for pass through columns.
+        {% if var('account_pass_through_columns',[]) != [] %},
+        {{ var('account_pass_through_columns') | join (", ") }}
+    {% endif %}
+
+    from source
+),
+
+final as (
+
+    select
+        account_id,
         account_source,
-        name as account_name,
+        account_name,
         cast(_fivetran_synced as {{ dbt_utils.type_timestamp() }}) as _fivetran_synced,
-        description as account_description,
+        account_description,
         cast(last_activity_date as {{ dbt_utils.type_timestamp() }}) as last_activity_date,
         cast(last_viewed_date as {{ dbt_utils.type_timestamp() }}) as last_viewed_date,
-        type as account_type,
+        account_type,
         billing_city,
         billing_street,
         billing_country,
@@ -25,13 +47,13 @@ renamed as (
         industry
 
         --The below script allows for pass through columns.
-        {% if var('account_pass_through_columns',[]) != [] %}
-        , {{ var('account_pass_through_columns') | join (", ") }}
+        {% if var('account_pass_through_columns',[]) != [] %},
+            {{ var('account_pass_through_columns') | join (", ") }}
 
         {% endif %}
 
-    from source
+    from renamed
 
 )
 
-select * from renamed
+select * from final
