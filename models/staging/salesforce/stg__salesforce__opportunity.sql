@@ -2,11 +2,11 @@ with source as (
 
     select *
     from {{ ref('base__salesforce__opportunity') }}
-), 
+),
 
 final as (
-        
-    select 
+
+    select
         *,
         created_date >= {{ dbt_utils.date_trunc('month', dbt_utils.current_timestamp()) }} as is_created_this_month,
         created_date >= {{ dbt_utils.date_trunc('quarter', dbt_utils.current_timestamp()) }} as is_created_this_quarter,

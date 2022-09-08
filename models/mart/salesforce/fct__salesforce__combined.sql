@@ -55,10 +55,10 @@ joined as (
             when not opportunity.is_closed and lower(opportunity.forecast_category) in ('pipeline', 'forecast', 'bestcase') then 'Pipeline'
             else 'Other'
         end as status,
-        case when opportunity.is_created_this_month then amount else 0 end as created_amount_this_month,
-        case when opportunity.is_created_this_quarter then amount else 0 end as created_amount_this_quarter,
-        case when opportunity.is_closed_this_month then amount else 0 end as closed_amount_this_month,
-        case when opportunity.is_closed_this_quarter then amount else 0 end as closed_amount_this_quarter
+        case when opportunity.is_created_this_month then opportunity.amount else 0 end as created_amount_this_month,
+        case when opportunity.is_created_this_quarter then opportunity.amount else 0 end as created_amount_this_quarter,
+        case when opportunity.is_closed_this_month then opportunity.amount else 0 end as closed_amount_this_month,
+        case when opportunity.is_closed_this_quarter then opportunity.amount else 0 end as closed_amount_this_quarter
 
         --The below script allows for pass through columns.
 
