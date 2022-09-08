@@ -10,7 +10,7 @@ renamed as (
 
     select
         {{
-            fivetran_utils.fill_staging_columns(
+            fill_staging_columns(
                 source_columns=adapter.get_columns_in_relation(source('tiktok_ads', 'advertiser')),
                 staging_columns=get_tiktok_ads_adsvertiser_columns()
             )

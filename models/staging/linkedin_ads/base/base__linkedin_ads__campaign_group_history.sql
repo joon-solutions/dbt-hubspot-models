@@ -9,7 +9,7 @@ renamed as (
 
     select
         {{
-            fivetran_utils.fill_staging_columns(
+            fill_staging_columns(
                 source_columns=adapter.get_columns_in_relation(source('linkedin_ads', 'campaign_group_history')),
                 staging_columns=get_linkedin_ads_campaign_group_history_columns()
             )
@@ -19,7 +19,7 @@ renamed as (
 
 final as (
 
-    select 
+    select
         *,
         case
             when row_number() over (partition by campaign_group_id order by last_modified_at) = 1 then created_at

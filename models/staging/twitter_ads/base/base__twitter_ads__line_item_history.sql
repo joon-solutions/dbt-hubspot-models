@@ -9,7 +9,7 @@ renamed as (
 
     select
         {{
-            fivetran_utils.fill_staging_columns(
+            fill_staging_columns(
                 source_columns=adapter.get_columns_in_relation(source('twitter_ads', 'line_item_history')),
                 staging_columns=get_twitter_ads_line_item_history_columns()
             )

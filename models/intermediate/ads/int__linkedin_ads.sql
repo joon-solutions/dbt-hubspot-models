@@ -18,7 +18,7 @@ fields as (
         campaign_group_name as campaign_name,
         campaign_id,
         campaign_name as ad_group_name,
-        ad_group_id,
+        campaign_group_id as ad_group_id,
         base_url,
         url_host,
         url_path,

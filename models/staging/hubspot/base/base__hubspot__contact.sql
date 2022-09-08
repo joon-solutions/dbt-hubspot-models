@@ -10,7 +10,7 @@ renamed as (
 
     select
         {{
-            fivetran_utils.fill_staging_columns(
+            fill_staging_columns(
                 source_columns=adapter.get_columns_in_relation(source('hubspot', 'contact')),
                 staging_columns = get_hubspot_contact_columns()
             )

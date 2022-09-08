@@ -44,15 +44,29 @@ jobs:
 
       - name: Check required tests
         run: |
-          dbt run-operation --profiles-dir . required_tests
+          dbt run-operation required_tests
 
       - name: Lint with sqlfluff
         run: |
           git fetch origin main:main
           git diff main --name-only --diff-filter=d | egrep '^models/.*sql$$' | xargs -r sqlfluff lint
+          
+      ## In some case, manifest file artifact cannot be downloaded.
+      # Then, compile current code to create a new manifest file.
+      # Note, because previous dbt state is missing, all models will be
+      # run and tested.
+      - name: Create new Dbt manifest if cannot download
+        if: steps.download_dbt_manifest.outcome == 'failure'
+        run: |
+          dbt compile
+          cp target/manifest.json .
 
-      - name: Run dbt model
-        run: dbt run
+      ## Run delta models
+      - name: Run models
+        id: run_dbt
+        run: dbt run -m state:modified+ --state .
 
-      - name: Test dbt model
-        run: dbt test --exclude tag:manual_input_test
+      ## Test delta models
+      - name: Test models
+        run: dbt test -m state:modified+ --state .
+

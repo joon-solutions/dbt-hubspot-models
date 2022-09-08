@@ -9,20 +9,20 @@ renamed as (
 
     select
         {{
-            fivetran_utils.fill_staging_columns(
+            fill_staging_columns(
                 source_columns=adapter.get_columns_in_relation(source('snapchat_ads', 'ad_account_history')),
                 staging_columns=get_snapchat_ads_ad_account_history_columns()
             )
         }}
-        -- id as ad_account_id,
-        -- name as ad_account_name,
-        -- _fivetran_synced,
+    -- id as ad_account_id,
+    -- name as ad_account_name,
+    -- _fivetran_synced,
     from source
 
 )
 
-select 
-        *,
-        row_number() over (partition by ad_account_id order by _fivetran_synced desc) = 1 as is_most_recent_record,
-        {{ dbt_utils.surrogate_key(['ad_account_id','_fivetran_synced']) }} as unique_id
+select
+    *,
+    row_number() over (partition by ad_account_id order by _fivetran_synced desc) = 1 as is_most_recent_record,
+    {{ dbt_utils.surrogate_key(['ad_account_id','_fivetran_synced']) }} as unique_id
 from renamed

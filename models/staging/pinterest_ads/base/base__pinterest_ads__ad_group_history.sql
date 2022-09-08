@@ -9,7 +9,7 @@ renamed as (
     select
 
         {{
-            fivetran_utils.fill_staging_columns(
+            fill_staging_columns(
                 source_columns=adapter.get_columns_in_relation(source('pinterest_ads', 'ad_group_history')),
                 staging_columns = get_pinterest_ads_ad_group_history_columns()
             )
@@ -28,9 +28,9 @@ renamed as (
 
 )
 
-select 
-        *,
-        {{ dbt_utils.surrogate_key(['ad_group_id','_fivetran_synced'] ) }} as version_id,
-        row_number() over (partition by ad_group_id order by _fivetran_synced desc) as is_latest_version
+select
+    *,
+    {{ dbt_utils.surrogate_key(['ad_group_id','_fivetran_synced'] ) }} as version_id,
+    row_number() over (partition by ad_group_id order by _fivetran_synced desc) as is_latest_version
 
 from renamed

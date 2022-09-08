@@ -12,7 +12,7 @@ fields as (
     select
         unique_id,
         advertiser_name as account_name,
-        account_id,
+        advertiser_id as account_id,
         date_day,
         base_url,
         url_host,

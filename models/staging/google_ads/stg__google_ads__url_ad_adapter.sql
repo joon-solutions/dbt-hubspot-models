@@ -64,14 +64,13 @@ fields as (
     left join ads
         on stats.ad_id = ads.ad_id ---many-to-one
     left join ad_groups
-        on ads.ad_group_id = ad_groups.ad_group_id --many-to-one
+        on stats.ad_group_id = ad_groups.ad_group_id --many-to-one
     left join campaigns
-        on ad_groups.campaign_id = campaigns.campaign_id --many-to-one
+        on stats.campaign_id = campaigns.campaign_id --many-to-one
     left join accounts
-        on campaigns.account_id = accounts.account_id --many-to-one
+        on stats.account_id = accounts.account_id --many-to-one
     {{ dbt_utils.group_by(16) }}
 
 )
 
-select *
-from fields
+select * from fields

@@ -9,7 +9,7 @@ renamed as (
 
     select
         {{
-            fivetran_utils.fill_staging_columns(
+            fill_staging_columns(
                 source_columns=adapter.get_columns_in_relation(source('microsoft_ads', 'campaign_history')),
                 staging_columns = get_microsoft_ads_campaign_history_columns()
             )
@@ -23,8 +23,8 @@ renamed as (
 
 )
 
-select 
-        *,
-        {{ dbt_utils.surrogate_key(['campaign_id','modified_timestamp']) }} as campaign_version_id,
-        row_number() over (partition by campaign_id order by modified_timestamp desc) = 1 as is_most_recent_version
+select
+    *,
+    {{ dbt_utils.surrogate_key(['campaign_id','modified_timestamp']) }} as campaign_version_id,
+    row_number() over (partition by campaign_id order by modified_timestamp desc) = 1 as is_most_recent_version
 from renamed

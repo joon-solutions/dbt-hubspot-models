@@ -4,7 +4,7 @@
     {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
     {"name": "action_days", "datatype": dbt_utils.type_numeric()},
     {"name": "adgroup_id", "datatype": dbt_utils.type_string(), "alias": "ad_group_id"},
-    {"name": "adgroup_name", "datatype": dbt_utils.type_string()},
+    {"name": "adgroup_name", "datatype": dbt_utils.type_string(),"alias": "ad_group_name"},
     {"name": "advertiser_id", "datatype": dbt_utils.type_string()},
     {"name": "android_osv", "datatype": dbt_utils.type_string()},
     {"name": "app_download_url", "datatype": dbt_utils.type_string()},

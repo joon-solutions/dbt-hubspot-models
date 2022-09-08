@@ -9,12 +9,12 @@ renamed as (
 
     select
         {{
-            fivetran_utils.fill_staging_columns(
+            fill_staging_columns(
                 source_columns=adapter.get_columns_in_relation(source('facebook_ads', 'ad_set_history')),
                 staging_columns=get_facebook_ads_ad_set_history_columns()
             )
         }}
-        
+
     from source
 ),
 
