@@ -26,14 +26,14 @@ renamed as (
 final as (
 
     select
-        id as account_id,
+        account_id,
         account_source,
-        name as account_name,
+        account_name,
         cast(_fivetran_synced as {{ dbt_utils.type_timestamp() }}) as _fivetran_synced,
-        description as account_description,
+        account_description,
         cast(last_activity_date as {{ dbt_utils.type_timestamp() }}) as last_activity_date,
         cast(last_viewed_date as {{ dbt_utils.type_timestamp() }}) as last_viewed_date,
-        type as account_type,
+        account_type,
         billing_city,
         billing_street,
         billing_country,

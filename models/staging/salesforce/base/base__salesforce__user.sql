@@ -26,7 +26,7 @@ final as (
 
     select
         -- PK
-        id as user_id,
+        user_id,
         -- FK
         user_role_id,
         individual_id,
@@ -43,7 +43,7 @@ final as (
         department,
         user_type,
         alias,
-        name as user_name,
+        user_name,
         company_name,
         email,
         last_name,

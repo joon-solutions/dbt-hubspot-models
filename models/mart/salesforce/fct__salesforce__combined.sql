@@ -82,8 +82,4 @@ joined as (
     {% endif %}
 )
 
-select
-    *,
-    {{ dbt_utils.surrogate_key(['opportunity_id','opportunity_owner_id']) }} as id
-
-from joined
+select * from joined

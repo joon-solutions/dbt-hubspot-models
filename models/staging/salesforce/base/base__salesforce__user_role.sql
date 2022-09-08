@@ -30,8 +30,8 @@ final as (
 
     select
         developer_name,
-        id as user_role_id,
-        name as user_role_name,
+        user_role_id,
+        user_role_name,
         cast(_fivetran_synced as {{ dbt_utils.type_timestamp() }}) as _fivetran_synced,
         parent_role_id,
         rollup_description
