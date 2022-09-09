@@ -42,6 +42,12 @@ models:
         description: The type of the ad group in Google Ads.
       - name: campaign_id
         description: The ID of the Campaign.
+        tests:
+            - relationships:
+                to: ref('base__google_ads__campaign_history')
+                field: campaign_id
+                config:
+                  severity: warn
       - name: campaign_name
         description: The name of the Campaign.
       - name: ad_group_name
@@ -62,6 +68,12 @@ models:
           - dbt_utils.at_least_one
       - name: ad_group_id
         description: The ID of the AdGroup.
+        tests:
+            - relationships:
+                to: ref('base__google_ads__ad_group_history')
+                field: ad_group_id
+                config:
+                  severity: warn
       - name: ad_id
         description: The ID of the Ad.
       - name: updated_timestamp
@@ -111,14 +123,38 @@ models:
           - dbt_utils.at_least_one
       - name: account_id
         description: The Customer ID.
+        tests:
+            - relationships:
+                to: ref('base__google_ads__account_history')
+                field: account_id
+                config:
+                  severity: warn
       - name: date_day
         description: The date being reported on.
       - name: ad_group_id
         description: The ID of the AdGroup.
+        tests:
+            - relationships:
+                to: ref('base__google_ads__ad_group_history')
+                field: ad_group_id
+                config:
+                  severity: warn
       - name: ad_id
         description: The ID of the Ad.
+        tests:
+            - relationships:
+                to: ref('base__google_ads__ad_history')
+                field: ad_id
+                config:
+                  severity: warn
       - name: campaign_id
         description: The ID of the Campaign.
+        tests:
+            - relationships:
+                to: ref('base__google_ads__campaign_history')
+                field: campaign_id
+                config:
+                  severity: warn
       - name: clicks
         description: The number of clicks.
       - name: spend
@@ -145,5 +181,11 @@ models:
         description: The name of the Campaign.
       - name: account_id
         description: The Customer ID.
+        tests:
+            - relationships:
+                to: ref('base__google_ads__account_history')
+                field: account_id
+                config:
+                  severity: warn
       - name: is_most_recent_record
         description: Boolean representing whether the record is the most recent version of the object.

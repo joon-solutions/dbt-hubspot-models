@@ -8,6 +8,12 @@ models:
         description: Ad group ID.
       - name: campaign_id
         description: Parent Campaign ID.
+        tests:
+          - relationships:
+              to: ref('base__pinterest_ads__campaign_history')
+              field: campaign_id
+              config:
+                severity: warn
       - name: created_timestamp
         description: Ad group creation time.
       - name: name
@@ -54,6 +60,12 @@ models:
         description: Pin promotion ID.
       - name: ad_group_id
         description: Pin promotion ad group ID.
+        tests:
+          - relationships:
+              to: ref('base__pinterest_ads__ad_group_history')
+              field: ad_group_id
+              config:
+                severity: warn
       - name: created_timestamp
         description: Pin creation time.
       - name: destination_url
@@ -104,13 +116,31 @@ models:
             type: date
       - name: pin_promotion_id
         description: The ID of the related Pin promotion.
+        tests:
+          - relationships:
+              to: ref('base__pinterest_ads__pin_promotion_history')
+              field: pin_promotion_id
+              config:
+                severity: warn
         meta:
           dimension:
             type: string
       - name: ad_group_id
         description: The ID of the related Ad group.
+        tests:
+          - relationships:
+              to: ref('base__pinterest_ads__ad_group_history')
+              field: ad_group_id
+              config:
+                severity: warn
       - name: campaign_id
         description: The ID of the related Campaign.
+        tests:
+          - relationships:
+              to: ref('base__pinterest_ads__campaign_history')
+              field: campaign_id
+              config:
+                severity: warn
       - name: advertiser_id
         description: The ID of the related Advertiser.
       - name: _fivetran_synced

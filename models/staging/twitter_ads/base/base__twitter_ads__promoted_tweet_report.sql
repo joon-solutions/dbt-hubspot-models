@@ -8,19 +8,25 @@ with source as (
 renamed as (
 
     select
-        _fivetran_synced,
-        account_id,
-        clicks,
+
+        {{
+            fill_staging_columns(
+                source_columns=adapter.get_columns_in_relation(source('twitter_ads', 'promoted_tweet_report')),
+                staging_columns=get_twitter_ads_promoted_tweet_report_columns()
+            )
+        }}
+
+    from source
+),
+
+final as (
+
+    select
+        *,
         cast(date as date) as date_day,
-        impressions,
-        promoted_tweet_id,
-        url_clicks,
         round(billed_charge_local_micro / 1000000.0, 2) as spend,
         {{ dbt_utils.surrogate_key(['account_id','promoted_tweet_id','date_day']) }} as unique_id
-    from source
-
+    from renamed
 )
 
-select *
-
-from renamed
+select * from final

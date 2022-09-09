@@ -69,10 +69,22 @@ models:
         description: Time the record was updated.
       - name: advertiser_id
         description: Advertiser ID
+        tests:
+          - relationships:
+              to: ref('base__tiktok_ads__advertiser')
+              field: advertiser_id
+              config:
+                severity: warn
       - name: action_categories
         description: IDs of the action categories (behaviors) that you want to target.
       - name: campaign_id
         description: The Ad group's campaign ID.
+        tests:
+          - relationships:
+              to: ref('base__tiktok_ads__campaign_history')
+              field: campaign_id
+              config:
+                severity: warn
       - name: action_days
         description: Action days
       - name: ad_group_name
@@ -124,12 +136,30 @@ models:
         description: Time the record was updated.
       - name: ad_group_id
         description: Ad group ID
+        tests:
+          - relationships:
+              to: ref('base__tiktok_ads__adgroup_history')
+              field: ad_group_id
+              config:
+                severity: warn
       - name: advertiser_id
         description: Advertiser ID
+        tests:
+          - relationships:
+              to: ref('base__tiktok_ads__advertiser')
+              field: advertiser_id
+              config:
+                severity: warn
       - name: base_url
         description: The base URL of the ad, extracted from the `landing page url`.
       - name: campaign_id
         description: Campaign ID
+        tests:
+          - relationships:
+              to: ref('base__tiktok_ads__campaign_history')
+              field: campaign_id
+              config:
+                severity: warn
       - name: ad_name
         description: Ad Name.
       - name: ad_text
@@ -181,6 +211,12 @@ models:
         description: Time the record was updated.
       - name: advertiser_id
         description: Advertiser ID
+        tests:
+          - relationships:
+              to: ref('base__tiktok_ads__advertiser')
+              field: advertiser_id
+              config:
+                severity: warn
       - name: campaign_name
         description: Campaign name
       - name: campaign_type
@@ -207,6 +243,12 @@ models:
             type: string
       - name: ad_id
         description: Ad id
+        tests:
+          - relationships:
+              to: ref('base__tiktok_ads__ad_history')
+              field: ad_id
+              config:
+                severity: warn
       - name: stat_time_hour
         description: Hour of activity
       - name: cost_per_conversion

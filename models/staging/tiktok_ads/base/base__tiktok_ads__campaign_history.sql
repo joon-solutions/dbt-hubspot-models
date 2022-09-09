@@ -9,13 +9,12 @@ with source as (
 final as (
 
     select
-        campaign_id,
-        updated_at,
-        advertiser_id,
-        campaign_name,
-        campaign_type,
-        split_test_variable,
-        _fivetran_synced
+        {{
+            fill_staging_columns(
+                source_columns=adapter.get_columns_in_relation(source('tiktok_ads', 'campaign_history')),
+                staging_columns=get_tiktok_ads_campaign_history_columns()
+            )
+        }}
 
     from source
 

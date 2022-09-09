@@ -5,18 +5,31 @@ with source as (
 
 ),
 
+renamed as (
+
+    select
+        {{
+            fill_staging_columns(
+                source_columns=adapter.get_columns_in_relation(source('google_ads', 'ad_history')),
+                staging_columns=get_google_ads_ad_history_columns()
+            )
+        }}
+
+    from source
+),
+
 final as (
 
     select
         ad_group_id,
-        id as ad_id,
-        updated_at as updated_timestamp,
+        ad_id,
+        updated_at,
         _fivetran_synced,
-        type as ad_type,
-        status as ad_status,
-        final_urls as source_final_urls,
-        replace(replace(final_urls, '[', ''), ']', '') as final_urls
-    from source
+        ad_type,
+        ad_status,
+        source_final_urls,
+        replace(replace(source_final_urls, '[', ''), ']', '') as final_urls
+    from renamed
 ),
 
 most_recent as (
@@ -24,7 +37,7 @@ most_recent as (
     select
         ad_group_id,
         ad_id,
-        updated_timestamp,
+        updated_at,
         _fivetran_synced,
         ad_type,
         ad_status,
@@ -33,7 +46,7 @@ most_recent as (
         --Extract the first url within the list of urls provided within the final_urls field
         {{ dbt_utils.split_part(string_text='final_urls', delimiter_text="','", part_number=1) }} as final_url,
 
-        row_number() over (partition by ad_id order by updated_timestamp desc) = 1 as is_most_recent_record
+        row_number() over (partition by ad_id order by updated_at desc) = 1 as is_most_recent_record
     from final
 
 ),

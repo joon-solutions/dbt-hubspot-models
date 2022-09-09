@@ -18,6 +18,7 @@ models:
           - dbt_utils.at_least_one
       - name: is_most_recent_version
         description: A boolean field for whether the version is the most up-to-date version of the account.
+  
   - name: base__microsoft_ads__ad_group_history
     description: Each record in this table represents a version of a Microsoft ad group.
     columns:
@@ -25,6 +26,12 @@ models:
         description: The ID of the ad group.
       - name: campaign_id
         description: The ID of the corresponding campaign.
+        tests:
+          - relationships:
+              to: ref('base__microsoft_ads__campaign_history')
+              field: campaign_id
+              config:
+                severity: warn
       - name: ad_group_name
         description: The name of the ad group.
       - name: modified_timestamp
@@ -37,6 +44,7 @@ models:
           - dbt_utils.at_least_one
       - name: is_most_recent_version
         description: A boolean field for whether the version is the most up-to-date version of the ad group.
+  
   - name: base__microsoft_ads__ad_history
     description: Each record in this table represents a version of a Microsoft ad.
     columns:
@@ -44,6 +52,12 @@ models:
         description: The ID of the ad.
       - name: ad_group_id
         description: The ID of the corresponding ad group.
+        tests:
+          - relationships:
+              to: ref('base__microsoft_ads__ad_group_history')
+              field: ad_group_id
+              config:
+                severity: warn
       - name: final_url
         description: The full URL that the ad links to.
       - name: modified_timestamp
@@ -56,13 +70,16 @@ models:
           - dbt_utils.at_least_one
       - name: is_most_recent_version
         description: A boolean field for whether the version is the most up-to-date version of the ad.
+  
   - name: base__microsoft_ads__ad_performance_daily_report
     description: Each record in this table represents the daily performance of a Microsoft ad.
     columns:
       - name: unique_id
-        description: A unique ID = 'account_id' || 'campaign_id' || 'ad_group_id' || 'ad_id' || 'date_day'
+        description: A unique ID
         tests:
-          - unique
+          - unique:
+              config:
+                severity: warn
           - not_null
           - dbt_utils.at_least_one    
         meta:
@@ -75,12 +92,36 @@ models:
             type: date
       - name: account_id
         description: The ID of the corresponding account.
+        tests:
+          - relationships:
+              to: ref('base__microsoft_ads__account_history')
+              field: account_id
+              config:
+                severity: warn
       - name: campaign_id
         description: The ID of the corresponding campaign.
+        tests:
+          - relationships:
+              to: ref('base__microsoft_ads__campaign_history')
+              field: campaign_id
+              config:
+                severity: warn
       - name: ad_group_id
         description: The ID of the corresponding ad group.
+        tests:
+          - relationships:
+              to: ref('base__microsoft_ads__ad_group_history')
+              field: ad_group_id
+              config:
+                severity: warn
       - name: ad_id
         description: The ID of the corresponding ad.
+        tests:
+          - relationships:
+              to: ref('base__microsoft_ads__ad_history')
+              field: ad_id
+              config:
+                severity: warn
       - name: currency_code
         description: The currency that spend and other metrics are reported in.
       - name: clicks
@@ -103,6 +144,7 @@ models:
           metrics:
               total_spend:
                 type: sum
+  
   - name: base__microsoft_ads__campaign_history
     description: Each record in this table represents a version of a Microsoft campaign.
     columns:
@@ -110,6 +152,12 @@ models:
         description: The ID of the campaign.
       - name: account_id
         description: The ID of the corresponding account.
+        tests:
+          - relationships:
+              to: ref('base__microsoft_ads__account_history')
+              field: account_id
+              config:
+                severity: warn
       - name: campaign_name
         description: The name of the campaign.
       - name: modified_timestamp

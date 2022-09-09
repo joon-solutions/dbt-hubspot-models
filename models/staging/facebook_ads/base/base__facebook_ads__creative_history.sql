@@ -8,10 +8,23 @@ with source as (
 renamed as (
 
     select
+        {{
+            fill_staging_columns(
+                source_columns=adapter.get_columns_in_relation(source('facebook_ads', 'creative_history')),
+                staging_columns=get_facebook_ads_creative_history_columns()
+            )
+        }}
+
+    from source
+),
+
+final as (
+
+    select
         _fivetran_id,
-        id as creative_id,
+        creative_id,
         account_id,
-        name as creative_name,
+        creative_name,
         page_link,
         template_page_link,
         url_tags,
@@ -22,11 +35,11 @@ renamed as (
         object_story_link_data_link,
         object_story_link_data_message,
         template_app_link_spec_ios,
-        row_number() over (partition by id order by _fivetran_synced desc) = 1 as is_most_recent_record,
+        row_number() over (partition by creative_id order by _fivetran_synced desc) = 1 as is_most_recent_record,
         {{ dbt_utils.surrogate_key(['creative_id','_fivetran_synced']) }} as unique_id
 
-    from source
+    from renamed
 
 )
 
-select * from renamed
+select * from final

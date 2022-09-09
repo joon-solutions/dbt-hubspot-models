@@ -33,7 +33,7 @@ campaigns as (
 joined as (
 
     select
-        report.date_day as campaign_date,
+        report.date_day,
         report.ad_group_id,
         report.campaign_id,
         report.spend,
@@ -65,14 +65,14 @@ aggregates as (
     select
         {{ dbt_utils.surrogate_key(
             [
-                'campaign_date',
+                'date_day',
                 'campaign_id',
                 'ad_group_id',
                 'destination_url'
             ]
         ) }} as daily_id,
 
-        campaign_date,
+        date_day,
         base_url,
         url_host,
         url_path,

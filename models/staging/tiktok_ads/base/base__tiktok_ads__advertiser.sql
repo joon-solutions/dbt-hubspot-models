@@ -9,29 +9,12 @@ with source as (
 renamed as (
 
     select
-        id as advertiser_id,
-        name,
-        address,
-        company,
-        contacter,
-        country,
-        currency,
-        description,
-        email,
-        industry,
-        license_no,
-        license_url,
-        promotion_area,
-        reason,
-        role,
-        status,
-        telephone,
-        timezone,
-        balance,
-        create_time,
-        language,
-        phone_number,
-        _fivetran_synced
+        {{
+            fill_staging_columns(
+                source_columns=adapter.get_columns_in_relation(source('tiktok_ads', 'advertiser')),
+                staging_columns=get_tiktok_ads_adsvertiser_columns()
+            )
+        }}
 
     from source
 

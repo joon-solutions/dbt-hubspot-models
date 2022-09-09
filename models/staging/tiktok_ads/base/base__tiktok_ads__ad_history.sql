@@ -1,8 +1,23 @@
 {{ config(enabled=var('ad_reporting__tiktok_ads_enabled')) }}
 
-with source as (
+with base as (
 
-    select * from {{ source('tiktok_ads', 'ad_history') }}
+    select *
+    from {{ source('tiktok_ads', 'ad_history') }}
+
+),
+
+fields as (
+
+    select
+        {{
+            fill_staging_columns(
+                source_columns=adapter.get_columns_in_relation(source('tiktok_ads', 'ad_history')),
+                staging_columns=get_tiktok_ads_history_columns()
+            )
+        }}
+
+    from base
 
 ),
 
@@ -11,7 +26,7 @@ final as (
     select
         ad_id,
         updated_at,
-        adgroup_id as ad_group_id,
+        ad_group_id,
         advertiser_id,
         campaign_id,
         ad_name,
@@ -30,7 +45,7 @@ final as (
         landing_page_url,
         video_id,
         _fivetran_synced
-    from source
+    from fields
 
 ),
 

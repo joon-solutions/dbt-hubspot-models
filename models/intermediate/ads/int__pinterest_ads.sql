@@ -11,7 +11,7 @@ fields as (
 
     select
         daily_id as unique_id,
-        cast(campaign_date as date) as date_day,
+        date_day,
         base_url,
         url_host,
         url_path,
@@ -20,9 +20,9 @@ fields as (
         utm_campaign,
         utm_content,
         utm_term,
-        cast(campaign_id as {{ dbt_utils.type_string() }}) as campaign_id,
+        campaign_id,
         campaign_name,
-        cast(ad_group_id as {{ dbt_utils.type_string() }}) as ad_group_id,
+        ad_group_id,
         ad_group_name,
         platform,
         coalesce(clicks, 0) as clicks,

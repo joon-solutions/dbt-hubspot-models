@@ -30,6 +30,7 @@ target-path: "target"  # directory which will store compiled SQL files
 clean-targets:         # directories to be removed by `dbt clean`
     - "target"
     - "dbt_modules"
+    - "dbt_packages"
 
 sources:
   canvas_dbt:
@@ -59,17 +60,27 @@ vars:
   ga_traffic_enabled: true
 
 # Ads source
-  ad_reporting__pinterest_enabled: true
-  ad_reporting__microsoft_ads_enabled: true
+  ## Linkedin
   ad_reporting__linkedin_ads_enabled: true
+  linkedin__use_local_currency: false
+  linkedin__passthrough_metrics: []
+  ## Microsoft
+  ad_reporting__microsoft_ads_enabled: true
+  microsoft_auto_tagging_enabled: false
+  ## Pinterest
+  ad_reporting__pinterest_enabled: true
+  pin_promotion_report_pass_through_metric: []
+  ## Google 
   ad_reporting__google_ads_enabled: true
+  google_ads__ad_stats_passthrough_metrics: []
+  ## Twitter
   ad_reporting__twitter_ads_enabled: true
+  ## Facebook
   ad_reporting__facebook_ads_enabled: true
+  ## Snapchat
   ad_reporting__snapchat_ads_enabled: true
+  ## Tiktok
   ad_reporting__tiktok_ads_enabled: true
-
-  microsoft_auto_tagging_enabled: false 
-  linkedin__use_local_currency: true
 
 # Salesforce
   salesforce__user_role_enabled: true

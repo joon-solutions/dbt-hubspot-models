@@ -62,13 +62,13 @@ joined as (
         sum(report.spend) as spend
     from report
     left join ads
-        on report.ad_id = ads.ad_id
+        on report.ad_id = ads.ad_id --many-to-one
     left join ad_groups
-        on report.ad_group_id = ad_groups.ad_group_id
+        on report.ad_group_id = ad_groups.ad_group_id --many-to-one
     left join campaigns
-        on report.campaign_id = campaigns.campaign_id
+        on report.campaign_id = campaigns.campaign_id --many-to-one
     left join accounts
-        on report.account_id = accounts.account_id
+        on report.account_id = accounts.account_id --many-to-one
     {{ dbt_utils.group_by(16) }}
 
 )

@@ -60,19 +60,19 @@ joined as (
 
     from metrics
     left join creatives
-        on metrics.creative_id = creatives.creative_id
+        on metrics.creative_id = creatives.creative_id --many-to-one
             and {{ fivetran_utils.timestamp_add('day', 1, 'metrics.date_day') }} >= creatives.valid_from
             and {{ fivetran_utils.timestamp_add('day', 1, 'metrics.date_day') }} <= coalesce(creatives.valid_to, {{ fivetran_utils.timestamp_add('day', 1, dbt_utils.current_timestamp()) }})
     left join campaigns
-        on creatives.campaign_id = campaigns.campaign_id
+        on creatives.campaign_id = campaigns.campaign_id --many-to-one
             and {{ fivetran_utils.timestamp_add('day', 1, 'metrics.date_day') }} >= campaigns.valid_from
             and {{ fivetran_utils.timestamp_add('day', 1, 'metrics.date_day') }} <= coalesce(campaigns.valid_to, {{ fivetran_utils.timestamp_add('day', 1, dbt_utils.current_timestamp()) }})
     left join campaign_groups
-        on campaigns.campaign_group_id = campaign_groups.campaign_group_id
+        on campaigns.campaign_group_id = campaign_groups.campaign_group_id --many-to-one
             and {{ fivetran_utils.timestamp_add('day', 1, 'metrics.date_day') }} >= campaign_groups.valid_from
             and {{ fivetran_utils.timestamp_add('day', 1, 'metrics.date_day') }} <= coalesce(campaign_groups.valid_to, {{ fivetran_utils.timestamp_add('day', 1, dbt_utils.current_timestamp()) }})
     left join accounts
-        on campaign_groups.account_id = accounts.account_id
+        on campaign_groups.account_id = accounts.account_id --many-to-one
             and {{ fivetran_utils.timestamp_add('day', 1, 'metrics.date_day') }} >= accounts.valid_from
             and {{ fivetran_utils.timestamp_add('day', 1, 'metrics.date_day') }} <= coalesce(accounts.valid_to, {{ fivetran_utils.timestamp_add('day', 1, dbt_utils.current_timestamp()) }})
 

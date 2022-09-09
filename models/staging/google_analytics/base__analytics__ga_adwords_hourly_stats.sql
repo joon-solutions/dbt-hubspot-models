@@ -10,7 +10,7 @@ renamed as (
 
     select
         {{
-            fivetran_utils.fill_staging_columns(
+            fill_staging_columns(
                 source_columns=adapter.get_columns_in_relation(source('google_analytics', 'ga_adwords_hourly_stats')),
                 staging_columns = get_google_analytics_ga_adwords_hourly_stats_columns()
             )
