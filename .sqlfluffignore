@@ -8,8 +8,4 @@ archived_models/
 .github/
 data/
 generated_base_models/
-models/staging/hubspot/base/base__hubspot__contact.sql
-models/staging/hubspot/base/base__hubspot__email_campaign.sql
-models/staging/hubspot/base/base__hubspot__email_event.sql
-models/staging/hubspot/base/base__hubspot__email_subscription_change.sql
 
