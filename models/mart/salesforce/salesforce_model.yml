@@ -28,25 +28,29 @@ models:
         description: The created amount this month.
         meta:
           metrics:
-            type: sum
+            total_amount_this_month:
+              type: sum
       
       - name: created_amount_this_quarter
         description: The created amount this quarter.
         meta:
           metrics:
-            type: sum
+            total_amount_this_quarter:
+              type: sum
 
       - name: closed_amount_this_month
         description: The closed amount this month.
         meta:
           metrics:
-            type: sum
+            total_closed_this_quarter:
+              type: sum
       
       - name: closed_amount_this_quarter
         description: The closed amount this quarter.
         meta:
           metrics:
-            type: sum
+            total_closed_this_quarter:
+              type: sum
       
       - name: account_type
         description: The account type.
@@ -82,7 +86,7 @@ models:
         description: Amount.
         meta:
           dimension:
-            type: date
+            type: number
 
       - name: days_since_created
         description: Days since created
