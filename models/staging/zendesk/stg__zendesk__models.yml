@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  - name: stg__zendesk__latest_ticket_form
+    description: Each record represents the latest version of Ticket form created in Zendesk.
+    columns:
+      - name: ticket_form_id
+        description: PK of the table
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+      - name: created_at
+        description: The time the ticket form was created
+      - name: updated_at
+        description: The time of the last update of the ticket form
+      - name: display_name
+        description: The name of the form that is displayed to an end user
+      - name: is_active
+        description: If the form is set as active
+      - name: ticket_form_name
+        description: The name of the form

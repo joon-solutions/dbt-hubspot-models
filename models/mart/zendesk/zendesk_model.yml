@@ -1,0 +1,174 @@
+version: 2
+
+models:
+  - name: zendesk__ticket_enriched
+    description: Each record represents a Zendesk ticket, enriched with data about it's tags, assignees, requester, submitter, organization and group.  
+    columns:
+      - name: ticket_id
+        description: Automatically assigned when the ticket is created
+        tests:
+            - unique
+            - not_null
+            - dbt_utils.at_least_one
+      - name: url
+        description: The API url of this ticket
+      - name: assignee_id
+        description: The agent currently assigned to the ticket
+      - name: assignee_role
+        description: The role of the agent currently assigned to the ticket
+      - name: assignee_email
+        description: The email of the agent currently assigned to the ticket
+      - name: assignee_name
+        description: The name of the agent currently assigned to the ticket
+      - name: brand_id
+        description: Enterprise only. The id of the brand this ticket is associated with
+      - name: created_at
+        description: When this record was created
+      - name: type
+        description: The type of this ticket, possible values are problem, incident, question or task
+      - name: subject
+        description: The value of the subject field for this ticket
+      - name: description
+        description: Read-only first comment on the ticket
+      - name: priority
+        description: The urgency with which the ticket should be addressed, possible values are urgent, high, normal and low
+      - name: status
+        description: The state of the ticket, possible values are new, open, pending, hold, solved and closed
+      - name: recipient
+        description: The original recipient e-mail address of the ticket
+      - name: requester_id
+        description: The user who requested this ticket
+      - name: requester_role
+        description: The role of the user who requested this ticket
+      - name: requester_email
+        description: The email of the user who requested this ticket
+      - name: requester_name
+        description: The name of the user who requested this ticket
+      - name: submitter_id
+        description: The user who submitted the ticket. The submitter always becomes the author of the first comment on the ticket
+      - name: submitter_role
+        description: The role of the user who submitted the ticket.
+      - name: submitter_email
+        description: The email of the user who submitted the ticket.
+      - name: submitter_name
+        description: The name of the user who submitted the ticket.
+      - name: organization_id
+        description: The organization of the requester
+      - name: organization_name
+        description: The name of the organization of the requester
+      - name: external_id
+        description: The external id of the ticket
+      - name: group_id
+        description: The group this ticket is assigned to
+      - name: group_name
+        description: The name of the group this ticket is assigned to
+      - name: due_at
+        description: If this is a ticket of type "task" it has a due date. Due date format uses ISO 8601 format.
+      - name: ticket_form_id
+        description: Enterprise only. The id of the ticket form to render for the ticket
+      - name: is_public
+        description: Is true if any comments are public, false otherwise
+      - name: updated_at
+        description: When this record last got updated
+      - name: created_channel
+        description: The channel the ticket was created from
+      - name: source_from_id
+        description: The channel the ticket was created from 
+      - name: source_from_title
+        description: The channel the ticket was created from
+      - name: source_rel
+        description: The rel the ticket was created from 
+      - name: source_to_address
+        description: The address of the source the ticket was created from
+      - name: source_to_name
+        description: The name of the source the ticket was created from  
+      - name: ticket_tags
+        description: A list of all tags assigned to this ticket
+      - name: problem_id
+        description: The reference to the problem if the ticket is listed as a problem
+      - name: is_incident
+        description: Boolean indicating whether the ticket is listed as an incident
+      - name: brand_name
+        description: The brand name of with the ticket
+      - name: ticket_form_name
+        description: The form name of the ticket
+      - name: ticket_satisfaction_rating
+        description: The ticket satisfaction rating
+      - name: ticket_satisfaction_comment
+        description: The ticket satisfaction comment
+      - name: ticket_satisfaction_reason
+        description: The ticket satisfaction reason
+      - name: ticket_organization_domain_names
+        description: The organization associated with the ticket domain names
+      - name: requester_organization_domain_names
+        description: The ticket requesters organization domain names 
+      - name: requester_external_id
+        description: The ticket requester external id
+      - name: requester_created_at
+        description: The date the ticket requester was created
+      - name: requester_updated_at
+        description: The date the ticket requester was last updated
+      - name: is_requester_active
+        description: Boolean indicating whether the requester is currently active
+      - name: requester_locale
+        description: The locale of the ticket requester
+      - name: requester_time_zone
+        description: The timezone of the ticket requester
+      # - name: requester_ticket_update_count
+      #   description: The number of times the requester has updated the ticket
+      # - name: requester_ticket_last_update_at
+      #   description: The last date the requester updated the ticket
+      - name: requester_last_login_at
+        description: The last login of the ticket requester
+      - name: requester_organization_id
+        description: The organization id of the ticket requester
+      - name: requester_organization_name
+        description: The organization name of the ticket requester
+      - name: requester_organization_tags
+        description: The organization tags of the ticket requester
+      - name: requester_organization_external_id
+        description: The organization external id of the ticket requester
+      - name: requester_organization_created_at
+        description: The date the ticket requesters organization was created
+      - name: requester_organization_updated_at
+        description: The date the ticket requesters organization was last updated
+      - name: submitter_external_id
+        description: The ticket submitter external id
+      - name: is_agent_submitted
+        description: Boolean indicating if the submitter has an agent role
+      - name: is_submitter_active
+        description: Boolean indicating if the ticket submitter is active
+      - name: submitter_locale
+        description: The locale of the ticket submitter
+      - name: submitter_time_zone
+        description: The time zone of the ticket submitter
+      - name: assignee_external_id
+        description: The external id of the ticket assignee
+      - name: is_assignee_active
+        description: Boolean indicating if the ticket assignee is active
+      - name: assignee_locale
+        description: The locale of the ticket assignee
+      - name: assignee_time_zone
+        description: The time zone of the ticket assignee
+      # - name: assignee_ticket_update_count
+      #   description: The number of times the ticket assignee has updated the ticket
+      # - name: assignee_ticket_last_update_at
+      #   description: The last date the ticket assignee updated the ticket
+      - name: assignee_last_login_at
+        description: The date the ticket assignee last logged in
+      - name: requester_tag
+        description: The tags associated with the ticket requester.
+      - name: submitter_tag
+        description: The tags associated with the ticket submitter.
+      - name: assignee_tag
+        description: The tags associated with the ticket assignee.
+      - name: ticket_total_satisfaction_scores
+        description: The total number of satisfaction scores the ticket received.
+      - name: ticket_first_satisfaction_score
+        description: The first satisfaction score the ticket received.
+      - name: ticket_satisfaction_score
+        description: The latest satisfaction score the ticket received.
+      - name: is_good_to_bad_satisfaction_score
+        description: Boolean indicating if the ticket had a satisfaction score went from good to bad.
+      - name: is_bad_to_good_satisfaction_score
+        description: Boolean indicating if the ticket had a satisfaction score went from bad to good.
