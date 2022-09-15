@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: zendesk__ticket_enriched
+  - name: fct__zendesk_ticket
     description: Each record represents a Zendesk ticket, enriched with data about it's tags, assignees, requester, submitter, organization and group.  
     columns:
       - name: ticket_id
