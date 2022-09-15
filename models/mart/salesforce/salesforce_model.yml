@@ -24,6 +24,30 @@ models:
           dimension:
             type: string
 
+      - name: opportunity_name
+        description: Opportunity Name.
+        meta:
+          dimension:
+            type: string
+
+      - name: account_name
+        description: Account Name.
+        meta:
+          dimension:
+            type: string
+      
+      - name: forecast_category
+        description: Forecast Category.
+        meta:
+          dimension:
+            type: string
+
+      - name: stage_name
+        description: Stage Name.
+        meta:
+          dimension:
+            type: string
+
       - name: created_amount_this_month
         description: The created amount this month.
         meta:
@@ -73,8 +97,9 @@ models:
       - name: is_won
         description: Is won flag.
         meta:
-          dimension:
-            type: string
+          metrics:
+            total_won:
+              type: count
 
       - name: lead_source
         description: Leading source.
