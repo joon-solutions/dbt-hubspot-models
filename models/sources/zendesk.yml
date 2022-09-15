@@ -1,0 +1,18 @@
+version: 2
+
+sources:
+  - name: zendesk
+    database: joon_solutions
+    tables:
+      - name: ticket
+      - name: ticket_tag
+      - name: ticket_form_history
+      - name: ticket_field_history
+      - name: ticket_comment
+      - name: user
+      - name: user_tag
+      - name: group
+      - name: organization
+      - name: organization_tag
+      - name: domain_name
+      - name: brand

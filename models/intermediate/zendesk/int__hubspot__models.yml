@@ -1,0 +1,43 @@
+version: 2
+
+models:
+  - name: int__zendesk__field_history_comments_unioned
+    description: "Each record represents an event in which a ticket field was updated/ or a ticket comment was added"
+    columns:
+      - name: unique_id
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+  - name: int__zendesk__organization_aggregates
+    description: "Each record represents an organization with it's enriched attributes (adding domain & tags information)"
+    columns:
+      - name: organization_id
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+  - name: int__zendesk__ticket_aggregates
+    description: "Each record represents a ticket with it's enriched attributes (adding tags, brands, group, form information)"
+    columns:
+      - name: organization_id
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+  - name: int__zendesk__ticket_historical_satisfaction
+    description: "Each record represents a ticket with attributes related to satisfaction rating"
+    columns:
+      - name: ticket_id
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+  - name: int__zendesk__user_aggregates
+    description: "Each record represents a user with it's enriched attributes (adding tags information)"
+    columns:
+      - name: user_id
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one

@@ -94,6 +94,13 @@ vars:
   user_role_pass_through_columns: []
   user_pass_through_columns: []
 
+# Zendesk
+  zendesk__ticket_passthrough_columns: []
+  using_ticket_form_history: true
+  using_user_tags: true
+  using_organization_tags: false
+  using_domain_names: false
+
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
 
