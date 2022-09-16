@@ -35,7 +35,7 @@ models:
         meta:
           dimension:
             type: string
-      
+
       - name: forecast_category
         description: Forecast Category.
         meta:
@@ -82,7 +82,7 @@ models:
           dimension:
             type: string
 
-      - name: created_at
+      - name: created_date
         description: Created date.
         meta:
           dimension:
@@ -101,8 +101,14 @@ models:
             total_won:
               type: count
 
-      - name: lead_source
-        description: Leading source.
+      - name: opportunity_owner_name
+        description: Opportunity Owner name.
+        meta:
+          dimension:
+            type: string
+      
+      - name: opportunity_manager_name
+        description: Opportunity Manager name.
         meta:
           dimension:
             type: string
