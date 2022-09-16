@@ -35,12 +35,6 @@ models:
         meta:
           dimension:
             type: string
-      
-      - name: opportunity_owner_name
-        description: Account Name.
-        meta:
-          dimension:
-            type: string
 
       - name: forecast_category
         description: Forecast Category.
