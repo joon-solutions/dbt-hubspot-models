@@ -1,4 +1,3 @@
-
 --To disable this model, set the zendesk__domain_names variable within your dbt_project.yml file to False.
 {{ config(enabled=var('zendesk__ticket_field_history', True)) }}
 
@@ -17,9 +16,11 @@ with ticket_historical_status as (
     from {{ ref('int__zendesk__field_history_comments_unioned') }}
     where field_name = 'status'
 
-), calendar_minutes as (
-  
-    select 
+),
+
+calendar_minutes as (
+
+    select
         ticket_id,
         value as status,
         valid_starting_at,
@@ -34,7 +35,7 @@ with ticket_historical_status as (
 
 final as (
 
-    select 
+    select
         ticket_id,
         {% for status, metric_names in status_dict.items() %}
         sum(case when status in ({{ status }}) then status_duration_calendar_minutes else 0 end) as {{ metric_names }}{% if not loop.last %},{% endif %}

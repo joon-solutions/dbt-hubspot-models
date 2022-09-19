@@ -85,9 +85,9 @@ ticket_enriched_1 as (
         requester.external_id as requester_external_id,
         requester.created_at as requester_created_at,
         requester.updated_at as requester_updated_at,
-        requester.role as requester_role,
-        requester.email as requester_email,
-        requester.name as requester_name,
+        requester.user_role as requester_role,
+        requester.user_email as requester_email,
+        requester.user_name as requester_name,
         requester.is_active as is_requester_active,
         requester.locale as requester_locale,
         requester.time_zone as requester_time_zone,
@@ -99,18 +99,18 @@ ticket_enriched_1 as (
         requester_org.updated_at as requester_organization_updated_at,
         --- Submitter Users
         submitter.external_id as submitter_external_id,
-        submitter.role as submitter_role,
-        submitter.role in ('agent', 'admin') as is_agent_submitted,
-        submitter.email as submitter_email,
-        submitter.name as submitter_name,
+        submitter.user_role as submitter_role,
+        submitter.user_role in ('agent', 'admin') as is_agent_submitted,
+        submitter.user_email as submitter_email,
+        submitter.user_name as submitter_name,
         submitter.is_active as is_submitter_active,
         submitter.locale as submitter_locale,
         submitter.time_zone as submitter_time_zone,
         --- Assignee Users
         assignee.external_id as assignee_external_id,
-        assignee.role as assignee_role,
-        assignee.email as assignee_email,
-        assignee.name as assignee_name,
+        assignee.user_role as assignee_role,
+        assignee.user_email as assignee_email,
+        assignee.user_name as assignee_name,
         assignee.is_active as is_assignee_active,
         assignee.locale as assignee_locale,
         assignee.time_zone as assignee_time_zone,
@@ -170,6 +170,8 @@ ticket_enriched_2 as (
 
 select * from ticket_enriched_2
 
-{% endif %}
+{% else %}
 
 select * from ticket_enriched_1
+
+{% endif %}

@@ -23,11 +23,11 @@ assignee_history as (
 
 resolution_time as (
 
-    select 
+    select
         ticket_id,
-        min(case when value = 'new' then valid_starting_at else null end) as created_at,
-        min(case when value = 'solved' then valid_starting_at else null end) as first_solved_at,
-        max(case when value = 'solved' then valid_starting_at else null end) as last_solved_at
+        min(case when value = 'new' then valid_starting_at end) as created_at,
+        min(case when value = 'solved' then valid_starting_at end) as first_solved_at,
+        max(case when value = 'solved' then valid_starting_at end) as last_solved_at
     from ticket_history
     where field_name = 'status'
     group by 1
@@ -60,4 +60,3 @@ final as (
 )
 
 select * from final
-
