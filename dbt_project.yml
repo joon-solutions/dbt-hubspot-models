@@ -96,10 +96,18 @@ vars:
 
 # Zendesk
   zendesk__ticket_passthrough_columns: []
-  using_ticket_form_history: true
-  using_user_tags: true
-  using_organization_tags: false
-  using_domain_names: false
+  zendesk__ticket_field_history: true
+  zendesk__organization_tag: false
+  zendesk__domain_names: false
+  # base__zendesk__brand: # core table
+  # base__zendesk__group: #core table
+  # base__zendesk__organization: #core table
+  # base__zendesk__ticket_comment: #core table
+  # base__zendesk__user_tag: #core table
+  # base__zendesk__user: #core table
+  # base__zendesk__ticket_form_history: #core table
+  # base__zendesk__ticket_tag: #core table
+
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models

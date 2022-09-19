@@ -8,6 +8,6 @@ archived_models/
 .github/
 data/
 generated_base_models/
-models/intermediate/zendesk/int__zendesk__ticket_aggregates.sql
-models/intermediate/zendesk/int__zendesk__user_aggregates.sql
+models/mart/zendesk/fct__zendesk_ticket.sql
+models/intermediate/zendesk/int__zendesk__field_history_comments_unioned.sql
 

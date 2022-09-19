@@ -1,174 +1,586 @@
 version: 2
-
 models:
   - name: fct__zendesk_ticket
-    description: Each record represents a Zendesk ticket, enriched with data about it's tags, assignees, requester, submitter, organization and group.  
+    description: >-
+      Each record represents a Zendesk ticket, enriched with data about it's
+      tags, assignees, requester, submitter, organization and group.
     columns:
       - name: ticket_id
         description: Automatically assigned when the ticket is created
         tests:
-            - unique
-            - not_null
-            - dbt_utils.at_least_one
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+        meta:
+          dimension:
+            type: number
+          metrics:
+            count_tickets:
+              type: count
       - name: url
         description: The API url of this ticket
+        meta:
+          dimension:
+            type: string
       - name: assignee_id
         description: The agent currently assigned to the ticket
+        meta:
+          dimension:
+            type: number
       - name: assignee_role
         description: The role of the agent currently assigned to the ticket
+        meta:
+          dimension:
+            type: string
       - name: assignee_email
         description: The email of the agent currently assigned to the ticket
+        meta:
+          dimension:
+            type: string
       - name: assignee_name
         description: The name of the agent currently assigned to the ticket
+        meta:
+          dimension:
+            type: string
       - name: brand_id
         description: Enterprise only. The id of the brand this ticket is associated with
+        meta:
+          dimension:
+            type: number
       - name: created_at
         description: When this record was created
-      - name: type
-        description: The type of this ticket, possible values are problem, incident, question or task
+        meta:
+          dimension:
+            type: timestamp
+      - name: ticket_type
+        description: >-
+          The type of this ticket, possible values are problem, incident,
+          question or task
+        meta:
+          dimension:
+            type: string
       - name: subject
         description: The value of the subject field for this ticket
+        meta:
+          dimension:
+            type: string
       - name: description
         description: Read-only first comment on the ticket
+        meta:
+          dimension:
+            type: string
       - name: priority
-        description: The urgency with which the ticket should be addressed, possible values are urgent, high, normal and low
+        description: >-
+          The urgency with which the ticket should be addressed, possible values
+          are urgent, high, normal and low
+        meta:
+          dimension:
+            type: string
       - name: status
-        description: The state of the ticket, possible values are new, open, pending, hold, solved and closed
+        description: >-
+          The state of the ticket, possible values are new, open, pending, hold,
+          solved and closed
+        meta:
+          dimension:
+            type: string
       - name: recipient
         description: The original recipient e-mail address of the ticket
+        meta:
+          dimension:
+            type: number
       - name: requester_id
         description: The user who requested this ticket
+        meta:
+          dimension:
+            type: number
       - name: requester_role
         description: The role of the user who requested this ticket
+        meta:
+          dimension:
+            type: string
       - name: requester_email
         description: The email of the user who requested this ticket
+        meta:
+          dimension:
+            type: string
       - name: requester_name
         description: The name of the user who requested this ticket
+        meta:
+          dimension:
+            type: string
       - name: submitter_id
-        description: The user who submitted the ticket. The submitter always becomes the author of the first comment on the ticket
+        description: >-
+          The user who submitted the ticket. The submitter always becomes the
+          author of the first comment on the ticket
+        meta:
+          dimension:
+            type: number
       - name: submitter_role
         description: The role of the user who submitted the ticket.
+        meta:
+          dimension:
+            type: string
       - name: submitter_email
         description: The email of the user who submitted the ticket.
+        meta:
+          dimension:
+            type: string
       - name: submitter_name
         description: The name of the user who submitted the ticket.
+        meta:
+          dimension:
+            type: string
       - name: organization_id
         description: The organization of the requester
+        meta:
+          dimension:
+            type: number
       - name: organization_name
         description: The name of the organization of the requester
+        meta:
+          dimension:
+            type: string
       - name: external_id
         description: The external id of the ticket
+        meta:
+          dimension:
+            type: number
       - name: group_id
         description: The group this ticket is assigned to
+        meta:
+          dimension:
+            type: number
       - name: group_name
         description: The name of the group this ticket is assigned to
+        meta:
+          dimension:
+            type: string
       - name: due_at
-        description: If this is a ticket of type "task" it has a due date. Due date format uses ISO 8601 format.
+        description: >-
+          If this is a ticket of type "task" it has a due date. Due date format
+          uses ISO 8601 format.
+        meta:
+          dimension:
+            type: timestamp
       - name: ticket_form_id
         description: Enterprise only. The id of the ticket form to render for the ticket
+        meta:
+          dimension:
+            type: number
       - name: is_public
         description: Is true if any comments are public, false otherwise
+        meta:
+          dimension:
+            type: boolean
       - name: updated_at
         description: When this record last got updated
+        meta:
+          dimension:
+            type: timestamp
       - name: created_channel
         description: The channel the ticket was created from
+        meta:
+          dimension:
+            type: string
       - name: source_from_id
-        description: The channel the ticket was created from 
+        description: The channel the ticket was created from
+        meta:
+          dimension:
+            type: number
       - name: source_from_title
         description: The channel the ticket was created from
+        meta:
+          dimension:
+            type: number
       - name: source_rel
-        description: The rel the ticket was created from 
+        description: The rel the ticket was created from
+        meta:
+          dimension:
+            type: number
       - name: source_to_address
         description: The address of the source the ticket was created from
+        meta:
+          dimension:
+            type: number
       - name: source_to_name
-        description: The name of the source the ticket was created from  
+        description: The name of the source the ticket was created from
+        meta:
+          dimension:
+            type: number
       - name: ticket_tags
         description: A list of all tags assigned to this ticket
+        meta:
+          dimension:
+            type: string
       - name: problem_id
         description: The reference to the problem if the ticket is listed as a problem
+        meta:
+          dimension:
+            type: number
       - name: is_incident
         description: Boolean indicating whether the ticket is listed as an incident
+        meta:
+          dimension:
+            type: boolean
       - name: brand_name
         description: The brand name of with the ticket
+        meta:
+          dimension:
+            type: string
       - name: ticket_form_name
         description: The form name of the ticket
-      - name: ticket_satisfaction_rating
-        description: The ticket satisfaction rating
-      - name: ticket_satisfaction_comment
-        description: The ticket satisfaction comment
-      - name: ticket_satisfaction_reason
-        description: The ticket satisfaction reason
+        meta:
+          dimension:
+            type: string
+      - name: latest_satisfaction_score
+        description: The lastest satisfaction score of a ticket
+        meta:
+          dimension:
+            type: string
+      - name: first_satisfaction_score
+        description: The first satisfaction score of a ticket
+        meta:
+          dimension:
+            type: string
+      - name: latest_satisfaction_comment
+        description: The lastest satisfaction comment of a ticket
+        meta:
+          dimension:
+            type: string
+      - name: latest_satisfaction_reason
+        description: The lastest satisfaction reason of a ticket
+        meta:
+          dimension:
+            type: string
       - name: ticket_organization_domain_names
         description: The organization associated with the ticket domain names
+        meta:
+          dimension:
+            type: string
       - name: requester_organization_domain_names
-        description: The ticket requesters organization domain names 
+        description: The ticket requesters organization domain names
+        meta:
+          dimension:
+            type: string
       - name: requester_external_id
         description: The ticket requester external id
+        meta:
+          dimension:
+            type: string
       - name: requester_created_at
         description: The date the ticket requester was created
+        meta:
+          dimension:
+            type: timestamp
       - name: requester_updated_at
         description: The date the ticket requester was last updated
+        meta:
+          dimension:
+            type: timestamp
       - name: is_requester_active
         description: Boolean indicating whether the requester is currently active
+        meta:
+          dimension:
+            type: boolean
       - name: requester_locale
         description: The locale of the ticket requester
+        meta:
+          dimension:
+            type: string
       - name: requester_time_zone
         description: The timezone of the ticket requester
-      # - name: requester_ticket_update_count
-      #   description: The number of times the requester has updated the ticket
-      # - name: requester_ticket_last_update_at
-      #   description: The last date the requester updated the ticket
+        meta:
+          dimension:
+            type: string
       - name: requester_last_login_at
         description: The last login of the ticket requester
+        meta:
+          dimension:
+            type: timestamp
       - name: requester_organization_id
         description: The organization id of the ticket requester
+        meta:
+          dimension:
+            type: number
       - name: requester_organization_name
         description: The organization name of the ticket requester
+        meta:
+          dimension:
+            type: string
       - name: requester_organization_tags
         description: The organization tags of the ticket requester
+        meta:
+          dimension:
+            type: string
       - name: requester_organization_external_id
         description: The organization external id of the ticket requester
+        meta:
+          dimension:
+            type: number
       - name: requester_organization_created_at
         description: The date the ticket requesters organization was created
+        meta:
+          dimension:
+            type: timestamp
       - name: requester_organization_updated_at
         description: The date the ticket requesters organization was last updated
+        meta:
+          dimension:
+            type: timestamp
       - name: submitter_external_id
         description: The ticket submitter external id
+        meta:
+          dimension:
+            type: number
       - name: is_agent_submitted
         description: Boolean indicating if the submitter has an agent role
+        meta:
+          dimension:
+            type: boolean
       - name: is_submitter_active
         description: Boolean indicating if the ticket submitter is active
+        meta:
+          dimension:
+            type: boolean
       - name: submitter_locale
         description: The locale of the ticket submitter
+        meta:
+          dimension:
+            type: string
       - name: submitter_time_zone
         description: The time zone of the ticket submitter
+        meta:
+          dimension:
+            type: string
       - name: assignee_external_id
         description: The external id of the ticket assignee
+        meta:
+          dimension:
+            type: number
       - name: is_assignee_active
         description: Boolean indicating if the ticket assignee is active
+        meta:
+          dimension:
+            type: boolean
       - name: assignee_locale
         description: The locale of the ticket assignee
+        meta:
+          dimension:
+            type: string
       - name: assignee_time_zone
         description: The time zone of the ticket assignee
-      # - name: assignee_ticket_update_count
-      #   description: The number of times the ticket assignee has updated the ticket
-      # - name: assignee_ticket_last_update_at
-      #   description: The last date the ticket assignee updated the ticket
+        meta:
+          dimension:
+            type: string
       - name: assignee_last_login_at
         description: The date the ticket assignee last logged in
+        meta:
+          dimension:
+            type: timestamp
       - name: requester_tag
         description: The tags associated with the ticket requester.
+        meta:
+          dimension:
+            type: string
       - name: submitter_tag
         description: The tags associated with the ticket submitter.
+        meta:
+          dimension:
+            type: string
       - name: assignee_tag
         description: The tags associated with the ticket assignee.
-      - name: ticket_total_satisfaction_scores
-        description: The total number of satisfaction scores the ticket received.
-      - name: ticket_first_satisfaction_score
-        description: The first satisfaction score the ticket received.
-      - name: ticket_satisfaction_score
-        description: The latest satisfaction score the ticket received.
+        meta:
+          dimension:
+            type: string
       - name: is_good_to_bad_satisfaction_score
-        description: Boolean indicating if the ticket had a satisfaction score went from good to bad.
+        description: >-
+          Boolean indicating if the ticket had a satisfaction score went from
+          good to bad.
+        meta:
+          dimension:
+            type: boolean
       - name: is_bad_to_good_satisfaction_score
-        description: Boolean indicating if the ticket had a satisfaction score went from bad to good.
+        description: >-
+          Boolean indicating if the ticket had a satisfaction score went from
+          bad to good.
+        meta:
+          dimension:
+            type: boolean
+      - name: _fivetran_synced
+        description: "Fivetran sync timestamp"
+        meta:
+          dimension:
+            type: timestamp
+      - name: count_satisfaction_scores
+        description: The total number of satisfaction scores the ticket received.
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_count_satisfaction_scores_per_ticket:
+              type: average
+      - name: first_assignee_id
+        description: "Assignee id of the first agent assigned to the ticket"
+        meta:
+          dimension:
+            type: string
+      - name: first_assignment_to_resolution_calendar_minutes
+        description: "The time in calendar minutes between the first assignment and resolution of the ticket"
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_first_assignment_to_resolution_calendar_minutes_per_ticket:
+              type: average
+      - name: last_assignee_id
+        description: "Assignee id of the last agent assigned to the ticket"
+        meta:
+          dimension:
+            type: string
+      - name: last_assignment_to_resolution_calendar_minutes
+        description: "The time in calendar minutes between the last assignment and resolution of the ticket"
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_last_assignment_to_resolution_calendar_minutes_per_ticket:
+              type: average
+      - name: first_resolution_calendar_minutes
+        description: "The number of calendar minutes between the ticket created time and the time the ticket was first set to solved status"
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_first_resolution_calendar_minutes_per_ticket:
+              type: average
+      - name: final_resolution_calendar_minutes
+        description: "The number of calendar minutes between the ticket created time and the time the ticket was last set to solved status"
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_final_resolution_calendar_minutes_per_ticket:
+              type: average
+      - name: avg_reply_time_calendar_minutes
+        description: "The average calendar time between all end-user comments and the next public agent response"
+        meta:
+          dimension:
+            avg_reply_time_calendar_minutes:
+              type: number
+          metrics:
+            avg_reply_time_calendar_minutes_per_ticket:
+              type: average
+      - name: count_public_agent_comments
+        description: "Count of public agent comments within the ticket"
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_count_public_agent_comments_per_ticket:
+              type: average
+      - name: count_agent_comments
+        description: "Count of agent comments within the ticket"
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_count_agent_comments_per_ticket:
+              type: average
+      - name: count_end_user_comments
+        description: ""
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_count_end_user_comments_per_ticket:
+              type: average
+      - name: count_public_comments
+        description: "Count of end user comments within the ticket"
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_count_public_comments_per_ticket:
+              type: average
+      - name: count_internal_comments
+        description: "Count of internal comments within the ticket"
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_count_internal_comments_per_ticket:
+              type: average
+      - name: count_ticket_handoffs
+        description: "Count of distinct internal users who have touched/commented on the ticket."
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_count_ticket_handoffs_per_ticket:
+              type: average
+      - name: total_comments
+        description: "Total count of all comments within the ticket"
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_total_comments_per_ticket:
+              type: average
+      - name: is_one_touch_resolution
+        description: "A boolean field indicating that the ticket has one public agent response and is in solved status"
+        meta:
+          dimension:
+            type: boolean
+      - name: is_two_touch_resolution
+        description: "Boolean indicating if the ticket was resolved in two public comments"
+        meta:
+          dimension:
+            type: boolean
+      - name: agent_wait_time_in_minutes
+        description: "The combined number of calendar minutes the ticket was in pending status"
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_agent_wait_time_in_minutes_per_ticket:
+              type: average
+      - name: requester_wait_time_in_minutes
+        description: "The combined number of calendar minutes the ticket was in new, open, or hold status"
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_requester_wait_time_in_minutes_per_ticket:
+              type: average
+      - name: agent_work_time_in_minutes
+        description: "The combined number of calendar minutes the ticket was in new or open status"
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_agent_work_time_in_minutes_per_ticket:
+              type: average
+      - name: on_hold_time_in_minutes
+        description: "The combined number of calendar minutes the ticket was on hold status"
+        meta:
+          dimension:
+            type: number
+          metrics:
+              avg_on_hold_time_in_minutes_per_ticket:
+                type: average
+      - name: new_status_duration_minutes
+        description: "The duration in calendar minutes the ticket was in the new status"
+        meta:
+          dimension:
+            type: number
+          metrics:
+              avg_new_status_duration_minutes_per_ticket:
+                type: average
+      - name: open_status_duration_minutes
+        description: "The duration in calendar minutes the ticket was in the open status"
+        meta:
+          dimension:
+            type: number
+          metrics:
+              avg_open_status_duration_minutes_per_ticket:
+                type: average

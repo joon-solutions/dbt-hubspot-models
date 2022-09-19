@@ -1,5 +1,5 @@
---To disable this model, set the using_organization_tags variable within your dbt_project.yml file to False.
-{{ config(enabled=var('using_organization_tags', True)) }}
+--To disable this model, set the zendesk__organization_tag variable within your dbt_project.yml file to False.
+{{ config(enabled=var('zendesk__organization_tag', True)) }}
 
 with base as (
 

@@ -5,12 +5,7 @@ with ticket as (
 
 ),
 
-latest_satisfaction_ratings as (
 
-    select *
-    from {{ ref('int__zendesk__ticket_historical_satisfaction') }}
-
-),
 
 users as (
 
@@ -25,20 +20,51 @@ organization as (
     from {{ ref('int__zendesk__organization_aggregates') }}
 ),
 
-final as (
+ticket_comments as (
+
+    select *
+    from {{ ref('int_zendesk__ticket_comments') }}
+),
+
+{% if var('zendesk__ticket_field_history', True) %}
+
+latest_satisfaction_ratings as (
+
+    select *
+    from {{ ref('int__zendesk__ticket_historical_satisfaction') }}
+
+),
+
+ticket_resolution_times as (
+
+    select *
+    from {{ ref('int__zendesk__ticket_resolution_times') }}
+),
+
+ticket_work_times as (
+
+  select *
+  from {{ ref('int__zendesk__ticket_work_times') }}
+),
+
+{% endif %}
+
+ticket_enriched_1 as (
     select
         ticket.*,
-        --- satisfaction_ratings
-        latest_satisfaction_ratings.count_satisfaction_scores,
-        latest_satisfaction_ratings.first_satisfaction_score,
-        latest_satisfaction_ratings.latest_satisfaction_score,
-        latest_satisfaction_ratings.latest_satisfaction_comment,
-        latest_satisfaction_ratings.latest_satisfaction_reason,
-        latest_satisfaction_ratings.is_good_to_bad_satisfaction_score,
-        latest_satisfaction_ratings.is_bad_to_good_satisfaction_score,
-
-        --If you use using_domain_names tags this will be included, if not it will be ignored.
-        {% if var('using_domain_names', True) %}
+        ---ticket comments
+        ticket_comments.avg_reply_time_calendar_minutes,
+        ticket_comments.count_public_agent_comments,
+        ticket_comments.count_agent_comments,
+        ticket_comments.count_end_user_comments,
+        ticket_comments.count_public_comments,
+        ticket_comments.count_internal_comments,
+        ticket_comments.count_ticket_handoffs,
+        ticket_comments.total_comments,
+        ticket_comments.is_one_touch_resolution,
+        ticket_comments.is_two_touch_resolution,
+        --If you use zendesk__domain_names tags this will be included, if not it will be ignored.
+        {% if var('zendesk__domain_names', True) %}
         organization.domain_names as ticket_organization_domain_names,
         requester_org.domain_names as requester_organization_domain_names,
         {% endif %}
@@ -51,7 +77,7 @@ final as (
         {% endif %}
 
         --If you use organization tags this will be included, if not it will be ignored.
-        {% if var('using_organization_tags', True) %}
+        {% if var('zendesk__organization_tag', True) %}
         requester_org.organization_tags as requester_organization_tags,
         {% endif %}
 
@@ -93,16 +119,57 @@ final as (
         organization.organization_name
 
     from ticket
-    left join latest_satisfaction_ratings on ticket.ticket_id = latest_satisfaction_ratings.ticket_id --one-to-one relationship
+    left join ticket_comments on ticket.ticket_id = ticket_comments.ticket_id --one-to-one
     left join organization on ticket.organization_id = organization.organization_id --many-to-one relationship
     --Requester
     left join users as requester on ticket.requester_id = requester.user_id --many-to-one relationship
     left join organization as requester_org on requester.organization_id = requester_org.organization_id --many-to-one relationship
     --Submitter
-    inner join users as submitter on ticket.submitter_id = submitter.user_id --many-to-one relationship
+    left join users as submitter on ticket.submitter_id = submitter.user_id --many-to-one relationship
     --Assignee Joins
     left join users as assignee on ticket.assignee_id = assignee.user_id --many-to-one relationship
 
+),
+
+{% if var('zendesk__ticket_field_history', True) %}
+
+ticket_enriched_2 as (
+    
+    select
+        ticket_enriched_1.*,
+        ---resolution metrics
+        ticket_resolution_times.first_assignee_id, ---add assignee_name?
+        ticket_resolution_times.first_assignment_to_resolution_calendar_minutes,
+        ticket_resolution_times.last_assignee_id, ---add assigsnee_name?
+        ticket_resolution_times.last_assignment_to_resolution_calendar_minutes,
+        ticket_resolution_times.first_resolution_calendar_minutes,
+        ticket_resolution_times.final_resolution_calendar_minutes,
+        --- satisfaction_ratings
+        latest_satisfaction_ratings.count_satisfaction_scores,
+        latest_satisfaction_ratings.first_satisfaction_score,
+        latest_satisfaction_ratings.latest_satisfaction_score,
+        latest_satisfaction_ratings.latest_satisfaction_comment,
+        latest_satisfaction_ratings.latest_satisfaction_reason,
+        latest_satisfaction_ratings.is_good_to_bad_satisfaction_score,
+        latest_satisfaction_ratings.is_bad_to_good_satisfaction_score,
+        ---ticket_work_times
+        ticket_work_times.agent_wait_time_in_minutes,
+        ticket_work_times.requester_wait_time_in_minutes,
+        ticket_work_times.agent_work_time_in_minutes,
+        ticket_work_times.on_hold_time_in_minutes,
+        ticket_work_times.new_status_duration_minutes,
+        ticket_work_times.open_status_duration_minutes
+        
+    from ticket_enriched_1
+    left join latest_satisfaction_ratings on ticket_enriched_1.ticket_id = latest_satisfaction_ratings.ticket_id --one-to-one relationship
+    left join ticket_resolution_times on ticket_enriched_1.ticket_id = ticket_resolution_times.ticket_id --one-to-one
+    
+    left join ticket_work_times on ticket_enriched_1.ticket_id = ticket_work_times.ticket_id --one-to-one
+
 )
 
-select * from final
+select * from ticket_enriched_2
+
+{% endif %}
+
+select * from ticket_enriched_1
