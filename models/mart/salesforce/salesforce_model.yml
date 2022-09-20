@@ -100,6 +100,13 @@ models:
           metrics:
             total_won:
               type: count
+      
+      - name: is_closed
+        description: Is closed flag. True when the stage name is closed.
+        meta:
+          metrics:
+            total_closed:
+              type: count
 
       - name: opportunity_owner_name
         description: Opportunity Owner name.
