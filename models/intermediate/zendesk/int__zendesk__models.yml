@@ -41,3 +41,27 @@ models:
           - unique
           - not_null
           - dbt_utils.at_least_one
+  - name: int__zendesk__ticket_resolution_times
+    description: "Each record represents a ticket with its attributes related to resolution time"
+    columns:
+      - name: ticket_id
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+  - name: int__zendesk__ticket_work_times
+    description: "Each record represents a ticket with its attributes related to status time"
+    columns:
+      - name: ticket_id
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+  - name: int_zendesk__ticket_comments
+    description: "Each record represents a ticket with comments attributes"
+    columns:
+      - name: ticket_id
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one

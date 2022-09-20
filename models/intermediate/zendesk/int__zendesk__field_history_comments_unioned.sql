@@ -1,31 +1,42 @@
-with ticket_history as (
-    select *
-    from {{ ref('base__zendesk__ticket_field_history') }}
-
-),
-
-ticket_comment as (
+with ticket_comment as (
     select *
     from {{ ref('base__zendesk__ticket_comment') }}
 
 ),
 
-final as (
-    select
-        ticket_id,
-        field_name,
-        value,
-        null as is_public,
-        user_id,
-        valid_starting_at,
-        valid_ending_at,
-        'ticket_field_history' as source,
-        {{ dbt_utils.surrogate_key(['ticket_field_id','source']) }} as unique_id
+{% if var('zendesk__ticket_field_history', True) %}
 
-    from ticket_history
+ticket_history as (
+    select *
+    from {{ ref('base__zendesk__ticket_field_history') }}
 
-    union all
+),
 
+{% endif %}
+
+user as (
+    select *
+    from {{ ref('base__zendesk__user') }}
+),
+
+unioned as (
+
+    {% if var('zendesk__ticket_field_history', True) %}
+        select
+            ticket_id,
+            field_name,
+            value,
+            null as is_public,
+            user_id,
+            valid_starting_at,
+            valid_ending_at,
+            'ticket_field_history' as source,
+            {{ dbt_utils.surrogate_key(['ticket_field_id','source']) }} as unique_id
+
+        from ticket_history
+
+        union all
+    {% endif %}
     select
         ticket_id,
         cast('comment' as {{ dbt_utils.type_string() }}) as field_name,
@@ -38,8 +49,15 @@ final as (
         {{ dbt_utils.surrogate_key(['ticket_comment_id','source']) }} as unique_id
     from ticket_comment
 
+),
+
+final as (
+    select
+        unioned.*,
+        user.user_name,
+        user.user_role
+    from unioned
+    left join user on unioned.user_id = user.user_id --many-to-one
 )
 
-select
-    *
-from final
+select * from final
