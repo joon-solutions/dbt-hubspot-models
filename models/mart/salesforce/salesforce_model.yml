@@ -105,7 +105,7 @@ models:
         description: Is closed flag. True when the stage name is closed.
         meta:
           metrics:
-            total_won:
+            total_closed:
               type: count
 
       - name: opportunity_owner_name
