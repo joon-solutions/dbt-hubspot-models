@@ -11,6 +11,9 @@ models:
           - unique
           - not_null
           - dbt_utils.at_least_one
+        meta:
+          dimension:
+            type: string
 
       - name: number_of_employees
         description: Number of employees.

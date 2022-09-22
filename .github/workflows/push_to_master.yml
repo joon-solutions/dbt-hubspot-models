@@ -41,6 +41,8 @@ jobs:
         with:
           python-version: "3.7.x"
 
+      - uses: actions/setup-node@v3.4.1
+
       ## Dbt - Google BigQuery
       # - name: Authenticate gcloud
       #   uses: google-github-actions/setup-gcloud@v0.2.0
@@ -73,6 +75,9 @@ jobs:
           pip3 install -r requirements.txt
           dbt deps --target prod
           dbt seed --target prod
+
+      - name: Install lightdash CLI
+        run: npm install -g @lightdash/cli
 
       ## Download dbt manifest uploaded in another workflow (default: push_to_master.yml).
       # This manifest file will be used to filter out delta models.
@@ -112,3 +117,11 @@ jobs:
             name: ${{ env.ARTIFACT_DBT_MANIFEST_NAME }}
             path: target/manifest.json
             if-no-files-found: error
+
+      - name: Lightdash CLI deploy 
+        env:
+          LIGHTDASH_API_KEY: ${{ secrets.LIGHTDASH_API_KEY }}          
+          LIGHTDASH_PROJECT: ${{ secrets.LIGHTDASH_PROJECT }}          
+          LIGHTDASH_URL: ${{ secrets.LIGHTDASH_URL }}          
+
+        run: lightdash deploy --project-dir . --profiles-dir .

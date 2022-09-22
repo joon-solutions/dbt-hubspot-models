@@ -1,0 +1,14 @@
+{
+    "name": "Close Lightdash Preview",
+    "description": "Template of workflow to delete lightdash Preview created on a pull request after it is merged/ closed",
+    "iconName": "example-icon",
+    "categories": [
+        "SQL", "Python"
+    ],
+    "filePatterns": [
+        "packages.yml",
+        "dbt_project.yml",
+        "profiles.yml",
+        "requirements.txt"
+    ]
+}

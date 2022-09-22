@@ -34,10 +34,15 @@ jobs:
         with:
           python-version: "3.7.x"
 
+      - uses: actions/setup-node@v3.4.1
+
       - name: Install dependencies
         run: |
           pip3 install -r requirements.txt
           dbt deps
+
+      - name: Install lightdash CLI
+        run: npm install -g @lightdash/cli
 
       - name: Seeding
         run: dbt seed
@@ -69,3 +74,10 @@ jobs:
       - name: Test models
         run: dbt test --exclude tag:manual_input_test
 
+      - name: Lightdash CLI start preview 
+        env:
+          LIGHTDASH_API_KEY: ${{ secrets.LIGHTDASH_API_KEY }}          
+          LIGHTDASH_PROJECT: ${{ secrets.LIGHTDASH_PROJECT }}          
+          LIGHTDASH_URL: ${{ secrets.LIGHTDASH_URL }}          
+
+        run:  lightdash start-preview --project-dir . --profiles-dir . --name ${GITHUB_REF##*/}
