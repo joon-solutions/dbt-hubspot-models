@@ -6,8 +6,6 @@ on:
       - main
 
 env:
-  ARTIFACT_DBT_MANIFEST_NAME: dbt_manifest
-
   DBT_PROFILES_DIR: ./
 
   DBT_USER: ${{ secrets.DBT_USER }}
@@ -79,44 +77,14 @@ jobs:
       - name: Install lightdash CLI
         run: npm install -g @lightdash/cli
 
-      ## Download dbt manifest uploaded in another workflow (default: push_to_master.yml).
-      # This manifest file will be used to filter out delta models.
-      - name: Download dbt manifest
-        id: download_dbt_manifest
-        uses: dawidd6/action-download-artifact@v2
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          workflow: "${{ github.workflow }}.yml"
-          workflow_conclusion: success
-          branch: main
-          name: ${{ env.ARTIFACT_DBT_MANIFEST_NAME }}
-          path: .
-          check_artifacts:  false
-        continue-on-error: true
-
-      ## In some case, manifest file artifact cannot be downloaded.
-      # Then, compile current code to create a new manifest file.
-      # Note, because previous dbt state is missing, all models will be
-      # run and tested.
-      - name: Create new Dbt manifest if cannot download
-        if: steps.download_dbt_manifest.outcome == 'failure'
-        run: |
-          dbt compile
-          cp target/manifest.json .
-
-      - name: Run delta models
+      ## Run delta models
+      - name: Run models
         id: run_dbt
-        run: dbt run -m state:modified+ --state . --target prod
+        run: dbt run
 
-      - name: Test new models
-        run: dbt test --target prod -m state:modified+ --state .
-
-      - name: Upload dbt manifest
-        uses: actions/upload-artifact@v2
-        with:
-            name: ${{ env.ARTIFACT_DBT_MANIFEST_NAME }}
-            path: target/manifest.json
-            if-no-files-found: error
+      ## Test delta models
+      - name: Test models
+        run: dbt test
 
       - name: Lightdash CLI deploy 
         env:
