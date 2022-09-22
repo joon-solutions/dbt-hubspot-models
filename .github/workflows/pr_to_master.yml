@@ -12,8 +12,6 @@ on:
       - 'requirement.txt'
 
 env:
-  ARTIFACT_DBT_MANIFEST_WORKFLOW: push_to_master.yml
-  ARTIFACT_DBT_MANIFEST_NAME: dbt_manifest
 
   DBT_PROFILES_DIR: ./
   
@@ -34,10 +32,15 @@ jobs:
         with:
           python-version: "3.7.x"
 
+      - uses: actions/setup-node@v3.4.1
+
       - name: Install dependencies
         run: |
           pip3 install -r requirements.txt
           dbt deps
+
+      - name: Install lightdash CLI
+        run: npm install -g @lightdash/cli
 
       - name: Seeding
         run: dbt seed
@@ -50,22 +53,20 @@ jobs:
         run: |
           git fetch origin main:main
           git diff main --name-only --diff-filter=d | egrep '^models/.*sql$$' | xargs -r sqlfluff lint
-          
-      ## In some case, manifest file artifact cannot be downloaded.
-      # Then, compile current code to create a new manifest file.
-      # Note, because previous dbt state is missing, all models will be
-      # run and tested.
-      - name: Create new Dbt manifest if cannot download
-        if: steps.download_dbt_manifest.outcome == 'failure'
-        run: |
-          dbt compile
-          cp target/manifest.json .
 
       ## Run delta models
       - name: Run models
+        id: run_dbt
         run: dbt run
 
       ## Test delta models
       - name: Test models
-        run: dbt test --exclude tag:manual_input_test
+        run: dbt test
 
+      - name: Lightdash CLI start preview 
+        env:
+          LIGHTDASH_API_KEY: ${{ secrets.LIGHTDASH_API_KEY }}          
+          LIGHTDASH_PROJECT: ${{ secrets.LIGHTDASH_PROJECT }}          
+          LIGHTDASH_URL: ${{ secrets.LIGHTDASH_URL }}          
+
+        run:  lightdash start-preview --project-dir . --profiles-dir . --name ${GITHUB_HEAD_REF}
