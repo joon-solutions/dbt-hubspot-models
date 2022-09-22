@@ -71,8 +71,8 @@ jobs:
       - name: Install dependencies
         run: |
           pip3 install -r requirements.txt
-          dbt deps --target prod
-          dbt seed --target prod
+          dbt deps
+          dbt seed
 
       - name: Install lightdash CLI
         run: npm install -g @lightdash/cli
