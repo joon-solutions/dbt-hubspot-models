@@ -31,7 +31,8 @@ final as (
         brand_url,
         brand_name,
         subdomain,
-        is_active
+        is_active,
+        logo_content_type
     from fields
     where not coalesce(_fivetran_deleted, false)
 )
