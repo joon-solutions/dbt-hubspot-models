@@ -42,8 +42,8 @@ reply_timestamps as (
         *,
         case when is_public = true and commenter_role = 'internal_comment' and previous_commenter_role in ('external_comment', 'first_comment')
                 then ({{ dbt_utils.datediff(
-                            'valid_starting_at',
                             'previous_comment_at',
+                            'valid_starting_at',
                             'second') }} / 60)
         end as reply_time_calendar_minutes
     from add_previous_commenter_role

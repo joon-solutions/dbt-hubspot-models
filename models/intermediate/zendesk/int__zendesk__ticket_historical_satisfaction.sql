@@ -73,30 +73,31 @@ score_group as (
 
 final as (
     select
-        latest_reason.ticket_id, --PK
-        latest_reason.latest_satisfaction_reason,
-        latest_comment.latest_satisfaction_comment,
-        first_and_latest_score.first_satisfaction_score,
-        first_and_latest_score.latest_satisfaction_score,
-        case when score_group.count_satisfaction_scores > 0
+        coalesce(latest_reason.ticket_id, latest_comment.ticket_id, first_and_latest_score.ticket_id, score_group.ticket_id) as ticket_id, --PK
+        max(latest_reason.latest_satisfaction_reason) as latest_satisfaction_reason,
+        max(latest_comment.latest_satisfaction_comment) as latest_satisfaction_comment,
+        max(first_and_latest_score.first_satisfaction_score) as first_satisfaction_score,
+        max(first_and_latest_score.latest_satisfaction_score) as latest_satisfaction_score,
+        max(case when score_group.count_satisfaction_scores > 0
                 then (score_group.count_satisfaction_scores - 1) --Subtracting one as the first score is always "offered".
             else score_group.count_satisfaction_scores
-        end as count_satisfaction_scores,
-        score_group.total_good_to_bad_score,
-        score_group.total_bad_to_good_score,
-        score_group.total_good_to_bad_score > 0 as is_good_to_bad_satisfaction_score,
-        score_group.total_bad_to_good_score > 0 as is_bad_to_good_satisfaction_score
+        end) as count_satisfaction_scores,
+        max(score_group.total_good_to_bad_score) as total_good_to_bad_score,
+        max(score_group.total_bad_to_good_score) as total_bad_to_good_score,
+        max(score_group.total_good_to_bad_score > 0) as is_good_to_bad_satisfaction_score,
+        max(score_group.total_bad_to_good_score > 0) as is_bad_to_good_satisfaction_score
 
     from latest_reason
 
-    left join latest_comment
+    full join latest_comment
         on latest_reason.ticket_id = latest_comment.ticket_id --one-to-one relationship
 
-    left join first_and_latest_score
+    full join first_and_latest_score
         on latest_reason.ticket_id = first_and_latest_score.ticket_id --one-to-one relationship
 
-    left join score_group
+    full join score_group
         on latest_reason.ticket_id = score_group.ticket_id --one-to-one relationship
+    group by 1
 
 )
 
