@@ -81,7 +81,7 @@ final as (
         max(case when score_group.count_satisfaction_scores > 0
                 then (score_group.count_satisfaction_scores - 1) --Subtracting one as the first score is always "offered".
             else score_group.count_satisfaction_scores
-        end) as count_satisfaction_scores,
+            end) as count_satisfaction_scores,
         max(score_group.total_good_to_bad_score) as total_good_to_bad_score,
         max(score_group.total_bad_to_good_score) as total_bad_to_good_score,
         max(score_group.total_good_to_bad_score > 0) as is_good_to_bad_satisfaction_score,
