@@ -42,6 +42,11 @@ models:
         description: The urgency with which the ticket should be addressed, possible values are urgent, high, normal and low
       - name: status
         description: The state of the ticket, possible values are new, open, pending, hold, solved and closed
+        tests:
+          - accepted_values:
+              values: ['new', 'open', 'pending', 'hold', 'closed', 'solved', 'deleted']
+              config:
+                severity: warn
       - name: recipient
         description: The original recipient e-mail address of the ticket
       - name: requester_id
