@@ -17,6 +17,16 @@ models:
           metrics:
             count_tickets:
               type: count
+            count_open_tickets:
+              type: count
+              sql: "case when status in ('new', 'open', 'pending') then 1 else null end"
+            count_closed_tickets:
+              type: count
+              sql: "case when status in ('solved', 'closed') then 1 else null end"
+            count_deleted_tickets:
+              type: count
+              sql: "case when status = 'deleted' then 1 else null end"
+
       - name: url
         description: The API url of this ticket
         meta:
@@ -27,6 +37,9 @@ models:
         meta:
           dimension:
             type: number
+          metrics:
+            count_assignees:
+              type: count_distinct
       - name: assignee_role
         description: The role of the agent currently assigned to the ticket
         meta:
