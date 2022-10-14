@@ -5,7 +5,9 @@ with base as (
     select *
     from {{ source('marketo', 'campaign') }}
 
-), macro as (
+),
+
+macro as (
 
     select
         {{
@@ -16,9 +18,11 @@ with base as (
         }}
     from base
 
-), fields as (
+),
 
-    select 
+fields as (
+
+    select
         active as is_active,
         created_timestamp,
         description,
@@ -35,4 +39,3 @@ with base as (
 
 select *
 from fields
-
