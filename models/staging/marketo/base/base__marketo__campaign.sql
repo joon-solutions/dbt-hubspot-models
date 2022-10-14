@@ -23,7 +23,7 @@ macro as (
 fields as (
 
     select
-        active as is_active,
+        is_active,
         created_timestamp,
         description,
         campaign_id,
