@@ -63,10 +63,10 @@ jobs:
       - name: Test models
         run: dbt test
 
-      - name: Lightdash CLI start preview 
-        env:
-          LIGHTDASH_API_KEY: ${{ secrets.LIGHTDASH_API_KEY }}          
-          LIGHTDASH_PROJECT: ${{ secrets.LIGHTDASH_PROJECT }}          
-          LIGHTDASH_URL: ${{ secrets.LIGHTDASH_URL }}          
+      # - name: Lightdash CLI start preview
+      #   env:
+      #     LIGHTDASH_API_KEY: ${{ secrets.LIGHTDASH_API_KEY }}          
+      #     LIGHTDASH_PROJECT: ${{ secrets.LIGHTDASH_PROJECT }}          
+      #     LIGHTDASH_URL: ${{ secrets.LIGHTDASH_URL }}          
 
-        run:  lightdash start-preview --project-dir . --profiles-dir . --name ${GITHUB_HEAD_REF}
+      #   run:  lightdash start-preview --project-dir . --profiles-dir . --name ${GITHUB_HEAD_REF}

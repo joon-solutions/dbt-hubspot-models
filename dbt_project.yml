@@ -99,16 +99,22 @@ vars:
   zendesk__ticket_field_history: true
   zendesk__organization_tag: false
   zendesk__domain_names: false
-  # base__zendesk__brand: # core table
-  # base__zendesk__group: #core table
-  # base__zendesk__organization: #core table
-  # base__zendesk__ticket_comment: #core table
-  # base__zendesk__user_tag: #core table
-  # base__zendesk__user: #core table
-  # base__zendesk__ticket_form_history: #core table
-  # base__zendesk__ticket_tag: #core table
 
-
+# Marketo
+  marketo__activity_change_data_value: true
+  marketo__activity_click_email: true 
+  marketo__activity_delete_lead_enabled: true 
+  marketo__activity_email_bounced: true
+  marketo__activity_email_delivered: true 
+  marketo__activity_merge_leads: true 
+  marketo__activity_open_email: true 
+  marketo__activity_send_email: true 
+  marketo__activity_unsubscribe_email: true 
+  marketo__campaign: true
+  marketo__email_template_history: true 
+  marketo__lead_describe: true
+  marketo__lead: true 
+  marketo__program: true 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
 
