@@ -83,6 +83,12 @@ models:
             
       - name: email_send_id
         description: The inferred ID for the email sent. This is created by concatenating primary_attribute_value_id, campaign_id, campaign_run_id, and lead_id. 
+        test:
+          - relationships:
+              to: ref('base__marketo__activity_send_email')
+              field: email_send_id
+              config:
+                severity: warn
             
       - name: email_template_id
         description: The ID of the email's template.
@@ -146,6 +152,12 @@ models:
             
       - name: email_send_id
         description: The inferred ID for the email sent. This is created by concatenating primary_attribute_value_id, campaign_id, campaign_run_id, and lead_id. 
+        test:
+          - relationships:
+              to: ref('base__marketo__activity_send_email')
+              field: email_send_id
+              config:
+                severity: warn
             
       - name: email_template_id
         description: The ID of the email's template.
@@ -188,6 +200,12 @@ models:
             
       - name: email_send_id
         description: The inferred ID for the email sent. This is created by concatenating primary_attribute_value_id, campaign_id, campaign_run_id, and lead_id. 
+        test:
+          - relationships:
+              to: ref('base__marketo__activity_send_email')
+              field: email_send_id
+              config:
+                severity: warn
             
       - name: email_template_id
         description: The ID of the email's template.
@@ -233,6 +251,12 @@ models:
             
       - name: email_send_id
         description: The inferred ID for the email sent. This is created by concatenating primary_attribute_value_id, campaign_id, campaign_run_id, and lead_id. 
+        test:
+          - relationships:
+              to: ref('base__marketo__activity_send_email')
+              field: email_send_id
+              config:
+                severity: warn
             
       - name: email_template_id
         description: The ID of the email's template.
@@ -287,6 +311,12 @@ models:
             
       - name: email_template_id
         description: The ID of the email's template.
+        tests:
+          - relationships:
+              to: ref('base__marketo__email_template_history')
+              field: email_template_id
+              config:
+                severity: warn
             
       - name: lead_id
         description: The ID of the lead related to the activity.
@@ -326,6 +356,12 @@ models:
             
       - name: email_send_id
         description: The inferred ID for the email sent. This is created by concatenating primary_attribute_value_id, campaign_id, campaign_run_id, and lead_id. 
+        test:
+          - relationships:
+              to: ref('base__marketo__activity_send_email')
+              field: email_send_id
+              config:
+                severity: warn
             
       - name: email_template_id
         description: The ID of the email's template.

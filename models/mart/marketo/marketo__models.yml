@@ -1,0 +1,63 @@
+version: 2
+
+models:
+  - name: fct__marketo__campaigns
+    description: Each record is Marketo campaign.
+    columns:
+      - name: campaign_id
+        description: ID of the campaign.
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+            
+      - name: campaign_name
+        description: Name of the campaign.
+            
+      - name: campaign_type
+        description: Type of campaign, either 'batch' or 'trigger'.
+            
+      - name: created_timestamp
+        description: Timestamp when the campaign was created.
+            
+      - name: description
+        description: Description of the campaign
+            
+      - name: is_active
+        description: Whether the campaign is active. Only applicable to trigger campaigns.
+            
+      - name: program_id
+        description: ID of the parent program, if applicable.
+            
+      - name: program_name
+        description: Name of the parent program, if applicable.
+            
+      - name: updated_timestamp
+        description: Timestamp when the campaign was most recently updated.
+            
+      - name: workspace_name
+        description: Name of the parent workspace, if applicable.
+      
+      - name: count_sends
+        description: '{{ doc("marketo_count_sends") }}'
+
+      - name: count_opens
+        description: '{{ doc("marketo_count_opens") }}'
+
+      - name: count_bounces
+        description: '{{ doc("marketo_count_bounces") }}'
+
+      - name: count_clicks
+        description: '{{ doc("marketo_count_clicks") }}'
+
+      - name: count_deliveries
+        description: '{{ doc("marketo_count_deliveries") }}'
+
+      - name: count_unsubscribes
+        description: '{{ doc("marketo_count_unsubscribes") }}'
+
+      - name: count_unique_opens
+        description: '{{ doc("marketo_count_unique_opens") }}'
+
+      - name: count_unique_clicks
+        description: '{{ doc("marketo_count_unique_clicks") }}'

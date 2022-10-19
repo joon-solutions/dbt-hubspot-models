@@ -1,0 +1,12 @@
+version: 2
+
+models:
+  - name: int_marketo__lead
+  
+  - name: stg__marketo__email_sends
+    columns:
+      - name: email_send_id
+        tests:
+          - not_null
+          - unique
+          - dbt_utils.at_least_one
