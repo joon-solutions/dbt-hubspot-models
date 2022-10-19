@@ -53,16 +53,9 @@ bounces as (
     group by 1
 ),
 
-email_templates as (
-
-    select *
-    from {{ ref('base__marketo__email_template_history') }}
-),
-
 final as (
     select
         sends.*,
-        email_templates.is_operational,
         --metrics
         coalesce(opens.count_opens, 0) as count_opens,
         coalesce(bounces.count_bounces, 0) as count_bounces,
@@ -81,11 +74,6 @@ final as (
     left join clicks on sends.email_send_id = clicks.email_send_id
     left join deliveries on sends.email_send_id = deliveries.email_send_id
     left join unsubscribes on sends.email_send_id = unsubscribes.email_send_id
-    left join email_templates ---many-to-one (time condition turns PK of email_templates = email_template_id)
-        on sends.email_template_id = email_templates.email_template_id
-            and sends.activity_timestamp
-            between email_templates.valid_from
-            and coalesce(email_templates.valid_to, cast('2099-01-01' as timestamp))
 )
 
 select * from final

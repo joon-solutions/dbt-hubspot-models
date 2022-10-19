@@ -1,7 +1,6 @@
 version: 2
 
 models:
-  - name: int_marketo__lead
   
   - name: stg__marketo__email_sends
     columns:

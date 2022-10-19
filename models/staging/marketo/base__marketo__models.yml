@@ -425,6 +425,12 @@ models:
             
       - name: program_id
         description: ID of the parent program, if applicable.
+        test:
+          - relationships:
+              to: ref('base__marketo__program')
+              field: program_id
+              config:
+                severity: warn
             
       - name: program_name
         description: Name of the parent program, if applicable.
