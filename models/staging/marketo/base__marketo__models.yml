@@ -299,6 +299,12 @@ models:
             
       - name: campaign_id
         description: The ID of the email's campaign.
+        test:
+          - relationships:
+              to: ref('base__marketo__campaign')
+              field: campaign_id
+              config:
+                severity: warn
             
       - name: campaign_run_id
         description: The ID of the email's campaign run.

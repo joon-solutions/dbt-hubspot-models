@@ -6,7 +6,7 @@ with sends as (
 ),
 
 opens as (
-    select 
+    select
         email_send_id,
         count(*) as count_opens
     from {{ ref('base__marketo__activity_open_email') }}
@@ -14,7 +14,7 @@ opens as (
 ),
 
 bounces as (
-    select 
+    select
         email_send_id,
         count(*) as count_bounces
     from {{ ref('base__marketo__activity_email_bounced') }}
@@ -22,7 +22,7 @@ bounces as (
 ),
 
 clicks as (
-    select 
+    select
         email_send_id,
         count(*) as count_clicks
     from {{ ref('base__marketo__activity_click_email') }}
@@ -30,7 +30,7 @@ clicks as (
 ),
 
 deliveries as (
-    select 
+    select
         email_send_id,
         count(*) as count_deliveries
     from {{ ref('base__marketo__activity_email_delivered') }}
@@ -38,7 +38,7 @@ deliveries as (
 ),
 
 unsubscribes as (
-    select 
+    select
         email_send_id,
         count(*) as count_unsubscribes
     from {{ ref('base__marketo__activity_unsubscribe_email') }}
@@ -46,7 +46,7 @@ unsubscribes as (
 ),
 
 bounces as (
-    select 
+    select
         email_send_id,
         count(*) as count_bounces
     from {{ ref('base__marketo__activity_email_bounced') }}
@@ -83,7 +83,7 @@ final as (
     left join unsubscribes on sends.email_send_id = unsubscribes.email_send_id
     left join email_templates ---many-to-one (time condition turns PK of email_templates = email_template_id)
         on sends.email_template_id = email_templates.email_template_id
-        and sends.activity_timestamp 
+            and sends.activity_timestamp
             between email_templates.valid_from
             and coalesce(email_templates.valid_to, cast('2099-01-01' as timestamp))
 )
