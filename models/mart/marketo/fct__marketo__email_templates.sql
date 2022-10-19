@@ -22,8 +22,8 @@ final as ( --PK=email_template_id
         coalesce(sum(email_sends.count_clicks), 0) as count_clicks,
         coalesce(sum(email_sends.count_deliveries), 0) as count_deliveries,
         coalesce(sum(email_sends.count_unsubscribes), 0) as count_unsubscribes,
-        count(distinct case when email_sends.was_opened = True then email_sends.email_send_id end) as count_unique_opens,
-        count(distinct case when email_sends.was_clicked = True then email_sends.email_send_id end) as count_unique_clicks
+        count(distinct case when email_sends.was_opened = true then email_sends.email_send_id end) as count_unique_opens,
+        count(distinct case when email_sends.was_clicked = true then email_sends.email_send_id end) as count_unique_clicks
     from latest_email_templates
     left join email_sends ---one-to-many (time condition turns PK of email_templates = email_template_id)
         on latest_email_templates.email_template_id = email_sends.email_template_id

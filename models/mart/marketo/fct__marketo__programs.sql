@@ -37,7 +37,7 @@ email_sends_agg as ( --PK=email_template_id
 ),
 
 final as (
-    select 
+    select
         programs.*,
         coalesce(email_sends_agg.count_sends, 0) as count_sends,
         coalesce(email_sends_agg.count_opens, 0) as count_opens,
