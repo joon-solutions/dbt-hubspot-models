@@ -45,14 +45,6 @@ unsubscribes as (
     group by 1
 ),
 
-bounces as (
-    select
-        email_send_id,
-        count(*) as count_bounces
-    from {{ ref('base__marketo__activity_email_bounced') }}
-    group by 1
-),
-
 final as (
     select
         sends.*,
