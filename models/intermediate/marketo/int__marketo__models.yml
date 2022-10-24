@@ -7,3 +7,4 @@ models:
         tests:
           - not_null
           - unique
+          - dbt_utils.at_least_one
