@@ -259,3 +259,18 @@ models:
 
       - name: count_unique_clicks
         description: '{{ doc("marketo_count_unique_clicks") }}'
+    
+  - name: fct__marketo__leads
+    description: Each record is a Marketo lead.
+    columns:
+      - name: lead_id
+        description: ID of the lead.
+        tests:
+          - unique
+          - not_null
+
+      - name: created_timestamp
+        description: Timestamp for when each lead was created.
+
+      - name: updated_timestamp
+        description: Timestamp for when each lead was updated.
