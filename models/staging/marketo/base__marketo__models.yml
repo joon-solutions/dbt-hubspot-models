@@ -290,6 +290,8 @@ models:
           - unique
           - not_null
           - dbt_utils.at_least_one
+      - name: lead_id
+        tests:
           - relationships:
               to: ref('base__marketo__lead')
               field: lead_id
