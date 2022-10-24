@@ -259,3 +259,43 @@ models:
 
       - name: count_unique_clicks
         description: '{{ doc("marketo_count_unique_clicks") }}'
+    
+  - name: fct__marketo__leads
+    description: Each record is a Marketo lead.
+    columns:
+      - name: lead_id
+        description: ID of the lead.
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+
+      - name: created_timestamp
+        description: Timestamp for when each lead was created.
+
+      - name: updated_timestamp
+        description: Timestamp for when each lead was updated.
+      
+      - name: count_sends
+        description: '{{ doc("marketo_count_sends") }}'
+
+      - name: count_opens
+        description: '{{ doc("marketo_count_opens") }}'
+
+      - name: count_bounces
+        description: '{{ doc("marketo_count_bounces") }}'
+
+      - name: count_clicks
+        description: '{{ doc("marketo_count_clicks") }}'
+
+      - name: count_deliveries
+        description: '{{ doc("marketo_count_deliveries") }}'
+
+      - name: count_unsubscribes
+        description: '{{ doc("marketo_count_unsubscribes") }}'
+
+      - name: count_unique_opens
+        description: '{{ doc("marketo_count_unique_opens") }}'
+
+      - name: count_unique_clicks
+        description: '{{ doc("marketo_count_unique_clicks") }}'
