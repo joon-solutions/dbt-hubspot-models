@@ -3,12 +3,16 @@ with leads as (
     select *
     from {{ ref('base__marketo__lead') }}
 
-), email_stats as (
+),
+
+email_stats as (
 
     select *
     from {{ ref('int__marketo__emails_send_by_lead') }}
 
-), joined as (
+),
+
+joined as (
 
     select
         leads.*,
@@ -22,7 +26,7 @@ with leads as (
         coalesce(email_stats.count_unique_clicks, 0) as count_unique_clicks
     from leads
     left join email_stats
-        using (lead_id)
+        on leads.lead_id = email_stats.lead_id
 
 )
 

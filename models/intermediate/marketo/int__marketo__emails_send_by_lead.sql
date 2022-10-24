@@ -3,7 +3,9 @@ with email_sends as (
     select *
     from {{ ref('stg__marketo__email_sends') }}
 
-), aggregated as (
+),
+
+aggregated as (
 
     select
         lead_id,
