@@ -275,3 +275,27 @@ models:
 
       - name: updated_timestamp
         description: Timestamp for when each lead was updated.
+      
+      - name: count_sends
+        description: '{{ doc("marketo_count_sends") }}'
+
+      - name: count_opens
+        description: '{{ doc("marketo_count_opens") }}'
+
+      - name: count_bounces
+        description: '{{ doc("marketo_count_bounces") }}'
+
+      - name: count_clicks
+        description: '{{ doc("marketo_count_clicks") }}'
+
+      - name: count_deliveries
+        description: '{{ doc("marketo_count_deliveries") }}'
+
+      - name: count_unsubscribes
+        description: '{{ doc("marketo_count_unsubscribes") }}'
+
+      - name: count_unique_opens
+        description: '{{ doc("marketo_count_unique_opens") }}'
+
+      - name: count_unique_clicks
+        description: '{{ doc("marketo_count_unique_clicks") }}'

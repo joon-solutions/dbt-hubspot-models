@@ -8,25 +8,26 @@ with leads as (
 email_stats as (
 
     select *
-    from {{ ref('int__marketo__emails_send_by_lead') }}
+    from {{ ref('stg__marketo__email_sends') }}
 
 ),
 
 joined as (
 
     select
-        leads.*,
-        coalesce(email_stats.count_sends, 0) as count_sends,
-        coalesce(email_stats.count_opens, 0) as count_opens,
-        coalesce(email_stats.count_bounces, 0) as count_bounces,
-        coalesce(email_stats.count_clicks, 0) as count_clicks,
-        coalesce(email_stats.count_deliveries, 0) as count_deliveries,
-        coalesce(email_stats.count_unsubscribes, 0) as count_unsubscribes,
-        coalesce(email_stats.count_unique_opens, 0) as count_unique_opens,
-        coalesce(email_stats.count_unique_clicks, 0) as count_unique_clicks
+        leads.lead_id,
+        count(*) as count_sends,
+        sum(email_stats.count_opens) as count_opens,
+        sum(email_stats.count_bounces) as count_bounces,
+        sum(email_stats.count_clicks) as count_clicks,
+        sum(email_stats.count_deliveries) as count_deliveries,
+        sum(email_stats.count_unsubscribes) as count_unsubscribes,
+        count(distinct case when email_stats.was_opened = True then email_stats.email_send_id end) as count_unique_opens,
+        count(distinct case when email_stats.was_clicked = True then email_stats.email_send_id end) as count_unique_clicks
     from leads
     left join email_stats
         on leads.lead_id = email_stats.lead_id
+    group by 1
 
 )
 
