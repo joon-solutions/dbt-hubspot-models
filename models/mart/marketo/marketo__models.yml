@@ -20,6 +20,9 @@ models:
         description: Type of campaign, either 'batch' or 'trigger'.
       - name: created_timestamp
         description: Timestamp when the campaign was created.
+        meta:
+          dimension:
+            type: timestamp
       - name: description
         description: Description of the campaign
       - name: is_active
@@ -33,6 +36,9 @@ models:
         description: Name of the parent program, if applicable.
       - name: updated_timestamp
         description: Timestamp when the campaign was most recently updated.
+        meta:
+          dimension:
+            type: timestamp
       - name: workspace_name
         description: Name of the parent workspace, if applicable.
       - name: count_sends
@@ -41,40 +47,58 @@ models:
           metrics:
             total_sends:
               type: sum
+          dimension:
+            type: number
       - name: count_opens
         description: "{{ doc(\"marketo_count_opens\") }}"
         meta:
           metrics:
             total_opens:
               type: sum
+          dimension:
+            type: number
       - name: count_bounces
         description: "{{ doc(\"marketo_count_bounces\") }}"
         meta:
           metrics:
             total_bounce:
               type: sum
+          dimension:
+            type: number
       - name: count_clicks
         description: "{{ doc(\"marketo_count_clicks\") }}"
         meta:
           metrics:
             total_clicks:
               type: sum
+          dimension:
+            type: number
       - name: count_deliveries
         description: "{{ doc(\"marketo_count_deliveries\") }}"
         meta:
           metrics:
             total_deliveries:
               type: sum
+          dimension:
+            type: number
       - name: count_unsubscribes
         description: "{{ doc(\"marketo_count_unsubscribes\") }}"
         meta:
           metrics:
             total_unsubscribes:
               type: sum
+          dimension:
+            type: number
       - name: count_unique_opens
         description: "{{ doc(\"marketo_count_unique_opens\") }}"
+        meta: 
+          dimension:
+            type: number
       - name: count_unique_clicks
         description: "{{ doc(\"marketo_count_unique_clicks\") }}"
+        meta:
+          dimension:
+            type: number
 
   - name: fct__marketo__email_templates
     description: Each record is the most recent version of an email template.
@@ -91,6 +115,9 @@ models:
               type: count
       - name: created_timestamp
         description: Timestamp the email template was created.
+        meta:
+          dimension:
+            type: timestamp
       - name: description
         description: Description of the email template.
       - name: email_subject
@@ -144,6 +171,9 @@ models:
         description: Count of records for a given email_template_id.
       - name: updated_timestamp
         description: Timestamp the email template was last updated.
+        meta:
+          dimension:
+            type: timestamp
       - name: valid_from
         description: When the version of the email template was is valid from.
       - name: valid_to
@@ -158,42 +188,60 @@ models:
           metrics:
             total_sends:
               type: sum
+          dimension:
+            type: number
       - name: count_opens
         description: "{{ doc(\"marketo_count_opens\") }}"
         meta:
           metrics:
             total_opens:
               type: sum
+          dimension:
+            type: number
       - name: count_bounces
         description: "{{ doc(\"marketo_count_bounces\") }}"
         meta:
           metrics:
             total_bounces:
               type: sum
+          dimension:
+            type: number
       - name: count_clicks
         description: "{{ doc(\"marketo_count_clicks\") }}"
         meta:
           metrics:
             total_clicks:
               type: sum
+          dimension:
+            type: number
       - name: count_deliveries
         description: "{{ doc(\"marketo_count_deliveries\") }}"
         meta:
           metrics:
             total_deliveries:
               type: sum
+          dimension:
+            type: number
       - name: count_unsubscribes
         description: "{{ doc(\"marketo_count_unsubscribes\") }}"
         meta:
           metrics:
             total_unsubscribes:
               type: sum
+          dimension:
+            type: number
               
       - name: count_unique_opens
         description: "{{ doc(\"marketo_count_unique_opens\") }}"
+        meta:
+          dimension:
+            type: number
 
       - name: count_unique_clicks
         description: "{{ doc(\"marketo_count_unique_clicks\") }}"
+        meta:
+          dimension:
+            type: number
 
   - name: fct__marketo__programs
     description: Each record is a Marketo program.
@@ -208,7 +256,7 @@ models:
           metrics:
             number_of_program:
               type: count
-              
+
       - name: channel
         description: Channel of the program.
         meta:
@@ -218,19 +266,19 @@ models:
         description: Timestamp the program was created at
         meta:
           dimension:
-            type: string
+            type: timestamp
       - name: description
         description: Description of the program.
         meta:
           dimension:
-            type: number
+            type: string
       - name: end_timestamp
         description: >-
           End date of the program. Applicable to event, email, and webinar type
           programs.
         meta:
           dimension:
-            type: number
+            type: timestamp
       - name: program_name
         description: Name of the program.
         meta:
@@ -267,12 +315,12 @@ models:
           programs.
         meta:
           dimension:
-            type: number
+            type: timestamp
       - name: updated_timestamp
         description: Timestamp the program was most recently updated.
         meta:
           dimension:
-            type: string
+            type: timestamp
       - name: url
         description: URL of the program in the Marketo UI.
         meta:
@@ -357,8 +405,14 @@ models:
               type: count
       - name: created_timestamp
         description: Timestamp for when each lead was created.
+        meta:
+          dimension:
+            type: timestamp
       - name: updated_timestamp
         description: Timestamp for when each lead was updated.
+        meta:
+          dimension:
+            type: timestamp
       - name: count_sends
         description: "{{ doc(\"marketo_count_sends\") }}"
         meta:
@@ -371,31 +425,47 @@ models:
           metrics:
             total_opens:
               type: sum
+          dimension:
+            type: number
       - name: count_bounces
         description: "{{ doc(\"marketo_count_bounces\") }}"
         meta:
           metrics:
             total_bounces:
               type: sum
+          dimension:
+            type: number
       - name: count_clicks
         description: "{{ doc(\"marketo_count_clicks\") }}"
         meta:
           metrics:
             total_clicks:
               type: sum
+          dimension:
+            type: number
       - name: count_deliveries
         description: "{{ doc(\"marketo_count_deliveries\") }}"
         meta:
           metrics:
             total_deliveries:
               type: sum
+          dimension:
+            type: number
       - name: count_unsubscribes
         description: "{{ doc(\"marketo_count_unsubscribes\") }}"
         meta:
           metrics:
             total_unsubscribes:
               type: sum
+          dimension:
+            type: number
       - name: count_unique_opens
         description: "{{ doc(\"marketo_count_unique_opens\") }}"
+        meta:
+          dimension:
+            type: number
       - name: count_unique_clicks
         description: "{{ doc(\"marketo_count_unique_clicks\") }}"
+        meta:
+          dimension:
+            type: number
