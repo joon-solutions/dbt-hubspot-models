@@ -16,6 +16,8 @@ joined as (
 
     select
         leads.lead_id,
+        leads.created_timestamp,
+        leads.updated_timestamp,
         count(*) as count_sends,
         sum(email_stats.count_opens) as count_opens,
         sum(email_stats.count_bounces) as count_bounces,
