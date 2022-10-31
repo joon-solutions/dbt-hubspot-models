@@ -29,7 +29,7 @@ joined as (
     from leads
     left join email_stats
         on leads.lead_id = email_stats.lead_id
-    group by 1
+    group by 1,2,3
 
 )
 
