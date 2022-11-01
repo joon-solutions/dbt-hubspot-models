@@ -19,5 +19,4 @@ macro as (
     from base
 )
 
-select *
-from macro
+select * from macro

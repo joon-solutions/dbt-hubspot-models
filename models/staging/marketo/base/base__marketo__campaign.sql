@@ -24,14 +24,14 @@ fields as (
 
     select
         is_active,
-        created_timestamp,
+        to_timestamp(created_timestamp, 'YYYY-MM-DD HH24:MI:SS TZD') as created_timestamp,
         description,
         campaign_id, --PK?
         campaign_name,
         program_id,
         program_name,
         campaign_type,
-        updated_timestamp,
+        to_timestamp(updated_timestamp, 'YYYY-MM-DD HH24:MI:SS TZD') as updated_timestamp,
         workspace_name
     from macro
 
