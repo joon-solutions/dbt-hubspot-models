@@ -36,7 +36,7 @@ email_sends_agg as ( --PK=email_template_id
 
 ),
 
-final as (
+abs_metrics as (
     select
         programs.*,
         coalesce(email_sends_agg.count_sends, 0) as count_sends,
@@ -50,7 +50,17 @@ final as (
     from programs
     left join email_sends_agg on programs.program_id = email_sends_agg.program_id --one-to-one
 
+),
+
+rates_metrics as (
+    select
+        *,
+        div0(count_unique_opens, count_sends) as open_rates_by_sends,
+        div0(count_unique_clicks, count_sends) as click_rates_by_sends,
+        div0(count_unique_opens, count_deliveries) as open_rates_by_deliveries,
+        div0(count_unique_clicks, count_deliveries) as click_rates_by_deliveries
+    from abs_metrics
 )
 
 select *
-from final
+from rates_metrics

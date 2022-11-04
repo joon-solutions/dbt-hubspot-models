@@ -1,6 +1,5 @@
 version: 2
 models:
-
   - name: fct__marketo__campaigns
     description: Each record is Marketo campaign.
     columns:
@@ -14,10 +13,18 @@ models:
           metrics:
             number_of_campaign:
               type: count
+          dimension:
+            type: number
       - name: campaign_name
         description: Name of the campaign.
+        meta:
+          dimension:
+            type: string
       - name: campaign_type
         description: Type of campaign, either 'batch' or 'trigger'.
+        meta:
+          dimension:
+            type: string
       - name: created_timestamp
         description: Timestamp when the campaign was created.
         meta:
@@ -25,6 +32,9 @@ models:
             type: timestamp
       - name: description
         description: Description of the campaign
+        meta:
+          dimension:
+            type: string
       - name: is_active
         description: Whether the campaign is active. Only applicable to trigger campaigns.
         meta:
@@ -32,8 +42,14 @@ models:
             type: boolean
       - name: program_id
         description: ID of the parent program, if applicable.
+        meta:
+          dimension:
+            type: number
       - name: program_name
         description: Name of the parent program, if applicable.
+        meta:
+          dimension:
+            type: string
       - name: updated_timestamp
         description: Timestamp when the campaign was most recently updated.
         meta:
@@ -41,6 +57,9 @@ models:
             type: timestamp
       - name: workspace_name
         description: Name of the parent workspace, if applicable.
+        meta:
+          dimension:
+            type: string
       - name: count_sends
         description: "{{ doc(\"marketo_count_sends\") }}"
         meta:
@@ -91,7 +110,7 @@ models:
             type: number
       - name: count_unique_opens
         description: "{{ doc(\"marketo_count_unique_opens\") }}"
-        meta: 
+        meta:
           dimension:
             type: number
       - name: count_unique_clicks
@@ -99,7 +118,38 @@ models:
         meta:
           dimension:
             type: number
-
+      - name: open_rates_by_sends
+        description: "{{ doc(\"marketo_open_rates_by_sends\") }}"
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_open_rates_by_sends:
+              type: average
+      - name: click_rates_by_sends
+        description: "{{ doc(\"marketo_click_rates_by_sends\") }}"
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_click_rates_by_sends:
+              type: average
+      - name: open_rates_by_deliveries
+        description: "{{ doc(\"marketo_open_rates_by_deliveries\") }}"
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_open_rates_by_deliveries:
+              type: average
+      - name: click_rates_by_deliveries
+        description: "{{ doc(\"marketo_click_rates_by_deliveries\") }}"
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_click_rates_by_deliveries:
+              type: average 
   - name: fct__marketo__email_templates
     description: Each record is the most recent version of an email template.
     columns:
@@ -113,6 +163,8 @@ models:
           metrics:
             number_of_template:
               type: count
+          dimension:
+            type: number
       - name: created_timestamp
         description: Timestamp the email template was created.
         meta:
@@ -120,36 +172,84 @@ models:
             type: timestamp
       - name: description
         description: Description of the email template.
+        meta:
+          dimension:
+            type: string
       - name: email_subject
         description: Subject line of the email.
+        meta:
+          dimension:
+            type: string
       - name: email_template_history_id
         description: ID of the version of the email template.
+        meta:
+          dimension:
+            type: string
       - name: email_template_id
         description: ID of the email template
+        meta:
+          dimension:
+            type: number
       - name: email_template_name
         description: Name of the email template.
+        meta:
+          dimension:
+            type: string
       - name: email_template_status
         description: Status filter for draft or approved versions.
+        meta:
+          dimension:
+            type: string
       - name: email_template_url
         description: URL of the email template in the Marketo UI.
+        meta:
+          dimension:
+            type: string
       - name: folder_name
         description: The name of the email template's folder.
+        meta:
+          dimension:
+            type: string
       - name: folder_id
         description: The ID of the email template's folder.
+        meta:
+          dimension:
+            type: string
       - name: folder_type
         description: The type of the email template's folder.
+        meta:
+          dimension:
+            type: string
       - name: folder_value
         description: The value of the email template's folder.
+        meta:
+          dimension:
+            type: number
       - name: from_email
         description: The 'From' address of the email.
+        meta:
+          dimension:
+            type: string
       - name: from_name
         description: The 'From' name of the email.
+        meta:
+          dimension:
+            type: string
       - name: has_web_view_enabled
         description: Whether 'View as Webpage' function is enabled for the email.
+        meta:
+          dimension:
+            type: boolean
       - name: inferred_version
         description: Incrementing integer version of the email template.
+        meta:
+          dimension:
+            type: number
       - name: is_most_recent_version
         description: Whether it is the most recent version of the email template.
+        meta:
+          dimension:
+            type: boolean
       - name: is_operational
         description: >-
           Whether the email is operational. Operational emails bypass
@@ -159,16 +259,34 @@ models:
             type: boolean
       - name: is_text_only
         description: Setting to include text-only version of email when sent.
+        meta:
+          dimension:
+            type: boolean
       - name: parent_template_id
         description: ID of the parent template.
+        meta:
+          dimension:
+            type: string
       - name: program_id
         description: The ID of the email template's program.
+        meta:
+          dimension:
+            type: string
       - name: publish_to_msi
         description: Whether the email is published to Marketo Sales Insight.
+        meta:
+          dimension:
+            type: boolean
       - name: reply_email
         description: Reply-To address of the Email.
+        meta:
+          dimension:
+            type: string
       - name: total_count_of_versions
         description: Count of records for a given email_template_id.
+        meta:
+          dimension:
+            type: number
       - name: updated_timestamp
         description: Timestamp the email template was last updated.
         meta:
@@ -176,12 +294,24 @@ models:
             type: timestamp
       - name: valid_from
         description: When the version of the email template was is valid from.
+        meta:
+          dimension:
+            type: timestamp
       - name: valid_to
         description: When the version of the email template was is valid to.
+        meta:
+          dimension:
+            type: timestamp
       - name: version_type
         description: The type version of the email, either '1' or '2'.
+        meta:
+          dimension:
+            type: number
       - name: workspace_name
         description: Name of the workspace.
+        meta:
+          dimension:
+            type: string
       - name: count_sends
         description: "{{ doc(\"marketo_count_sends\") }}"
         meta:
@@ -230,19 +360,48 @@ models:
               type: sum
           dimension:
             type: number
-              
       - name: count_unique_opens
         description: "{{ doc(\"marketo_count_unique_opens\") }}"
         meta:
           dimension:
             type: number
-
       - name: count_unique_clicks
         description: "{{ doc(\"marketo_count_unique_clicks\") }}"
         meta:
           dimension:
             type: number
-
+      - name: open_rates_by_sends
+        description: "{{ doc(\"marketo_open_rates_by_sends\") }}"
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_open_rates_by_sends:
+              type: average
+      - name: click_rates_by_sends
+        description: "{{ doc(\"marketo_click_rates_by_sends\") }}"
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_click_rates_by_sends:
+              type: average
+      - name: open_rates_by_deliveries
+        description: "{{ doc(\"marketo_open_rates_by_deliveries\") }}"
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_open_rates_by_deliveries:
+              type: average
+      - name: click_rates_by_deliveries
+        description: "{{ doc(\"marketo_click_rates_by_deliveries\") }}"
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_click_rates_by_deliveries:
+              type: average 
   - name: fct__marketo__programs
     description: Each record is a Marketo program.
     columns:
@@ -256,7 +415,8 @@ models:
           metrics:
             number_of_program:
               type: count
-
+          dimension:
+            type: string
       - name: channel
         description: Channel of the program.
         meta:
@@ -389,7 +549,38 @@ models:
         meta:
           dimension:
             type: number
-
+      - name: open_rates_by_sends
+        description: "{{ doc(\"marketo_open_rates_by_sends\") }}"
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_open_rates_by_sends:
+              type: average
+      - name: click_rates_by_sends
+        description: "{{ doc(\"marketo_click_rates_by_sends\") }}"
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_click_rates_by_sends:
+              type: average
+      - name: open_rates_by_deliveries
+        description: "{{ doc(\"marketo_open_rates_by_deliveries\") }}"
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_open_rates_by_deliveries:
+              type: average
+      - name: click_rates_by_deliveries
+        description: "{{ doc(\"marketo_click_rates_by_deliveries\") }}"
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_click_rates_by_deliveries:
+              type: average 
   - name: fct__marketo__leads
     description: Each record is a Marketo lead.
     columns:
@@ -403,6 +594,8 @@ models:
           metrics:
             number_of_lead:
               type: count
+          dimension:
+            type: string
       - name: created_timestamp
         description: Timestamp for when each lead was created.
         meta:
@@ -419,6 +612,8 @@ models:
           metrics:
             total_sends:
               type: sum
+          dimension:
+            type: number
       - name: count_opens
         description: "{{ doc(\"marketo_count_opens\") }}"
         meta:
@@ -469,3 +664,35 @@ models:
         meta:
           dimension:
             type: number
+      - name: open_rates_by_sends
+        description: "{{ doc(\"marketo_open_rates_by_sends\") }}"
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_open_rates_by_sends:
+              type: average
+      - name: click_rates_by_sends
+        description: "{{ doc(\"marketo_click_rates_by_sends\") }}"
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_click_rates_by_sends:
+              type: average
+      - name: open_rates_by_deliveries
+        description: "{{ doc(\"marketo_open_rates_by_deliveries\") }}"
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_open_rates_by_deliveries:
+              type: average
+      - name: click_rates_by_deliveries
+        description: "{{ doc(\"marketo_click_rates_by_deliveries\") }}"
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_click_rates_by_deliveries:
+              type: average 

@@ -14,7 +14,7 @@ email_sends as (
 
 ),
 
-final as ( --PK=campaign_id
+abs_metrics as ( --PK=campaign_id
     select
         campaigns.*,
         count(*) as count_sends,
@@ -29,7 +29,17 @@ final as ( --PK=campaign_id
     left join email_sends on campaigns.campaign_id = email_sends.campaign_id --one-to-many
     {{ dbt_utils.group_by(10) }}
 
+),
+
+rates_metrics as (
+    select
+        *,
+        div0(count_unique_opens, count_sends) as open_rates_by_sends,
+        div0(count_unique_clicks, count_sends) as click_rates_by_sends,
+        div0(count_unique_opens, count_deliveries) as open_rates_by_deliveries,
+        div0(count_unique_clicks, count_deliveries) as click_rates_by_deliveries
+    from abs_metrics
 )
 
 select *
-from final
+from rates_metrics
