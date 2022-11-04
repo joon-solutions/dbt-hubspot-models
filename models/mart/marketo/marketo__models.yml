@@ -214,7 +214,7 @@ models:
         description: The ID of the email template's folder.
         meta:
           dimension:
-            type: number
+            type: string
       - name: folder_type
         description: The type of the email template's folder.
         meta:
@@ -266,12 +266,12 @@ models:
         description: ID of the parent template.
         meta:
           dimension:
-            type: number
+            type: string
       - name: program_id
         description: The ID of the email template's program.
         meta:
           dimension:
-            type: number
+            type: string
       - name: publish_to_msi
         description: Whether the email is published to Marketo Sales Insight.
         meta:
@@ -296,12 +296,12 @@ models:
         description: When the version of the email template was is valid from.
         meta:
           dimension:
-            type: string
+            type: timestamp
       - name: valid_to
         description: When the version of the email template was is valid to.
         meta:
           dimension:
-            type: string
+            type: timestamp
       - name: version_type
         description: The type version of the email, either '1' or '2'.
         meta:
@@ -416,7 +416,7 @@ models:
             number_of_program:
               type: count
           dimension:
-            type: number
+            type: string
       - name: channel
         description: Channel of the program.
         meta:
@@ -595,7 +595,7 @@ models:
             number_of_lead:
               type: count
           dimension:
-            type: number
+            type: string
       - name: created_timestamp
         description: Timestamp for when each lead was created.
         meta:
