@@ -12,7 +12,7 @@ email_stats as (
 
 ),
 
-joined as (
+abs_metrics as (
 
     select
         leads.lead_id,
@@ -31,7 +31,17 @@ joined as (
         on leads.lead_id = email_stats.lead_id
     group by 1, 2, 3
 
+),
+
+rates_metrics as (
+    select
+        *,
+        div0(count_unique_opens, count_sends) as open_rates_by_sends,
+        div0(count_unique_clicks, count_sends) as click_rates_by_sends,
+        div0(count_unique_opens, count_deliveries) as open_rates_by_deliveries,
+        div0(count_unique_clicks, count_deliveries) as click_rates_by_deliveries
+    from abs_metrics
 )
 
 select *
-from joined
+from rates_metrics

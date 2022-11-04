@@ -13,7 +13,7 @@ email_sends as (
 
 ),
 
-final as ( --PK=email_template_id
+abs_metrics as ( --PK=email_template_id
     select
         latest_email_templates.*,
         count(*) as count_sends,
@@ -32,7 +32,17 @@ final as ( --PK=email_template_id
             and coalesce(latest_email_templates.valid_to, cast('2099-01-01' as timestamp))
     {{ dbt_utils.group_by(29) }}
 
+),
+
+rates_metrics as (
+    select
+        *,
+        div0(count_unique_opens, count_sends) as open_rates_by_sends,
+        div0(count_unique_clicks, count_sends) as click_rates_by_sends,
+        div0(count_unique_opens, count_deliveries) as open_rates_by_deliveries,
+        div0(count_unique_clicks, count_deliveries) as click_rates_by_deliveries
+    from abs_metrics
 )
 
 select *
-from final
+from rates_metrics
