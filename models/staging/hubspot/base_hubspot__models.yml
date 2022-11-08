@@ -134,3 +134,40 @@ models:
           - unique
           - not_null
 
+  - name: base__hubspot__engagement
+    description: Each record represents an engagement in Hubspot
+    columns:
+      - name: engagement_id
+        description: The ID of the engagement
+        tests: 
+          - unique
+          - not_null
+
+  - name: base__hubspot__engagement_contact
+    description: Each record represents a 'link' between a contact and an engagement.
+    columns:
+      - name: engagement_contact_id
+        description: The ID of each contact in an engagement.
+        tests: 
+          - unique
+          - not_null
+
+  - name: base__hubspot__engagement_deal
+    description: Each record represents a 'link' between a deal and an engagement.
+    columns:
+      - name: engagement_deal_id
+        description: The ID of each deal in an engagement.
+        tests: 
+          - unique
+          - not_null
+
+  - name: base__hubspot__engagement_company
+    description: Each record represents a 'link' between a company and an engagement.
+    columns:
+      - name: engagement_company_id
+        description: The ID of each company in an engagement.
+        tests: 
+          - unique
+          - not_null
+
+

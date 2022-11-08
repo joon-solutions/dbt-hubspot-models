@@ -124,3 +124,59 @@
 
 
 
+{% macro get_hubspot_engagement_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "active", "datatype": "boolean", "alias": "is_active"},
+    {"name": "activity_type", "datatype": dbt_utils.type_string()},
+    {"name": "created_at", "datatype": dbt_utils.type_timestamp(), "alias": "created_timestamp"},
+    {"name": "id", "datatype": dbt_utils.type_int(), "alias": "engagement_id"},
+    {"name": "last_updated", "datatype": dbt_utils.type_timestamp(), "alias": "last_updated_timestamp"},
+    {"name": "owner_id", "datatype": dbt_utils.type_int()},
+    {"name": "portal_id", "datatype": dbt_utils.type_int()},
+    {"name": "timestamp", "datatype": dbt_utils.type_timestamp(), "alias": "occurred_timestamp"},
+    {"name": "type", "datatype": dbt_utils.type_string(), "alias": "engagement_type"}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}
+
+
+{% macro get_hubspot_engagement_contact_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "contact_id", "datatype": dbt_utils.type_int()},
+    {"name": "engagement_id", "datatype": dbt_utils.type_int()}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}
+
+
+{% macro get_hubspot_engagement_deal_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "deal_id", "datatype": dbt_utils.type_int()},
+    {"name": "engagement_id", "datatype": dbt_utils.type_int()}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}
+
+{% macro get_hubspot_engagement_company_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "company_id", "datatype": dbt_utils.type_int()},
+    {"name": "engagement_id", "datatype": dbt_utils.type_int()}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}
