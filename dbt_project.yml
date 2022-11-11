@@ -37,6 +37,7 @@ sources:
 
 vars:
 # Hubpost source
+## MKT source
   email_metrics: ['sends', 'bounces', 'clicks', 'deferrals', 'deliveries', 'drops', 'forwards', 'opens', 'prints', 'spam_reports']
   contact_form_submission_enabled: true
   contact_list_member_enabled: true
@@ -46,6 +47,12 @@ vars:
   email_event_enabled: true
   email_subscription_change_enabled: true
   email_subscription_enabled: true
+
+## Sales source
+  hubspot__engagement: true
+  hubspot__engagement_contact: true
+  hubspot__deal: true
+  hubspot__engagement_company: true
 
 # Google analytics source
   ga_adwords_campaigns_enabled: true
