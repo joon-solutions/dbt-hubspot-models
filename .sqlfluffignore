@@ -10,5 +10,5 @@ data/
 generated_base_models/
 models/mart/zendesk/fct__zendesk_ticket.sql
 models/intermediate/zendesk/int__zendesk__field_history_comments_unioned.sql
-models/intermediate/hubspot/sales/stg__hubspot__engagements.sql
+models/intermediate/hubspot/sales/int__hubspot__engagements.sql
 
