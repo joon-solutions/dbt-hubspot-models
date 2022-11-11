@@ -67,7 +67,7 @@ models:
           - not_null
           - dbt_utils.at_least_one
 
-  - name: stg__hubspot__engagements
+  - name: int__hubspot__engagements
     description: Each record represents an engagement 
     columns:
       - name: engagement_id
