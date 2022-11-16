@@ -7,7 +7,7 @@ sources:
     tables:
       - name: calendar_event
       # - name: calendar_user
-      # - name: company
+      - name: company
       # - name: company_property_history
       - name: contact
       - name: contact_form_submission

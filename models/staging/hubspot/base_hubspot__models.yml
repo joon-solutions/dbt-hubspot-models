@@ -170,4 +170,13 @@ models:
           - unique
           - not_null
 
+  - name: base__hubspot_company
+    description: Each record represents a company and it's attribution in Hubspot.
+    columns:
+      - name: company_id
+        description: The ID of each company.
+        tests: 
+          - unique
+          - not_null
+
 

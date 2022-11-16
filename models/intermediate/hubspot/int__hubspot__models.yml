@@ -102,7 +102,7 @@ models:
         description: The ID of the engagement's owner.
 
       - name: portal_id
-        description: '{{ doc("portal_id") }}'
+        description: '{{ doc("hubspot_portal_id") }}'
 
       - name: contact_ids
         description: List of contacts related to the engagement.
