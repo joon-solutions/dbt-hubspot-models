@@ -142,7 +142,7 @@ models:
     materialized: table
     +database: 'JOON_SOLUTIONS'
 
-    base:
+    staging:
       +required_tests: {"unique.*|not_null": 2}
       +materialized: table
 

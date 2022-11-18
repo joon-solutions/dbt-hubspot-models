@@ -150,6 +150,16 @@ models:
         description: The name of the domain associated with the organization
       - name: index
         description: Index number of the domain name associated with the organization
+  
+  - name: base__zendesk__group_tmp
+    description: "Temp table for base__zendesk__group model"
+    columns:
+      - name: group_id
+        description: PK of the table, automatically assigned when creating groups
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
 
   - name: base__zendesk__group
     description: >

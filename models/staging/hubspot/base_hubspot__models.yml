@@ -242,7 +242,7 @@ models:
       - name: pipeline_label
         description: The human-readable label for the pipeline. The label is used when showing the pipeline in HubSpot.
 
-  - name: base__hubspot__deal_stage
+  - name: base__hubspot__deal_pipeline_stage
     description: Each record represents a deal stage.
     columns:
       - name: deal_pipeline_stage_id
@@ -272,6 +272,12 @@ models:
   - name: base__hubspot__owner
     description: Each record represents an owner/user in Hubspot.
     columns:
+      - name: owner_id
+        description: The ID of the owner.
+        test:
+          - unique
+          - not_null
+
       - name: created_at
         description: A timestamp for when the owner was created.
 
@@ -287,12 +293,6 @@ models:
       - name: last_name
         description: The last name of the owner.
 
-      - name: owner_id
-        description: The ID of the owner.
-        test:
-          - unique
-          - not_null
-
       - name: portal_id
         description: '{{ doc("hubspot_portal_id") }}'
 
@@ -302,7 +302,7 @@ models:
       - name: updated_at
         description: A timestamp for when the owner was last updated.
 
-  - name: base__hubspot_company
+  - name: base__hubspot__company
     description: Each record represents a company and it's attribution in Hubspot.
     columns:
       - name: company_id

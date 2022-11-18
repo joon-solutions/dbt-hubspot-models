@@ -23,20 +23,19 @@ engagement_companies as (
 
 ),
 
-engagement_companies_agg as (
+engagement_companies_joined as (
 
     select
-        engagement_companies.company_id,
-        count(case when engagements.engagement_type = 'NOTE' then 1 end) as count_engagement_notes,
-        count(case when engagements.engagement_type = 'TASK' then 1 end) as count_engagement_tasks,
-        count(case when engagements.engagement_type = 'CALL' then 1 end) as count_engagement_calls,
-        count(case when engagements.engagement_type = 'MEETING' then 1 end) as count_engagement_meetings,
-        count(case when engagements.engagement_type = 'EMAIL' then 1 end) as count_engagement_emails,
-        count(case when engagements.engagement_type = 'INCOMING_EMAIL' then 1 end) as count_engagement_incoming_emails,
-        count(case when engagements.engagement_type = 'FORWARDED_EMAIL' then 1 end) as count_engagement_forwarded_emails
+        engagements.engagement_type,
+        engagement_companies.company_id
     from engagements
     inner join engagement_companies on engagements.engagement_id = engagement_companies.engagement_id
-    group by 1
+
+),
+
+engagement_companies_agg as (
+
+    {{ hubspot_engagements_agg('engagement_companies_joined', 'company_id') }}
 
 ),
 

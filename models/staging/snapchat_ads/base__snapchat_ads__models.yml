@@ -97,7 +97,7 @@ models:
               total_swipes:
                 type: sum
 
-  - name: base__snapchat__ads_squad_history
+  - name: base__snapchat_ads__ad_squad_history
     description: Each record in this table represents a historic version of an ad squad in Snapchat.
     tests:
     columns:
@@ -177,6 +177,13 @@ models:
   - name: base__snapchat_ads__creative_url_tag_history
     description: Each record in this table represents a URL paramter key-value pair for a creative in Snapchat.
     columns:
+      - name: unique_id
+        description: PK of the table
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+
       - name: updated_at
         description: When the creative_id was last updated.
         tests:

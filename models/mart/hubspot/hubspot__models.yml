@@ -37,6 +37,10 @@ models:
     columns:
       - name: company_id
         description: The ID of the engagement.
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
       - name: _fivetran_synced
         description: "{{ doc(\"_fivetran_synced\") }}"
       - name: is_deleted
