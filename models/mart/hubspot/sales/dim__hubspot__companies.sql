@@ -1,13 +1,3 @@
-{% set engagement_metrics = [
-    'count_engagement_notes',
-    'count_engagement_tasks',
-    'count_engagement_calls',
-    'count_engagement_meetings',
-    'count_engagement_emails',
-    'count_engagement_incoming_emails',
-    'count_engagement_forwarded_emails'
-] %}
-
 {{ config(enabled = var('hubspot__company') ) }}
 
 with companies as (
@@ -54,8 +44,8 @@ joined as (
 
     select
         companies.*,
-        {% for metric in engagement_metrics %}
-        coalesce(engagement_companies_agg.{{ metric }}, 0) as {{ metric }} {% if not loop.last %},{% endif %}
+        {% for metric in engagement_metrics() %}
+            coalesce(engagement_companies_agg.{{ metric }}, 0) as {{ metric }} {% if not loop.last %},{% endif %}
         {% endfor %}
     from companies
     left join engagement_companies_agg on companies.company_id = engagement_companies_agg.company_id

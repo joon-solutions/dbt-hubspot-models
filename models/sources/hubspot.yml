@@ -19,10 +19,10 @@ sources:
       - name: deal
       # - name: deal_company
       # - name: deal_contact
-      # - name: deal_pipeline
-      # - name: deal_pipeline_stage
+      - name: deal_pipeline
+      - name: deal_pipeline_stage
       # - name: deal_property_history
-      # - name: deal_stage
+      - name: deal_stage
       - name: email_campaign
       - name: email_event
       - name: email_event_bounce

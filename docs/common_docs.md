@@ -9,3 +9,15 @@ Boolean type, whether a record was deleted from system or not.
 {% docs created_at %}
 Timestamp of when a record was first created.
 {% enddocs %}
+
+{% docs _fivetran_active %}
+Boolean indicating whether the deal stage is active.
+{% enddocs %}
+
+{% docs _fivetran_end %}
+The Fivetran calculated exist time of the deal stage. 
+{% enddocs %}
+
+{% docs _fivetran_start %}
+The date the deal stage was entered.
+{% enddocs %}

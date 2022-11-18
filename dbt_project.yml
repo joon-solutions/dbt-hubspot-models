@@ -51,13 +51,17 @@ vars:
 ## Sales source
   hubspot__engagement: true
   hubspot__engagement_contact: true
+  hubspot__engagement_deal: true
   hubspot__deal: true
+  hubspot__deal_pipeline: true
+  hubspot__deal_pipeline_stage: true
   hubspot__engagement_company: true
   hubspot__company: true
 
 # HubSpot passthrough columns
   hubspot__company_pass_through_columns: []
   hubspot__pass_through_all_columns: false # overwrite any passthrough columns var by just passing all columns
+  hubspot__owner: true
 
 # Google analytics source
   ga_adwords_campaigns_enabled: true

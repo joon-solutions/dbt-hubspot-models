@@ -37,10 +37,6 @@ models:
     columns:
       - name: company_id
         description: The ID of the engagement.
-        tests:
-          - not_null
-          - unique
-          - dbt_utils.at_least_one
       - name: _fivetran_synced
         description: "{{ doc(\"_fivetran_synced\") }}"
       - name: is_deleted
@@ -119,4 +115,80 @@ models:
         description: "{{ doc('hubspot_count_engagement_incoming_emails') }}"
       - name: count_engagement_forwarded_emails
         description: "{{ doc('hubspot_count_engagement_forwarded_emails') }}"
+        
+  
+  - name: fct__hubspot__deals
+    description: Each record represents a deal in Hubspot.
+    columns:
+      - name: description
+        description: A brief description of the deal.
 
+      - name: amount
+        description: The total value of the deal in the deal's currency.
+
+      - name: closed_at
+        description: The day the deal is expected to close, or was closed.
+
+      - name: created_at
+        description: The date the deal was created. This property is set automatically by HubSpot.
+
+      - name: deal_id
+        description: The ID of the deal
+        tests:
+          - not_null
+          - unique
+          - dbt_utils.at_least_one
+            
+      - name: deal_name
+        description: The name you have given this deal.
+
+      - name: is_deleted
+        description: Whether the record was deleted.
+
+      - name: portal_id
+        description: '{{ doc("hubspot_portal_id") }}'
+
+      - name: deal_pipeline_id
+        description: The ID of the deal's pipeline.
+
+      - name: deal_pipeline_stage_id
+        description: The ID of the deal's pipeline stage.
+
+      - name: owner_id
+        description: The ID of the deal's owner. 
+
+      - name: count_engagement_notes
+        description: "{{ doc('hubspot_count_engagement_notes') }}"
+
+      - name: count_engagement_tasks
+        description: "{{ doc('hubspot_count_engagement_tasks') }}"
+
+      - name: count_engagement_calls
+        description: "{{ doc('hubspot_count_engagement_calls') }}"
+
+      - name: count_engagement_meetings
+        description: "{{ doc('hubspot_count_engagement_meetings') }}"
+
+      - name: count_engagement_emails
+        description: "{{ doc('hubspot_count_engagement_emails') }}"
+
+      - name: count_engagement_incoming_emails
+        description: "{{ doc('hubspot_count_engagement_incoming_emails') }}"
+
+      - name: count_engagement_forwarded_emails
+        description: "{{ doc('hubspot_count_engagement_forwarded_emails') }}"
+
+      - name: is_pipeline_active
+        description: Boolean indicating if the pipeline is active.
+
+      - name: pipeline_label
+        description: The label of the deal's pipeline.
+
+      - name: pipeline_stage_label
+        description: The label of the deal's pipeline stage.
+
+      - name: owner_email_address
+        description: The email address of the deal's owner.
+
+      - name: owner_full_name
+        description: The full name of the deal's owner.
