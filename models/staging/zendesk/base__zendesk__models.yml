@@ -154,7 +154,7 @@ models:
   - name: base__zendesk__group_tmp
     description: "Temp table for base__zendesk__group model"
     columns:
-      - name: group_id
+      - name: id
         description: PK of the table, automatically assigned when creating groups
         tests:
           - unique
