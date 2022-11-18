@@ -61,7 +61,7 @@ models:
         description: Whether the record was deleted.
 
       - name: portal_id
-        description: '{{ doc("portal_id") }}'
+        description: '{{ doc("hubspot_portal_id") }}'
 
       - name: deal_pipeline_id
         description: The ID of the deal's pipeline.
@@ -73,25 +73,25 @@ models:
         description: The ID of the deal's owner. 
 
       - name: count_engagement_notes
-        description: "{{ doc('count_engagement_notes') }}"
+        description: "{{ doc('hubspot_count_engagement_notes') }}"
 
       - name: count_engagement_tasks
-        description: "{{ doc('count_engagement_tasks') }}"
+        description: "{{ doc('hubspot_count_engagement_tasks') }}"
 
       - name: count_engagement_calls
-        description: "{{ doc('count_engagement_calls') }}"
+        description: "{{ doc('hubspot_count_engagement_calls') }}"
 
       - name: count_engagement_meetings
-        description: "{{ doc('count_engagement_meetings') }}"
+        description: "{{ doc('hubspot_count_engagement_meetings') }}"
 
       - name: count_engagement_emails
-        description: "{{ doc('count_engagement_emails') }}"
+        description: "{{ doc('hubspot_count_engagement_emails') }}"
 
       - name: count_engagement_incoming_emails
-        description: "{{ doc('count_engagement_incoming_emails') }}"
+        description: "{{ doc('hubspot_count_engagement_incoming_emails') }}"
 
       - name: count_engagement_forwarded_emails
-        description: "{{ doc('count_engagement_forwarded_emails') }}"
+        description: "{{ doc('hubspot_count_engagement_forwarded_emails') }}"
 
       - name: is_pipeline_active
         description: Boolean indicating if the pipeline is active.

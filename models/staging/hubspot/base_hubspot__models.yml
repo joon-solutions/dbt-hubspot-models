@@ -180,7 +180,7 @@ models:
           - unique
 
       - name: portal_id
-        description: '{{ doc("portal_id") }}'
+        description: '{{ doc("hubspot_portal_id") }}'
 
       - name: deal_pipeline_id
         description: The ID of the deal's pipeline.
@@ -245,12 +245,17 @@ models:
   - name: base__hubspot__deal_stage
     description: Each record represents a deal stage.
     columns:
+      - name: deal_pipeline_stage_id
+        description: Deal stage id 
+        tests:
+          - unique
+          - not_null
       - name: _fivetran_active
-        description: Boolean indicating whether the deal stage is active.
+        description: '{{ doc("_fivetran_active") }}'
       - name: _fivetran_end
-        description: The Fivetran calculated exist time of the deal stage. 
+        description: '{{ doc("_fivetran_end") }}'
       - name: _fivetran_start
-        description: The date the deal stage was entered.
+        description: '{{ doc("_fivetran_start") }}'
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
       - name: date_entered
@@ -284,9 +289,12 @@ models:
 
       - name: owner_id
         description: The ID of the owner.
+        test:
+          - unique
+          - not_null
 
       - name: portal_id
-        description: '{{ doc("portal_id") }}'
+        description: '{{ doc("hubspot_portal_id") }}'
 
       - name: owner_type
         description: The type of owner.
