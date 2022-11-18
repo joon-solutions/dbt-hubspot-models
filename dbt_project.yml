@@ -54,6 +54,7 @@ vars:
   hubspot__engagement_deal: true
   hubspot__deal: true
   hubspot__deal_pipeline: true
+  hubspot__deal_stage: true
   hubspot__deal_pipeline_stage: true
   hubspot__engagement_company: true
   hubspot__owner: true
