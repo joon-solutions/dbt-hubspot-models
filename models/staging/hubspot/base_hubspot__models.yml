@@ -274,7 +274,7 @@ models:
     columns:
       - name: owner_id
         description: The ID of the owner.
-        test:
+        tests:
           - unique
           - not_null
 
