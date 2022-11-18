@@ -1,9 +1,9 @@
-{{ config(enabled = var('hubspot__deal') ) }}
+{{ config(enabled = var('hubspot__engagement_deal') ) }}
 
 with base as (
 
     select *
-    from {{ source('hubspot','deal') }}
+    from {{ source('hubspot','engagement_deal') }}
 
 ),
 
@@ -12,7 +12,7 @@ macro as (
     select
         {{
             fivetran_utils.fill_staging_columns(
-                source_columns=adapter.get_columns_in_relation(source('hubspot','deal')),
+                source_columns=adapter.get_columns_in_relation(source('hubspot','engagement_deal')),
                 staging_columns=get_hubspot_engagement_deal_columns()
             )
         }}

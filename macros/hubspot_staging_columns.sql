@@ -180,3 +180,75 @@
 {{ return(columns) }}
 
 {% endmacro %}
+
+{% macro get_hubspot_deal_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "deal_id", "datatype": dbt_utils.type_int()},
+    {"name": "deal_pipeline_id", "datatype": dbt_utils.type_string()},
+    {"name": "deal_pipeline_stage_id", "datatype": dbt_utils.type_string()},
+    {"name": "is_deleted", "datatype": "boolean"},
+    {"name": "owner_id", "datatype": dbt_utils.type_int()},
+    {"name": "portal_id", "datatype": dbt_utils.type_int()},
+    {"name": "property_dealname", "datatype": dbt_utils.type_string(), "alias": "deal_name"},
+    {"name": "property_description", "datatype": dbt_utils.type_string()},
+    {"name": "property_amount", "datatype": dbt_utils.type_int()},
+    {"name": "property_closedate", "datatype": dbt_utils.type_timestamp(), "alias": "closed_at"},
+    {"name": "property_createdate", "datatype": dbt_utils.type_timestamp(), "alias": "created_at"}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}
+
+{% macro get_hubspot_deal_pipeline_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_deleted", "datatype": "boolean"},
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "active", "datatype": "boolean", "alias": "is_active"},
+    {"name": "display_order", "datatype": dbt_utils.type_int(), "alias": "pipeline_label"},
+    {"name": "label", "datatype": dbt_utils.type_string()},
+    {"name": "pipeline_id", "datatype": dbt_utils.type_string(), "alias": "deal_pipeline_id"}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}
+
+{% macro get_hubspot_deal_pipeline_stage_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_deleted", "datatype": "boolean"},
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "active", "datatype": "boolean", "alias": "is_active"},
+    {"name": "closed_won", "datatype": "boolean", "alias": "is_closed_won"},
+    {"name": "display_order", "datatype": dbt_utils.type_int()},
+    {"name": "label", "datatype": dbt_utils.type_string(), "alias": "pipeline_stage_label"},
+    {"name": "pipeline_id", "datatype": dbt_utils.type_string(), "alias": "deal_pipeline_id"},
+    {"name": "probability", "datatype": dbt_utils.type_float()},
+    {"name": "stage_id", "datatype": dbt_utils.type_string(), "alias": "deal_pipeline_stage_id"}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}
+
+{% macro get_hubspot_owner_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "created_at", "datatype": dbt_utils.type_timestamp()},
+    {"name": "email", "datatype": dbt_utils.type_string(), "alias": "email_address"},
+    {"name": "first_name", "datatype": dbt_utils.type_string()},
+    {"name": "last_name", "datatype": dbt_utils.type_string()},
+    {"name": "owner_id", "datatype": dbt_utils.type_int()},
+    {"name": "portal_id", "datatype": dbt_utils.type_int()},
+    {"name": "type", "datatype": dbt_utils.type_string(), "alias": "owner_type"},
+    {"name": "updated_at", "datatype": dbt_utils.type_timestamp()}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}

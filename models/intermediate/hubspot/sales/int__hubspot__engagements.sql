@@ -21,7 +21,7 @@ with engagements as (
 
 {% endif %}
 
-{% if var('hubspot__deal', True) %}
+{% if var('hubspot__engagement_deal', True) %}
 
     deals_agg as (
 
@@ -57,7 +57,7 @@ joined as (
             contacts_agg.contact_ids,
         {% endif %}
 
-                {% if var('hubspot__deal', True) %} 
+                {% if var('hubspot__engagement_deal', True) %} 
             deals_agg.deal_ids,
         {% endif %}
 
@@ -72,7 +72,7 @@ joined as (
         left join contacts_agg on engagements.engagement_id = contacts_agg.engagement_id --many-to-one relationship
         {% endif %}
 
-        {% if var('hubspot__deal', True) %}
+        {% if var('hubspot__engagement_deal', True) %}
             left join deals_agg on engagements.engagement_id = deals_agg.engagement_id --many-to-one relationship
         {% endif %}
 

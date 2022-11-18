@@ -102,7 +102,7 @@ models:
         description: The ID of the engagement's owner.
 
       - name: portal_id
-        description: '{{ doc("portal_id") }}'
+        description: '{{ doc("hubspot_portal_id") }}'
 
       - name: contact_ids
         description: List of contacts related to the engagement.
@@ -112,3 +112,13 @@ models:
 
       - name: company_ids
         description: List of companies related to the engagement.
+
+  - name: int_hubspot__deals_enhanced
+    description: Each record represents a deal 
+    columns:
+      - name: deal_id
+        description: The ID of the deal.
+        tests:
+          - not_null
+          - unique
+          - dbt_utils.at_least_one
