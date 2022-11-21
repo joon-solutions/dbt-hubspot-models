@@ -31,6 +31,95 @@ models:
           - unique
           - not_null
           - dbt_utils.at_least_one
+
+  - name: dim__hubspot__companies
+    description: Each record represents an engagement 
+    columns:
+      - name: company_id
+        description: The ID of the engagement.
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+      - name: _fivetran_synced
+        description: "{{ doc(\"_fivetran_synced\") }}"
+      - name: is_deleted
+        description: "{{ doc(\"is_deleted\") }}"
+      - name: company_name
+        description: "Name of the company"
+      - name: description
+        description: "a short statement about the company's mission and goals."
+      - name: created_at
+        description: "{{ doc(\"created_at\") }}"
+      - name: address
+        description: "the street address of the company."
+      - name: address_2
+        description: "additional address information for the company."
+      - name: city
+        description: "the city where the company is located."
+      - name: state
+        description: "the state where the company is located."
+      - name: country
+        description: "the country where the company is located."
+      - name: company_annual_revenue
+        description: "the actual or estimated annual revenue of the company."
+      - name: analytics_source
+        description: "the source (Organic search, Paid search, Email marketing, Social media, Referrals, Other campaigns, Direct traffic, or Offline sources) for the contact with the earliest activity for this company"
+      - name: recent_conversion_date
+        description: "the date of the most recent conversion by a contact associated with the company. This is set automatically by HubSpot."
+      - name: first_conversion_date
+        description: "the date of the first conversion by any contact associated with the company. This is set automatically by HubSpot."
+      - name: industry
+        description: "the type of business the company performs"
+      - name: first_contact_create_date
+        description: "the date the first contact for this company was created in your account. This can pre-date the company's Create date property."
+      - name: notes_last_contacted
+        description: "the timestamp from the most recent chat conversation, call, email, or meeting logged for this company."
+      - name: num_associated_deals
+        description: "the number of deals in the HubSpot CRM associated with the company."
+      - name: total_deal_value
+        description: ""
+      - name: first_deal_created_date
+        description: "the date the first deal was created for a contact at this company."
+      - name: lifecycle_stage
+        description: "a property used to indicate at what point the company is within the marketing/sales process. Doc link here https://knowledge.hubspot.com/contacts/use-lifecycle-stages"
+      - name: owner_assigned_date
+        description: "the timestamp for when a record owner was assigned to the company."
+      - name: relationship_type
+        description: "the company's relationship to you (e.g., prospect, partner, reseller, vendor, or other)."
+      - name: close_date
+        description: "the date the company became your customer."
+      - name: total_revenue
+        description: "the total value of deals closed with the company or organization."
+      - name: days_to_close
+        description: "the number of days between the day the company was added to your account and the day they became a customer."
+      - name: lead_status
+        description: "describes the sub-stages within a Sales Qualified Lead lifecycle stage. Doc link here https://knowledge.hubspot.com/contacts/use-lifecycle-stages"
+      - name: time_in_marketingqualifiedlead
+        description: "Total time a company in Marketing Qualified Lead stage"
+      - name: time_in_lead
+        description: "Total time a company in Lead stage"
+      - name: time_in_customer
+        description: "Total time a company in Customer stage"
+      - name: time_in_subscriber
+        description: "Total time a company in Subscriber stage"
+      - name: time_in_opportunity
+        description: "Total time a company in Opportunity stage"
+      - name: count_engagement_notes
+        description: "{{ doc('hubspot_count_engagement_notes') }}"
+      - name: count_engagement_tasks
+        description: "{{ doc('hubspot_count_engagement_tasks') }}"
+      - name: count_engagement_calls
+        description: "{{ doc('hubspot_count_engagement_calls') }}"
+      - name: count_engagement_meetings
+        description: "{{ doc('hubspot_count_engagement_meetings') }}"
+      - name: count_engagement_emails
+        description: "{{ doc('hubspot_count_engagement_emails') }}"
+      - name: count_engagement_incoming_emails
+        description: "{{ doc('hubspot_count_engagement_incoming_emails') }}"
+      - name: count_engagement_forwarded_emails
+        description: "{{ doc('hubspot_count_engagement_forwarded_emails') }}"
+        
   
   - name: fct__hubspot__deals
     description: Each record represents a deal in Hubspot.
@@ -53,7 +142,7 @@ models:
           - not_null
           - unique
           - dbt_utils.at_least_one
-          
+            
       - name: deal_name
         description: The name you have given this deal.
 

@@ -241,10 +241,43 @@ models:
 
       - name: pipeline_label
         description: The human-readable label for the pipeline. The label is used when showing the pipeline in HubSpot.
+
+  - name: base__hubspot__deal_pipeline_stage
+    description: Each record represents a deal stage.
+    columns:
+      - name: deal_pipeline_stage_id
+        description: Deal stage id 
+        tests:
+          - unique
+          - not_null
+      - name: _fivetran_active
+        description: '{{ doc("_fivetran_active") }}'
+      - name: _fivetran_end
+        description: '{{ doc("_fivetran_end") }}'
+      - name: _fivetran_start
+        description: '{{ doc("_fivetran_start") }}'
+      - name: _fivetran_synced
+        description: '{{ doc("_fivetran_synced") }}'
+      - name: date_entered
+        description: The timestamp the deal stage was entered.
+      - name: deal_id
+        description: Reference to the deal.
+      - name: source
+        description: The relevant source of the deal stage.
+      - name: source_id
+        description: Reference to the source.
+      - name: deal_stage_name
+        description: The value of the deal stage. Typically the name of the stage.
    
   - name: base__hubspot__owner
     description: Each record represents an owner/user in Hubspot.
     columns:
+      - name: owner_id
+        description: The ID of the owner.
+        tests:
+          - unique
+          - not_null
+
       - name: created_at
         description: A timestamp for when the owner was created.
 
@@ -259,12 +292,6 @@ models:
 
       - name: last_name
         description: The last name of the owner.
-
-      - name: owner_id
-        description: The ID of the owner.
-        test:
-          - unique
-          - not_null
 
       - name: portal_id
         description: '{{ doc("hubspot_portal_id") }}'
@@ -299,3 +326,12 @@ models:
         description: Reference to the source.
       - name: deal_stage_name
         description: The value of the deal stage. Typically the name of the stage.
+
+  - name: base__hubspot__company
+    description: Each record represents a company and it's attribution in Hubspot.
+    columns:
+      - name: company_id
+        description: The ID of each company.
+        tests: 
+          - unique
+          - not_null
