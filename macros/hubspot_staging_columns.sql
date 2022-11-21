@@ -181,6 +181,51 @@
 
 {% endmacro %}
 
+
+{% macro get_hubspot_company_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "id", "datatype": dbt_utils.type_int(), "alias": "company_id"},
+    {"name": "is_deleted", "datatype": "boolean"},
+    {"name": "property_name", "datatype": dbt_utils.type_string(), "alias": "company_name"},
+    {"name": "property_description", "datatype": dbt_utils.type_string(), "alias": "description"},
+    {"name": "property_createdate", "datatype": dbt_utils.type_timestamp(), "alias": "created_at"},
+    {"name": "property_address", "datatype": dbt_utils.type_string(), "alias": "address"},
+    {"name": "property_address_2", "datatype": dbt_utils.type_string(), "alias": "address_2"},
+    {"name": "property_city", "datatype": dbt_utils.type_string(), "alias": "city"},
+    {"name": "property_state", "datatype": dbt_utils.type_string(), "alias": "state"},
+    {"name": "property_country", "datatype": dbt_utils.type_string(), "alias": "country"},
+    {"name": "property_annualrevenue", "datatype": dbt_utils.type_int(), "alias": "company_annual_revenue"},
+    {"name": "property_hs_analytics_source", "datatype": dbt_utils.type_string(), "alias": "analytics_source"},
+    {"name": "property_recent_conversion_date", "datatype": dbt_utils.type_string(), "alias": "recent_conversion_date"},
+    {"name": "property_first_conversion_date", "datatype": dbt_utils.type_string(), "alias": "first_conversion_date"},
+    {"name": "property_industry", "datatype": dbt_utils.type_string(), "alias": "industry"},
+    {"name": "property_first_contact_createdate", "datatype": dbt_utils.type_string(), "alias": "first_contact_create_date"},
+    {"name": "property_notes_last_contacted", "datatype": dbt_utils.type_string(), "alias": "notes_last_contacted"},
+    {"name": "property_num_associated_deals", "datatype": dbt_utils.type_string(), "alias": "num_associated_deals"},
+    {"name": "property_hs_total_deal_value", "datatype": dbt_utils.type_string(), "alias": "total_deal_value"},
+    {"name": "property_first_deal_created_date", "datatype": dbt_utils.type_string(), "alias": "first_deal_created_date"},
+    {"name": "property_lifecyclestage", "datatype": dbt_utils.type_string(), "alias": "lifecycle_stage"},
+    {"name": "property_hubspot_owner_assigneddate", "datatype": dbt_utils.type_string(), "alias": "owner_assigned_date"},
+    {"name": "property_relationship_type", "datatype": dbt_utils.type_string(), "alias": "relationship_type"},
+    {"name": "property_closedate", "datatype": dbt_utils.type_string(), "alias": "close_date"},
+    {"name": "property_total_revenue", "datatype": dbt_utils.type_string(), "alias": "total_revenue"},
+    {"name": "property_days_to_close", "datatype": dbt_utils.type_string(), "alias": "days_to_close"},
+    {"name": "property_hs_lead_status", "datatype": dbt_utils.type_string(), "alias": "lead_status"},
+    {"name": "property_hs_time_in_marketingqualifiedlead", "datatype": dbt_utils.type_string(), "alias": "time_in_marketingqualifiedlead"},
+    {"name": "property_hs_time_in_lead", "datatype": dbt_utils.type_string(), "alias": "time_in_lead"},
+    {"name": "property_hs_time_in_customer", "datatype": dbt_utils.type_string(), "alias": "time_in_customer"},
+    {"name": "property_hs_time_in_subscriber", "datatype": dbt_utils.type_string(), "alias": "time_in_subscriber"},
+    {"name": "property_hs_time_in_opportunity", "datatype": dbt_utils.type_string(), "alias": "time_in_opportunity"}
+    
+] %}
+
+{{ fivetran_utils.add_pass_through_columns(columns, var('hubspot__company_pass_through_columns')) }}
+
+{{ return(columns) }}
+
+{% endmacro %}
 {% macro get_hubspot_deal_columns() %}
 
 {% set columns = [
