@@ -1,4 +1,4 @@
-{{ config(enabled=fivetran_utils.enabled_vars(['hubspot_sales_enabled','hubspot_deal_enabled'])) }}
+{{ config(enabled = var('hubspot__deal') ) }}
 
 with deals as (
 
@@ -33,7 +33,7 @@ deal_fields_joined as (
     select
         deals.*,
         pipelines.pipeline_label,
-        pipelines.is_active as is_pipeline_active,
+        pipelines.is_pipeline_active,
         pipeline_stages.pipeline_stage_label,
         owners.email_address as owner_email_address,
         owners.full_name as owner_full_name

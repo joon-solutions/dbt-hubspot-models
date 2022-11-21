@@ -252,9 +252,9 @@
 {% set columns = [
     {"name": "_fivetran_deleted", "datatype": "boolean"},
     {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
-    {"name": "active", "datatype": "boolean", "alias": "is_active"},
-    {"name": "display_order", "datatype": dbt_utils.type_int(), "alias": "pipeline_label"},
-    {"name": "label", "datatype": dbt_utils.type_string()},
+    {"name": "active", "datatype": "boolean", "alias": "is_pipeline_active"},
+    {"name": "display_order", "datatype": dbt_utils.type_int(), "alias":"pipeline_display_order"},
+    {"name": "label", "datatype": dbt_utils.type_string(), "alias": "pipeline_label"},
     {"name": "pipeline_id", "datatype": dbt_utils.type_string(), "alias": "deal_pipeline_id"}
 ] %}
 
@@ -267,12 +267,12 @@
 {% set columns = [
     {"name": "_fivetran_deleted", "datatype": "boolean"},
     {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
-    {"name": "active", "datatype": "boolean", "alias": "is_active"},
-    {"name": "closed_won", "datatype": "boolean", "alias": "is_closed_won"},
-    {"name": "display_order", "datatype": dbt_utils.type_int()},
+    {"name": "active", "datatype": "boolean", "alias": "is_pipeline_stage_active"},
+    {"name": "closed_won", "datatype": "boolean", "alias": "is_pipeline_stage_closed_won"},
+    {"name": "display_order", "datatype": dbt_utils.type_int(),"alias":"pipeline_stage_display_order"},
     {"name": "label", "datatype": dbt_utils.type_string(), "alias": "pipeline_stage_label"},
     {"name": "pipeline_id", "datatype": dbt_utils.type_string(), "alias": "deal_pipeline_id"},
-    {"name": "probability", "datatype": dbt_utils.type_float()},
+    {"name": "probability", "datatype": dbt_utils.type_float(), "alias":"pipeline_stage_probability"},
     {"name": "stage_id", "datatype": dbt_utils.type_string(), "alias": "deal_pipeline_stage_id"}
 ] %}
 
@@ -293,6 +293,25 @@
     {"name": "type", "datatype": dbt_utils.type_string(), "alias": "owner_type"},
     {"name": "updated_at", "datatype": dbt_utils.type_timestamp()}
 ] %}
+
+{{ return(columns) }}
+
+{% endmacro %}
+
+{% macro get_hubspot_deal_stage_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_active", "datatype": "boolean"},
+    {"name": "_fivetran_end", "datatype": dbt_utils.type_timestamp()},
+    {"name": "_fivetran_start", "datatype": dbt_utils.type_timestamp()},
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "date_entered", "datatype": dbt_utils.type_timestamp()},
+    {"name": "deal_id", "datatype": dbt_utils.type_int()},
+    {"name": "source", "datatype": dbt_utils.type_string()},
+    {"name": "source_id", "datatype": dbt_utils.type_string()},
+    {"name": "value", "datatype": dbt_utils.type_string(), "alias": "deal_stage_name"}
+] %}
+
 
 {{ return(columns) }}
 

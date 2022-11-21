@@ -1,4 +1,4 @@
-{{ config(enabled=fivetran_utils.enabled_vars(['hubspot_deal_enabled'])) }}
+{{ config(enabled = var('hubspot__deal') ) }}
 
 with deals_enhanced as (
 

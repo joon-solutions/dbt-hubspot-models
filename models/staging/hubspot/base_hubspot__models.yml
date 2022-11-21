@@ -301,6 +301,31 @@ models:
 
       - name: updated_at
         description: A timestamp for when the owner was last updated.
+  
+  - name: base__hubspot__deal_stage
+    description: Each record represents a deal stage.
+    columns:
+      - name: deal_id
+        description: Reference to the deal.
+        tests:
+          - unique
+          - not_null
+      - name: _fivetran_active
+        description: '{{ doc("_fivetran_active") }}'
+      - name: _fivetran_end
+        description: '{{ doc("_fivetran_end") }}'
+      - name: _fivetran_start
+        description: '{{ doc("_fivetran_start") }}'
+      - name: _fivetran_synced
+        description: '{{ doc("_fivetran_synced") }}'
+      - name: date_entered
+        description: The timestamp the deal stage was entered.
+      - name: source
+        description: The relevant source of the deal stage.
+      - name: source_id
+        description: Reference to the source.
+      - name: deal_stage_name
+        description: The value of the deal stage. Typically the name of the stage.
 
   - name: base__hubspot__company
     description: Each record represents a company and it's attribution in Hubspot.
@@ -310,4 +335,3 @@ models:
         tests: 
           - unique
           - not_null
-
