@@ -118,7 +118,7 @@ models:
           - unique
           - dbt_utils.at_least_one
 
-      - name: pipeline_stage_id
+      - name: deal_stage_name
         description: The name of the deal stage.
 
       - name: date_stage_entered
