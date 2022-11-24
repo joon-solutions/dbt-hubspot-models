@@ -29,3 +29,7 @@ The total number of related incoming email engagements.
 {% docs hubspot_count_engagement_forwarded_emails %}
 The total number of related forwarded email engagements.
 {% enddocs %}
+
+{% docs hubspot_count_engagement %}
+The total number of engagements of all kinds.
+{% enddocs %}

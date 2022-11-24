@@ -2,6 +2,7 @@
 
     select
         {{ primary_key }},
+        count({{ primary_key }}) as count_engagement,
         count(case when engagement_type = 'NOTE' then {{ primary_key }} end) as count_engagement_notes,
         count(case when engagement_type = 'TASK' then {{ primary_key }} end) as count_engagement_tasks,
         count(case when engagement_type = 'CALL' then {{ primary_key }} end) as count_engagement_calls,
