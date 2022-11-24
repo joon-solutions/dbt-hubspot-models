@@ -1,7 +1,5 @@
 version: 2
-
 models:
-
   - name: fct__hubspot__email_campaigns
     description: Each record represents an email campaign in Hubspot.
     columns:
@@ -11,7 +9,6 @@ models:
           - unique
           - not_null
           - dbt_utils.at_least_one
-
   - name: fct__hubspot__contacts
     description: Each record represents a contact with metrics in Hubspot.
     columns:
@@ -21,7 +18,6 @@ models:
           - unique
           - not_null
           - dbt_utils.at_least_one
-
   - name: fct__hubspot__contacts_list
     description: Each record represents a contact list in Hubspot.
     columns:
@@ -31,9 +27,8 @@ models:
           - unique
           - not_null
           - dbt_utils.at_least_one
-
   - name: dim__hubspot__companies
-    description: Each record represents an engagement 
+    description: Each record represents an engagement
     columns:
       - name: company_id
         description: The ID of the engagement.
@@ -41,162 +36,392 @@ models:
           - unique
           - not_null
           - dbt_utils.at_least_one
+        meta:
+          dimension:
+            type: number
+          metrics:
+            count_companies:
+              type: count
+            count_customers:
+              type: count
+              sql: "case when ${close_date} is not null then ${company_id} else null end"
+
       - name: _fivetran_synced
         description: "{{ doc(\"_fivetran_synced\") }}"
+        meta:
+          dimension:
+            type: timestamp
       - name: is_deleted
         description: "{{ doc(\"is_deleted\") }}"
+        meta:
+          dimension:
+            type: boolean
       - name: company_name
-        description: "Name of the company"
+        description: Name of the company
+        meta:
+          dimension:
+            type: string
       - name: description
-        description: "a short statement about the company's mission and goals."
+        description: a short statement about the company's mission and goals.
+        meta:
+          dimension:
+            type: string
       - name: created_at
         description: "{{ doc(\"created_at\") }}"
+        meta:
+          dimension:
+            type: timestamp
       - name: address
-        description: "the street address of the company."
+        description: the street address of the company.
+        meta:
+          dimension:
+            type: string
       - name: address_2
-        description: "additional address information for the company."
+        description: additional address information for the company.
+        meta:
+          dimension:
+            type: string
       - name: city
-        description: "the city where the company is located."
+        description: the city where the company is located.
+        meta:
+          dimension:
+            type: string
       - name: state
-        description: "the state where the company is located."
+        description: the state where the company is located.
+        meta:
+          dimension:
+            type: string
       - name: country
-        description: "the country where the company is located."
+        description: the country where the company is located.
+        meta:
+          dimension:
+            type: string
       - name: company_annual_revenue
-        description: "the actual or estimated annual revenue of the company."
+        description: the actual or estimated annual revenue of the company.
+        meta:
+          dimension:
+            type: number
       - name: analytics_source
-        description: "the source (Organic search, Paid search, Email marketing, Social media, Referrals, Other campaigns, Direct traffic, or Offline sources) for the contact with the earliest activity for this company"
+        description: >-
+          the source (Organic search, Paid search, Email marketing, Social
+          media, Referrals, Other campaigns, Direct traffic, or Offline sources)
+          for the contact with the earliest activity for this company
+        meta:
+          dimension:
+            type: string
       - name: recent_conversion_date
-        description: "the date of the most recent conversion by a contact associated with the company. This is set automatically by HubSpot."
+        description: >-
+          the date of the most recent conversion by a contact associated with
+          the company. This is set automatically by HubSpot.
+        meta:
+          dimension:
+            type: timestamp
       - name: first_conversion_date
-        description: "the date of the first conversion by any contact associated with the company. This is set automatically by HubSpot."
+        description: >-
+          the date of the first conversion by any contact associated with the
+          company. This is set automatically by HubSpot.
+        meta:
+          dimension:
+            type: timestamp
       - name: industry
-        description: "the type of business the company performs"
+        description: the type of business the company performs
+        meta:
+          dimension:
+            type: string
       - name: first_contact_create_date
-        description: "the date the first contact for this company was created in your account. This can pre-date the company's Create date property."
+        description: >-
+          the date the first contact for this company was created in your
+          account. This can pre-date the company's Create date property.
+        meta:
+          dimension:
+            type: timestamp
       - name: notes_last_contacted
-        description: "the timestamp from the most recent chat conversation, call, email, or meeting logged for this company."
+        description: >-
+          the timestamp from the most recent chat conversation, call, email, or
+          meeting logged for this company.
+        meta:
+          dimension:
+            type: timestamp
       - name: num_associated_deals
-        description: "the number of deals in the HubSpot CRM associated with the company."
+        description: the number of deals in the HubSpot CRM associated with the company.
+        meta:
+          dimension:
+            type: number
       - name: total_deal_value
         description: ""
+        meta:
+          dimension:
+            type: number
       - name: first_deal_created_date
-        description: "the date the first deal was created for a contact at this company."
+        description: the date the first deal was created for a contact at this company.
+        meta:
+          dimension:
+            type: timestamp
       - name: lifecycle_stage
-        description: "a property used to indicate at what point the company is within the marketing/sales process. Doc link here https://knowledge.hubspot.com/contacts/use-lifecycle-stages"
+        description: >-
+          a property used to indicate at what point the company is within the
+          marketing/sales process. Doc link here
+          https://knowledge.hubspot.com/contacts/use-lifecycle-stages
+        meta:
+          dimension:
+            type: string
+      - name: lifecycle_stage_num
+        description: number presents each stage in company's lifecycle, 1 equals to the first stage and so on
+        meta:
+          dimension:
+            type: number
       - name: owner_assigned_date
-        description: "the timestamp for when a record owner was assigned to the company."
+        description: the timestamp for when a record owner was assigned to the company.
+        meta:
+          dimension:
+            type: timestamp
       - name: relationship_type
-        description: "the company's relationship to you (e.g., prospect, partner, reseller, vendor, or other)."
+        description: >-
+          the company's relationship to you (e.g., prospect, partner, reseller,
+          vendor, or other).
+        meta:
+          dimension:
+            type: string
       - name: close_date
-        description: "the date the company became your customer."
+        description: the date the company became your customer.
+        meta:
+          dimension:
+            type: timestamp
       - name: total_revenue
-        description: "the total value of deals closed with the company or organization."
+        description: the total value of deals closed with the company or organization.
+        meta:
+          dimension:
+            type: number
       - name: days_to_close
-        description: "the number of days between the day the company was added to your account and the day they became a customer."
+        description: >-
+          the number of days between the day the company was added to your
+          account and the day they became a customer.
+        meta:
+          dimension:
+            type: number
       - name: lead_status
-        description: "describes the sub-stages within a Sales Qualified Lead lifecycle stage. Doc link here https://knowledge.hubspot.com/contacts/use-lifecycle-stages"
+        description: >-
+          describes the sub-stages within a Sales Qualified Lead lifecycle
+          stage. Doc link here
+          https://knowledge.hubspot.com/contacts/use-lifecycle-stages
+        meta:
+          dimension:
+            type: string
+      - name: time_in_stage
+        description: Total time a company in Marketing Qualified Lead stage
+        meta:
+          metrics:
+            avg_time_in_stage:
+              type: max
       - name: time_in_marketingqualifiedlead
-        description: "Total time a company in Marketing Qualified Lead stage"
+        description: Total time a company in Marketing Qualified Lead stage
+        meta:
+          dimension:
+            type: number
       - name: time_in_lead
-        description: "Total time a company in Lead stage"
+        description: Total time a company in Lead stage
+        meta:
+          dimension:
+            type: number
       - name: time_in_customer
-        description: "Total time a company in Customer stage"
+        description: Total time a company in Customer stage
+        meta:
+          dimension:
+            type: number
       - name: time_in_subscriber
-        description: "Total time a company in Subscriber stage"
+        description: Total time a company in Subscriber stage
+        meta:
+          dimension:
+            type: number
       - name: time_in_opportunity
-        description: "Total time a company in Opportunity stage"
+        description: Total time a company in Opportunity stage
+        meta:
+          dimension:
+            type: number
+      - name: count_engagement
+        description: "{{ doc('hubspot_count_engagement') }}"
+        meta:
+          dimension:
+            type: number
       - name: count_engagement_notes
         description: "{{ doc('hubspot_count_engagement_notes') }}"
+        meta:
+          dimension:
+            type: number
       - name: count_engagement_tasks
         description: "{{ doc('hubspot_count_engagement_tasks') }}"
+        meta:
+          dimension:
+            type: number
       - name: count_engagement_calls
         description: "{{ doc('hubspot_count_engagement_calls') }}"
+        meta:
+          dimension:
+            type: number
       - name: count_engagement_meetings
         description: "{{ doc('hubspot_count_engagement_meetings') }}"
+        meta:
+          dimension:
+            type: number
       - name: count_engagement_emails
         description: "{{ doc('hubspot_count_engagement_emails') }}"
+        meta:
+          dimension:
+            type: number
       - name: count_engagement_incoming_emails
         description: "{{ doc('hubspot_count_engagement_incoming_emails') }}"
+        meta:
+          dimension:
+            type: number
       - name: count_engagement_forwarded_emails
         description: "{{ doc('hubspot_count_engagement_forwarded_emails') }}"
-        
-  
+        meta:
+          dimension:
+            type: number
   - name: fct__hubspot__deals
     description: Each record represents a deal in Hubspot.
     columns:
       - name: description
         description: A brief description of the deal.
-
+        meta:
+          dimension:
+            type: string
       - name: amount
         description: The total value of the deal in the deal's currency.
-
+        meta:
+          dimension:
+            type: number
       - name: closed_at
         description: The day the deal is expected to close, or was closed.
-
+        meta:
+          dimension:
+            type: timestamp
       - name: created_at
-        description: The date the deal was created. This property is set automatically by HubSpot.
-
+        description: >-
+          The date the deal was created. This property is set automatically by
+          HubSpot.
+        meta:
+          dimension:
+            type: timestamp
       - name: deal_id
         description: The ID of the deal
         tests:
           - not_null
           - unique
           - dbt_utils.at_least_one
-            
+        meta:
+          dimension:
+            type: number
       - name: deal_name
         description: The name you have given this deal.
-
+        meta:
+          dimension:
+            type: string
       - name: is_deleted
         description: Whether the record was deleted.
-
+        meta:
+          dimension:
+            type: boolean
       - name: portal_id
-        description: '{{ doc("hubspot_portal_id") }}'
-
+        description: "{{ doc(\"hubspot_portal_id\") }}"
+        meta:
+          dimension:
+            type: number
       - name: deal_pipeline_id
         description: The ID of the deal's pipeline.
-
+        meta:
+          dimension:
+            type: number
       - name: deal_pipeline_stage_id
         description: The ID of the deal's pipeline stage.
-
+        meta:
+          dimension:
+            type: number
       - name: owner_id
-        description: The ID of the deal's owner. 
-
+        description: The ID of the deal's owner.
+        meta:
+          dimension:
+            type: number
+      - name: count_engagement
+        description: "{{ doc('hubspot_count_engagement') }}"
+        meta:
+          dimension:
+            type: number
       - name: count_engagement_notes
         description: "{{ doc('hubspot_count_engagement_notes') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: count_engagement_tasks
         description: "{{ doc('hubspot_count_engagement_tasks') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: count_engagement_calls
         description: "{{ doc('hubspot_count_engagement_calls') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: count_engagement_meetings
         description: "{{ doc('hubspot_count_engagement_meetings') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: count_engagement_emails
         description: "{{ doc('hubspot_count_engagement_emails') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: count_engagement_incoming_emails
         description: "{{ doc('hubspot_count_engagement_incoming_emails') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: count_engagement_forwarded_emails
         description: "{{ doc('hubspot_count_engagement_forwarded_emails') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: is_pipeline_active
         description: Boolean indicating if the pipeline is active.
-
+        meta:
+          dimension:
+            type: boolean
       - name: pipeline_label
         description: The label of the deal's pipeline.
-
+        meta:
+          dimension:
+            type: string
       - name: pipeline_stage_label
         description: The label of the deal's pipeline stage.
-
+        meta:
+          dimension:
+            type: string
       - name: owner_email_address
         description: The email address of the deal's owner.
-
+        meta:
+          dimension:
+            type: string
       - name: owner_full_name
         description: The full name of the deal's owner.
-
+        meta:
+          dimension:
+            type: string
+      - name: _fivetran_synced
+        description: "{{doc('_fivetran_synced')}}"
+        meta:
+          dimension:
+            type: timestamp
+      - name: property_description
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: property_amount
+        description: ""
+        meta:
+          dimension:
+            type: number
   - name: fct__hubspot__deal_stage
     description: Each record represents a stage within a deal in Hubspot
     columns:
@@ -206,57 +431,120 @@ models:
           - not_null
           - unique
           - dbt_utils.at_least_one
-
+        meta:
+          dimension:
+            type: string
       - name: deal_stage_name
         description: The name of the deal stage.
-
+        meta:
+          dimension:
+            type: string
       - name: date_stage_entered
         description: The timestamp the deal stage was entered.
-
+        meta:
+          dimension:
+            type: timestamp
       - name: date_stage_exited
         description: The Fivetran calculated exit time of the deal stage.
-
+        meta:
+          dimension:
+            type: timestamp
       - name: is_stage_active
         description: Boolean indicating whether the deal stage active.
-
+        meta:
+          dimension:
+            type: boolean
       - name: deal_id
         description: The ID of the deal.
-
+        meta:
+          dimension:
+            type: number
       - name: pipeline_id
         description: The ID of the deal's pipeline.
-
+        meta:
+          dimension:
+            type: number
       - name: pipeline_stage_id
         description: The ID of the deal's pipeline stage.
-
+        meta:
+          dimension:
+            type: number
       - name: pipeline_label
         description: The label of the deal's pipeline.
-
+        meta:
+          dimension:
+            type: string
       - name: is_pipeline_active
         description: Boolean indicating if the pipeline is active.
-
+        meta:
+          dimension:
+            type: boolean
       - name: is_pipeline_stage_active
         description: Boolean indicating if the pipeline stage is active.
-
+        meta:
+          dimension:
+            type: boolean
       - name: pipeline_stage_label
         description: The label of the deal's pipeline stage.
-
+        meta:
+          dimension:
+            type: string
       - name: source
         description: The relevant source of the deal stage.
-
+        meta:
+          dimension:
+            type: string
       - name: source_id
         description: Reference to the source.
-
+        meta:
+          dimension:
+            type: string
       - name: is_pipeline_stage_closed_won
         description: Whether the stage represents a Closed Won deal.
-        
+        meta:
+          dimension:
+            type: boolean
       - name: pipeline_stage_display_order
-        description: Used to determine the order in which the stages appear when viewed in HubSpot.
-      
+        description: >-
+          Used to determine the order in which the stages appear when viewed in
+          HubSpot.
+        meta:
+          dimension:
+            type: string
       - name: pipeline_display_order
-        description: Used to determine the order in which the pipelines appear when viewed in HubSpot.
-
+        description: >-
+          Used to determine the order in which the pipelines appear when viewed
+          in HubSpot.
+        meta:
+          dimension:
+            type: string
       - name: pipeline_stage_probability
         description: The probability that the deal will close. Used for the deal forecast.
-      
+        meta:
+          dimension:
+            type: number
       - name: deal_name
         description: The name you have given this deal.
+        meta:
+          dimension:
+            type: string
+      - name: _fivetran_start
+        description: "{{doc('_fivetran_start')}}"
+        meta:
+          dimension:
+            type: date
+      - name: _fivetran_end
+        description: "{{doc('_fivetran_end')}}"
+        meta:
+          dimension:
+            type: date
+      - name: _fivetran_active
+        description: "{{doc('_fivetran_active')}}"
+        meta:
+          dimension:
+            type: date
+      - name: deal_pipeline_id
+        description: ""
+        meta:
+          dimension:
+            type: number

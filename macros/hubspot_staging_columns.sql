@@ -217,6 +217,8 @@
     {"name": "property_hs_time_in_lead", "datatype": dbt_utils.type_string(), "alias": "time_in_lead"},
     {"name": "property_hs_time_in_customer", "datatype": dbt_utils.type_string(), "alias": "time_in_customer"},
     {"name": "property_hs_time_in_subscriber", "datatype": dbt_utils.type_string(), "alias": "time_in_subscriber"},
+    {"name": "property_hs_time_in_salesqualifiedlead", "datatype": dbt_utils.type_string(), "alias": "time_in_salesqualifiedlead"},
+    {"name": "property_hs_time_in_evangelist", "datatype": dbt_utils.type_string(), "alias": "time_in_evangelist"},
     {"name": "property_hs_time_in_opportunity", "datatype": dbt_utils.type_string(), "alias": "time_in_opportunity"}
     
 ] %}
