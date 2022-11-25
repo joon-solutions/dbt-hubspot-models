@@ -192,6 +192,9 @@ models:
         meta:
           dimension:
             type: number
+          metrics:
+            total_revenue:
+              type: sum
       - name: days_to_close
         description: >-
           the number of days between the day the company was added to your
