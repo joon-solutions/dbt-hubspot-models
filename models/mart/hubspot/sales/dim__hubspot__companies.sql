@@ -68,6 +68,7 @@ companies as (
 
         select
             companies.*,
+            engagement_companies_agg.count_engagement,
             {% for metric in engagement_metrics() %}
                 coalesce(engagement_companies_agg.{{ metric }}, 0) as {{ metric }} {% if not loop.last %},{% endif %}
             {% endfor %}
