@@ -147,11 +147,17 @@ models:
         meta:
           dimension:
             type: number
+          metrics: 
+            total_associated_deals:
+              type: sum
       - name: total_deal_value
-        description: ""
+        description: "the total value of deals associated with the company."
         meta:
           dimension:
             type: number
+          metrics: 
+            total_deals_revenue:
+              type: sum
       - name: first_deal_created_date
         description: the date the first deal was created for a contact at this company.
         meta:
@@ -191,7 +197,10 @@ models:
         description: the total value of deals closed with the company or organization.
         meta:
           dimension:
-            type: number
+              type: number
+          metrics:
+            total_closed_deals_revenue:
+              type: sum
       - name: days_to_close
         description: >-
           the number of days between the day the company was added to your
@@ -199,6 +208,9 @@ models:
         meta:
           dimension:
             type: number
+          metrics:
+            avg_days_to_close:
+              type: average
       - name: lead_status
         description: >-
           describes the sub-stages within a Sales Qualified Lead lifecycle
@@ -441,11 +453,6 @@ models:
             type: string
       - name: date_stage_entered
         description: The timestamp the deal stage was entered.
-        meta:
-          dimension:
-            type: timestamp
-      - name: date_stage_exited
-        description: The Fivetran calculated exit time of the deal stage.
         meta:
           dimension:
             type: timestamp
