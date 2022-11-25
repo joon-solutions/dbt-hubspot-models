@@ -258,7 +258,7 @@ models:
         description: '{{ doc("_fivetran_start") }}'
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
-      - name: date_entered
+      - name: deal_stage_entered
         description: The timestamp the deal stage was entered.
       - name: deal_id
         description: Reference to the deal.

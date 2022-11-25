@@ -31,7 +31,7 @@ pipeline as (
 final as (
 
     select
-        deal_stage.deal_id || '-' || row_number() over(partition by deal_stage.deal_id order by deal_stage.date_entered asc) as deal_stage_id,
+        deal_stage.deal_id || '-' || row_number() over(partition by deal_stage.deal_id order by deal_stage.deal_stage_entered asc) as deal_stage_id,
         deals.deal_id,
         deals.deal_name,
         deal_stage._fivetran_start,

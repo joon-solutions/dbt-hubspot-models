@@ -307,7 +307,7 @@
     {"name": "_fivetran_end", "datatype": dbt_utils.type_timestamp()},
     {"name": "_fivetran_start", "datatype": dbt_utils.type_timestamp()},
     {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
-    {"name": "date_entered", "datatype": dbt_utils.type_timestamp()},
+    {"name": "date_entered", "datatype": dbt_utils.type_timestamp(), "alias": "deal_stage_entered"},
     {"name": "deal_id", "datatype": dbt_utils.type_int()},
     {"name": "source", "datatype": dbt_utils.type_string()},
     {"name": "source_id", "datatype": dbt_utils.type_string()},

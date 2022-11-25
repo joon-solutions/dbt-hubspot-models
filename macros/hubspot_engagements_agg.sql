@@ -18,6 +18,7 @@
 {% macro engagement_metrics() %}
 
 {% set metrics = [
+    'count_engagement',
     'count_engagement_notes',
     'count_engagement_tasks',
     'count_engagement_calls',

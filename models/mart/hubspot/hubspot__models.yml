@@ -147,14 +147,15 @@ models:
         meta:
           dimension:
             type: number
-          metrics: total_associated_deals
-            type: sum
+          metrics: 
+            total_associated_deals:
+              type: sum
       - name: total_deal_value
         description: "the total value of deals associated with the company."
         meta:
           dimension:
             type: number
-          metrics:
+          metrics: 
             total_deals_revenue:
               type: sum
       - name: first_deal_created_date
@@ -452,11 +453,6 @@ models:
             type: string
       - name: date_stage_entered
         description: The timestamp the deal stage was entered.
-        meta:
-          dimension:
-            type: timestamp
-      - name: date_stage_exited
-        description: The Fivetran calculated exit time of the deal stage.
         meta:
           dimension:
             type: timestamp
