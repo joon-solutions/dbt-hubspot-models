@@ -34,14 +34,12 @@ latest_comment as (
 first_and_latest_score as (
     select
         ticket_id,
-        first_value(value) over (partition by ticket_id order by valid_starting_at asc) as first_satisfaction_score, 
+        first_value(value) over (partition by ticket_id order by valid_starting_at asc) as first_satisfaction_score,
         first_value(value) over (partition by ticket_id order by valid_starting_at desc) as latest_satisfaction_score,
-        case    when first_value(value) over (partition by ticket_id order by valid_starting_at asc) = 'good' then 1
-                when first_value(value) over (partition by ticket_id order by valid_starting_at asc) = 'bad' then 0
-                else null end as first_numerical_satisfaction_score,
-        case    when first_value(value) over (partition by ticket_id order by valid_starting_at desc) = 'good' then 1
-                when first_value(value) over (partition by ticket_id order by valid_starting_at desc) = 'bad' then 0
-                else null end as latest_numerical_satisfaction_score,
+        case when first_value(value) over (partition by ticket_id order by valid_starting_at asc) = 'good' then 1
+            when first_value(value) over (partition by ticket_id order by valid_starting_at asc) = 'bad' then 0 end as first_numerical_satisfaction_score,
+        case when first_value(value) over (partition by ticket_id order by valid_starting_at desc) = 'good' then 1
+            when first_value(value) over (partition by ticket_id order by valid_starting_at desc) = 'bad' then 0 end as latest_numerical_satisfaction_score,
         row_number() over (partition by ticket_id order by random() desc) as rnk
     from satisfaction_updates
     where field_name = 'satisfaction_score' and value != 'offered'
