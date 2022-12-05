@@ -1,0 +1,18 @@
+{
+    "source_schema":"MY_SCHEMA"
+    ,"source_tables":"TABLE_1,TABLE_2,TABLE_3"
+    ,"relationship":{
+        "one-to-many":[
+            {
+                "one":{"TABLE_1":"ID"}
+                ,"many":{"TABLE_2":"TABLE_1_ID"}
+            }
+        ],
+        "one-one":[
+            {
+                "one_1":{"TABLE_1":"ID"}
+                ,"one_2":{"TABLE_3":"TABLE_1_ID"}
+            }
+        ]
+    }
+}

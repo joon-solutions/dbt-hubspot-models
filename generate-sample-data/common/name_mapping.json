@@ -1,0 +1,18 @@
+{
+    "Row Number":["id"]
+    ,"Buzzword":["label"]
+    ,"City":["city"]
+    ,"Company Name":["company"]
+    ,"Country":["country"]
+    ,"Email Address":["email"]
+    ,"First Name":[["first","name"]]
+    ,"GUID":["uid"]
+    ,"Last Name":[["last","name"]]
+    ,"Phone":["phone"]
+    ,"Postal Code":[["postal","code"]]
+    ,"Street Address":["street"]
+    ,"Username":["nickname","username"]
+    ,"URL":["url","website"]
+    ,"Words":["description"]
+    
+}

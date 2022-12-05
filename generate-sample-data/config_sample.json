@@ -1,0 +1,13 @@
+{
+    "account":"source_snf_account"
+    ,"user":"source_snf_user"
+    ,"password":"source_snf_password"
+    ,"warehouse":"source_snf_warehouse"
+    ,"database":"source_snf_database"
+    ,"mockaroo_key":"mockaroo_api_key"
+    ,"target_account":"target_snf_account"
+    ,"target_user":"target_snf_user"
+    ,"target_password":"target_snf_password"
+    ,"target_warehouse":"target_snf_warehouse"
+    ,"target_database":"target_snf_database"
+}
