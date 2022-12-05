@@ -34,8 +34,14 @@ latest_comment as (
 first_and_latest_score as (
     select
         ticket_id,
-        first_value(value) over (partition by ticket_id order by valid_starting_at asc) as first_satisfaction_score,
+        first_value(value) over (partition by ticket_id order by valid_starting_at asc) as first_satisfaction_score, 
         first_value(value) over (partition by ticket_id order by valid_starting_at desc) as latest_satisfaction_score,
+        case    when first_value(value) over (partition by ticket_id order by valid_starting_at asc) = 'good' then 1
+                when first_value(value) over (partition by ticket_id order by valid_starting_at asc) = 'bad' then 0
+                else null end as first_numerical_satisfaction_score,
+        case    when first_value(value) over (partition by ticket_id order by valid_starting_at desc) = 'good' then 1
+                when first_value(value) over (partition by ticket_id order by valid_starting_at desc) = 'bad' then 0
+                else null end as latest_numerical_satisfaction_score,
         row_number() over (partition by ticket_id order by random() desc) as rnk
     from satisfaction_updates
     where field_name = 'satisfaction_score' and value != 'offered'
@@ -78,6 +84,8 @@ final as (
         max(latest_comment.latest_satisfaction_comment) as latest_satisfaction_comment,
         max(first_and_latest_score.first_satisfaction_score) as first_satisfaction_score,
         max(first_and_latest_score.latest_satisfaction_score) as latest_satisfaction_score,
+        max(first_and_latest_score.first_numerical_satisfaction_score) as first_numerical_satisfaction_score,
+        max(first_and_latest_score.latest_numerical_satisfaction_score) as latest_numerical_satisfaction_score,
         max(case when score_group.count_satisfaction_scores > 0
                 then (score_group.count_satisfaction_scores - 1) --Subtracting one as the first score is always "offered".
             else score_group.count_satisfaction_scores
