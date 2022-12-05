@@ -1,0 +1,12 @@
+{
+    "source_schema":"ZENDESK"
+    ,"source_tables":"GROUP,ORGANIZATION"
+    ,"relationship":{
+        "one-to-many":[
+            {
+                "one":{"GROUP":"ID"}
+                ,"many":{"ORGANIZATION":"GROUP_ID"}
+            }
+        ]
+    }
+}

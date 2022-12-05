@@ -1,0 +1,7 @@
+{
+    "timestamp":{"type":"Datetime"}
+    ,"date":{"type":"Datetime"}
+    ,"bool":{"type":"Boolean"}
+    ,"number":{"type":"Number","max":2000,"decimals":0}
+    ,"float":{"type":"Number","min":0,"max":10}
+}
