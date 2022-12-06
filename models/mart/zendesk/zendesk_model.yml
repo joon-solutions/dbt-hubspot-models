@@ -245,32 +245,34 @@ models:
         meta:
           dimension:
             type: string
-      - name: latest_satisfaction_score
+      - name: latest_satisfaction_status
         description: The lastest satisfaction score of a ticket
         meta:
           dimension:
             type: string
-      - name: first_satisfaction_score
+      - name: first_satisfaction_status
         description: The first satisfaction score of a ticket
         meta:
           dimension:
             type: string
-      - name: latest_numerical_satisfaction_score
+      - name: latest_satisfaction_score
         description: The lastest satisfaction score of a ticket in numerical value, 1 equals to "good" and 0 equals to "bad"
         meta:
           dimension:
             type: number
           metrics:
-            avg_latest_numerical_satisfaction_score:
+            avg_latest_satisfaction_score:
               type: average
-      - name: first_numerical_satisfaction_score
+              format: 'percent'
+      - name: first_satisfaction_score
         description: The first satisfaction score of a ticket in numerical value, 1 equals to "good" and 0 equals to "bad"
         meta:
           dimension:
             type: number
           metrics:
-            avg_first_numerical_satisfaction_score:
+            avg_first_satisfaction_score:
               type: average
+              format: 'percent'
       - name: latest_satisfaction_comment
         description: The lastest satisfaction comment of a ticket
         meta:
