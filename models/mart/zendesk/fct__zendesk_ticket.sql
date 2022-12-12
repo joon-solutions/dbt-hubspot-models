@@ -146,6 +146,8 @@ ticket_enriched_2 as (
         ticket_resolution_times.final_resolution_calendar_minutes,
         --- satisfaction_ratings
         latest_satisfaction_ratings.count_satisfaction_scores,
+        latest_satisfaction_ratings.first_satisfaction_status,
+        latest_satisfaction_ratings.latest_satisfaction_status,
         latest_satisfaction_ratings.first_satisfaction_score,
         latest_satisfaction_ratings.latest_satisfaction_score,
         latest_satisfaction_ratings.latest_satisfaction_comment,
