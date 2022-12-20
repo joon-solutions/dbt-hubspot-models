@@ -1,0 +1,46 @@
+{{ config(enabled = var('outreach_account') ) }}
+{{ config(enabled = var('outreach_opportunity') ) }}
+
+with account as (
+
+    select * from {{ ref('base__outreach__account') }}
+
+),
+
+opportunity as (
+    select * from {{ ref('base__outreach__opportunity') }}
+
+),
+
+joined as (
+    select
+        account.account_id,
+        account.company_type,
+        account.number_of_employees,
+        account.account_type,
+        account.buyer_intent_score,
+        account.created_at,
+        account.industry,
+        account.owner_id,
+        account.followers,
+        account.updated_at,
+        opportunity.opportunity_id,
+        opportunity.stage_id,
+        opportunity.opportunity_stage_id,
+        opportunity.created_at,
+        opportunity.close_date,
+        opportunity.opportunity_description,
+        opportunity.map_link,
+        opportunity.next_step,
+        opportunity.map_next_steps,
+        opportunity.map_status
+        opportunity.opportunity_name,
+        opportunity.opportunity_probability,
+        {{ dbt_utils.surrogate_key(['account.account_id','opportunity.opportunity_id']) }} as id
+
+    from account
+    left join opportunity on account.account_id = opportunity.account_id
+
+)
+
+select * from joined

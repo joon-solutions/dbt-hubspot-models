@@ -1,0 +1,26 @@
+version: 2
+
+models:
+  - name: base__outreach__account
+    description: Each record represents an Outreach account.
+    columns:
+      - name: account_id
+        description: Unique ID for the version of an account. 
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one 
+      - name: _fivetran_synced
+        description: '{{ doc("_fivetran_synced") }}'
+      
+  - name: base__outreach__opportunity
+    description: Each record represents an Outreach account.
+    columns:
+      - name: opportunity_id
+        description: Unique ID for the version of an account. 
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one 
+      - name: _fivetran_synced
+        description: '{{ doc("_fivetran_synced") }}'

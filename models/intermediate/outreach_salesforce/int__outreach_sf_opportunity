@@ -1,6 +1,6 @@
 with sf as (
     select * 
-    from {{ ref('stg__salesforce__opportunity') }}
+    from {{ ref('stg__outreach__opportunity') }}
 ),
 
 final as (
