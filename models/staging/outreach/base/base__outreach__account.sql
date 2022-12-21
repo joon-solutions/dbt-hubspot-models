@@ -3,7 +3,7 @@
 
 with source as (
 
-    select * from {{ source('outreach', 'account') }}
+    select * from {{ source('outreach_', 'account') }}
 
 ),
 
@@ -13,7 +13,7 @@ renamed as (
 
         {{
             fill_staging_columns(
-                source_columns=adapter.get_columns_in_relation(source('outreach', 'account')),
+                source_columns=adapter.get_columns_in_relation(source('outreach_', 'account')),
                 staging_columns = get_staging_outreach_account_columns()
             )
         }}

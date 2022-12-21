@@ -1,0 +1,3 @@
+with account as (
+    select * from {{ ref('int__outreach_sf_account') }}
+)

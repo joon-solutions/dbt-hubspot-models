@@ -135,7 +135,7 @@ vars:
 
   # Outreach
   outreach_account: true
-  outreach_opportunity: false
+  outreach_opportunity: true
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models

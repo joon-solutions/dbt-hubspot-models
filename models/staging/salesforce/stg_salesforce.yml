@@ -84,12 +84,3 @@ models:
         description: Used with ShippingLatitude to specify the precise geolocation of an address.
       - name: shipping_postal_code 
         description: Details of the shipping address for this account. Postal code
-
-  - name: stg__salesforce__account_opportunity
-    description: Represents salesforce information with users, opportunity & account information.
-    columns:
-      - name: id
-        description: The unique, system-generated ID assigned during creation
-        tests: 
-          - not_null
-          - unique

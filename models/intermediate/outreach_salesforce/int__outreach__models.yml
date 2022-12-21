@@ -1,0 +1,13 @@
+
+version: 2
+
+models:
+  - name: int__outreach_sf_account
+    description: The combination of Outreach & Salesforce Account
+    columns:
+      - name: id
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+          
