@@ -2,7 +2,7 @@
 version: 2
 
 models:
-  - name: int__outreach_sf_account
+  - name: int__outreach_sf__account
     description: The combination of Outreach & Salesforce Account
     columns:
       - name: id
