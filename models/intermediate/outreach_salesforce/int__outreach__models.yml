@@ -5,7 +5,7 @@ models:
   - name: int__outreach_sf__account
     description: The combination of Outreach & Salesforce Account
     columns:
-      - name: id
+      - name: account_id
         tests:
           - unique
           - not_null

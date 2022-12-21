@@ -24,4 +24,5 @@ renamed as (
 
 select
     *
+-- ,regexp_substr(regexp_replace(website,'^(?:https?:\/\/)?(?:[^@\/\n]+@)?(?:www\.)?([^:\/?\n]+)')) as outreach_domain 
 from renamed

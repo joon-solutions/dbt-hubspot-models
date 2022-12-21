@@ -17,7 +17,6 @@ final as (
     select
         -- salesforce
         sf.account_id as sf_account_id,
-        sf.account_name as sf_account_name,
         sf.last_activity_date,
         sf.last_viewed_date,
         sf.billing_city,
@@ -25,10 +24,8 @@ final as (
         sf.billing_country,
         sf.billing_postal_code,
         sf.last_referenced_date,
-        sf.industry,
         -- outreach
         outreach.company_type,
-        outreach.account_name as outreach_account_name,
         outreach.account_id as outreach_account_id,
         outreach.buyer_intent_score,
         outreach.account_created_at,
@@ -36,13 +33,15 @@ final as (
         outreach.domain,
         outreach.external_source,
         outreach.followers,
+        coalesce(sf.account_name, outreach.account_name) as account_name,
         coalesce(sf.number_of_employees, outreach.number_of_employees) as number_of_employees,
         coalesce(sf.source, outreach.source) as source,
-        {{ dbt_utils.surrogate_key(['sf.account_id','outreach.account_id']) }} as id
+        coalesce(sf.industry, outreach.industry) as industry,
+        {{ dbt_utils.surrogate_key(['sf.account_id','outreach.account_id']) }} as account_id
 
     from sf
-    -- full outer join outreach on lower(sf.account_name) = lower(outreach.account_name)
     full join outreach on lower(sf.account_name) = lower(outreach.account_name)
+-- full join outreach on lower(sf.sf_domain) = lower(outreach.outreach_domain)
 )
 
 select * from final

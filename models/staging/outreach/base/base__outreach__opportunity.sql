@@ -24,4 +24,5 @@ renamed as (
 
 select
     *
+-- ,regexp_substr(regexp_replace(website,'^(?:https?:\/\/)?(?:[^@\/\n]+@)?(?:www\.)?([^:\/?\n]+)')) as sf_domain 
 from renamed

@@ -25,7 +25,7 @@
     {"name": "relationship_creator_id", "datatype": dbt_utils.type_string(), "alias": "creator_id"},
     {"name": "custom_id", "datatype": dbt_utils.type_string()},
     {"name": "name", "datatype": dbt_utils.type_string(),  "alias": "account_name"},
-    {"name": "touched_at", "datatype": dbt_utils.type_timestamp()},
+    {"name": "touched_at", "datatype": dbt_utils.type_timestamp()}
 
 ] %}
 
