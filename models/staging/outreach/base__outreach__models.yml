@@ -14,13 +14,43 @@ models:
         description: '{{ doc("_fivetran_synced") }}'
       
   - name: base__outreach__opportunity
-    description: Each record represents an Outreach account.
+    description: Each record represents an Outreach opportunity.
     columns:
       - name: opportunity_id
-        description: Unique ID for the version of an account. 
+        description: Unique ID for an opportunity. 
         tests:
           - unique
           - not_null
           - dbt_utils.at_least_one 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
+
+  - name: base__outreach__opportunity_stage
+    description: Each record represents an stage an Outreach opportunity is in.
+    columns:
+      - name: opportunity_stage_id
+        description: Unique ID for the opportunity stage. 
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one 
+
+  - name: base__outreach__sequence
+    description: Each record represents an Sequence created in Outreach.
+    columns:
+      - name: sequence_id
+        description: Unique ID for the sequence. 
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one 
+
+  - name: base__outreach__sequence_state
+    description: A descriptor of a currently sequenced prospect, which includes relationships to its sequence, prospect and user.
+    columns:
+      - name: sequence_state_id
+        description: Unique ID for the sequence state. 
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one 

@@ -1,13 +1,21 @@
 version: 2
 
 models:
-  - name: stg__outreach__account_opportunity
-    description: Each record represents an Outreach account joined with opportunity
+  - name: stg__outreach__opportunity
+    description: Each record represents an Outreach opportunity enriched with opportunity stage attributes
+    columns:
+      - name: opportunity_id
+        description: Unique ID for an Oureach opportunity
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+  - name: stg__outreach__sequence
+    description: Each record represents an Outreach sequence with a targeted prospect
     columns:
       - name: id
-        description: Unique ID for a pair of account_id and opportunity_id 
+        description: Unique ID for a pair of account_id and sequence_id 
         tests:
           - unique
           - not_null
           - dbt_utils.at_least_one 
-      
