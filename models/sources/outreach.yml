@@ -1,7 +1,7 @@
 version: 2
 
 sources:
-  - name: outreach_
+  - name: outreach
     database: joon_solutions
     tables:
       - name: account
