@@ -8,7 +8,8 @@ with outreach as (
             opportunity_status,
             opportunity_probability,
             is_closed,
-            created_at
+            created_at,
+            'outreach' as source
     from {{ ref('stg__outreach__opportunity') }}
 ),
 
@@ -21,7 +22,8 @@ sf as (
             opportunity_status,
             opportunity_probability,
             is_closed,
-            created_date
+            created_date,
+            'sf' as source
     from {{ ref('stg__salesforce__opportunity') }}    
 ),
 
@@ -38,6 +40,7 @@ final as (
             nvl(outreach.opportunity_probability, sf.opportunity_probability) as opportunity_probability,
             nvl(outreach.is_closed, sf.is_closed) as is_closed,
             nvl(outreach.created_at, sf.created_date) as created_at,
+            nvl(outreach.source, sf.source) as source,
             {{ dbt_utils.surrogate_key(['outreach.outreach_opportunity_id', 'sf.sf_opportunity_id']) }} as opportunity_id
 
     from outreach
