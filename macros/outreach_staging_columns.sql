@@ -45,7 +45,7 @@
     {"name": "relationship_opportunity_stage_id", "datatype": dbt_utils.type_string(), "alias": "opportunity_stage_id"},
     {"name": "amount", "datatype": dbt_utils.type_numeric()},
     {"name": "close_date", "datatype": dbt_utils.type_timestamp()},
-    {"name": "created_at", "datatype": dbt_utils.type_timestamp(), "alias": "opportunity_created_at"},
+    {"name": "created_at", "datatype": dbt_utils.type_timestamp()},
     {"name": "description", "datatype": dbt_utils.type_string(), "alias": "opportunity_description"},
     {"name": "external_created_at", "datatype": dbt_utils.type_timestamp()},
     {"name": "map_link", "datatype": dbt_utils.type_string()},
