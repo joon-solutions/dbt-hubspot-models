@@ -49,7 +49,7 @@ joined as (
             user_role.rollup_description as opportunity_owner_rollup_description,
         {% endif %}
 
-        opportunity.opportunity_status,
+        -- opportunity.opportunity_status,
         case when opportunity.is_created_this_month then opportunity.amount else 0 end as created_amount_this_month,
         case when opportunity.is_created_this_quarter then opportunity.amount else 0 end as created_amount_this_quarter,
         case when opportunity.is_closed_this_month then opportunity.amount else 0 end as closed_amount_this_month,
