@@ -35,8 +35,8 @@ final as (
         founded_at,
         account_created_at,
         updater_id,
-        sharing_team_id
-        as website,
+        sharing_team_id,
+        website,
         industry,
         owner_id,
         domain,
