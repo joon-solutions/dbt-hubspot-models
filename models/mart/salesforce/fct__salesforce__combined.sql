@@ -49,12 +49,7 @@ joined as (
             user_role.rollup_description as opportunity_owner_rollup_description,
         {% endif %}
 
-        case
-            when opportunity.is_won then 'Won'
-            when not opportunity.is_won and opportunity.is_closed then 'Lost'
-            when not opportunity.is_closed and lower(opportunity.forecast_category) in ('pipeline', 'forecast', 'bestcase') then 'Pipeline'
-            else 'Other'
-        end as status,
+        -- opportunity.opportunity_status,
         case when opportunity.is_created_this_month then opportunity.amount else 0 end as created_amount_this_month,
         case when opportunity.is_created_this_quarter then opportunity.amount else 0 end as created_amount_this_quarter,
         case when opportunity.is_closed_this_month then opportunity.amount else 0 end as closed_amount_this_month,

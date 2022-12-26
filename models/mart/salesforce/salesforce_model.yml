@@ -21,7 +21,7 @@ models:
           dimension:
             type: number
 
-      - name: status
+      - name: opportunity_status
         description: Status (Won, Lost, or Pipeline).
         meta:
           dimension:

@@ -75,7 +75,7 @@
     {"name": "name", "datatype": dbt_utils.type_string(), "alias": "opportunity_name"},
     {"name": "next_step", "datatype": dbt_utils.type_string()},
     {"name": "owner_id", "datatype": dbt_utils.type_string()},
-    {"name": "probability", "datatype": dbt_utils.type_float()},
+    {"name": "probability", "datatype": dbt_utils.type_float(), "alias": "opportunity_probability"},
     {"name": "record_type_id", "datatype": dbt_utils.type_string()},
     {"name": "stage_name", "datatype": dbt_utils.type_string()},
     {"name": "synced_quote_id", "datatype": dbt_utils.type_string()},

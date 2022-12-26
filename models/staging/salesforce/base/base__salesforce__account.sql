@@ -44,7 +44,9 @@ final as (
         is_deleted,
         cast(last_referenced_date as {{ dbt_utils.type_timestamp() }}) as last_referenced_date,
         number_of_employees,
-        industry
+        industry,
+        website,
+        parse_url(website) as extract_domain
 
         --The below script allows for pass through columns.
         {% if var('account_pass_through_columns',[]) != [] %},
@@ -56,4 +58,7 @@ final as (
 
 )
 
-select * from final
+select
+    *,
+    extract_domain:host as account_host
+from final

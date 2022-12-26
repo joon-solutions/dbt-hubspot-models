@@ -84,4 +84,3 @@ models:
         description: Used with ShippingLatitude to specify the precise geolocation of an address.
       - name: shipping_postal_code 
         description: Details of the shipping address for this account. Postal code
-

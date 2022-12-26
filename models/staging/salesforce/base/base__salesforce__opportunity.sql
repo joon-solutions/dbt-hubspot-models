@@ -50,7 +50,7 @@ final as (
         amount,
         is_deleted,
         lead_source,
-        probability,
+        opportunity_probability,
         is_closed
 
         --The below script allows for pass through columns.
