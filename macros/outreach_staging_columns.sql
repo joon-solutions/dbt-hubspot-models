@@ -12,7 +12,7 @@
     {"name": "founded_at", "datatype": dbt_utils.type_timestamp()},
     {"name": "created_at", "datatype": dbt_utils.type_timestamp(), "alias": "account_created_at"},
     {"name": "relationship_updater_id", "datatype": dbt_utils.type_numeric(),"alias": "updater_id"},
-    {"name": "website_url", "datatype": dbt_utils.type_string()},
+    {"name": "website_url", "datatype": dbt_utils.type_string(), "alias": "website"},
     {"name": "industry", "datatype": dbt_utils.type_string()},
     {"name": "linked_in_employees", "datatype": dbt_utils.type_string()},
     {"name": "relationship_owner_id", "datatype": dbt_utils.type_string(), "alias": "owner_id"},

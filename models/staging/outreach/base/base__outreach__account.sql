@@ -20,9 +20,38 @@ renamed as (
 
     from source
 
+),
+
+final as (
+    select
+        account_id,
+        company_type,
+        linked_in_url,
+        locality,
+        number_of_employees,
+        account_type,
+        account_description,
+        buyer_intent_score,
+        founded_at,
+        account_created_at,
+        updater_id,
+        sharing_team_id
+        as website,
+        industry,
+        owner_id,
+        domain,
+        external_source,
+        followers,
+        updated_at,
+        creator_id,
+        custom_id,
+        account_name,
+        touched_at,
+        parse_url(website) as extract_domain
+    from renamed
 )
 
 select
-    *
--- ,regexp_substr(regexp_replace(website,'^(?:https?:\/\/)?(?:[^@\/\n]+@)?(?:www\.)?([^:\/?\n]+)')) as outreach_domain 
-from renamed
+    *,
+    extract_domain:host as account_host
+from final

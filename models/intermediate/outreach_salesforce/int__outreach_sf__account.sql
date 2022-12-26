@@ -29,10 +29,10 @@ final as (
         outreach.account_id as outreach_account_id,
         outreach.buyer_intent_score,
         outreach.account_created_at,
-        outreach.website_url,
         outreach.domain,
         outreach.external_source,
         outreach.followers,
+        coalesce(sf.account_host, outreach.account_host) as account_host,
         coalesce(sf.account_name, outreach.account_name) as account_name,
         coalesce(sf.number_of_employees, outreach.number_of_employees) as number_of_employees,
         coalesce(sf.source, outreach.source) as source,
@@ -40,8 +40,8 @@ final as (
         {{ dbt_utils.surrogate_key(['sf.account_id','outreach.account_id']) }} as account_id
 
     from sf
-    full join outreach on lower(sf.account_name) = lower(outreach.account_name)
--- full join outreach on lower(sf.sf_domain) = lower(outreach.outreach_domain)
+
+    full join outreach on lower(sf.account_host) = lower(outreach.account_host)
 )
 
 select * from final
