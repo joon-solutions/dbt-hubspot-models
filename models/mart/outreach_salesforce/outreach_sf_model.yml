@@ -48,3 +48,40 @@ models:
         description: "Total won opportunities recorded in both SF & Outreach and associated with a sequenced account"
       - name: total_lost_deals
         description: "Total lost opportunities recorded in both SF & Outreach and associated with a sequenced account"
+
+  - name: fct__outreach_sf__task
+    description: Each record represent a task filed in either Outreach or Salesforce app. The table contains tasks' attributes, as well as its allocated points calculated by its evaluated importance on converting a customer (an account)
+    columns:
+      - name: task_id
+        description: Unique ID for the task
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+      - name: account_id
+        description: "{{ doc(\"outreach_sf_account_id\") }}"
+      - name: completed_at
+        description: "The time when a task was completed"
+      - name: task_action_type
+        description: "The action type of the task, for example 'action_item', 'call', 'email', or 'in_person'"
+      - name: first_opportunity_open_at
+        description: "The time when first oppotunity associated with the account was opened"
+      - name: first_opportunity_closed_at
+        description: "The time when first oppotunity associated with the account was opened"
+      - name: total_touches
+        description: "Total tasks (Sales activity) were put upon the account"
+      - name: touch_number
+        description: "The order of a task in "
+      - name: timeframe
+        description: >
+          There are two timeframe:
+          'from open to close won opportunity' - evaluate Sales attempts during the timespan between first deal opened and first deal closed won."
+          'before open opportunity' - evaluate Sales attempts during the timespan between first contact and first deal opened.
+      - name: forty_twenty_forty_points
+        description: "Allocated point for given task based on twenty-forty rule, details https://agencyanalytics.com/blog/marketing-attribution-models"
+      - name: first_touch_points
+        description: "Allocated point for given task based on first-touch rule, details https://agencyanalytics.com/blog/marketing-attribution-models"
+      - name: last_touch_points
+        description: "Allocated point for given task based on last-touch rule, details https://agencyanalytics.com/blog/marketing-attribution-models"
+      - name: linear_points
+        description: "Allocated point for given task based on linear rule, details https://agencyanalytics.com/blog/marketing-attribution-models" 

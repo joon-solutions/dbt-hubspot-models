@@ -1,19 +1,21 @@
 with task_base as (
     select * 
-    from {{ ref('int__outreach_sf_task') }}
+    from {{ ref('int__outreach_sf__task') }}
+    where is_completed = true
 ),
 
 opportunity_base as (
-    select  account_id
-            , min(created_at)  as first_opportunity_open_at
-            , min(case when is_won then closed_at else null end)  as first_opportunity_closed_at
-    from {{ ref('int__outreach_sf_opportunity') }}
-    group by 1  
+    select  outreach_account_id,
+            sf_account_id,
+            min(created_at)  as first_opportunity_open_at,
+            min(case when opportunity_status='Won' then close_date else null end)  as first_opportunity_closed_at
+    from {{ ref('int__outreach_sf__opportunity') }}
+    group by 1,2
 ),
 
 account as (
     select * 
-    from {{ ref('int__outreach_sf_account') }}
+    from {{ ref('int__outreach_sf__account') }}
 ),
 
 task as (
@@ -32,19 +34,19 @@ opportunity as (
 
 touches_til_open_deal as (
     select 
-        task.acount_id,
+        task.account_id,
         task.task_id,
-        task.start_at,
-        task.task_type,
-        task.is_task_responded,
+        task.completed_at,
+        task.task_action_type,
         opportunity.first_opportunity_open_at,
-        count(*) over (partition by task.acount_id) as total_touches,
-        row_number() over (partition by task.acount_id order by task.start_at) as touch_number,
+        opportunity.first_opportunity_closed_at,
+        count(*) over (partition by task.account_id) as total_touches,
+        row_number() over (partition by task.account_id order by task.completed_at) as touch_number,
         'before open opportunity' as timeframe
     from task
     left join opportunity on task.account_id = opportunity.account_id -- many-to-one
-    where   task.started_at <= opportunity.first_opportunity_open_at
-            -- and task.started_at >= dateadd(days, -30, opportunity.first_opportunity_open_at) --limit tasks within "attribution window"
+    where   task.completed_at <= opportunity.first_opportunity_open_at
+            -- and task.completed_at >= dateadd(days, -30, opportunity.first_opportunity_open_at) --limit tasks within "attribution window"
 ),
 
 allocation_til_open_deal as (
@@ -65,25 +67,25 @@ allocation_til_open_deal as (
                 when touch_number = total_touches then 1.0
                 else 0.0
             end as last_touch_points,
-            1.0 / total_sessions as linear_points
+            1.0 / total_touches as linear_points
     from touches_til_open_deal
 ),
 
 touches_til_close_deal as (
     select 
-        task.acount_id,
+        task.account_id,
         task.task_id,
-        task.start_at,
-        task.task_type,
-        task.is_task_responded,
+        task.completed_at,
+        task.task_action_type,
         opportunity.first_opportunity_open_at,
-        count(*) over (partition by task.acount_id) as total_touches,
-        row_number() over (partition by task.acount_id order by task.start_at) as touch_number
+        opportunity.first_opportunity_closed_at,
+        count(*) over (partition by task.account_id) as total_touches,
+        row_number() over (partition by task.account_id order by task.completed_at) as touch_number,
         'from open to close won opportunity' as timeframe
     from task
     left join opportunity on task.account_id = opportunity.account_id -- many-to-one
-    where   task.started_at >= opportunity.first_opportunity_open_at
-            and task.started_at <= opportunity.first_opportunity_closed_at
+    where   task.completed_at >= opportunity.first_opportunity_open_at
+            and task.completed_at <= opportunity.first_opportunity_closed_at
 ),
 
 allocation_til_close_deal as (
@@ -104,14 +106,14 @@ allocation_til_close_deal as (
                 when touch_number = total_touches then 1.0
                 else 0.0
             end as last_touch_points,
-            1.0 / total_sessions as linear_points
+            1.0 / total_touches as linear_points
     from touches_til_close_deal
 ),
 
 final as (
-    (select * from allocation_til_open_deal)
+    select * from allocation_til_open_deal
     union all
-    (select * from allocation_til_close_deal)
+    select * from allocation_til_close_deal
 )
 
-select * final
+select * from final

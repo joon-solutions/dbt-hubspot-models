@@ -17,7 +17,7 @@ sources:
       # - name: sequence_step
       # - name: sequence_template
       # - name: stage
-      # - name: task
+      - name: task
       # - name: task_priority
       # - name: users
       - name: opportunity

@@ -392,3 +392,12 @@ models:
       - name: rollup_description
         description: Description of the forecast rollup.
 
+  - name: base__salesforce__task
+    description: Represents a business activity such as making a phone call or other to-do items. In the user interface, Task and Event records are collectively referred to as activities.
+    columns:
+      - name: task_id
+        description: The unique ID for the task
+        tests: 
+          - not_null
+          - unique
+

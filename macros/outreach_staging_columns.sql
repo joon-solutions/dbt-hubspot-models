@@ -144,3 +144,17 @@
 {{ return(columns) }}
 
 {% endmacro %}
+
+{% macro get_staging_outreach_task_columns() %}
+
+{% set columns = [
+    {"name": "id", "datatype": dbt_utils.type_string(), "alias": "task_id"},
+    {"name": "relationship_account_id", "datatype": dbt_utils.type_string(), "alias": "account_id"},
+    {"name": "action", "datatype": dbt_utils.type_string(), "alias": "task_action_type"},
+    {"name": "completed_at", "datatype": dbt_utils.type_timestamp(), "alias": "completed_at"},
+    {"name": "completed", "datatype": "boolean", "alias": "is_completed"}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}

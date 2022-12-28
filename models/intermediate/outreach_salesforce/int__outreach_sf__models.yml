@@ -15,10 +15,20 @@ models:
     description: Each record represents an opportunity from either Outreach & Saleforce sources
     columns:
       - name: opportunity_id
-        description: global ID of an opportunity, to differentiate with outreach_opportunity and sf_opportunity_id
+        description: global ID of an opportunity, to differentiate with outreach_opportunity_id and sf_opportunity_id
         tests:
           - unique
           - not_null
           - dbt_utils.at_least_one
+
+  - name: int__outreach_sf__task
+    description: Each record represents a task recorded from either Outreach & Saleforce sources
+    columns:
+      - name: task_id
+        description: global ID of a task, to differentiate with outreach_task_id and sf_task_id
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one 
 
           
