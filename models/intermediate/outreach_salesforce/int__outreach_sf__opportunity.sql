@@ -29,24 +29,53 @@ sf as (
     from {{ ref('stg__salesforce__opportunity') }}
 ),
 
-final as (
+joined as (
     select
         outreach.outreach_opportunity_id,
         outreach.outreach_account_id,
         sf.sf_opportunity_id,
         sf.sf_account_id,
-        COALESCE(outreach.opportunity_name, sf.opportunity_name) as opportunity_name,
-        COALESCE(outreach.amount, sf.amount) as amount,
-        COALESCE(outreach.close_date, sf.close_date) as close_date,
-        COALESCE(outreach.opportunity_status, sf.opportunity_status) as opportunity_status,
-        COALESCE(outreach.opportunity_probability, sf.opportunity_probability) as opportunity_probability,
-        COALESCE(outreach.is_closed, sf.is_closed) as is_closed,
-        COALESCE(outreach.created_at, sf.created_date) as created_at,
-        COALESCE(outreach.source, sf.source) as source,
+        coalesce(outreach.opportunity_name, sf.opportunity_name) as opportunity_name,
+        coalesce(outreach.amount, sf.amount) as amount,
+        coalesce(outreach.close_date, sf.close_date) as close_date,
+        coalesce(outreach.opportunity_status, sf.opportunity_status) as opportunity_status,
+        coalesce(outreach.opportunity_probability, sf.opportunity_probability) as opportunity_probability,
+        coalesce(outreach.is_closed, sf.is_closed) as is_closed,
+        coalesce(outreach.created_at, sf.created_date) as created_at,
+        coalesce(outreach.source, sf.source) as source,
         {{ dbt_utils.surrogate_key(['outreach.outreach_opportunity_id', 'sf.sf_opportunity_id']) }} as opportunity_id
 
     from outreach
     full outer join sf on outreach.opportunity_name = sf.opportunity_name
+),
+
+final as (
+    select
+        *,
+        case when
+            opportunity_status = 'Won' then 1
+            else 0 end as count_won,
+
+        case when
+            opportunity_status = 'Lost' then 1
+            else 0 end as count_lost,
+
+        case when
+            opportunity_status = 'Pipeline' then 1
+            else 0 end as count_pipeline,
+
+        case
+            when is_closed then 1
+            else 0 end as count_closed,
+
+        case
+            when is_closed = 0 then 1
+            else 0 end as count_open
+    from joined
 )
 
-select * from final
+select
+    *,
+    case when count_won > 0 then amount else 0 end as amount_won,
+    case when count_lost > 0 then amount else 0 end as amount_lost
+from final
