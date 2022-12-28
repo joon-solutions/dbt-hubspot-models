@@ -49,10 +49,10 @@ opportunity as (
 joins as ( --PK: account_id| sequence_id| opportunity_id
     select
         seq.*,
-        opportunity.opportunity_id,
-        opportunity.opportunity_status,
         abs(datediff(sec, seq.updated_at, opportunity.created_at)) as timediff,
-        row_number() over (partition by opportunity.opportunity_id order by timediff asc) as rnk
+        row_number() over (partition by opportunity.opportunity_id order by timediff asc) as rnk,
+        case when rnk = 1 then opportunity.opportunity_id end as opportunity_id,
+        case when rnk = 1 then opportunity.opportunity_status end as opportunity_status
     from seq
     left join opportunity on seq.account_id = opportunity.account_id
 ),
@@ -78,7 +78,6 @@ final as (
         coalesce(count(case when opportunity_status = 'Won' then opportunity_id end), 0) as total_won_deals,
         coalesce(count(case when opportunity_status = 'Lost' then opportunity_id end), 0) as total_lost_deals
     from joins
-    where rnk = 1 or opportunity_id is null
     group by 1, 2
 )
 
