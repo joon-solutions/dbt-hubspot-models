@@ -17,7 +17,20 @@ account as (
 
 seq as (
     select  account.account_id, 
-            seq_base.*
+            seq_base.sequence_id,
+            seq_base.created_at,
+            seq_base.updated_at,
+            seq_base.bounce_count,
+            seq_base.click_count,
+            seq_base.deliver_count,
+            seq_base.failure_count,
+            seq_base.negative_reply_count,
+            seq_base.neutral_reply_count,
+            seq_base.open_count,
+            seq_base.opt_out_count,
+            seq_base.positive_reply_count,
+            seq_base.reply_count,
+            seq_base.schedule_count
     from seq_base
     left join account on seq_base.account_id = account.outreach_account_id
 ),
@@ -33,15 +46,16 @@ opportunity as (
 joins as ( --PK: account_id| sequence_id| opportunity_id
     select  seq.*,
             opportunity.opportunity_id,
-            row_number() over (partition by opportunity.opportunity_id order by opportunity.open_at - seq.updated_at asc) as rnk
+            opportunity.opportunity_status,
+            abs(datediff(sec, seq.updated_at, opportunity.created_at)) as timediff,
+            row_number() over (partition by opportunity.opportunity_id order by timediff asc) as rnk
     from seq
     left join opportunity on seq.account_id = opportunity.account_id
-    qualify rnk=1
 ),
 
 final as (
     select 
-        account_id
+        account_id,
         sequence_id,
         max(created_at) as created_at,
         max(updated_at) as updated_at,
@@ -56,13 +70,17 @@ final as (
         max(positive_reply_count) as positive_reply_count,
         max(reply_count) as reply_count,
         max(schedule_count) as schedule_count,
-        count(case when opportunity_status in ('Pipeline', 'Other') then opportunity_id else null end) as total_open_deals,
-        count(case when opportunity_status = 'Won' then opportunity_id else null end) as total_won_deals,
-        count(case when opportunity_status = 'Lost' then opportunity_id else null end) as total_lost_deals
+        nvl(count(case when opportunity_status in ('Pipeline', 'Other') then opportunity_id else null end),0) as total_open_deals,
+        nvl(count(case when opportunity_status = 'Won' then opportunity_id else null end),0) as total_won_deals,
+        nvl(count(case when opportunity_status = 'Lost' then opportunity_id else null end),0) as total_lost_deals
     from joins
+    where rnk = 1 or opportunity_id is null
+    group by 1,2
 )
 
-select * from joins
+select  *,
+        {{ dbt_utils.surrogate_key(['sequence_id','account_id']) }} as id 
+from final
 
 
 

@@ -12,6 +12,8 @@ seqstate_agg as (
     select
         sequence_id,
         account_id,
+        created_at,
+        updated_at,
         sum(bounce_count) as bounce_count,
         sum(click_count) as click_count,
         sum(deliver_count) as deliver_count,
@@ -24,7 +26,7 @@ seqstate_agg as (
         sum(reply_count) as reply_count,
         sum(schedule_count) as schedule_count
     from seq_state
-    group by 1, 2
+    group by 1, 2, 3, 4
 ),
 
 final as (
