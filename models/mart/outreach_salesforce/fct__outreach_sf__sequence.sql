@@ -18,7 +18,8 @@ account as (
 
 seq as (
     select
-        account.account_id,
+        account.outreach_sf_account_id,
+        seq_base.account_id,
         seq_base.sequence_id,
         seq_base.created_at,
         seq_base.updated_at,
@@ -39,7 +40,7 @@ seq as (
 
 opportunity as (
     select
-        account.account_id,
+        account.outreach_sf_account_id,
         opportunity_base.*
     from opportunity_base
     left join account on opportunity_base.sf_account_id = account.sf_account_id
@@ -54,12 +55,12 @@ joins as ( --PK: account_id| sequence_id| opportunity_id
         case when rnk = 1 then opportunity.opportunity_id end as opportunity_id,
         case when rnk = 1 then opportunity.opportunity_status end as opportunity_status
     from seq
-    left join opportunity on seq.account_id = opportunity.account_id
+    left join opportunity on seq.outreach_sf_account_id = opportunity.outreach_sf_account_id
 ),
 
 final as (
     select
-        account_id,
+        outreach_sf_account_id,
         sequence_id,
         max(created_at) as created_at,
         max(updated_at) as updated_at,
@@ -83,5 +84,5 @@ final as (
 
 select
     *,
-    {{ dbt_utils.surrogate_key(['sequence_id','account_id']) }} as id
+    {{ dbt_utils.surrogate_key(['sequence_id','outreach_sf_account_id']) }} as id
 from final

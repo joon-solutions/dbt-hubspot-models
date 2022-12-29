@@ -6,7 +6,4 @@ Global account id, synthesized by salesforce & outreach account_id.
 Outreach sequence id.
 {% enddocs %}
 
-{% docs account_id %}
-unique ID from sf & outreach account_id 
-{% enddocs %}
 
