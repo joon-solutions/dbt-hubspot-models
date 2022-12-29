@@ -37,7 +37,7 @@ final as (
         coalesce(sf.number_of_employees, outreach.number_of_employees) as number_of_employees,
         coalesce(sf.source, outreach.source) as source,
         coalesce(sf.industry, outreach.industry) as industry,
-        {{ dbt_utils.surrogate_key(['sf.account_id','outreach.account_id']) }} as account_id
+        {{ dbt_utils.surrogate_key(['sf.account_id','outreach.account_id']) }} as outreach_sf_account_id
 
     from sf
 

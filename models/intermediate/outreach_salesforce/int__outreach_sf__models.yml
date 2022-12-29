@@ -5,7 +5,8 @@ models:
   - name: int__outreach_sf__account
     description: The combination of Outreach & Salesforce Account
     columns:
-      - name: account_id
+      - name: outreach_sf_account_id
+        description: "{{ doc('outreach_sf_account_id') }}"
         tests:
           - unique
           - not_null
