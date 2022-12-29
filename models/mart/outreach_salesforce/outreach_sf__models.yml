@@ -5,7 +5,7 @@ models:
     description: The combination of Outreach & Salesforce Account joined with Opportunity
     columns:
       - name: account_id
-        description: unique ID from sf & outreach account_id 
+        description: "{{ doc('account_id') }}"
         tests:
           - unique
           - not_null

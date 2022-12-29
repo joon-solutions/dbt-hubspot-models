@@ -64,6 +64,10 @@ final as (
             opportunity_status = 'Pipeline' then 1
             else 0 end as count_pipeline,
 
+        case when
+            opportunity_status = 'Other' then 1
+            else 0 end as count_other,
+
         case
             when is_closed then 1
             else 0 end as count_closed,
