@@ -9,7 +9,7 @@ opportunity as (
 
 joined as (
     select
-        account.account_id,
+        account.outreach_sf_account_id,
         account.sf_account_id,
         account.outreach_account_id,
         account.account_host,
