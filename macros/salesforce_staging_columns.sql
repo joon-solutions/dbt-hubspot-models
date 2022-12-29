@@ -155,7 +155,9 @@
     {"name": "account_id", "datatype": dbt_utils.type_string()},
     {"name": "type", "datatype": dbt_utils.type_string(), "alias": "task_action_type"},
     {"name": "completed_date_time", "datatype": dbt_utils.type_timestamp(), "alias": "completed_at"},
-    {"name": "is_closed", "datatype": "boolean", "alias": "is_completed"}
+    {"name": "is_closed", "datatype": "boolean", "alias": "is_completed"},
+    {"name": "status", "datatype": dbt_utils.type_string(), "alias": "task_state"},
+    {"name": "activity_date", "datatype": dbt_utils.type_timestamp(), "alias": "task_due_at"}
 ] %}
 
 {{ return(columns) }}

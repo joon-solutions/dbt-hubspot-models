@@ -19,7 +19,22 @@ renamed as (
     }}
 
     from source
+),
+
+final as (
+    select
+        task_id as sf_task_id,
+        account_id as sf_account_id,
+        null as outreach_task_id,
+        null as outreach_account_id,
+        task_action_type,
+        completed_at,
+        is_completed,
+        task_state,
+        task_due_at,
+        'salesforce' as source
+    from renamed
 )
 
 select *
-from renamed
+from final

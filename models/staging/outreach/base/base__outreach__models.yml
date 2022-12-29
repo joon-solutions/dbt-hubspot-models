@@ -58,7 +58,7 @@ models:
   - name: base__outreach__task
     description: Each record represents an Outreach task, which is an item that requires action to complete
     columns:
-      - name: task_id
+      - name: outreach_task_id
         description: Unique ID for the task. 
         tests:
           - unique
