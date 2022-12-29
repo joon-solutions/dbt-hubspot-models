@@ -49,15 +49,47 @@ models:
       - name: total_lost_deals
         description: "Total lost opportunities recorded in both SF & Outreach and associated with a sequenced account"
 
-  - name: fct__outreach_sf__task
-    description: Each record represent a task filed in either Outreach or Salesforce app. The table contains tasks' attributes, as well as its allocated points calculated by its evaluated importance on converting a customer (an account)
+
+  - name: fct__outreach_sf__account
+    description: The combination of Outreach & Salesforce Account joined with Opportunity
     columns:
-      - name: task_id
-        description: Unique ID for the task
+      - name: account_id
+        description: "{{ doc('outreach_sf_account_id') }}"
         tests:
           - unique
           - not_null
           - dbt_utils.at_least_one
+      - name: sf_account_id
+        description: account_id from salesforce
+      - name: outreach_account_id
+        description: account_id from outreach
+      - name: account_status
+        description: The customer status defined by the number of won and lost cases. (lost_customer, customer, prospective, lead)
+      - name: amount_won
+        description: total amount won for the account
+      - name: amount_lost
+        description: total amount lost for the account
+      - name: count_won
+        description: total number of won cases for the account
+      - name: count_lost
+        description: total number of lost cases for the account
+      - name: count_pipeline
+        description: total number of pipeline cases for the account
+      - name: count_closed
+        description: total number of closed cases for the account
+      - name: count_open
+        description: total number of open cases for the account
+
+  - name: fct__outreach_sf__task
+    description: Each record represent a task filed in either Outreach or Salesforce app. The table contains tasks' attributes, as well as its allocated points calculated by its evaluated importance on converting a customer (an account)
+    columns:
+      - name: task_id
+        description: "{{ doc(\"outreach_sf_task_id\") }}"
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+        
       - name: account_id
         description: "{{ doc(\"outreach_sf_account_id\") }}"
       - name: completed_at
@@ -85,3 +117,4 @@ models:
         description: "Allocated point for given task based on last-touch rule, details https://agencyanalytics.com/blog/marketing-attribution-models"
       - name: linear_points
         description: "Allocated point for given task based on linear rule, details https://agencyanalytics.com/blog/marketing-attribution-models" 
+

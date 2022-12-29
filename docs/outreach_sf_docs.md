@@ -5,3 +5,9 @@ Global account id, synthesized by salesforce & outreach account_id.
 {% docs outreach_sf_sequence_id %}
 Outreach sequence id.
 {% enddocs %}
+
+{% docs outreach_sf_task_id %}
+Each record represents a task recorded from either Outreach & Saleforce sources.
+{% enddocs %}
+
+

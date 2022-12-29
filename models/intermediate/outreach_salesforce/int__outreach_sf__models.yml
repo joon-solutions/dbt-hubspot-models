@@ -6,6 +6,7 @@ models:
     description: The combination of Outreach & Salesforce Account
     columns:
       - name: account_id
+        description: "{{ doc('outreach_sf_account_id') }}"
         tests:
           - unique
           - not_null
@@ -22,7 +23,7 @@ models:
           - dbt_utils.at_least_one
 
   - name: int__outreach_sf__task
-    description: Each record represents a task recorded from either Outreach & Saleforce sources
+    description: "{{ doc(\"outreach_sf_task_id\") }}"
     columns:
       - name: task_id
         description: global ID of a task, to differentiate with outreach_task_id and sf_task_id
