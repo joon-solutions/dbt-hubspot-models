@@ -1,0 +1,50 @@
+version: 2
+
+models:
+
+  - name: fct__outreach_sf__sequence
+    description: This table provides information on how well an Outreach sequence is performing. Sequences' metrics not just include the interactions with a sequence but also the number of opportunities (from both Outreach & Salesforce datasource) associated with a certain sequence
+    columns:
+      - name: id
+        description: unique ID, which is the combination of sequence_id & account_id
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+
+      - name: account_id
+        description: "{{ doc(\"outreach_sf_account_id\") }}"
+      - name: sequence_id
+        description: "{{ doc(\"outreach_sf_sequence_id\") }}"
+      - name: created_at
+        description: "The date and time the sequence state for a specific account was created."
+      - name: updated_at
+        description: "The date and time the sequence state for a specific account was last updated."
+      - name: deliver_count
+        description: "The total count of delivered mailings from this sequence."
+      - name: failure_count
+        description: "The total count of failed mailings from this sequence."
+      - name: bounce_count
+        description: "The total count of bounced mailings during this sequence."
+      - name: click_count
+        description: "The total count of clicked mailings from this sequence."
+      - name: open_count
+        description: "The total count of opened mailings from this sequence."
+      - name: negative_reply_count
+        description: "The total count of negative reply mailings from this sequence."
+      - name: neutral_reply_count
+        description: "The total count of neutral reply mailings from this sequence."
+      - name: opt_out_count
+        description: "The total count of opted out mailings from this sequence."
+      - name: positive_reply_count
+        description: "The total count of positive reply mailings from this sequence."
+      - name: reply_count
+        description: "The total count of replied mailings from this sequence."
+      - name: schedule_count
+        description: "The total count of scheduled mailings from this sequence."
+      - name: total_open_deals
+        description: "Total open opportunities recorded in both SF & Outreach and associated with a sequenced account"
+      - name: total_won_deals
+        description: "Total won opportunities recorded in both SF & Outreach and associated with a sequenced account"
+      - name: total_lost_deals
+        description: "Total lost opportunities recorded in both SF & Outreach and associated with a sequenced account"
