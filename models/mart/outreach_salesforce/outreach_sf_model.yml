@@ -1,9 +1,11 @@
 version: 2
-
 models:
-
   - name: fct__outreach_sf__sequence
-    description: This table provides information on how well an Outreach sequence is performing. Sequences' metrics not just include the interactions with a sequence but also the number of opportunities (from both Outreach & Salesforce datasource) associated with a certain sequence
+    description: >-
+      This table provides information on how well an Outreach sequence is
+      performing. Sequences' metrics not just include the interactions with a
+      sequence but also the number of opportunities (from both Outreach &
+      Salesforce datasource) associated with a certain sequence
     columns:
       - name: id
         description: unique ID, which is the combination of sequence_id & account_id
@@ -11,49 +13,56 @@ models:
           - unique
           - not_null
           - dbt_utils.at_least_one
-
       - name: account_id
         description: "{{ doc(\"outreach_sf_account_id\") }}"
       - name: sequence_id
         description: "{{ doc(\"outreach_sf_sequence_id\") }}"
       - name: created_at
-        description: "The date and time the sequence state for a specific account was created."
+        description: >-
+          The date and time the sequence state for a specific account was
+          created.
       - name: updated_at
-        description: "The date and time the sequence state for a specific account was last updated."
+        description: >-
+          The date and time the sequence state for a specific account was last
+          updated.
       - name: deliver_count
-        description: "The total count of delivered mailings from this sequence."
+        description: The total count of delivered mailings from this sequence.
       - name: failure_count
-        description: "The total count of failed mailings from this sequence."
+        description: The total count of failed mailings from this sequence.
       - name: bounce_count
-        description: "The total count of bounced mailings during this sequence."
+        description: The total count of bounced mailings during this sequence.
       - name: click_count
-        description: "The total count of clicked mailings from this sequence."
+        description: The total count of clicked mailings from this sequence.
       - name: open_count
-        description: "The total count of opened mailings from this sequence."
+        description: The total count of opened mailings from this sequence.
       - name: negative_reply_count
-        description: "The total count of negative reply mailings from this sequence."
+        description: The total count of negative reply mailings from this sequence.
       - name: neutral_reply_count
-        description: "The total count of neutral reply mailings from this sequence."
+        description: The total count of neutral reply mailings from this sequence.
       - name: opt_out_count
-        description: "The total count of opted out mailings from this sequence."
+        description: The total count of opted out mailings from this sequence.
       - name: positive_reply_count
-        description: "The total count of positive reply mailings from this sequence."
+        description: The total count of positive reply mailings from this sequence.
       - name: reply_count
-        description: "The total count of replied mailings from this sequence."
+        description: The total count of replied mailings from this sequence.
       - name: schedule_count
-        description: "The total count of scheduled mailings from this sequence."
+        description: The total count of scheduled mailings from this sequence.
       - name: total_open_deals
-        description: "Total open opportunities recorded in both SF & Outreach and associated with a sequenced account"
+        description: >-
+          Total open opportunities recorded in both SF & Outreach and associated
+          with a sequenced account
       - name: total_won_deals
-        description: "Total won opportunities recorded in both SF & Outreach and associated with a sequenced account"
+        description: >-
+          Total won opportunities recorded in both SF & Outreach and associated
+          with a sequenced account
       - name: total_lost_deals
-        description: "Total lost opportunities recorded in both SF & Outreach and associated with a sequenced account"
-
-
+        description: >-
+          Total lost opportunities recorded in both SF & Outreach and associated
+          with a sequenced account
   - name: fct__outreach_sf__account
     description: The combination of Outreach & Salesforce Account joined with Opportunity
     columns:
-      - name: account_id
+      - name: outreach_sf_account_id
         description: "{{ doc('outreach_sf_account_id') }}"
         tests:
           - unique
@@ -61,27 +70,148 @@ models:
           - dbt_utils.at_least_one
       - name: sf_account_id
         description: account_id from salesforce
+        meta:
+          dimension:
+            type: string
+          metrics:
+            number_of_sf_account:
+              type: count
       - name: outreach_account_id
         description: account_id from outreach
+        meta:
+          dimension:
+            type: string
+          metrics:
+            number_of_outreach_account:
+              type: count
       - name: account_status
-        description: The customer status defined by the number of won and lost cases. (lost_customer, customer, prospective, lead)
+        description: >-
+          The customer status defined by the number of won and lost cases.
+          (lost_customer, customer, prospective, lead)
+        meta:
+          dimension:
+            type: string
       - name: amount_won
         description: total amount won for the account
+        meta:
+          dimension:
+            type: number
+          metrics:
+            total_amount_won: 
+              type: sum
       - name: amount_lost
         description: total amount lost for the account
+        meta:
+          dimension:
+            type: number
+          metrics:
+            total_amount_lost: 
+              type: sum
       - name: count_won
         description: total number of won cases for the account
+        meta:
+          dimension:
+            type: number
       - name: count_lost
         description: total number of lost cases for the account
+        meta:
+          dimension:
+            type: number
       - name: count_pipeline
         description: total number of pipeline cases for the account
+        meta:
+          dimension:
+            type: number
       - name: count_closed
         description: total number of closed cases for the account
+        meta:
+          dimension:
+            type: number
       - name: count_open
         description: total number of open cases for the account
-
+        meta:
+          dimension:
+            type: number
+      - name: outreach_sf_account_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: account_host
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: account_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: number_of_employees
+        description: ""
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_no_of_employee:
+              type: average
+      - name: source
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: industry
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: buyer_intent_score
+        description: ""
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_buyer_intent_score:
+              type: average
+      - name: account_created_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: domain
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: billing_country
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: billing_postal_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: number_of_opportunity
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: opportunity_probability
+        description: ""
+        meta:
+          dimension:
+            type: number
+          metrics:
+            avg_probability:
+              type: average
   - name: fct__outreach_sf__task
-    description: Each record represent a task filed in either Outreach or Salesforce app. The table contains tasks' attributes, as well as its allocated points calculated by its evaluated importance on converting a customer (an account)
+    description: >-
+      Each record represent a task filed in either Outreach or Salesforce app.
+      The table contains tasks' attributes, as well as its allocated points
+      calculated by its evaluated importance on converting a customer (an
+      account)
     columns:
       - name: task_id
         description: "{{ doc(\"outreach_sf_task_id\") }}"
@@ -89,32 +219,42 @@ models:
           - unique
           - not_null
           - dbt_utils.at_least_one
-        
       - name: account_id
         description: "{{ doc(\"outreach_sf_account_id\") }}"
       - name: completed_at
-        description: "The time when a task was completed"
+        description: The time when a task was completed
       - name: task_action_type
-        description: "The action type of the task, for example 'action_item', 'call', 'email', or 'in_person'"
+        description: >-
+          The action type of the task, for example 'action_item', 'call',
+          'email', or 'in_person'
       - name: first_opportunity_open_at
-        description: "The time when first oppotunity associated with the account was opened"
+        description: The time when first oppotunity associated with the account was opened
       - name: first_opportunity_closed_at
-        description: "The time when first oppotunity associated with the account was opened"
+        description: The time when first oppotunity associated with the account was opened
       - name: total_touches
-        description: "Total tasks (Sales activity) were put upon the account"
+        description: Total tasks (Sales activity) were put upon the account
       - name: touch_number
         description: "The order of a task in "
       - name: timeframe
         description: >
-          There are two timeframe:
-          'from open to close won opportunity' - evaluate Sales attempts during the timespan between first deal opened and first deal closed won."
-          'before open opportunity' - evaluate Sales attempts during the timespan between first contact and first deal opened.
+          There are two timeframe: 'from open to close won opportunity' -
+          evaluate Sales attempts during the timespan between first deal opened
+          and first deal closed won." 'before open opportunity' - evaluate Sales
+          attempts during the timespan between first contact and first deal
+          opened.
       - name: forty_twenty_forty_points
-        description: "Allocated point for given task based on twenty-forty rule, details https://agencyanalytics.com/blog/marketing-attribution-models"
+        description: >-
+          Allocated point for given task based on twenty-forty rule, details
+          https://agencyanalytics.com/blog/marketing-attribution-models
       - name: first_touch_points
-        description: "Allocated point for given task based on first-touch rule, details https://agencyanalytics.com/blog/marketing-attribution-models"
+        description: >-
+          Allocated point for given task based on first-touch rule, details
+          https://agencyanalytics.com/blog/marketing-attribution-models
       - name: last_touch_points
-        description: "Allocated point for given task based on last-touch rule, details https://agencyanalytics.com/blog/marketing-attribution-models"
+        description: >-
+          Allocated point for given task based on last-touch rule, details
+          https://agencyanalytics.com/blog/marketing-attribution-models
       - name: linear_points
-        description: "Allocated point for given task based on linear rule, details https://agencyanalytics.com/blog/marketing-attribution-models" 
-
+        description: >-
+          Allocated point for given task based on linear rule, details
+          https://agencyanalytics.com/blog/marketing-attribution-models
