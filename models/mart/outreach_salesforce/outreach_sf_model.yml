@@ -62,12 +62,18 @@ models:
   - name: fct__outreach_sf__account
     description: The combination of Outreach & Salesforce Account joined with Opportunity
     columns:
-      - name: outreach_sf_account_id
+      - name: account_id
         description: "{{ doc('outreach_sf_account_id') }}"
         tests:
           - unique
           - not_null
           - dbt_utils.at_least_one
+        meta:
+          dimension:
+            type: string
+          metrics:
+            number_of_account:
+              type: count
       - name: sf_account_id
         description: account_id from salesforce
         meta:
@@ -132,11 +138,6 @@ models:
         meta:
           dimension:
             type: number
-      - name: outreach_sf_account_id
-        description: ""
-        meta:
-          dimension:
-            type: string
       - name: account_host
         description: ""
         meta:
