@@ -104,6 +104,7 @@ vars:
   salesforce__user_enabled: true
   salesforce__account_enabled: true
   salesforce__opportunity_enabled: true
+  salesforce__task_enabled: true
 
  # Salesforce pass through column variables
   account_pass_through_columns: []
@@ -139,6 +140,7 @@ vars:
   outreach_opportunity_stage: true
   outreach_sequence: true
   outreach_sequence_state: true
+  outreach_task: true
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models

@@ -48,7 +48,7 @@
 
 {% set columns = [
     {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
-    {"name": "PRICEBOOK_2_ID", "datatype": dbt_utils.type_string()},
+    {"name": "pricebook_2_id", "datatype": dbt_utils.type_string()},
     {"name": "account_id", "datatype": dbt_utils.type_string()},
     {"name": "amount", "datatype": dbt_utils.type_float()},
     {"name": "campaign_id", "datatype": dbt_utils.type_string()},
@@ -148,3 +148,18 @@
 
 {% endmacro %}
 
+{% macro get_salesforce_task_columns() %}
+
+{% set columns = [
+    {"name": "id", "datatype": dbt_utils.type_string(), "alias": "task_id"},
+    {"name": "account_id", "datatype": dbt_utils.type_string()},
+    {"name": "type", "datatype": dbt_utils.type_string(), "alias": "task_action_type"},
+    {"name": "completed_date_time", "datatype": dbt_utils.type_timestamp(), "alias": "completed_at"},
+    {"name": "is_closed", "datatype": "boolean", "alias": "is_completed"},
+    {"name": "status", "datatype": dbt_utils.type_string(), "alias": "task_state"},
+    {"name": "activity_date", "datatype": dbt_utils.type_timestamp(), "alias": "task_due_at"}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}
