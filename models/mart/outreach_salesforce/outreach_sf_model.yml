@@ -1,5 +1,6 @@
 version: 2
 models:
+
   - name: fct__outreach_sf__sequence
     description: >-
       This table provides information on how well an Outreach sequence is
@@ -13,52 +14,209 @@ models:
           - unique
           - not_null
           - dbt_utils.at_least_one
+        meta:
+          dimension:
+            type: string
       - name: account_id
         description: "{{ doc(\"outreach_sf_account_id\") }}"
+        meta:
+          dimension:
+            type: string
+          metrics: 
+            total_accounts:
+              type: count
+            total_accounts_delivered:
+              type: count
+              filters:
+                - was_delivered: true
+            total_accounts_opened:
+              type: count
+              filters:
+                - was_opened: true
+            total_accounts_clicked:
+              type: count
+              filters:
+                - was_clicked: true
+            total_accounts_scheduled:
+              type: count
+              filters:
+                - was_scheduled: true
+            total_accounts_opened_deals:
+              type: count
+              filters:
+                - was_opened_deals: true
+            total_accounts_won_deals:
+              type: count
+              filters:
+                - was_won_deals: true
+
       - name: sequence_id
         description: "{{ doc(\"outreach_sf_sequence_id\") }}"
+        meta:
+          dimension:
+            type: number
+      - name: sequence_name
+        description: "{{ doc(\"outreach_sf_sequence_name\") }}"
+        meta:
+          dimension:
+            type: string
       - name: created_at
-        description: >-
-          The date and time the sequence state for a specific account was
-          created.
+        description: "{{doc('created_at')}}"
+        meta:
+          dimension:
+            type: timestamp
       - name: updated_at
         description: >-
           The date and time the sequence state for a specific account was last
           updated.
-      - name: deliver_count
+        meta:
+          dimension:
+            type: timestamp
+      - name: total_deliver
         description: The total count of delivered mailings from this sequence.
-      - name: failure_count
+        meta:
+          metrics:
+            total_deliver_agg:
+              type: sum
+      - name: total_failure
         description: The total count of failed mailings from this sequence.
-      - name: bounce_count
+        meta:
+          metrics:
+            total_failure_agg:
+              type: sum
+      - name: total_bounce
         description: The total count of bounced mailings during this sequence.
-      - name: click_count
+        meta:
+          metrics:
+            total_bounce_agg:
+              type: sum
+      - name: total_click
         description: The total count of clicked mailings from this sequence.
-      - name: open_count
+        meta:
+          metrics:
+            total_click_agg:
+              type: sum
+      - name: total_open
         description: The total count of opened mailings from this sequence.
-      - name: negative_reply_count
+        meta:
+          metrics:
+            total_open_agg:
+              type: sum
+      - name: total_negative_reply
         description: The total count of negative reply mailings from this sequence.
-      - name: neutral_reply_count
+        meta:
+          metrics:
+            total_negative_reply_agg:
+              type: number
+      - name: total_neutral_reply
         description: The total count of neutral reply mailings from this sequence.
-      - name: opt_out_count
+        meta:
+          metrics:
+            total_neutral_reply_agg:
+              type: sum
+      - name: total_opt_out
         description: The total count of opted out mailings from this sequence.
-      - name: positive_reply_count
+        meta:
+          metrics:
+            total_opt_out_agg:
+              type: sum
+      - name: total_positive_reply
         description: The total count of positive reply mailings from this sequence.
-      - name: reply_count
+        meta:
+          metrics:
+            total_positive_reply_agg:
+              type: sum
+      - name: total_reply
         description: The total count of replied mailings from this sequence.
-      - name: schedule_count
+        meta:
+          metrics:
+            total_reply_agg:
+              type: sum
+      - name: total_schedule
         description: The total count of scheduled mailings from this sequence.
-      - name: total_open_deals
+        meta:
+          metrics:
+            total_schedule_agg:
+              type: sum
+      - name: total_deals
         description: >-
-          Total open opportunities recorded in both SF & Outreach and associated
+          Total opportunities recorded in both SF & Outreach and associated
           with a sequenced account
+        meta:
+          metrics:
+            total_deals_agg:
+              type: sum
       - name: total_won_deals
         description: >-
           Total won opportunities recorded in both SF & Outreach and associated
           with a sequenced account
+        meta:
+          metrics:
+            total_won_deals_agg:
+              type: sum
       - name: total_lost_deals
         description: >-
           Total lost opportunities recorded in both SF & Outreach and associated
           with a sequenced account
+        meta:
+          metrics:
+            total_lost_deals_agg:
+              type: sum
+      - name: total_opportunity_amount
+        description: >-
+          Total opportunities amount recorded in both SF & Outreach and associated
+          with a sequenced account
+        meta:
+          metrics:
+            total_opportunity_amount_agg:
+              type: sum
+      - name: total_won_deals_amount
+        description: >-
+          Total won opportunities amount recorded in both SF & Outreach and associated
+          with a sequenced account
+        meta:
+          metrics:
+            total_won_deals_amount_agg:
+              type: sum
+      - name: total_lost_deals_amount
+        description: >-
+          Total lost opportunities amount recorded in both SF & Outreach and associated
+          with a sequenced account
+        meta:
+          metrics:
+            total_lost_deals_amount_agg:
+              type: sum
+      - name: was_delivered
+        description: booleans type, a true value indicates that an account was successfully delivered the email in the sequence
+        meta:
+          dimension:
+            type: boolean
+      - name: was_opened
+        description: booleans type, a true value indicates that an account opened the email in the sequence
+        meta:
+          dimension:
+            type: boolean
+      - name: was_clicked
+        description: booleans type, a true value indicates that an account clicked the email in the sequence
+        meta:
+          dimension:
+            type: boolean
+      - name: was_scheduled
+        description: booleans type, a true value indicates that an account scheduled after receiving emails in the sequence
+        meta:
+          dimension:
+            type: boolean
+      - name: was_opened_deals
+        description: booleans type, a true value indicates that an account opened at least one deal after receiving emails in the sequence
+        meta:
+          dimension:
+            type: boolean
+      - name: was_won_deals
+        description: booleans type, a true value indicates that an account signed at least one deal after receiving emails in the sequence
+        meta:
+          dimension:
+            type: boolean
+
   - name: fct__outreach_sf__account
     description: The combination of Outreach & Salesforce Account joined with Opportunity
     columns:
@@ -103,7 +261,7 @@ models:
           dimension:
             type: number
           metrics:
-            total_amount_won: 
+            total_amount_won:
               type: sum
       - name: amount_lost
         description: total amount lost for the account
@@ -111,7 +269,7 @@ models:
           dimension:
             type: number
           metrics:
-            total_amount_lost: 
+            total_amount_lost:
               type: sum
       - name: count_won
         description: total number of won cases for the account
@@ -207,6 +365,7 @@ models:
           metrics:
             avg_probability:
               type: average
+
   - name: fct__outreach_sf__task
     description: >-
       Each record represent a task filed in either Outreach or Salesforce app.
@@ -220,6 +379,12 @@ models:
           - unique
           - not_null
           - dbt_utils.at_least_one
+        meta:
+          dimension:
+            type: string
+          metrics:
+            total_tasks:
+              type: count
       - name: account_id
         description: "{{ doc(\"outreach_sf_account_id\") }}"
       - name: completed_at
@@ -228,14 +393,27 @@ models:
         description: >-
           The action type of the task, for example 'action_item', 'call',
           'email', or 'in_person'
+        meta:
+          dimension:
+            type: string
       - name: first_opportunity_open_at
         description: The time when first oppotunity associated with the account was opened
       - name: first_opportunity_closed_at
         description: The time when first oppotunity associated with the account was opened
       - name: total_touches
         description: Total tasks (Sales activity) were put upon the account
+        meta:
+          metrics:
+            avg_total_touches_per_account:
+              type: average
+      - name: task_day_intervals
+        description: Time difference in days between the task & next task completion time
+        meta:
+          metrics:
+            avg_task_day_intervals:
+              type: average
       - name: touch_number
-        description: "The order of a task in "
+        description: "The order of a task in a series of tasks of each account"
       - name: timeframe
         description: >
           There are two timeframe: 'from open to close won opportunity' -
@@ -247,15 +425,31 @@ models:
         description: >-
           Allocated point for given task based on twenty-forty rule, details
           https://agencyanalytics.com/blog/marketing-attribution-models
+        meta:
+          metrics:
+            total_forty_twenty_forty_points:
+              type: sum
       - name: first_touch_points
         description: >-
           Allocated point for given task based on first-touch rule, details
           https://agencyanalytics.com/blog/marketing-attribution-models
+        meta:
+          metrics:
+            total_first_touch_points:
+              type: sum
       - name: last_touch_points
         description: >-
           Allocated point for given task based on last-touch rule, details
           https://agencyanalytics.com/blog/marketing-attribution-models
+        meta:
+          metrics:
+            total_last_touch_points:
+              type: sum
       - name: linear_points
         description: >-
           Allocated point for given task based on linear rule, details
           https://agencyanalytics.com/blog/marketing-attribution-models
+        meta:
+          metrics:
+            total_linear_points:
+              type: sum

@@ -20,6 +20,7 @@ seq as (
     select
         account.account_id,
         seq_base.sequence_id,
+        seq_base.sequence_name,
         seq_base.created_at,
         seq_base.updated_at,
         seq_base.bounce_count,
@@ -52,33 +53,53 @@ joins as ( --PK: account_id| sequence_id| opportunity_id
         abs(datediff(sec, seq.updated_at, opportunity.created_at)) as timediff,
         row_number() over (partition by opportunity.opportunity_id order by timediff asc) as rnk,
         case when rnk = 1 then opportunity.opportunity_id end as opportunity_id,
-        case when rnk = 1 then opportunity.opportunity_status end as opportunity_status
+        case when rnk = 1 then opportunity.amount end as opportunity_amount,
+        case when rnk = 1 then opportunity.count_won end as count_won,
+        case when rnk = 1 then opportunity.count_lost end as count_lost,
+        case when rnk = 1 then opportunity.amount_won end as amount_won,
+        case when rnk = 1 then opportunity.amount_lost end as amount_lost
     from seq
     left join opportunity on seq.account_id = opportunity.account_id
 ),
 
-final as (
+agg as (
     select
         account_id,
         sequence_id,
+        sequence_name,
         max(created_at) as created_at,
         max(updated_at) as updated_at,
-        max(deliver_count) as deliver_count,
-        max(failure_count) as failure_count,
-        max(bounce_count) as bounce_count,
-        max(click_count) as click_count,
-        max(open_count) as open_count,
-        max(negative_reply_count) as negative_reply_count,
-        max(neutral_reply_count) as neutral_reply_count,
-        max(opt_out_count) as opt_out_count,
-        max(positive_reply_count) as positive_reply_count,
-        max(reply_count) as reply_count,
-        max(schedule_count) as schedule_count,
-        coalesce(count(case when opportunity_status in ('Pipeline', 'Other') then opportunity_id end), 0) as total_open_deals,
-        coalesce(count(case when opportunity_status = 'Won' then opportunity_id end), 0) as total_won_deals,
-        coalesce(count(case when opportunity_status = 'Lost' then opportunity_id end), 0) as total_lost_deals
+        max(deliver_count) as total_deliver,
+        max(failure_count) as total_failure,
+        max(bounce_count) as total_bounce,
+        max(click_count) as total_click,
+        max(open_count) as total_open,
+        max(negative_reply_count) as total_negative_reply,
+        max(neutral_reply_count) as total_neutral_reply,
+        max(opt_out_count) as total_opt_out,
+        max(positive_reply_count) as total_positive_reply,
+        max(reply_count) as total_reply,
+        max(schedule_count) as total_schedule,
+        ---opportunity
+        coalesce(count(opportunity_id),0) as total_deals,
+        coalesce(sum(count_won),0) as total_won_deals,
+        coalesce(sum(count_lost),0) as total_lost_deals,
+        coalesce(sum(opportunity_amount),0) as total_opportunity_amount,
+        coalesce(sum(amount_won),0) as total_won_deals_amount,
+        coalesce(sum(amount_lost),0) as total_lost_deals_amount
     from joins
-    group by 1, 2
+    group by 1, 2, 3
+),
+
+final as (
+    select  *,
+            total_deliver > 0 as was_delivered,
+            total_open > 0 as was_opened,
+            total_click > 0 as was_clicked,
+            total_schedule > 0 as was_scheduled,
+            total_deals > 0 as was_opened_deals,
+            total_won_deals_amount > 0 as was_won_deals
+    from agg
 )
 
 select
