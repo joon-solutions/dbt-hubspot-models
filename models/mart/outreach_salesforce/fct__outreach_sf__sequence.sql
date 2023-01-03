@@ -81,24 +81,25 @@ agg as (
         max(reply_count) as total_reply,
         max(schedule_count) as total_schedule,
         ---opportunity
-        coalesce(count(opportunity_id),0) as total_deals,
-        coalesce(sum(count_won),0) as total_won_deals,
-        coalesce(sum(count_lost),0) as total_lost_deals,
-        coalesce(sum(opportunity_amount),0) as total_opportunity_amount,
-        coalesce(sum(amount_won),0) as total_won_deals_amount,
-        coalesce(sum(amount_lost),0) as total_lost_deals_amount
+        coalesce(count(opportunity_id), 0) as total_deals,
+        coalesce(sum(count_won), 0) as total_won_deals,
+        coalesce(sum(count_lost), 0) as total_lost_deals,
+        coalesce(sum(opportunity_amount), 0) as total_opportunity_amount,
+        coalesce(sum(amount_won), 0) as total_won_deals_amount,
+        coalesce(sum(amount_lost), 0) as total_lost_deals_amount
     from joins
     group by 1, 2, 3
 ),
 
 final as (
-    select  *,
-            total_deliver > 0 as was_delivered,
-            total_open > 0 as was_opened,
-            total_click > 0 as was_clicked,
-            total_schedule > 0 as was_scheduled,
-            total_deals > 0 as was_opened_deals,
-            total_won_deals_amount > 0 as was_won_deals
+    select
+        *,
+        total_deliver > 0 as was_delivered,
+        total_open > 0 as was_opened,
+        total_click > 0 as was_clicked,
+        total_schedule > 0 as was_scheduled,
+        total_deals > 0 as was_opened_deals,
+        total_won_deals_amount > 0 as was_won_deals
     from agg
 )
 
