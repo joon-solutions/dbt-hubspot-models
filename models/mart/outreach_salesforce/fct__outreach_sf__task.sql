@@ -22,7 +22,10 @@ account as (
 task as (
     select
         account.account_id,
-        task_base.*
+        task_base.*,
+        lead(task_base.completed_at) over (partition by account.account_id order by task_base.completed_at asc) as next_task_completed_at,
+        datediff(day, task_base.completed_at, next_task_completed_at) as task_day_intervals
+
     from task_base
     left join account on task_base.outreach_account_id = account.outreach_account_id or task_base.sf_account_id = account.sf_account_id
 ),
@@ -41,6 +44,7 @@ touches_til_open_deal as (
         task.task_id,
         task.completed_at,
         task.task_action_type,
+        task.task_day_intervals,
         opportunity.first_opportunity_open_at,
         opportunity.first_opportunity_closed_at,
         count(*) over (partition by task.account_id) as total_touches,
@@ -80,6 +84,7 @@ touches_til_close_deal as (
         task.task_id,
         task.completed_at,
         task.task_action_type,
+        task.task_day_intervals,
         opportunity.first_opportunity_open_at,
         opportunity.first_opportunity_closed_at,
         count(*) over (partition by task.account_id) as total_touches,
