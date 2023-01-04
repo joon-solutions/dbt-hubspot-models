@@ -28,27 +28,27 @@ models:
             total_accounts_delivered:
               type: count
               filters:
-                - was_delivered: true
+                - has_delivered: true
             total_accounts_opened:
               type: count
               filters:
-                - was_opened: true
+                - has_opened: true
             total_accounts_clicked:
               type: count
               filters:
-                - was_clicked: true
+                - has_clicked: true
             total_accounts_scheduled:
               type: count
               filters:
-                - was_scheduled: true
+                - has_scheduled: true
             total_accounts_opened_deals:
               type: count
               filters:
-                - was_opened_deals: true
+                - has_opened_deals: true
             total_accounts_won_deals:
               type: count
               filters:
-                - was_won_deals: true
+                - has_won_deals: true
 
       - name: sequence_id
         description: "{{ doc(\"outreach_sf_sequence_id\") }}"
@@ -186,32 +186,32 @@ models:
           metrics:
             total_lost_deals_amount_agg:
               type: sum
-      - name: was_delivered
+      - name: has_delivered
         description: booleans type, a true value indicates that an account was successfully delivered the email in the sequence
         meta:
           dimension:
             type: boolean
-      - name: was_opened
+      - name: has_opened
         description: booleans type, a true value indicates that an account opened the email in the sequence
         meta:
           dimension:
             type: boolean
-      - name: was_clicked
+      - name: has_clicked
         description: booleans type, a true value indicates that an account clicked the email in the sequence
         meta:
           dimension:
             type: boolean
-      - name: was_scheduled
+      - name: has_scheduled
         description: booleans type, a true value indicates that an account scheduled after receiving emails in the sequence
         meta:
           dimension:
             type: boolean
-      - name: was_opened_deals
+      - name: has_opened_deals
         description: booleans type, a true value indicates that an account opened at least one deal after receiving emails in the sequence
         meta:
           dimension:
             type: boolean
-      - name: was_won_deals
+      - name: has_won_deals
         description: booleans type, a true value indicates that an account signed at least one deal after receiving emails in the sequence
         meta:
           dimension:

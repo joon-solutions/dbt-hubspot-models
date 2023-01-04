@@ -94,12 +94,12 @@ agg as (
 final as (
     select
         *,
-        total_deliver > 0 as was_delivered,
-        total_open > 0 as was_opened,
-        total_click > 0 as was_clicked,
-        total_schedule > 0 as was_scheduled,
-        total_deals > 0 as was_opened_deals,
-        total_won_deals_amount > 0 as was_won_deals
+        total_deliver > 0 as has_delivered,
+        total_open > 0 as has_opened,
+        total_click > 0 as has_clicked,
+        total_schedule > 0 as has_scheduled,
+        total_deals > 0 as has_opened_deals,
+        total_won_deals_amount > 0 as has_won_deals
     from agg
 )
 
