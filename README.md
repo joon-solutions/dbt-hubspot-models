@@ -202,7 +202,29 @@ config-version: 2
 vars:
     linkedin__passthrough_metrics: ['the', 'list', 'of', 'metric', 'columns', 'to', 'include']
 
-
+### Naming Convention
+- dbt layer:
+    - non_aggregated fields: use descriptive name
+    - aggregated fields:
+        - suffix _count: when use "count" function
+        - prefix unique_ and suffix _count: when use "count distinct" function
+        - prefix avg_: when use "average" function
+        - prefix total_: when use "sum" function
+        - [numerator]_per_[denominator]: when calculate the ratios between two other fields
+        - prefix is_ or has_: used for boolean fields
+- metrics layer:
+    - Lightdash dimension: same as field name
+    - Lightdash metrics:
+        - derived from non_aggregated fields: same convention as used for aggregated fields
+        - derived from aggregated fields: add suffix _agg
+        For ex:
+        - name: count_clicks
+            meta:
+            dimensions:
+                type: number
+            metrics:
+                count_schedule_agg:
+                    type: sum
 ### Resources:
 - Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
 - Check out [Discourse](https://discourse.getdbt.com/) for commonly asked questions and answers

@@ -67,4 +67,5 @@ addressed, and remove any items that are not relevant to this PR.
 - [ ] My SQL follows the [Fishtown Analytics style guide](https://github.com/fishtown-analytics/corp/blob/master/dbt_coding_conventions.md).
 - [ ] I have materialized my models appropriately.
 - [ ] I have added appropriate tests and documentation to any new models.
+- [ ] I have followed naming convention stated in the README file.
 - [ ] I have updated the README file.
