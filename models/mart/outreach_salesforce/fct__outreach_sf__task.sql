@@ -8,10 +8,12 @@ opportunity_base as (
     select
         outreach_account_id,
         sf_account_id,
-        min(created_at) as first_opportunity_open_at,
-        min(case when opportunity_status = 'Won' then close_date end) as first_opportunity_closed_at
+        amount,
+        created_at as first_opportunity_open_at,
+        case when opportunity_status = 'Won' then close_date end as first_opportunity_closed_at,
+        row_number() over (partition by outreach_account_id, sf_account_id order by created_at asc) as rnk
     from {{ ref('int__outreach_sf__opportunity') }}
-    group by 1, 2
+    qualify rnk = 1
 ),
 
 account as (
@@ -47,6 +49,7 @@ touches_til_open_deal as (
         task.task_day_intervals,
         opportunity.first_opportunity_open_at,
         opportunity.first_opportunity_closed_at,
+        opportunity.amount,
         count(*) over (partition by task.account_id) as total_touches,
         row_number() over (partition by task.account_id order by task.completed_at) as touch_number,
         'before open opportunity' as timeframe
@@ -59,6 +62,7 @@ touches_til_open_deal as (
 allocation_til_open_deal as (
     select
         *,
+        ---- point
         case
             when total_touches = 1 then 1.0
             when total_touches = 2 then 0.5
@@ -74,7 +78,25 @@ allocation_til_open_deal as (
             when touch_number = total_touches then 1.0
             else 0.0
         end as last_touch_points,
-        1.0 / total_touches as linear_points
+        1.0 / total_touches as linear_points,
+        ---- deal amount
+        case
+            when total_touches = 1 then amount
+            when total_touches = 2 then amount / 2
+            when touch_number = 1 then amount * 0.4
+            when touch_number = total_touches then amount * 0.4
+            else amount * 0.2 / (total_touches - 2)
+        end as forty_twenty_forty_amounts,
+        case
+            when touch_number = 1 then amount
+            else 0.0
+        end as first_touch_amounts,
+        case
+            when touch_number = total_touches then amount
+            else 0.0
+        end as last_touch_amounts,
+        amount / total_touches as linear_amounts
+
     from touches_til_open_deal
 ),
 
@@ -87,6 +109,7 @@ touches_til_close_deal as (
         task.task_day_intervals,
         opportunity.first_opportunity_open_at,
         opportunity.first_opportunity_closed_at,
+        opportunity.amount,
         count(*) over (partition by task.account_id) as total_touches,
         row_number() over (partition by task.account_id order by task.completed_at) as touch_number,
         'from open to close won opportunity' as timeframe
@@ -99,6 +122,7 @@ touches_til_close_deal as (
 allocation_til_close_deal as (
     select
         *,
+        ---- points
         case
             when total_touches = 1 then 1.0
             when total_touches = 2 then 0.5
@@ -114,7 +138,24 @@ allocation_til_close_deal as (
             when touch_number = total_touches then 1.0
             else 0.0
         end as last_touch_points,
-        1.0 / total_touches as linear_points
+        1.0 / total_touches as linear_points,
+        ---- deal amount
+        case
+            when total_touches = 1 then amount
+            when total_touches = 2 then amount / 2
+            when touch_number = 1 then amount * 0.4
+            when touch_number = total_touches then amount * 0.4
+            else amount * 0.2 / (total_touches - 2)
+        end as forty_twenty_forty_amounts,
+        case
+            when touch_number = 1 then amount
+            else 0.0
+        end as first_touch_amounts,
+        case
+            when touch_number = total_touches then amount
+            else 0.0
+        end as last_touch_amounts,
+        amount / total_touches as linear_amounts
     from touches_til_close_deal
 ),
 

@@ -14,4 +14,12 @@ Outreach sequence name.
 Each record represents a task recorded from either Outreach & Saleforce sources.
 {% enddocs %}
 
+{% docs outreach_sf_opportunity_id %}
+Global opportunity id, synthesized by salesforce & outreach opportunity_id.
+{% enddocs %}
+
+{% docs outreach_sf_user_id %}
+Global user id, synthesized by salesforce & outreach user_id.
+{% enddocs %}
+
 

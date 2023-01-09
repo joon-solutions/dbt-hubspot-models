@@ -141,6 +141,7 @@ vars:
   outreach_sequence: true
   outreach_sequence_state: true
   outreach_task: true
+  outreach_user: true
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models

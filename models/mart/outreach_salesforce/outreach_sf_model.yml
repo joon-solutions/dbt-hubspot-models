@@ -453,3 +453,123 @@ models:
           metrics:
             total_linear_points:
               type: sum
+      - name: forty_twenty_forty_amounts
+        description: >-
+          Allocated opportunity amount for given task based on twenty-forty rule, details
+          https://agencyanalytics.com/blog/marketing-attribution-models
+        meta:
+          metrics:
+            total_forty_twenty_forty_amounts:
+              type: sum
+      - name: first_touch_amounts
+        description: >-
+          Allocated opportunity amount for given task based on first-touch rule, details
+          https://agencyanalytics.com/blog/marketing-attribution-models
+        meta:
+          metrics:
+            total_first_touch_amounts:
+              type: sum
+      - name: last_touch_amounts
+        description: >-
+          Allocated opportunity amount for given task based on last-touch rule, details
+          https://agencyanalytics.com/blog/marketing-attribution-models
+        meta:
+          metrics:
+            total_last_touch_amounts:
+              type: sum
+      - name: linear_amounts
+        description: >-
+          Allocated opportunity amount for given task based on linear rule, details
+          https://agencyanalytics.com/blog/marketing-attribution-models
+        meta:
+          metrics:
+            total_linear_amounts:
+              type: sum
+  - name: fct__outreach_sf__opportunity
+    description: The combination of Outreach & Salesforce Opportunity enriched with information about the sales rep in charge of the deal
+    columns:
+      - name: opportunity_id
+        description: "{{ doc('outreach_sf_opportunity_id') }}"
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+      - name: outreach_opportunity_id
+        description: "Id of the opportunity in Outreach database"
+      - name: outreach_account_id
+        description: "Id of the account in Outreach database"
+      - name: outreach_owner_id
+        description: "Id of the opportunity's sales rep in Outreach database"
+      - name: sf_opportunity_id
+        description: "Id of the opportunity in Salesforce database"
+      - name: sf_account_id
+        description: "Id of the account in Salesforce database"
+      - name: sf_owner_id
+        description: "Id of opportunity's sales rep in Salesforce database"
+      - name: opportunity_name
+        description: "Opportunity name"
+      - name: amount
+        description: "Opportunity amount"
+      - name: close_date
+        description: "Day when opportunity is closed"
+      - name: opportunity_status
+        description: "Status of th opportunity"
+      - name: opportunity_probability
+        description: "the field that quantifies the likelihood of winning an opportunity"
+      - name: is_closed
+        description: "Boolean field indicating whether an opportunity is closed"
+      - name: created_at
+        description: "Date when opportunity is created"
+      - name: source
+        description: "Data source: either salesforce or outreach"
+      - name: count_won
+        description: total number of won cases for the account
+        meta:
+          dimension:
+            type: number
+      - name: count_lost
+        description: total number of lost cases for the account
+        meta:
+          dimension:
+            type: number
+      - name: count_pipeline
+        description: total number of pipeline cases for the account
+        meta:
+          dimension:
+            type: number
+      - name: count_closed
+        description: total number of closed cases for the account
+        meta:
+          dimension:
+            type: number
+      - name: count_open
+        description: total number of open cases for the account
+        meta:
+          dimension:
+            type: number
+      - name: amount_won
+        description: total amount won for the account
+        meta:
+          dimension:
+            type: number
+          metrics:
+            total_amount_won:
+              type: sum
+      - name: amount_lost
+        description: total amount lost for the account
+        meta:
+          dimension:
+            type: number
+          metrics:
+            total_amount_lost:
+              type: sum
+      - name: sales_rep_email
+        description: "Email of the sales rep of the opportunity"
+      - name: sales_rep_name
+        description: "Name of the sales rep of the opportunity"
+      - name: sales_rep_title
+        description: "Job title of the sales rep of the opportunity"
+      - name: sales_rep_phone_number
+        description: "Phone number of the sales rep of the opportunity"
+
+
