@@ -1,15 +1,15 @@
 with opportunity as (
-    select * 
+    select *
     from {{ ref('int__outreach_sf__opportunity') }}
 ),
 
 user as (
-    select * 
+    select *
     from {{ ref('int__outreach_sf__user') }}
 ),
 
 final as (
-    select 
+    select
         opportunity.*,
         user.user_email as sales_rep_email,
         user.user_name as sales_rep_name,

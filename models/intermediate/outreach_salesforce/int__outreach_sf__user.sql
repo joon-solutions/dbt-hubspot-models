@@ -1,12 +1,14 @@
 with outreach as (
 
-    select *,
+    select
+        *,
         'outreach' as source
     from {{ ref('base__outreach__users') }}
 ),
 
 sf as (
-    select *,
+    select
+        *,
         'sf' as source
     from {{ ref('base__salesforce__user') }}
 ),
