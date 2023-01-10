@@ -129,20 +129,20 @@ allocation_til_close_deal as (
             when touch_number = 1 then 0.4
             when touch_number = total_touches then 0.4
             else 0.2 / (total_touches - 2) -- if > 2 touches, 40% to the first, 40$ to the second, 20% left allocated equally to touches in between
-        end as forty_twenty_forty_points, 
+        end as forty_twenty_forty_points,
         --- allocate all points to first touch
         case
             when touch_number = 1 then 1.0
             else 0.0
-        end as first_touch_points, 
+        end as first_touch_points,
         --- allocate all points to last touch
         case
             when touch_number = total_touches then 1.0
             else 0.0
         end as last_touch_points,
         --- allocate all points to every touch equally
-        1.0 / total_touches as linear_points, 
-        
+        1.0 / total_touches as linear_points,
+
         ---- total point of each conversion = deal amount
         case
             when total_touches = 1 then amount
