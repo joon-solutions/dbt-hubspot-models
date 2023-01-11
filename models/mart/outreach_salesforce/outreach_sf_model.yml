@@ -1,6 +1,5 @@
 version: 2
 models:
-
   - name: fct__outreach_sf__sequence
     description: >-
       This table provides information on how well an Outreach sequence is
@@ -22,7 +21,7 @@ models:
         meta:
           dimension:
             type: string
-          metrics: 
+          metrics:
             total_accounts:
               type: count
             total_accounts_delivered:
@@ -49,7 +48,6 @@ models:
               type: count
               filters:
                 - has_won_deals: true
-
       - name: sequence_id
         description: "{{ doc(\"outreach_sf_sequence_id\") }}"
         meta:
@@ -140,8 +138,8 @@ models:
               type: sum
       - name: total_deals
         description: >-
-          Total opportunities recorded in both SF & Outreach and associated
-          with a sequenced account
+          Total opportunities recorded in both SF & Outreach and associated with
+          a sequenced account
         meta:
           metrics:
             total_deals_agg:
@@ -164,59 +162,70 @@ models:
               type: sum
       - name: total_opportunity_amount
         description: >-
-          Total opportunities amount recorded in both SF & Outreach and associated
-          with a sequenced account
+          Total opportunities amount recorded in both SF & Outreach and
+          associated with a sequenced account
         meta:
           metrics:
             total_opportunity_amount_agg:
               type: sum
       - name: total_won_deals_amount
         description: >-
-          Total won opportunities amount recorded in both SF & Outreach and associated
-          with a sequenced account
+          Total won opportunities amount recorded in both SF & Outreach and
+          associated with a sequenced account
         meta:
           metrics:
             total_won_deals_amount_agg:
               type: sum
       - name: total_lost_deals_amount
         description: >-
-          Total lost opportunities amount recorded in both SF & Outreach and associated
-          with a sequenced account
+          Total lost opportunities amount recorded in both SF & Outreach and
+          associated with a sequenced account
         meta:
           metrics:
             total_lost_deals_amount_agg:
               type: sum
       - name: has_delivered
-        description: booleans type, a true value indicates that an account was successfully delivered the email in the sequence
+        description: >-
+          booleans type, a true value indicates that an account was successfully
+          delivered the email in the sequence
         meta:
           dimension:
             type: boolean
       - name: has_opened
-        description: booleans type, a true value indicates that an account opened the email in the sequence
+        description: >-
+          booleans type, a true value indicates that an account opened the email
+          in the sequence
         meta:
           dimension:
             type: boolean
       - name: has_clicked
-        description: booleans type, a true value indicates that an account clicked the email in the sequence
+        description: >-
+          booleans type, a true value indicates that an account clicked the
+          email in the sequence
         meta:
           dimension:
             type: boolean
       - name: has_scheduled
-        description: booleans type, a true value indicates that an account scheduled after receiving emails in the sequence
+        description: >-
+          booleans type, a true value indicates that an account scheduled after
+          receiving emails in the sequence
         meta:
           dimension:
             type: boolean
       - name: has_opened_deals
-        description: booleans type, a true value indicates that an account opened at least one deal after receiving emails in the sequence
+        description: >-
+          booleans type, a true value indicates that an account opened at least
+          one deal after receiving emails in the sequence
         meta:
           dimension:
             type: boolean
       - name: has_won_deals
-        description: booleans type, a true value indicates that an account signed at least one deal after receiving emails in the sequence
+        description: >-
+          booleans type, a true value indicates that an account signed at least
+          one deal after receiving emails in the sequence
         meta:
           dimension:
             type: boolean
-
   - name: fct__outreach_sf__account
     description: The combination of Outreach & Salesforce Account joined with Opportunity
     columns:
@@ -278,11 +287,6 @@ models:
             type: number
       - name: count_lost
         description: total number of lost cases for the account
-        meta:
-          dimension:
-            type: number
-      - name: count_pipeline
-        description: total number of pipeline cases for the account
         meta:
           dimension:
             type: number
@@ -365,7 +369,6 @@ models:
           metrics:
             avg_probability:
               type: average
-
   - name: fct__outreach_sf__task
     description: >-
       Each record represent a task filed in either Outreach or Salesforce app.
@@ -413,7 +416,7 @@ models:
             avg_task_day_intervals:
               type: average
       - name: touch_number
-        description: "The order of a task in a series of tasks of each account"
+        description: The order of a task in a series of tasks of each account
       - name: timeframe
         description: >
           There are two timeframe: 'from open to close won opportunity' -
@@ -455,7 +458,8 @@ models:
               type: sum
       - name: forty_twenty_forty_amounts
         description: >-
-          Allocated opportunity amount for given task based on twenty-forty rule, details
+          Allocated opportunity amount for given task based on twenty-forty
+          rule, details
           https://agencyanalytics.com/blog/marketing-attribution-models
         meta:
           metrics:
@@ -463,30 +467,32 @@ models:
               type: sum
       - name: first_touch_amounts
         description: >-
-          Allocated opportunity amount for given task based on first-touch rule, details
-          https://agencyanalytics.com/blog/marketing-attribution-models
+          Allocated opportunity amount for given task based on first-touch rule,
+          details https://agencyanalytics.com/blog/marketing-attribution-models
         meta:
           metrics:
             total_first_touch_amounts:
               type: sum
       - name: last_touch_amounts
         description: >-
-          Allocated opportunity amount for given task based on last-touch rule, details
-          https://agencyanalytics.com/blog/marketing-attribution-models
+          Allocated opportunity amount for given task based on last-touch rule,
+          details https://agencyanalytics.com/blog/marketing-attribution-models
         meta:
           metrics:
             total_last_touch_amounts:
               type: sum
       - name: linear_amounts
         description: >-
-          Allocated opportunity amount for given task based on linear rule, details
-          https://agencyanalytics.com/blog/marketing-attribution-models
+          Allocated opportunity amount for given task based on linear rule,
+          details https://agencyanalytics.com/blog/marketing-attribution-models
         meta:
           metrics:
             total_linear_amounts:
               type: sum
   - name: fct__outreach_sf__opportunity
-    description: The combination of Outreach & Salesforce Opportunity enriched with information about the sales rep in charge of the deal
+    description: >-
+      The combination of Outreach & Salesforce Opportunity enriched with
+      information about the sales rep in charge of the deal
     columns:
       - name: opportunity_id
         description: "{{ doc('outreach_sf_opportunity_id') }}"
@@ -494,59 +500,117 @@ models:
           - unique
           - not_null
           - dbt_utils.at_least_one
+        meta:
+          dimension:
+            type: string
+          metrics:
+            opportunity_count:
+              type: count
       - name: outreach_opportunity_id
-        description: "Id of the opportunity in Outreach database"
+        description: Id of the opportunity in Outreach database
+        meta:
+          dimension:
+            type: string
       - name: outreach_account_id
-        description: "Id of the account in Outreach database"
+        description: Id of the account in Outreach database
+        meta:
+          dimension:
+            type: string
       - name: outreach_owner_id
-        description: "Id of the opportunity's sales rep in Outreach database"
+        description: Id of the opportunity's sales rep in Outreach database
+        meta:
+          dimension:
+            type: string
       - name: sf_opportunity_id
-        description: "Id of the opportunity in Salesforce database"
+        description: Id of the opportunity in Salesforce database
+        meta:
+          dimension:
+            type: number
       - name: sf_account_id
-        description: "Id of the account in Salesforce database"
+        description: Id of the account in Salesforce database
+        meta:
+          dimension:
+            type: number
       - name: sf_owner_id
-        description: "Id of opportunity's sales rep in Salesforce database"
+        description: Id of opportunity's sales rep in Salesforce database
+        meta:
+          dimension:
+            type: number
       - name: opportunity_name
-        description: "Opportunity name"
+        description: Opportunity name
+        meta:
+          dimension:
+            type: string
       - name: amount
-        description: "Opportunity amount"
+        description: Opportunity amount
+        meta:
+          dimension:
+            type: number
+          metrics:
+            total_amount:
+              type: sum
       - name: close_date
-        description: "Day when opportunity is closed"
+        description: Day when opportunity is closed
+        meta:
+          dimension:
+            type: timestamp
       - name: opportunity_status
-        description: "Status of th opportunity"
+        description: Status of th opportunity
+        meta:
+          dimension:
+            type: string
       - name: opportunity_probability
-        description: "the field that quantifies the likelihood of winning an opportunity"
+        description: the field that quantifies the likelihood of winning an opportunity
+        meta:
+          dimension:
+            type: number
       - name: is_closed
-        description: "Boolean field indicating whether an opportunity is closed"
+        description: Boolean field indicating whether an opportunity is closed
+        meta:
+          dimension:
+            type: boolean
       - name: created_at
-        description: "Date when opportunity is created"
+        description: Date when opportunity is created
+        meta:
+          dimension:
+            type: timestamp
       - name: source
         description: "Data source: either salesforce or outreach"
+        meta:
+          dimension:
+            type: string
       - name: count_won
         description: total number of won cases for the account
         meta:
           dimension:
             type: number
+          metrics:
+            total_won_opportunity:
+              type: sum
       - name: count_lost
         description: total number of lost cases for the account
         meta:
           dimension:
             type: number
-      - name: count_pipeline
-        description: total number of pipeline cases for the account
-        meta:
-          dimension:
-            type: number
+          metrics:
+            total_lost_opportunity:
+              type: sum
       - name: count_closed
         description: total number of closed cases for the account
         meta:
           dimension:
             type: number
+          metrics:
+            total_closed_opportunity:
+              type: sum
       - name: count_open
         description: total number of open cases for the account
         meta:
           dimension:
             type: number
+          metrics:
+            total_open_opportunity:
+              type: sum
       - name: amount_won
         description: total amount won for the account
         meta:
@@ -564,12 +628,22 @@ models:
             total_amount_lost:
               type: sum
       - name: sales_rep_email
-        description: "Email of the sales rep of the opportunity"
+        description: Email of the sales rep of the opportunity
+        meta:
+          dimension:
+            type: string
       - name: sales_rep_name
-        description: "Name of the sales rep of the opportunity"
+        description: Name of the sales rep of the opportunity
+        meta:
+          dimension:
+            type: string
       - name: sales_rep_title
-        description: "Job title of the sales rep of the opportunity"
+        description: Job title of the sales rep of the opportunity
+        meta:
+          dimension:
+            type: string
       - name: sales_rep_phone_number
-        description: "Phone number of the sales rep of the opportunity"
-
-
+        description: Phone number of the sales rep of the opportunity
+        meta:
+          dimension:
+            type: string

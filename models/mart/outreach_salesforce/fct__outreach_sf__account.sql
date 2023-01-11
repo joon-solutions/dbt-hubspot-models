@@ -28,7 +28,6 @@ joined as (
         coalesce(avg(opportunity.opportunity_probability), 0) as opportunity_probability,
         coalesce(sum(opportunity.count_won), 0) as count_won,
         coalesce(sum(opportunity.count_lost), 0) as count_lost,
-        coalesce(sum(opportunity.count_pipeline), 0) as count_pipeline,
         coalesce(sum(opportunity.count_closed), 0) as count_closed,
         coalesce(sum(opportunity.count_open), 0) as count_open
 
