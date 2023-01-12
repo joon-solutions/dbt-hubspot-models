@@ -15,5 +15,9 @@ Each record represents a task recorded from either Outreach & Saleforce sources.
 {% enddocs %}
 
 {% docs outreach_sf_opportunity_id %}
-Each record represents an opportunity recorded from either Outreach & Saleforce sources.
+Global opportunity id, synthesized by salesforce & outreach opportunity_id.
+{% enddocs %}
+
+{% docs outreach_sf_user_id %}
+Global user id, synthesized by salesforce & outreach user_id.
 {% enddocs %}

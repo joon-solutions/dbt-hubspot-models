@@ -122,7 +122,7 @@
     {"name": "country", "datatype": dbt_utils.type_string()},
     {"name": "country_code", "datatype": dbt_utils.type_string()},
     {"name": "department", "datatype": dbt_utils.type_string()},
-    {"name": "email", "datatype": dbt_utils.type_string()},
+    {"name": "email", "datatype": dbt_utils.type_string(), "alias": "user_email"},
     {"name": "first_name", "datatype": dbt_utils.type_string()},
     {"name": "id", "datatype": dbt_utils.type_string(), "alias": "user_id"},
     {"name": "individual_id", "datatype": dbt_utils.type_string()},
@@ -138,10 +138,13 @@
     {"name": "state", "datatype": dbt_utils.type_string()},
     {"name": "state_code", "datatype": dbt_utils.type_string()},
     {"name": "street", "datatype": dbt_utils.type_string()},
-    {"name": "title", "datatype": dbt_utils.type_string()},
+    {"name": "title", "datatype": dbt_utils.type_string(), "alias": "user_title"},
     {"name": "user_role_id", "datatype": dbt_utils.type_string()},
     {"name": "user_type", "datatype": dbt_utils.type_string()},
     {"name": "username", "datatype": dbt_utils.type_string()},
+    {"name": "CREATED_DATE", "datatype": dbt_utils.type_timestamp(), "alias": "created_at"},
+    {"name": "LAST_MODIFIED_DATE", "datatype": dbt_utils.type_timestamp(), "alias": "updated_at"},
+    {"name": "mobile_phone", "datatype": dbt_utils.type_timestamp(), "alias": "user_phone_number"},
 ] %}
 
 

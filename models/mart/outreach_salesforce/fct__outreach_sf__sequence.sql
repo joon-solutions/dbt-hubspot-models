@@ -43,7 +43,8 @@ opportunity as (
         account.account_id,
         opportunity_base.*
     from opportunity_base
-    left join account on opportunity_base.sf_account_id = account.sf_account_id
+    left join account on opportunity_base.sf_account_id = account.sf_account_id or opportunity_base.outreach_account_id = account.outreach_account_id
+
 ),
 
 ----a deal will be assigned to a sequence that has the last activity time closest to the time when the deal was opened

@@ -19,7 +19,7 @@ sources:
       # - name: stage
       - name: task
       # - name: task_priority
-      # - name: users
+      - name: users
       - name: opportunity
       - name: opportunity_stage
 

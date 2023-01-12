@@ -48,12 +48,15 @@ final as (
         alias,
         user_name,
         company_name,
-        email,
+        trim(lower(user_email)) as user_email,
         last_name,
         username,
         is_active,
         first_name,
-        title,
+        user_title,
+        created_at,
+        updated_at,
+        user_phone_number,
 
         -- dates
         cast(last_referenced_date as {{ dbt_utils.type_timestamp() }}) as last_referenced_date,

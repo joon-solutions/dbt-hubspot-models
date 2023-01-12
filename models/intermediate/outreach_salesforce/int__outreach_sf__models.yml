@@ -37,6 +37,12 @@ models:
     columns:
       - name: opportunity_id
         description: global ID of an opportunity, to differentiate with outreach_task_id and sf_task_id
+        
+  - name: int__outreach_sf__user
+    description: "{{ doc(\"outreach_sf_user_id\") }}"
+    columns:
+      - name: user_id
+        description: global ID of an user, to differentiate with outreach_user_id and sf_user_id
         tests:
           - unique
           - not_null

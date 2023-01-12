@@ -160,3 +160,21 @@
 {{ return(columns) }}
 
 {% endmacro %}
+
+{% macro get_staging_outreach_users_columns() %}
+
+{% set columns = [
+    {"name": "id", "datatype": dbt_utils.type_string(), "alias": "user_id"},
+    {"name": "updated_at", "datatype": dbt_utils.type_timestamp()},
+    {"name": "created_at", "datatype": dbt_utils.type_timestamp()},
+    {"name": "phone_number", "datatype": dbt_utils.type_string(), "alias": "user_phone_number"},
+    {"name": "name", "datatype": dbt_utils.type_string(), "alias": "user_name"},
+    {"name": "email", "datatype": dbt_utils.type_string(), "alias": "user_email"},
+    {"name": "title", "datatype": dbt_utils.type_string(), "alias": "user_title"},
+    {"name": "username", "datatype": dbt_utils.type_string()}  
+
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}

@@ -4,6 +4,7 @@ with outreach as (
         opportunity_id as outreach_opportunity_id,
         opportunity_name,
         account_id as outreach_account_id,
+        owner_id as outreach_owner_id,
         amount,
         close_date,
         opportunity_status,
@@ -20,6 +21,7 @@ sf as (
         opportunity_id as sf_opportunity_id,
         opportunity_name,
         account_id as sf_account_id,
+        owner_id as sf_owner_id,
         amount,
         close_date,
         opportunity_status,
@@ -35,8 +37,10 @@ joined as (
     select
         outreach.outreach_opportunity_id,
         outreach.outreach_account_id,
+        outreach.outreach_owner_id,
         sf.sf_opportunity_id,
         sf.sf_account_id,
+        sf.sf_owner_id,
         coalesce(outreach.opportunity_name, sf.opportunity_name) as opportunity_name,
         coalesce(outreach.amount, sf.amount) as amount,
         coalesce(outreach.close_date, sf.close_date) as close_date,
@@ -62,14 +66,6 @@ final as (
         case when
             opportunity_status = 'Lost' then 1
             else 0 end as count_lost,
-
-        case when
-            opportunity_status = 'Pipeline' then 1
-            else 0 end as count_pipeline,
-
-        case when
-            opportunity_status = 'Other' then 1
-            else 0 end as count_other,
 
         case
             when is_closed then 1
