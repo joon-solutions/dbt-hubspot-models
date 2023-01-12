@@ -66,7 +66,6 @@ joined as (
 final as (
     select
         *,
-        case when dbt_valid_to is null then true end as is_effective,
         case when
             opportunity_status = 'Won' then 1
             else 0 end as count_won,

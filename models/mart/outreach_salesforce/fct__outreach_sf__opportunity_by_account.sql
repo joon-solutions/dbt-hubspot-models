@@ -2,6 +2,12 @@ with opportunity as (
     select * from {{ ref('int__outreach_sf__opportunity_scd') }}
 ),
 
+base_dates as (
+    select *
+    from {{ ref('base__dates') }}
+    where date_day <= current_date() --UTC timezone
+),
+
 opportunity_agg as (
     select
         opportunity.*,
