@@ -462,6 +462,10 @@ models:
     columns:
       - name: opportunity_id
         description: ''
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
       - name: forty_twenty_forty_amounts
         description: >-
           Allocated opportunity amount for given task based on twenty-forty
