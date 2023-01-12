@@ -80,6 +80,7 @@
     {"name": "stage_name", "datatype": dbt_utils.type_string()},
     {"name": "synced_quote_id", "datatype": dbt_utils.type_string()},
     {"name": "type", "datatype": dbt_utils.type_string(), "alias": "opportunity_type"},
+    {"name": "system_modstamp", "datatype": dbt_utils.type_timestamp(), "alias": "updated_at"}
 ] %}
 
 {{ return(columns) }}

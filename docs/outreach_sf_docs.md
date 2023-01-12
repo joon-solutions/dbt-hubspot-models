@@ -14,4 +14,6 @@ Outreach sequence name.
 Each record represents a task recorded from either Outreach & Saleforce sources.
 {% enddocs %}
 
-
+{% docs outreach_sf_opportunity_id %}
+Each record represents an opportunity recorded from either Outreach & Saleforce sources.
+{% enddocs %}

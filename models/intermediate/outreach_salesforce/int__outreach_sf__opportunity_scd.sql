@@ -11,8 +11,12 @@ with outreach as (
         is_closed,
         created_at,
         updated_at,
-        'outreach' as source
-    from {{ ref('stg__outreach__opportunity') }}
+        'outreach' as source,
+        dbt_updated_at,
+        dbt_valid_from,
+        dbt_valid_to
+
+    from {{ ref('outreach_opportunity_snapshot') }}
 ),
 
 sf as (
@@ -27,8 +31,11 @@ sf as (
         is_closed,
         created_date,
         updated_at,
-        'sf' as source
-    from {{ ref('stg__salesforce__opportunity') }}
+        'sf' as source,
+        dbt_updated_at,
+        dbt_valid_from,
+        dbt_valid_to
+    from {{ ref('salesforce_opportunity_snapshot') }}
 ),
 
 joined as (
@@ -46,7 +53,11 @@ joined as (
         coalesce(outreach.created_at, sf.created_date) as created_at,
         coalesce(outreach.source, sf.source) as source,
         coalesce(outreach.updated_at, sf.updated_at) as updated_at,
+        coalesce(outreach.dbt_updated_at, sf.dbt_updated_at) as dbt_updated_at,
+        coalesce(outreach.dbt_valid_from, sf.dbt_valid_from) as dbt_valid_from,
+        coalesce(outreach.dbt_valid_to, sf.dbt_valid_to) as dbt_valid_to,
         {{ dbt_utils.surrogate_key(['outreach.outreach_opportunity_id', 'sf.sf_opportunity_id']) }} as opportunity_id
+
 
     from outreach
     full outer join sf on outreach.opportunity_name = sf.opportunity_name
@@ -55,6 +66,7 @@ joined as (
 final as (
     select
         *,
+        case when dbt_valid_to is null then true end as is_effective,
         case when
             opportunity_status = 'Won' then 1
             else 0 end as count_won,
@@ -81,8 +93,4 @@ final as (
     from joined
 )
 
-select
-    *,
-    case when count_won > 0 then amount else 0 end as amount_won,
-    case when count_lost > 0 then amount else 0 end as amount_lost
-from final
+select * from final

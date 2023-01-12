@@ -141,6 +141,7 @@ vars:
   outreach_sequence: true
   outreach_sequence_state: true
   outreach_task: true
+  max_base_dates: '2023-12-31'
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models

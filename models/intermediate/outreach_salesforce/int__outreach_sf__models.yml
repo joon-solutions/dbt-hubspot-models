@@ -32,4 +32,13 @@ models:
           - not_null
           - dbt_utils.at_least_one 
 
+  - name: int__outreach_sf__opportunity_scd
+    description: "{{ doc(\"outreach_sf_opportunity_id\") }}"
+    columns:
+      - name: opportunity_id
+        description: global ID of an opportunity, to differentiate with outreach_task_id and sf_task_id
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one 
           

@@ -64,3 +64,12 @@ models:
           - unique
           - not_null
           - dbt_utils.at_least_one 
+          
+  - name: base__dates
+    columns:
+      - name: date_day
+        description: Primary Key of the table
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one

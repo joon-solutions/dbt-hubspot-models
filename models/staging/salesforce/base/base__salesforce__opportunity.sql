@@ -51,7 +51,8 @@ final as (
         is_deleted,
         lead_source,
         opportunity_probability,
-        is_closed
+        is_closed,
+        updated_at
 
         --The below script allows for pass through columns.
         {% if var('opportunity_pass_through_columns',[]) != [] %},
