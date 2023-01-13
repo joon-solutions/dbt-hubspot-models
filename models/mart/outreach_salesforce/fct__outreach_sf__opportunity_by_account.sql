@@ -15,6 +15,7 @@ opportunity_agg as (
                 then opportunity.dbt_valid_to >= base_dates.date_day
             else true
         end and opportunity.created_at <= base_dates.date_day as is_effective
+
     from opportunity
     left join base_dates on 1 = 1
 ),
@@ -35,13 +36,14 @@ joined as (
         account.billing_postal_code,
         account.buyer_intent_score,
         account.account_created_at,
-        account.domain
+        account.domain,
+        row_number() over (partition by opportunity_agg.outreach_account_id, opportunity_agg.sf_account_id order by opportunity_agg.created_at asc) as rnk
 
     from opportunity_agg
-    left join account on opportunity_agg.sf_account_id = account.sf_account_id
-        or opportunity_agg.outreach_account_id = account.outreach_account_id
-    where opportunity_agg.is_effective = 1
-
+    left join account on opportunity_agg.outreach_account_id = account.outreach_account_id
+        or opportunity_agg.sf_account_id = account.sf_account_id
+    where opportunity_agg.is_effective
+    qualify rnk = 1
 )
 
 select * from joined
