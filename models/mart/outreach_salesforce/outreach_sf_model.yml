@@ -460,7 +460,7 @@ models:
   - name: fct__outreach_sf__opportunity_by_account
     description: The combination of Outreach & Salesforce Opportunity joined with Account information, pivot.
     columns:
-      - name: opportunity_id
+      - name: opportunity_account_scd_id
         description: ''
         tests:
           - unique
@@ -516,22 +516,6 @@ models:
           metrics:
             number_of_account:
               type: count
-
-  # - name: rpt__outreach_sf__opportunity_scd_pivot
-  #   description: The combination of Outreach & Salesforce Opportunity joined with Account information, pivot.
-  #   columns:
-  #     - name: opportunity_id
-  #       description: ''
-  #       tests:
-  #         - unique
-  #         - not_null
-  #         - dbt_utils.at_least_one
-  #       meta:
-  #         dimension:
-  #           type: string
-  #         metrics:
-  #           number_of_account:
-  #             type: count
 
   - name: rpt__outreach_sf__account_scd
     description: The combination of Outreach & Salesforce Opportunity joined with Account information

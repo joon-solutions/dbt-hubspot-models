@@ -45,4 +45,7 @@ joined as (
     where opportunity_agg.is_effective
 )
 
-select * from joined
+select
+    *,
+    {{ dbt_utils.surrogate_key(['opportunity_scd_id', 'date_day']) }} as opportunity_account_scd_id
+from joined
