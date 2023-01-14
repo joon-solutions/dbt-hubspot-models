@@ -56,16 +56,22 @@ joined as (
         coalesce(outreach.dbt_updated_at, sf.dbt_updated_at) as dbt_updated_at,
         coalesce(outreach.dbt_valid_from, sf.dbt_valid_from) as dbt_valid_from,
         coalesce(outreach.dbt_valid_to, sf.dbt_valid_to) as dbt_valid_to,
-        {{ dbt_utils.surrogate_key(['outreach.outreach_opportunity_id', 'sf.sf_opportunity_id']) }} as opportunity_id
-
-
-    from outreach
-    full outer join sf on outreach.opportunity_name = sf.opportunity_name
+        {{ join_snapshots(
+                'outreach', 
+                'sf', 
+                'dbt_valid_to',
+                'dbt_valid_from', 
+                'dbt_valid_to', 
+                'dbt_valid_from',
+                'opportunity_name', 
+                'opportunity_name') }}
 ),
 
 final as (
     select
         *,
+        {{ dbt_utils.surrogate_key(['outreach_opportunity_id', 'sf_opportunity_id','dbt_valid_from','dbt_valid_to']) }} as opportunity_scd_id,
+        {{ dbt_utils.surrogate_key(['outreach_opportunity_id', 'sf_opportunity_id']) }} as opportunity_id,
         case when
             opportunity_status = 'Won' then 1
             else 0 end as count_won,
@@ -92,4 +98,8 @@ final as (
     from joined
 )
 
-select * from final
+select
+    *,
+    case when count_won > 0 then amount else 0 end as amount_won,
+    case when count_lost > 0 then amount else 0 end as amount_lost
+from final

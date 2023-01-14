@@ -142,6 +142,7 @@ vars:
   outreach_sequence_state: true
   outreach_task: true
   max_base_dates: '2023-12-31'
+  min_base_dates: '2022-12-28'
   outreach_user: true
 
 # Configuring models
