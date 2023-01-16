@@ -52,7 +52,7 @@ jobs:
       - name: Lint with sqlfluff
         run: |
           git fetch origin main:main
-          git diff main --name-only --diff-filter=d | egrep '^models/.*sql$$' | xargs -r sqlfluff lint
+          git diff main --name-only --diff-filter=d | egrep '^models/.*sql$$' | xargs -r sqlfluff lint --target ci
 
       ## Run delta models
       - name: Run models
