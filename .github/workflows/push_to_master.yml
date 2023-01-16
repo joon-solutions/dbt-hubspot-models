@@ -8,8 +8,8 @@ on:
 env:
   DBT_PROFILES_DIR: ./
 
-  DBT_USER_PROD: ${{ secrets.DBT_USER }}
-  DBT_PASSWORD_PROD: ${{ secrets.DBT_PASSWORD }}
+  DBT_USER: ${{ secrets.DBT_USER }}
+  DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
   DBT_SCHEMA_PROD: ${{ secrets.DBT_SCHEMA_PROD }}
 
   ## Environment variables for running Dbt on Google BigQuery

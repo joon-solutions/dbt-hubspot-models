@@ -15,8 +15,8 @@ env:
 
   DBT_PROFILES_DIR: ./
   
-  DBT_USER_CI: ${{ secrets.DBT_USER }}
-  DBT_PASSWORD_CI: ${{ secrets.DBT_PASSWORD }}
+  DBT_USER: ${{ secrets.DBT_USER }}
+  DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
   DBT_SCHEMA_CI: ${{ secrets.DBT_SCHEMA_CI }}
 
 jobs:
