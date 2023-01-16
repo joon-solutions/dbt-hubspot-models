@@ -10,7 +10,8 @@ env:
 
   DBT_USER: ${{ secrets.DBT_USER }}
   DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
-  DBT_SCHEMA_PROD: ${{ secrets.DBT_SCHEMA_PROD }}
+  # DBT_SCHEMA_PROD: ${{ secrets.DBT_SCHEMA_PROD }} -- need this inf visible to test first
+  DBT_SCHEMA_PROD: ANALYTICS
   DBT_SCHEMA: ${{ secrets.DBT_SCHEMA }}
 
   ## Environment variables for running Dbt on Google BigQuery
@@ -74,6 +75,7 @@ jobs:
           pip3 install -r requirements.txt
           dbt deps --target prod
           dbt seed --target prod
+          dbt snapshot --target prod
 
       - name: Install lightdash CLI
         run: npm install -g @lightdash/cli
