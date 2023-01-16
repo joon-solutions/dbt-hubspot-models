@@ -11,6 +11,7 @@ env:
   DBT_USER: ${{ secrets.DBT_USER }}
   DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
   DBT_SCHEMA_PROD: ${{ secrets.DBT_SCHEMA_PROD }}
+  DBT_SCHEMA: ${{ secrets.DBT_SCHEMA }}
 
   ## Environment variables for running Dbt on Google BigQuery
   # DBT_GOOGLE_PROJECT_PROD: google-project-id
