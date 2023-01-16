@@ -168,3 +168,9 @@ models:
       +required_tests: {"unique.*|not_null|at_least_one": 3}
       +materialized: table
 
+snapshots:
+  canvas_dbt:
+    +required_tests: {"unique.*|not_null|at_least_one": 3}
+    +materialized: table
+    +target_schema: "{{ 'snapshots' if target.name == 'prod' else target.schema }}"
+

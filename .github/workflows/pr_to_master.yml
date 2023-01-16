@@ -15,9 +15,9 @@ env:
 
   DBT_PROFILES_DIR: ./
   
-  DBT_USER: ${{ secrets.DBT_USER }}
-  DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
-  DBT_SCHEMA: ${{ secrets.DBT_SCHEMA }}
+  DBT_USER_CI: ${{ secrets.DBT_USER }}
+  DBT_PASSWORD_CI: ${{ secrets.DBT_PASSWORD }}
+  DBT_SCHEMA_CI: ${{ secrets.DBT_SCHEMA_CI }}
 
 jobs:
   pr_to_main:
@@ -37,17 +37,17 @@ jobs:
       - name: Install dependencies
         run: |
           pip3 install -r requirements.txt
-          dbt deps
+          dbt deps --target ci
 
       - name: Install lightdash CLI
         run: npm install -g @lightdash/cli
 
       - name: Seeding
-        run: dbt seed
+        run: dbt seed --target ci
 
       - name: Check required tests
         run: |
-          dbt run-operation required_tests
+          dbt run-operation required_tests --target ci
 
       - name: Lint with sqlfluff
         run: |
@@ -57,11 +57,11 @@ jobs:
       ## Run delta models
       - name: Run models
         id: run_dbt
-        run: dbt run
+        run: dbt run --target ci
 
       ## Test delta models
       - name: Test models
-        run: dbt test
+        run: dbt test --target ci
 
       - name: Lightdash CLI start preview
         env:

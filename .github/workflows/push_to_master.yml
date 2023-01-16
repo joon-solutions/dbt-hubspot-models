@@ -8,9 +8,9 @@ on:
 env:
   DBT_PROFILES_DIR: ./
 
-  DBT_USER: ${{ secrets.DBT_USER }}
-  DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
-  DBT_SCHEMA: ANALYTICS
+  DBT_USER_PROD: ${{ secrets.DBT_USER }}
+  DBT_PASSWORD_PROD: ${{ secrets.DBT_PASSWORD }}
+  DBT_SCHEMA_PROD: ${{ secrets.DBT_SCHEMA_PROD }}
 
   ## Environment variables for running Dbt on Google BigQuery
   # DBT_GOOGLE_PROJECT_PROD: google-project-id
@@ -71,8 +71,8 @@ jobs:
       - name: Install dependencies
         run: |
           pip3 install -r requirements.txt
-          dbt deps
-          dbt seed
+          dbt deps --target prod
+          dbt seed --target prod
 
       - name: Install lightdash CLI
         run: npm install -g @lightdash/cli
@@ -80,11 +80,11 @@ jobs:
       ## Run delta models
       - name: Run models
         id: run_dbt
-        run: dbt run
+        run: dbt run --target prod
 
       ## Test delta models
       - name: Test models
-        run: dbt test
+        run: dbt test --target prod
 
       - name: Lightdash CLI deploy 
         env:
