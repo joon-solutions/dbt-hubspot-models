@@ -12,10 +12,10 @@ opportunity_agg as (
     select
         opportunity.*,
         base_dates.date_day,
-        case when opportunity.dbt_valid_to is not null
-                then opportunity.dbt_valid_to >= base_dates.date_day
+        case when opportunity.add_sf_valid_to is not null
+                then opportunity.add_sf_valid_to >= base_dates.date_day
             else true
-        end and opportunity.created_at <= base_dates.date_day as is_effective
+        end and opportunity.add_sf_valid_from <= base_dates.date_day as is_effective
 
     from opportunity
     left join base_dates on 1 = 1
