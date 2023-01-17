@@ -5,7 +5,7 @@ snapshots:
   - name: outreach_opportunity_snapshot
     description: "Snapshot table which records & keeps track of the historical opportunity from Outreach source"
     columns:
-      - name: dbt_scd_id
+      - name: opportunity_id_scd
         tests:
           - unique
           - not_null
@@ -14,7 +14,7 @@ snapshots:
   - name: salesforce_opportunity_snapshot
     description: "Snapshot table which records & keeps track of the historical opportunity from Salesforce source"
     columns:
-      - name: dbt_scd_id
+      - name: opportunity_id_scd
         tests:
           - unique
           - not_null
