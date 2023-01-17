@@ -9,11 +9,10 @@ opportunity_base as (
         outreach_account_id,
         sf_account_id,
         amount,
-        created_at as first_opportunity_open_at,
-        case when opportunity_status = 'Won' then close_date end as first_opportunity_closed_at,
-        row_number() over (partition by outreach_account_id, sf_account_id order by created_at asc) as rnk
+        created_at,
+        close_date,
+        opportunity_status
     from {{ ref('int__outreach_sf__opportunity') }}
-    qualify rnk = 1
 ),
 
 account as (
@@ -27,7 +26,6 @@ task as (
         task_base.*,
         lead(task_base.completed_at) over (partition by account.account_id order by task_base.completed_at asc) as next_task_completed_at,
         datediff(day, task_base.completed_at, next_task_completed_at) as task_day_intervals
-
     from task_base
     left join account on task_base.outreach_account_id = account.outreach_account_id or task_base.sf_account_id = account.sf_account_id
 ),
@@ -35,9 +33,13 @@ task as (
 opportunity as (
     select
         account.account_id,
-        opportunity_base.*
+        opportunity_base.amount,
+        opportunity_base.created_at as first_opportunity_open_at,
+        case when opportunity_base.opportunity_status = 'Won' then opportunity_base.close_date end as first_opportunity_closed_at,
+        row_number() over (partition by account.account_id order by opportunity_base.created_at asc) as rnk
     from opportunity_base
     left join account on opportunity_base.outreach_account_id = account.outreach_account_id or opportunity_base.sf_account_id = account.sf_account_id
+    qualify rnk = 1
 ),
 
 touches_til_open_deal as (

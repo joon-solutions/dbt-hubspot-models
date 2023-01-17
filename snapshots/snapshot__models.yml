@@ -3,7 +3,7 @@ version: 2
 
 snapshots:
   - name: outreach_opportunity_snapshot
-    description: ""
+    description: "Snapshot table which records & keeps track of the historical opportunity from Outreach source"
     columns:
       - name: dbt_scd_id
         tests:
@@ -12,7 +12,7 @@ snapshots:
           - dbt_utils.at_least_one
 
   - name: salesforce_opportunity_snapshot
-    description: ""
+    description: "Snapshot table which records & keeps track of the historical opportunity from Salesforce source"
     columns:
       - name: dbt_scd_id
         tests:
