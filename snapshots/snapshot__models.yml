@@ -19,4 +19,3 @@ snapshots:
           - unique
           - not_null
           - dbt_utils.at_least_one
-

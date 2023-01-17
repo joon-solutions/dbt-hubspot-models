@@ -171,7 +171,12 @@ models:
 snapshots:
   canvas_dbt:
     +required_tests: {"unique.*|not_null|at_least_one": 3}
+<<<<<<< HEAD
     +materialized: snapshot
     +target_schema: "{% if target.name == 'prod' %}snapshots{% else %}{{ target.schema }}{% endif %}"
     
+=======
+    +materialized: table
+    +target_schema: "{{ 'snapshots' if target.name == 'prod' else target.schema }}"
+>>>>>>> 9ad4fac6f8c6af83b416c8d5ff7b7d443604c8f1
 
