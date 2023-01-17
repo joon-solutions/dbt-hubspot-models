@@ -4,7 +4,6 @@ with outreach as (
         opportunity_id as outreach_opportunity_id,
         opportunity_name,
         account_id as outreach_account_id,
-        owner_id as outreach_owner_id,
         amount,
         close_date,
         opportunity_status,
@@ -12,8 +11,12 @@ with outreach as (
         is_closed,
         created_at,
         updated_at,
-        'outreach' as source
-    from {{ ref('stg__outreach__opportunity') }}
+        'outreach' as source,
+        dbt_updated_at,
+        dbt_valid_from,
+        dbt_valid_to
+
+    from {{ ref('stg__outreach__opportunity_scd') }}
 ),
 
 sf as (
@@ -21,7 +24,6 @@ sf as (
         opportunity_id as sf_opportunity_id,
         opportunity_name,
         account_id as sf_account_id,
-        owner_id as sf_owner_id,
         amount,
         close_date,
         opportunity_status,
@@ -29,18 +31,19 @@ sf as (
         is_closed,
         created_date,
         updated_at,
-        'sf' as source
-    from {{ ref('stg__salesforce__opportunity') }}
+        'sf' as source,
+        dbt_updated_at,
+        dbt_valid_from,
+        dbt_valid_to
+    from {{ ref('stg__salesforce__opportunity_scd') }}
 ),
 
 joined as (
     select
         outreach.outreach_opportunity_id,
         outreach.outreach_account_id,
-        outreach.outreach_owner_id,
         sf.sf_opportunity_id,
         sf.sf_account_id,
-        sf.sf_owner_id,
         coalesce(outreach.opportunity_name, sf.opportunity_name) as opportunity_name,
         coalesce(outreach.amount, sf.amount) as amount,
         coalesce(outreach.close_date, sf.close_date) as close_date,
@@ -50,15 +53,25 @@ joined as (
         coalesce(outreach.created_at, sf.created_date) as created_at,
         coalesce(outreach.source, sf.source) as source,
         coalesce(outreach.updated_at, sf.updated_at) as updated_at,
-        {{ dbt_utils.surrogate_key(['outreach.outreach_opportunity_id', 'sf.sf_opportunity_id']) }} as opportunity_id
-
-    from outreach
-    full outer join sf on outreach.opportunity_name = sf.opportunity_name
+        coalesce(outreach.dbt_updated_at, sf.dbt_updated_at) as dbt_updated_at,
+        coalesce(outreach.dbt_valid_from, sf.dbt_valid_from) as dbt_valid_from,
+        coalesce(outreach.dbt_valid_to, sf.dbt_valid_to) as dbt_valid_to,
+        {{ join_snapshots(
+                'outreach', 
+                'sf', 
+                'dbt_valid_to',
+                'dbt_valid_from', 
+                'dbt_valid_to', 
+                'dbt_valid_from',
+                'opportunity_name', 
+                'opportunity_name') }}
 ),
 
 final as (
     select
         *,
+        {{ dbt_utils.surrogate_key(['outreach_opportunity_id', 'sf_opportunity_id','add_sf_valid_to','add_sf_valid_from']) }} as opportunity_scd_id,
+        {{ dbt_utils.surrogate_key(['outreach_opportunity_id', 'sf_opportunity_id']) }} as opportunity_id,
         case when
             opportunity_status = 'Won' then 1
             else 0 end as count_won,
@@ -66,6 +79,14 @@ final as (
         case when
             opportunity_status = 'Lost' then 1
             else 0 end as count_lost,
+
+        case when
+            opportunity_status = 'Pipeline' then 1
+            else 0 end as count_pipeline,
+
+        case when
+            opportunity_status = 'Other' then 1
+            else 0 end as count_other,
 
         case
             when is_closed then 1

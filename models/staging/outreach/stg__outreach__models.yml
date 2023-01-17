@@ -10,6 +10,17 @@ models:
           - unique
           - not_null
           - dbt_utils.at_least_one
+
+  - name: stg__outreach__opportunity_scd
+    description: Each record represents an Outreach opportunity enriched with opportunity stage attributes
+    columns:
+      - name: opportunity_id_scd
+        description: Unique ID for an Oureach opportunity
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+
   - name: stg__outreach__sequence
     description: Each record represents an Outreach sequence with a targeted prospect
     columns:

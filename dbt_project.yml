@@ -141,6 +141,8 @@ vars:
   outreach_sequence: true
   outreach_sequence_state: true
   outreach_task: true
+  max_base_dates: '2023-12-31'
+  min_base_dates: '2022-12-28'
   outreach_user: true
 
 # Configuring models
@@ -166,3 +168,7 @@ models:
       +required_tests: {"unique.*|not_null|at_least_one": 3}
       +materialized: table
 
+snapshots:
+  canvas_dbt:
+    +required_tests: {"unique.*|not_null|at_least_one": 3}
+    +target_schema: "{% if target.name == 'prod' %}snapshots{% else %}{{ target.schema }}{% endif %}"

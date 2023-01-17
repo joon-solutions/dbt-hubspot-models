@@ -23,23 +23,32 @@ models:
           - dbt_utils.at_least_one
 
   - name: int__outreach_sf__task
-    description: "{{ doc(\"outreach_sf_task_id\") }}"
+    description: Each record represents a task from either Outreach & Saleforce sources
     columns:
       - name: task_id
-        description: global ID of a task, to differentiate with outreach_task_id and sf_task_id
+        description: "{{ doc(\"outreach_sf_task_id\") }}"
         tests:
           - unique
           - not_null
           - dbt_utils.at_least_one 
 
+  - name: int__outreach_sf__opportunity_scd
+    description: The combination of salesforce and outreach opportunity using the base of 2 SCD tables.
+    columns:
+      - name: opportunity_scd_id
+        description: "{{ doc(\"outreach_sf_opportunity_id\") }}"
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one 
+        
   - name: int__outreach_sf__user
-    description: "{{ doc(\"outreach_sf_user_id\") }}"
+    description: Each record represents a user from either Outreach & Saleforce sources
     columns:
       - name: user_id
-        description: global ID of an user, to differentiate with outreach_user_id and sf_user_id
+        description: "{{ doc(\"outreach_sf_user_id\") }}"
         tests:
           - unique
           - not_null
           - dbt_utils.at_least_one 
-
           

@@ -48,6 +48,7 @@ final as (
         website,
         parse_url(website) as extract_domain
 
+
         --The below script allows for pass through columns.
         {% if var('account_pass_through_columns',[]) != [] %},
             {{ var('account_pass_through_columns') | join (", ") }}

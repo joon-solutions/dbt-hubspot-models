@@ -456,6 +456,16 @@ models:
           metrics:
             total_linear_points:
               type: sum
+
+  - name: fct__outreach_sf__opportunity_by_account
+    description: The combination of Outreach & Salesforce Opportunity joined with Account information, pivot.
+    columns:
+      - name: opportunity_account_scd_id
+        description: ''
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
       - name: forty_twenty_forty_amounts
         description: >-
           Allocated opportunity amount for given task based on twenty-forty
@@ -504,8 +514,25 @@ models:
           dimension:
             type: string
           metrics:
-            opportunity_count:
+            number_of_account:
               type: count
+
+  - name: rpt__outreach_sf__account_scd
+    description: The combination of Outreach & Salesforce Opportunity joined with Account information
+    columns:
+      - name: id
+        description: ''
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+        meta:
+          dimension:
+            type: string
+          metrics:
+            number_of_account:
+              type: count
+
       - name: outreach_opportunity_id
         description: Id of the opportunity in Outreach database
         meta:

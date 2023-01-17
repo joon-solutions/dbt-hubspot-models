@@ -17,6 +17,8 @@ env:
   
   DBT_USER: ${{ secrets.DBT_USER }}
   DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
+  DBT_SCHEMA_CI: ${{ secrets.DBT_SCHEMA_CI }} 
+  # DBT_SCHEMA_CI: CI -- need this inf visible to test first
   DBT_SCHEMA: ${{ secrets.DBT_SCHEMA }}
 
 jobs:
@@ -37,17 +39,20 @@ jobs:
       - name: Install dependencies
         run: |
           pip3 install -r requirements.txt
-          dbt deps
+          dbt deps --target ci
 
       - name: Install lightdash CLI
         run: npm install -g @lightdash/cli
 
       - name: Seeding
-        run: dbt seed
+        run: dbt seed --target ci
+
+      - name: Snapshot
+        run: dbt snapshot --target ci
 
       - name: Check required tests
         run: |
-          dbt run-operation required_tests
+          dbt run-operation required_tests --target ci
 
       - name: Lint with sqlfluff
         run: |
@@ -57,11 +62,11 @@ jobs:
       ## Run delta models
       - name: Run models
         id: run_dbt
-        run: dbt run
+        run: dbt run --target ci
 
       ## Test delta models
       - name: Test models
-        run: dbt test
+        run: dbt test --target ci
 
       - name: Lightdash CLI start preview
         env:

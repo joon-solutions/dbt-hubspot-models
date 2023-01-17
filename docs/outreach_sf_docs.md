@@ -21,5 +21,3 @@ Global opportunity id, synthesized by salesforce & outreach opportunity_id.
 {% docs outreach_sf_user_id %}
 Global user id, synthesized by salesforce & outreach user_id.
 {% enddocs %}
-
-
