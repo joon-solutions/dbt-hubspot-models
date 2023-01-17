@@ -70,7 +70,7 @@ joined as (
 final as (
     select
         *,
-        {{ dbt_utils.surrogate_key(['outreach_opportunity_id', 'sf_opportunity_id','dbt_valid_from','dbt_valid_to']) }} as opportunity_scd_id,
+        {{ dbt_utils.surrogate_key(['outreach_opportunity_id', 'sf_opportunity_id','add_sf_valid_to','add_sf_valid_from']) }} as opportunity_scd_id,
         {{ dbt_utils.surrogate_key(['outreach_opportunity_id', 'sf_opportunity_id']) }} as opportunity_id,
         case when
             opportunity_status = 'Won' then 1
