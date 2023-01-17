@@ -17,8 +17,8 @@ env:
   
   DBT_USER: ${{ secrets.DBT_USER }}
   DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
-  # DBT_SCHEMA_CI: ${{ secrets.DBT_SCHEMA_CI }} -- need this inf visible to test first
-  DBT_SCHEMA_CI: CI
+  DBT_SCHEMA_CI: ${{ secrets.DBT_SCHEMA_CI }} 
+  # DBT_SCHEMA_CI: CI -- need this inf visible to test first
   DBT_SCHEMA: ${{ secrets.DBT_SCHEMA }}
 
 jobs:
