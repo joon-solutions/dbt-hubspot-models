@@ -16,7 +16,7 @@ with outreach as (
         dbt_valid_from,
         dbt_valid_to
 
-    from {{ ref('outreach_opportunity_snapshot') }}
+    from {{ ref('stg__outreach__opportunity_scd') }}
 ),
 
 sf as (
@@ -35,7 +35,7 @@ sf as (
         dbt_updated_at,
         dbt_valid_from,
         dbt_valid_to
-    from {{ ref('salesforce_opportunity_snapshot') }}
+    from {{ ref('stg__salesforce__opportunity_scd') }}
 ),
 
 joined as (

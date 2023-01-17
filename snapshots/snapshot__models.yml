@@ -1,0 +1,22 @@
+
+version: 2
+
+snapshots:
+  - name: outreach__opportunity_snapshot
+    description: ""
+    columns:
+      - name: opportunity_id_scd
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+
+  - name: salesforce__opportunity_snapshot
+    description: ""
+    columns:
+      - name: opportunity_id_scd
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+

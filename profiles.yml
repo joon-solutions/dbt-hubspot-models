@@ -7,11 +7,36 @@ canvas_dbt:
       # Replace by your user/password or set the environment variables
       user: "{{ env_var('DBT_USER') }}"
       password: "{{ env_var('DBT_PASSWORD') }}"
-
       role: JOON_SOLUTIONS_ROLE
       database: JOON_SOLUTIONS
       warehouse: COMPUTE_WH
       # Replace with dbt_yourname or set environment variable DBT_SCHEMA
       schema: "{{ env_var('DBT_SCHEMA') }}"
+      threads: 10
+      client_session_keep_alive: False
+    ci:
+      type: snowflake
+      account: vta74817
+      # Replace by your user/password or set the environment variables
+      user: "{{ env_var('DBT_USER') }}"
+      password: "{{ env_var('DBT_PASSWORD') }}"
+      role: JOON_SOLUTIONS_ROLE
+      database: JOON_SOLUTIONS
+      warehouse: COMPUTE_WH
+      # Replace with dbt_yourname or set environment variable DBT_SCHEMA
+      schema: "{{ env_var('DBT_SCHEMA_CI') }}"
+      threads: 10
+      client_session_keep_alive: False
+    prod:
+      type: snowflake
+      account: vta74817
+      # Replace by your user/password or set the environment variables
+      user: "{{ env_var('DBT_USER') }}"
+      password: "{{ env_var('DBT_PASSWORD') }}"
+      role: JOON_SOLUTIONS_ROLE
+      database: JOON_SOLUTIONS
+      warehouse: COMPUTE_WH
+      # Replace with dbt_yourname or set environment variable DBT_SCHEMA
+      schema: "{{ env_var('DBT_SCHEMA_PROD') }}"
       threads: 10
       client_session_keep_alive: False
