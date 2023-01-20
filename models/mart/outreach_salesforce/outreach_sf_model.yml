@@ -456,12 +456,13 @@ models:
           metrics:
             total_linear_points:
               type: sum
-
   - name: fct__outreach_sf__opportunity_by_account
-    description: The combination of Outreach & Salesforce Opportunity joined with Account information, pivot.
+    description: >-
+      The combination of Outreach & Salesforce Opportunity joined with Account
+      information, pivot.
     columns:
       - name: opportunity_account_scd_id
-        description: ''
+        description: ""
         tests:
           - unique
           - not_null
@@ -516,12 +517,13 @@ models:
           metrics:
             number_of_account:
               type: count
-
   - name: rpt__outreach_sf__account_scd
-    description: The combination of Outreach & Salesforce Opportunity joined with Account information
+    description: >-
+      The combination of Outreach & Salesforce Opportunity joined with Account
+      information
     columns:
       - name: id
-        description: ''
+        description: ""
         tests:
           - unique
           - not_null
@@ -532,80 +534,11 @@ models:
           metrics:
             number_of_account:
               type: count
-
-      - name: outreach_opportunity_id
-        description: Id of the opportunity in Outreach database
-        meta:
-          dimension:
-            type: string
-      - name: outreach_account_id
-        description: Id of the account in Outreach database
-        meta:
-          dimension:
-            type: string
-      - name: outreach_owner_id
-        description: Id of the opportunity's sales rep in Outreach database
-        meta:
-          dimension:
-            type: string
-      - name: sf_opportunity_id
-        description: Id of the opportunity in Salesforce database
-        meta:
-          dimension:
-            type: number
-      - name: sf_account_id
-        description: Id of the account in Salesforce database
-        meta:
-          dimension:
-            type: number
-      - name: sf_owner_id
-        description: Id of opportunity's sales rep in Salesforce database
-        meta:
-          dimension:
-            type: number
-      - name: opportunity_name
-        description: Opportunity name
-        meta:
-          dimension:
-            type: string
-      - name: amount
-        description: Opportunity amount
-        meta:
-          dimension:
-            type: number
-          metrics:
-            total_amount:
-              type: sum
-      - name: close_date
-        description: Day when opportunity is closed
-        meta:
-          dimension:
-            type: timestamp
-      - name: opportunity_status
-        description: Status of th opportunity
-        meta:
-          dimension:
-            type: string
       - name: opportunity_probability
         description: the field that quantifies the likelihood of winning an opportunity
         meta:
           dimension:
             type: number
-      - name: is_closed
-        description: Boolean field indicating whether an opportunity is closed
-        meta:
-          dimension:
-            type: boolean
-      - name: created_at
-        description: Date when opportunity is created
-        meta:
-          dimension:
-            type: timestamp
-      - name: source
-        description: "Data source: either salesforce or outreach"
-        meta:
-          dimension:
-            type: string
       - name: count_won
         description: total number of won cases for the account
         meta:
@@ -654,23 +587,72 @@ models:
           metrics:
             total_amount_lost:
               type: sum
-      - name: sales_rep_email
-        description: Email of the sales rep of the opportunity
+      - name: account_id
+        description: ""
         meta:
           dimension:
             type: string
-      - name: sales_rep_name
-        description: Name of the sales rep of the opportunity
+          metrics:
+            number_of_account:
+              type: count
+      - name: date_day
+        description: ""
+        meta:
+          dimension:
+            type: date
+      - name: account_host
+        description: ""
         meta:
           dimension:
             type: string
-      - name: sales_rep_title
-        description: Job title of the sales rep of the opportunity
+      - name: account_name
+        description: ""
         meta:
           dimension:
             type: string
-      - name: sales_rep_phone_number
-        description: Phone number of the sales rep of the opportunity
+      - name: number_of_employees
+        description: ""
+        meta:
+          dimension:
+            type: number
+          metrics:
+            average_employees_number:
+              type: average
+      - name: industry
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: buyer_intent_score
+        description: ""
+        meta:
+          dimension:
+            type: number
+          metrics:
+            average_buyer_intent_score:
+              type: average
+      - name: account_created_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: domain
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: billing_country
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: number_of_opportunity
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: account_status
+        description: ""
         meta:
           dimension:
             type: string
