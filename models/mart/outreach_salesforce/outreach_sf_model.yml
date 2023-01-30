@@ -239,7 +239,7 @@ models:
           dimension:
             type: string
           metrics:
-            number_of_account:
+            count_account:
               type: count
       - name: sf_account_id
         description: account_id from salesforce
@@ -369,6 +369,7 @@ models:
           metrics:
             avg_probability:
               type: average
+
   - name: fct__outreach_sf__task
     description: >-
       Each record represent a task filed in either Outreach or Salesforce app.
@@ -456,13 +457,12 @@ models:
           metrics:
             total_linear_points:
               type: sum
+
   - name: fct__outreach_sf__opportunity_by_account
-    description: >-
-      The combination of Outreach & Salesforce Opportunity joined with Account
-      information, pivot.
+    description: The combination of Outreach & Salesforce Opportunity joined with Account information, pivot.
     columns:
       - name: opportunity_account_scd_id
-        description: ""
+        description: ''
         tests:
           - unique
           - not_null
@@ -500,6 +500,7 @@ models:
           metrics:
             total_linear_amounts:
               type: sum
+
   - name: fct__outreach_sf__opportunity
     description: >-
       The combination of Outreach & Salesforce Opportunity enriched with
@@ -515,8 +516,150 @@ models:
           dimension:
             type: string
           metrics:
-            number_of_account:
+            opportunity_count:
               type: count
+      - name: outreach_opportunity_id
+        description: Id of the opportunity in Outreach database
+        meta:
+          dimension:
+            type: string
+      - name: outreach_account_id
+        description: Id of the account in Outreach database
+        meta:
+          dimension:
+            type: string
+      - name: outreach_owner_id
+        description: Id of the opportunity's sales rep in Outreach database
+        meta:
+          dimension:
+            type: string
+      - name: sf_opportunity_id
+        description: Id of the opportunity in Salesforce database
+        meta:
+          dimension:
+            type: number
+      - name: sf_account_id
+        description: Id of the account in Salesforce database
+        meta:
+          dimension:
+            type: number
+      - name: sf_owner_id
+        description: Id of opportunity's sales rep in Salesforce database
+        meta:
+          dimension:
+            type: number
+      - name: opportunity_name
+        description: Opportunity name
+        meta:
+          dimension:
+            type: string
+      - name: amount
+        description: Opportunity amount
+        meta:
+          dimension:
+            type: number
+          metrics:
+            total_amount:
+              type: sum
+      - name: close_date
+        description: Day when opportunity is closed
+        meta:
+          dimension:
+            type: timestamp
+      - name: opportunity_status
+        description: Status of th opportunity
+        meta:
+          dimension:
+            type: string
+      - name: opportunity_probability
+        description: the field that quantifies the likelihood of winning an opportunity
+        meta:
+          dimension:
+            type: number
+      - name: is_closed
+        description: Boolean field indicating whether an opportunity is closed
+        meta:
+          dimension:
+            type: boolean
+      - name: created_at
+        description: Date when opportunity is created
+        meta:
+          dimension:
+            type: timestamp
+      - name: source
+        description: "Data source: either salesforce or outreach"
+        meta:
+          dimension:
+            type: string
+      - name: count_won
+        description: total number of won cases for the account
+        meta:
+          dimension:
+            type: number
+          metrics:
+            total_won_opportunity:
+              type: sum
+      - name: count_lost
+        description: total number of lost cases for the account
+        meta:
+          dimension:
+            type: number
+          metrics:
+            total_lost_opportunity:
+              type: sum
+      - name: count_closed
+        description: total number of closed cases for the account
+        meta:
+          dimension:
+            type: number
+          metrics:
+            total_closed_opportunity:
+              type: sum
+      - name: count_open
+        description: total number of open cases for the account
+        meta:
+          dimension:
+            type: number
+          metrics:
+            total_open_opportunity:
+              type: sum
+      - name: amount_won
+        description: total amount won for the account
+        meta:
+          dimension:
+            type: number
+          metrics:
+            total_amount_won:
+              type: sum
+      - name: amount_lost
+        description: total amount lost for the account
+        meta:
+          dimension:
+            type: number
+          metrics:
+            total_amount_lost:
+              type: sum
+      - name: sales_rep_email
+        description: Email of the sales rep of the opportunity
+        meta:
+          dimension:
+            type: string
+      - name: sales_rep_name
+        description: Name of the sales rep of the opportunity
+        meta:
+          dimension:
+            type: string
+      - name: sales_rep_title
+        description: Job title of the sales rep of the opportunity
+        meta:
+          dimension:
+            type: string
+      - name: sales_rep_phone_number
+        description: Phone number of the sales rep of the opportunity
+        meta:
+          dimension:
+            type: string
+              
   - name: rpt__outreach_sf__account_scd
     description: >-
       The combination of Outreach & Salesforce Opportunity joined with Account
@@ -531,9 +674,6 @@ models:
         meta:
           dimension:
             type: string
-          metrics:
-            number_of_account:
-              type: count
       - name: opportunity_probability
         description: the field that quantifies the likelihood of winning an opportunity
         meta:
@@ -593,7 +733,7 @@ models:
           dimension:
             type: string
           metrics:
-            number_of_account:
+            count_account:
               type: count
       - name: date_day
         description: ""
