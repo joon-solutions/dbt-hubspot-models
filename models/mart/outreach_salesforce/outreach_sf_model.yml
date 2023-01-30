@@ -433,6 +433,15 @@ models:
           metrics:
             total_forty_twenty_forty_points:
               type: sum
+      - name: forty_twenty_forty_amounts
+        description: >-
+          Allocated opportunity amount for given task based on twenty-forty
+          rule, details
+          https://agencyanalytics.com/blog/marketing-attribution-models
+        meta:
+          metrics:
+            total_forty_twenty_forty_amounts:
+              type: sum
       - name: first_touch_points
         description: >-
           Allocated point for given task based on first-touch rule, details
@@ -456,25 +465,6 @@ models:
         meta:
           metrics:
             total_linear_points:
-              type: sum
-
-  - name: fct__outreach_sf__opportunity_by_account
-    description: The combination of Outreach & Salesforce Opportunity joined with Account information, pivot.
-    columns:
-      - name: opportunity_account_scd_id
-        description: ''
-        tests:
-          - unique
-          - not_null
-          - dbt_utils.at_least_one
-      - name: forty_twenty_forty_amounts
-        description: >-
-          Allocated opportunity amount for given task based on twenty-forty
-          rule, details
-          https://agencyanalytics.com/blog/marketing-attribution-models
-        meta:
-          metrics:
-            total_forty_twenty_forty_amounts:
               type: sum
       - name: first_touch_amounts
         description: >-
@@ -501,6 +491,16 @@ models:
             total_linear_amounts:
               type: sum
 
+  - name: fct__outreach_sf__opportunity_by_account
+    description: The combination of Outreach & Salesforce Opportunity joined with Account information, pivot.
+    columns:
+      - name: opportunity_account_scd_id
+        description: ''
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+      
   - name: fct__outreach_sf__opportunity
     description: >-
       The combination of Outreach & Salesforce Opportunity enriched with
