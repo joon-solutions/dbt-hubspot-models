@@ -4,6 +4,7 @@ with outreach as (
         opportunity_id as outreach_opportunity_id,
         opportunity_name,
         account_id as outreach_account_id,
+        owner_id as outreach_owner_id,
         amount,
         close_date,
         opportunity_status,
@@ -14,7 +15,8 @@ with outreach as (
         'outreach' as source,
         dbt_updated_at,
         dbt_valid_from,
-        dbt_valid_to
+        -- cast the field to future dates to avoid null fields
+        coalesce(dbt_valid_to, cast('{{ var("future_proof_date") }}' as timestamp)) as valid_to
 
     from {{ ref('stg__outreach__opportunity_scd') }}
 ),
@@ -24,6 +26,7 @@ sf as (
         opportunity_id as sf_opportunity_id,
         opportunity_name,
         account_id as sf_account_id,
+        owner_id as sf_owner_id,
         amount,
         close_date,
         opportunity_status,
@@ -34,7 +37,8 @@ sf as (
         'sf' as source,
         dbt_updated_at,
         dbt_valid_from,
-        dbt_valid_to
+        -- cast the field to future dates to avoid null fields
+        coalesce(dbt_valid_to, cast('{{ var("future_proof_date") }}' as timestamp)) as valid_to
     from {{ ref('stg__salesforce__opportunity_scd') }}
 ),
 
@@ -42,8 +46,10 @@ joined as (
     select
         outreach.outreach_opportunity_id,
         outreach.outreach_account_id,
+        outreach.outreach_owner_id,
         sf.sf_opportunity_id,
         sf.sf_account_id,
+        sf.sf_owner_id,
         coalesce(outreach.opportunity_name, sf.opportunity_name) as opportunity_name,
         coalesce(outreach.amount, sf.amount) as amount,
         coalesce(outreach.close_date, sf.close_date) as close_date,
@@ -54,14 +60,14 @@ joined as (
         coalesce(outreach.source, sf.source) as source,
         coalesce(outreach.updated_at, sf.updated_at) as updated_at,
         coalesce(outreach.dbt_updated_at, sf.dbt_updated_at) as dbt_updated_at,
-        coalesce(outreach.dbt_valid_from, sf.dbt_valid_from) as dbt_valid_from,
-        coalesce(outreach.dbt_valid_to, sf.dbt_valid_to) as dbt_valid_to,
+        outreach.valid_to as outreach_valid_to,
+        sf.valid_to as salesforce_valid_to,
         {{ join_snapshots(
                 'outreach', 
                 'sf', 
-                'dbt_valid_to',
+                'valid_to',
                 'dbt_valid_from', 
-                'dbt_valid_to', 
+                'valid_to', 
                 'dbt_valid_from',
                 'opportunity_name', 
                 'opportunity_name') }}
@@ -70,7 +76,7 @@ joined as (
 final as (
     select
         *,
-        {{ dbt_utils.surrogate_key(['outreach_opportunity_id', 'sf_opportunity_id','add_sf_valid_to','add_sf_valid_from']) }} as opportunity_scd_id,
+        {{ dbt_utils.surrogate_key(['outreach_opportunity_id', 'sf_opportunity_id','outreach_sf_valid_to','outreach_sf_valid_from']) }} as opportunity_scd_id,
         {{ dbt_utils.surrogate_key(['outreach_opportunity_id', 'sf_opportunity_id']) }} as opportunity_id,
         case when
             opportunity_status = 'Won' then 1
