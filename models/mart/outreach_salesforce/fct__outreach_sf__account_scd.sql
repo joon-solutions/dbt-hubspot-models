@@ -48,7 +48,7 @@ joined as (
         coalesce(sum(opportunity_agg.count_won), 0) as count_won,
         coalesce(sum(opportunity_agg.count_lost), 0) as count_lost,
         coalesce(sum(opportunity_agg.count_closed), 0) as count_closed,
-        coalesce(sum(opportunity_agg.count_open), 0) as count_open   
+        coalesce(sum(opportunity_agg.count_open), 0) as count_open
 
     from account
     left join opportunity_agg on account.sf_account_id = opportunity_agg.sf_account_id
