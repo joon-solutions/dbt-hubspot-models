@@ -49,10 +49,10 @@ joined as (
         coalesce(sum(opportunity_agg.count_lost), 0) as count_lost,
         coalesce(sum(opportunity_agg.count_closed), 0) as count_closed,
         coalesce(sum(opportunity_agg.count_open), 0) as count_open
-
     from account
     left join opportunity_agg on account.sf_account_id = opportunity_agg.sf_account_id
         or account.outreach_account_id = opportunity_agg.outreach_account_id
+    where opportunity_agg.is_effective
     {{ dbt_utils.group_by(n=14) }}
 ),
 
