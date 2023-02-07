@@ -490,16 +490,6 @@ models:
           metrics:
             total_linear_amounts:
               type: sum
-
-  - name: fct__outreach_sf__opportunity_by_account
-    description: The combination of Outreach & Salesforce Opportunity joined with Account information, pivot.
-    columns:
-      - name: opportunity_account_scd_id
-        description: ''
-        tests:
-          - unique
-          - not_null
-          - dbt_utils.at_least_one
       
   - name: fct__outreach_sf__opportunity
     description: >-
@@ -660,10 +650,10 @@ models:
           dimension:
             type: string
               
-  - name: rpt__outreach_sf__account_scd
+  - name: fct__outreach_sf__account_scd
     description: >-
-      The combination of Outreach & Salesforce Opportunity joined with Account
-      information
+      SCD model for The combination of Outreach & Salesforce Opportunity joined with Account
+      to track account status change over time
     columns:
       - name: id
         description: ""
