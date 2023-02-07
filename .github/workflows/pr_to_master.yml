@@ -17,8 +17,7 @@ env:
   
   DBT_USER: ${{ secrets.DBT_USER }}
   DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
-  DBT_SCHEMA_CI: ${{ secrets.DBT_SCHEMA_CI }} 
-  # DBT_SCHEMA_CI: CI -- need this inf visible to test first
+  DBT_SCHEMA_CI: ${{ secrets.DBT_SCHEMA_CI }}
   DBT_SCHEMA: ${{ secrets.DBT_SCHEMA }}
 
 jobs:
@@ -40,9 +39,10 @@ jobs:
         run: |
           pip3 install -r requirements.txt
           dbt deps --target ci
-
-      - name: Install lightdash CLI
-        run: npm install -g @lightdash/cli
+      
+      # remove as we no longer use Lightdash
+      # - name: Install lightdash CLI
+      #   run: npm install -g @lightdash/cli
 
       - name: Seeding
         run: dbt seed --target ci
@@ -68,10 +68,11 @@ jobs:
       - name: Test models
         run: dbt test --target ci
 
-      - name: Lightdash CLI start preview
-        env:
-          LIGHTDASH_API_KEY: ${{ secrets.LIGHTDASH_API_KEY }}          
-          LIGHTDASH_PROJECT: ${{ secrets.LIGHTDASH_PROJECT }}          
-          LIGHTDASH_URL: ${{ secrets.LIGHTDASH_URL }}          
+      # remove as we no longer use Lightdash
+      # - name: Lightdash CLI start preview
+      #   env:
+      #     LIGHTDASH_API_KEY: ${{ secrets.LIGHTDASH_API_KEY }}          
+      #     LIGHTDASH_PROJECT: ${{ secrets.LIGHTDASH_PROJECT }}          
+      #     LIGHTDASH_URL: ${{ secrets.LIGHTDASH_URL }}          
 
-        run:  lightdash start-preview --project-dir . --profiles-dir . --name ${GITHUB_HEAD_REF}
+      #   run:  lightdash start-preview --project-dir . --profiles-dir . --name ${GITHUB_HEAD_REF}

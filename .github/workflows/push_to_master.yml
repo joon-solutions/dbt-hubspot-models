@@ -11,7 +11,6 @@ env:
   DBT_USER: ${{ secrets.DBT_USER }}
   DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
   DBT_SCHEMA_PROD: ${{ secrets.DBT_SCHEMA_PROD }} 
-  # DBT_SCHEMA_PROD: ANALYTICS -- need this inf visible to test first
   DBT_SCHEMA: ${{ secrets.DBT_SCHEMA }}
 
   ## Environment variables for running Dbt on Google BigQuery
@@ -76,9 +75,10 @@ jobs:
           dbt deps --target prod
           dbt seed --target prod
           dbt snapshot --target prod
-
-      - name: Install lightdash CLI
-        run: npm install -g @lightdash/cli
+          
+      # remove as we no longer use Lightdash
+      # - name: Install lightdash CLI
+      #   run: npm install -g @lightdash/cli
 
       ## Run delta models
       - name: Run models
@@ -89,10 +89,10 @@ jobs:
       - name: Test models
         run: dbt test --target prod
 
-      - name: Lightdash CLI deploy 
-        env:
-          LIGHTDASH_API_KEY: ${{ secrets.LIGHTDASH_API_KEY }}          
-          LIGHTDASH_PROJECT: ${{ secrets.LIGHTDASH_PROJECT }}          
-          LIGHTDASH_URL: ${{ secrets.LIGHTDASH_URL }}          
+      # - name: Lightdash CLI deploy 
+      #   env:
+      #     LIGHTDASH_API_KEY: ${{ secrets.LIGHTDASH_API_KEY }}          
+      #     LIGHTDASH_PROJECT: ${{ secrets.LIGHTDASH_PROJECT }}          
+      #     LIGHTDASH_URL: ${{ secrets.LIGHTDASH_URL }}          
 
-        run: lightdash deploy --project-dir . --profiles-dir .
+      #   run: lightdash deploy --project-dir . --profiles-dir .
