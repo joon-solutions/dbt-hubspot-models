@@ -3,7 +3,7 @@
 
 with source as (
 
-    select * 
+    select *
     from {{ source('salesforce', 'lead') }}
 
 ),
@@ -23,7 +23,7 @@ renamed as (
 ),
 
 final as (
-    select 
+    select
         lead_id,
         account_id,
         contact_id,
@@ -57,4 +57,3 @@ final as (
 
 select *
 from final
-

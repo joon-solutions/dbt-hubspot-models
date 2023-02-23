@@ -11,19 +11,19 @@ account as (
 ),
 
 joined as (
-    select 
-        account.account_id,
-        account_name,
-        account_host,
-        industry,
+    select
+        account.account.account_id,
+        account.account_name,
+        account.account_host,
+        account.industry,
         coalesce(count(opportunity.opportunity_id), 0) as opportunity_count,
         coalesce(sum(case when opportunity.opportunity_status = 'Won' then opportunity.amount else 0 end), 0) as total_amount_won,
         coalesce(sum(case when opportunity.opportunity_status = 'Lost' then opportunity.amount else 0 end), 0) as total_amount_lost,
         coalesce(sum(case when opportunity.opportunity_status in ('Pipeline', 'Other') then opportunity.amount else 0 end), 0) as total_amount_open,
         ----
-        coalesce(count(case when opportunity.opportunity_status = 'Won' then opportunity.opportunity_id else null end), 0) as won_deals_count,
-        coalesce(count(case when opportunity.opportunity_status = 'Lost' then opportunity.opportunity_id else null end), 0) as lost_deals_count,
-        coalesce(count(case when opportunity.opportunity_status in ('Pipeline', 'Other') then opportunity.opportunity_id else null end), 0) as open_deals_count
+        coalesce(count(case when opportunity.opportunity_status = 'Won' then opportunity.opportunity_id end), 0) as won_deals_count,
+        coalesce(count(case when opportunity.opportunity_status = 'Lost' then opportunity.opportunity_id end), 0) as lost_deals_count,
+        coalesce(count(case when opportunity.opportunity_status in ('Pipeline', 'Other') then opportunity.opportunity_id end), 0) as open_deals_count
     from account
     left join opportunity
     {{ dbt_utils.group_by(n=4) }}
