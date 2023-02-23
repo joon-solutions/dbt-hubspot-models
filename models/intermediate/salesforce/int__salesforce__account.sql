@@ -12,7 +12,7 @@ account as (
 
 joined as (
     select
-        account.account.account_id,
+        account.account_id,
         account.account_name,
         account.account_host,
         account.industry,
