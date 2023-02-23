@@ -142,5 +142,43 @@ models:
             type: number
 
 
+  - name: fct__salesforce__source
+    description: This table provides information around a MKT source, how many leads, customers, opportunities,etc that came from a certain source
+    columns:
+      - name: id
+        description: PK of the table, which is the combination of lead_source & utm flag
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+      - name: lead_source
+        description: The lead’s source.
+      - name: utm_medium
+        description: The UTM medium
+      - name: utm_source 
+        description: The UTM source
+      - name: utm_campaign
+        description: The UTM campaign
+      - name: total_opportunities
+        description: Total number of opportunities associated with a specified source
+      - name: total_won_opportunities
+        description:  Total number of won opportunities associated with a specified source
+      - name: total_lost_opportunities
+        description: Total number of lost opportunities associated with a specified source
+      - name: total_open_opportunities
+        description: Total number of open opportunities associated with a specified source
+      - name: total_won_amount
+        description: Total amount of won opportunities associated with a specified source
+      - name: total_lost_amount
+        description: Total amount of lost opportunities associated with a specified source
+      - name: total_open_amount
+        description: Total amount of open opportunities associated with a specified source
+      - name: unique_leads_count
+        description: Total leads associated with a specified source
+      - name: unique_prospective_count
+        description: Total prospects (accounts havent had any closed deals yet, only open deals) associated with a specified source
+      - name: unique_lost_customers_count
+        description: Total lost customers (accounts havent had any won deals yet, only lost deals) associated with a specified source
+      - name: unique_customers_count
+        description: Total customers (accounts have had at least one deal) associated with a specified source
 
-    

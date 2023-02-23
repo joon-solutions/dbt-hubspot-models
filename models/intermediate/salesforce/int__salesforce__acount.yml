@@ -1,0 +1,13 @@
+
+version: 2
+
+models:
+  - name: int__salesforce__account
+    description: Represents a Salesforce account enriched with opportunities metrics
+    columns:
+      - name: account_id
+        description: Account ID
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one

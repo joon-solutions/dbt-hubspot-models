@@ -167,3 +167,37 @@
 {{ return(columns) }}
 
 {% endmacro %}
+
+
+{% macro get_salesforce_lead_columns() %}
+
+{% set columns = [
+    {"name": "id", "datatype": dbt_utils.type_int(), "alias": "lead_id"},
+    {"name": "converted_account_id", "datatype": dbt_utils.type_int(), "alias": "account_id"},
+    {"name": "converted_contact_id", "datatype": dbt_utils.type_int(), "alias": "contact_id"},
+    {"name": "name", "datatype": dbt_utils.type_string(), "alias": "lead_name"},
+    {"name": "email", "datatype": dbt_utils.type_string(), "alias": "lead_email"},
+    {"name": "mobile_phone", "datatype": dbt_utils.type_string(), "alias": "lead_mobile_phone"},
+    {"name": "phone", "datatype": dbt_utils.type_string(), "alias": "lead_phone"},
+    {"name": "status", "datatype": dbt_utils.type_string(), "alias": "lead_status"},
+    {"name": "company", "datatype": dbt_utils.type_string()},
+    {"name": "title", "datatype": dbt_utils.type_string()},
+    {"name": "website", "datatype": dbt_utils.type_string()},
+    {"name": "country", "datatype": dbt_utils.type_string()},
+    {"name": "state", "datatype": dbt_utils.type_string()},
+    {"name": "city", "datatype": dbt_utils.type_string()},
+    {"name": "street", "datatype": dbt_utils.type_string()},
+    {"name": "lead_source", "datatype": dbt_utils.type_string()},
+    {"name": "utm_campaign_c", "datatype": dbt_utils.type_string(), "alias": "utm_campaign"},
+    {"name": "utm_content_c", "datatype": dbt_utils.type_string(), "alias": "utm_content"},
+    {"name": "utm_medium_c", "datatype": dbt_utils.type_string(), "alias": "utm_medium"},
+    {"name": "utm_source_c", "datatype": dbt_utils.type_string(), "alias": "utm_source"},
+    {"name": "utm_term_c", "datatype": dbt_utils.type_string(), "alias": "utm_term"},
+    {"name": "is_deleted", "datatype": "boolean"},
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "created_at", "datatype": dbt_utils.type_timestamp()}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}

@@ -105,6 +105,7 @@ vars:
   salesforce__account_enabled: true
   salesforce__opportunity_enabled: true
   salesforce__task_enabled: true
+  salesforce__lead_enabled: true
 
  # Salesforce pass through column variables
   account_pass_through_columns: []
