@@ -46,14 +46,14 @@ joined as (
             user_role.user_role_name as opportunity_owner_position,
             user_role.developer_name as opportunity_owner_developer_name,
             user_role.parent_role_id as opportunity_owner_parent_role_id,
-            user_role.rollup_description as opportunity_owner_rollup_description,
+            user_role.rollup_description as opportunity_owner_rollup_description
         {% endif %}
 
         -- opportunity.opportunity_status,
-        case when opportunity.is_created_this_month then opportunity.amount else 0 end as created_amount_this_month,
-        case when opportunity.is_created_this_quarter then opportunity.amount else 0 end as created_amount_this_quarter,
-        case when opportunity.is_closed_this_month then opportunity.amount else 0 end as closed_amount_this_month,
-        case when opportunity.is_closed_this_quarter then opportunity.amount else 0 end as closed_amount_this_quarter
+        -- case when opportunity.is_created_this_month then opportunity.amount else 0 end as created_amount_this_month,
+        -- case when opportunity.is_created_this_quarter then opportunity.amount else 0 end as created_amount_this_quarter,
+        -- case when opportunity.is_closed_this_month then opportunity.amount else 0 end as closed_amount_this_month,
+        -- case when opportunity.is_closed_this_quarter then opportunity.amount else 0 end as closed_amount_this_quarter
 
         --The below script allows for pass through columns.
 
