@@ -149,6 +149,7 @@ models:
         tests:
           - unique
           - not_null
+          - dbt_utils.at_least_one
       - name: avg_bookings_amount
         description: '{{ doc("avg_bookings_amount") }}'
       - name: avg_days_open
