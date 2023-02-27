@@ -401,3 +401,12 @@ models:
           - not_null
           - unique
 
+  - name: base__salesforce__lead
+    description: Represents a prospect or lead.
+    columns:
+      - name: lead_id
+        description: The unique, system-generated ID assigned during creation.
+        tests: 
+          - not_null
+          - unique
+

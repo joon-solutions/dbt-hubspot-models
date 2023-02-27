@@ -63,3 +63,4 @@ select
     *,
     extract_domain:host as account_host
 from final
+where not coalesce(is_deleted, false)

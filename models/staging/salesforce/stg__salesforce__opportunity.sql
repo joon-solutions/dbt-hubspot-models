@@ -62,7 +62,12 @@ joined as (
         case when opportunity_agg.is_created_this_month then opportunity_agg.amount else 0 end as created_amount_this_month,
         case when opportunity_agg.is_created_this_quarter then opportunity_agg.amount else 0 end as created_amount_this_quarter,
         case when opportunity_agg.is_closed_this_month then opportunity_agg.amount else 0 end as closed_amount_this_month,
-        case when opportunity_agg.is_closed_this_quarter then opportunity_agg.amount else 0 end as closed_amount_this_quarter
+        case when opportunity_agg.is_closed_this_quarter then opportunity_agg.amount else 0 end as closed_amount_this_quarter,
+        case when is_created_this_month then 1 else 0 end as created_count_this_month,
+        case when is_created_this_quarter then 1 else 0 end as created_count_this_quarter,
+        case when is_closed_this_month then 1 else 0 end as closed_count_this_month,
+        case when is_closed_this_quarter then 1 else 0 end as closed_count_this_quarter
+
 
         --The below script allows for pass through columns.
 

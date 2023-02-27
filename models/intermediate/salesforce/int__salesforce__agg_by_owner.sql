@@ -4,24 +4,16 @@ with opportunity as (
     from {{ ref('stg__salesforce__opportunity') }}
 ),
 
-user as (
+users as (
+    select 
+        opportunity_owner_id,
+        opportunity_owner_name,
+        opportunity_owner_city,
+        opportunity_owner_state
 
-    select *
-    from {{ ref('base__salesforce__user') }}
-),
-
-joined as (
-    select
-        opportunity.*,
-        opportunity_owner.user_id as opportunity_owner_id,
-        opportunity_manager.user_id as opportunity_manager_id
     from opportunity
-    left join user as opportunity_owner
-        on opportunity.owner_id = opportunity_owner.user_id
-    left join user as opportunity_manager
-        on opportunity_owner.manager_id = opportunity_manager.user_id
+    group by 1,2,3,4
 ),
-
 
 booking_by_owner as (
 
@@ -37,7 +29,7 @@ booking_by_owner as (
         round(avg(amount)) as avg_bookings_amount,
         max(amount) as largest_booking,
         avg(days_to_close) as avg_days_to_close
-    from joined
+    from opportunity
     where opportunity_status = 'Won'
     group by 1, 2
 ),
@@ -53,7 +45,7 @@ lost_by_owner as (
         round(sum(amount)) as total_lost_amount,
         sum(closed_count_this_month) as lost_count_this_month,
         sum(closed_count_this_quarter) as lost_count_this_quarter
-    from joined
+    from opportunity
     where opportunity_status = 'Lost'
     group by 1, 2
 ),
@@ -75,24 +67,21 @@ pipeline_by_owner as (
         round(avg(amount)) as avg_pipeline_opp_amount,
         max(amount) as largest_deal_in_pipeline,
         avg(days_since_created) as avg_days_open
-    from joined
+    from opportunity
     where opportunity_status = 'Pipeline'
     group by 1, 2
 )
 
 select
-    user.user_id as owner_id,
-    user.user_name as owner_name,
-    user.city as owner_city,
-    user.state as owner_state,
+    users.*,
     coalesce(pipeline_by_owner.p_manager_id, booking_by_owner.b_manager_id, lost_by_owner.l_manager_id) as manager_id,
     booking_by_owner.*,
     lost_by_owner.*,
     pipeline_by_owner.*
-from user
+from users
 left join booking_by_owner
-    on booking_by_owner.b_owner_id = user.user_id
+    on booking_by_owner.b_owner_id = users.opportunity_owner_id
 left join lost_by_owner
-    on lost_by_owner.l_owner_id = user.user_id
+    on lost_by_owner.l_owner_id = users.opportunity_owner_id
 left join pipeline_by_owner
-    on pipeline_by_owner.p_owner_id = user.user_id
+    on pipeline_by_owner.p_owner_id = users.opportunity_owner_id

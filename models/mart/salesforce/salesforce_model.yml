@@ -144,7 +144,7 @@ models:
   - name: fct__salesforce__owner_performance
     description: Each record represents an individual member of the sales team, enriched with data about their pipeline, bookings, loses, and win percentages.
     columns:
-      - name: owner_id
+      - name: opportunity_owner_id
         description: '{{ doc("sf_owner_id") }}'
         tests:
           - unique
@@ -233,5 +233,43 @@ models:
     
 
 
-
-    
+  - name: fct__salesforce__source
+    description: This table provides information around a MKT source, how many leads, customers, opportunities,etc that came from a certain source
+    columns:
+      - name: id
+        description: PK of the table, which is the combination of lead_source & utm flag
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+      - name: lead_source
+        description: '{{ doc("sf_lead_source")}}'
+      - name: utm_medium
+        description: '{{ doc("sf_utm_medium")}}'
+      - name: utm_source 
+        description: '{{ doc("sf_utm_source")}}'
+      - name: utm_campaign
+        description: '{{ doc("sf_utm_campaign")}}'
+      - name: total_opportunities
+        description: '{{ doc("sf_total_opportunities")}}'
+      - name: total_won_opportunities
+        description: '{{ doc("sf_total_won_opportunities")}}'
+      - name: total_lost_opportunities
+        description: '{{ doc("sf_total_lost_opportunities")}}'
+      - name: total_open_opportunities
+        description: '{{ doc("sf_total_open_opportunities")}}'
+      - name: total_won_amount
+        description: '{{ doc("sf_total_won_amount")}}'
+      - name: total_lost_amount
+        description: '{{ doc("sf_total_lost_amount")}}'
+      - name: total_open_amount
+        description: '{{ doc("sf_total_open_amount")}}'
+      - name: unique_leads_count
+        description: '{{ doc("sf_unique_leads_count")}}'
+      - name: unique_prospective_count
+        description: '{{ doc("sf_unique_prospective_count")}}'
+      - name: unique_lost_customers_count
+        description: '{{ doc("sf_unique_lost_customers_count")}}'
+      - name: unique_customers_count
+        description: '{{ doc("sf_unique_customers_count")}}'
+ 
