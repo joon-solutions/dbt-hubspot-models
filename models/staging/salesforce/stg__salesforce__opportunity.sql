@@ -1,12 +1,9 @@
-with source as (
+with opportunity as (
 
     select *
     from {{ ref('base__salesforce__opportunity') }}
 ),
 
-<<<<<<< Updated upstream
-final as (
-=======
 users as (
 
     select *
@@ -20,7 +17,6 @@ user_role as (
 ),
 
 opportunity_agg as (
->>>>>>> Stashed changes
 
     select
         *,
@@ -36,9 +32,7 @@ opportunity_agg as (
         {{ dbt_utils.datediff('close_date', 'created_date', 'day') }} as days_to_close,
         {{ dbt_utils.date_trunc('month', 'close_date') }} = {{ dbt_utils.date_trunc('month', dbt_utils.current_timestamp()) }} as is_closed_this_month,
         {{ dbt_utils.date_trunc('quarter', 'close_date') }} = {{ dbt_utils.date_trunc('quarter', dbt_utils.current_timestamp()) }} as is_closed_this_quarter
-<<<<<<< Updated upstream
-    from source
-=======
+
     from opportunity
 ),
 
@@ -89,7 +83,6 @@ joined as (
             on opportunity_owner.user_role_id = user_role.user_role_id --many-to-one
 
     {% endif %}
->>>>>>> Stashed changes
 )
 
 select * from joined
