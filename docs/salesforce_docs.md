@@ -1,227 +1,227 @@
-{% docs avg_bookings_amount -%}
+{% docs sf_avg_bookings_amount -%}
 The average opportunity amount, if status is won.
 {%- enddocs %}
 
-{% docs avg_days_open -%}
+{% docs sf_avg_days_open -%}
 The average days since created across opportunties in the pipeline.
 {%- enddocs %}
 
-{% docs avg_days_to_close -%}
+{% docs sf_avg_days_to_close -%}
 The average days to close across opportunties in that have been won.
 {%- enddocs %}
 
-{% docs avg_pipeline_opp_amount -%}
+{% docs sf_avg_pipeline_opp_amount -%}
 The average opportunity amount, if status is pipeline.
 {%- enddocs %}
 
-{% docs bookings_amount_closed_this_month -%}
+{% docs sf_bookings_amount_closed_this_month -%}
 The opportunity amount, if closed this month and status is won.
 {%- enddocs %}
 
-{% docs bookings_amount_closed_this_quarter -%}
+{% docs sf_bookings_amount_closed_this_quarter -%}
 The opportunity amount, if closed this quarter and status is won.
 {%- enddocs %}
 
-{% docs bookings_count_closed_this_month -%}
+{% docs sf_bookings_count_closed_this_month -%}
 The opportunity count, if closed this month and status is won.
 {%- enddocs %}
 
-{% docs bookings_count_closed_this_quarter -%}
+{% docs sf_bookings_count_closed_this_quarter -%}
 The opportunity count, if closed this quarter and status is won.
 {%- enddocs %}
 
-{% docs largest_booking -%}
+{% docs sf_largest_booking -%}
 The largest amount associated with a single opportunity.
 {%- enddocs %}
 
-{% docs largest_deal_in_pipeline -%}
+{% docs sf_largest_deal_in_pipeline -%}
 The largest amount associated with a single opportunity in the current pipeline.
 {%- enddocs %}
 
-{% docs lost_amount_this_month -%}
+{% docs sf_lost_amount_this_month -%}
 The opportunity amount, if closed this month and status is lost.
 {%- enddocs %}
 
-{% docs lost_amount_this_quarter -%}
+{% docs sf_lost_amount_this_quarter -%}
 The opportunity amount, if closed this quarter and status is lost.
 {%- enddocs %}
 
-{% docs lost_count_this_month -%}
+{% docs sf_lost_count_this_month -%}
 The opportunity count, if closed this month and status is lost.
 {%- enddocs %}
 
-{% docs lost_count_this_quarter -%}
+{% docs sf_lost_count_this_quarter -%}
 The opportunity count, if closed this quarter and status is lost.
 {%- enddocs %}
 
-{% docs owner_id -%}
+{% docs sf_owner_id -%}
 Id of the owner of this opportunity
 {%- enddocs %}
 
-{% docs pipeline_count_created_this_month -%}
+{% docs sf_pipeline_count_created_this_month -%}
 The opportunity count, if closed this month and status is pipeline.
 {%- enddocs %}
 
-{% docs pipeline_count_created_this_quarter -%}
+{% docs sf_pipeline_count_created_this_quarter -%}
 The opportunity count, if closed this quarter and status is pipeline.
 {%- enddocs %}
 
-{% docs pipeline_created_amount_this_month -%}
+{% docs sf_pipeline_created_amount_this_month -%}
 The opportunity amount, if closed this month and status is pipeline.
 {%- enddocs %}
 
-{% docs pipeline_created_amount_this_quarter -%}
+{% docs sf_pipeline_created_amount_this_quarter -%}
 The opportunity amount, if closed this quarter and status is pipeline.
 {%- enddocs %}
 
-{% docs pipeline_created_forecast_amount_this_month -%}
+{% docs sf_pipeline_created_forecast_amount_this_month -%}
 The opportunity amount mulitplied by the forecast percentage, if closed this month and status is pipeline.
 {%- enddocs %}
 
-{% docs pipeline_created_forecast_amount_this_quarter -%}
+{% docs sf_pipeline_created_forecast_amount_this_quarter -%}
 The opportunity amount mulitplied by the forecast percentage, if closed this quarter and status is pipeline.
 {%- enddocs %}
 
-{% docs total_bookings_amount -%}
+{% docs sf_total_bookings_amount -%}
 The opportunity amount, if status is won.
 {%- enddocs %}
 
-{% docs total_lost_amount -%}
+{% docs sf_total_lost_amount -%}
 The opportunity amount, if status is lost.
 {%- enddocs %}
 
-{% docs total_number_bookings -%}
+{% docs sf_total_number_bookings -%}
 The opportunity count, if status is won.
 {%- enddocs %}
 
-{% docs total_number_lost -%}
+{% docs sf_total_number_lost -%}
 The opportunity count, if status is lost.
 {%- enddocs %}
 
-{% docs total_number_pipeline -%}
+{% docs sf_total_number_pipeline -%}
 The opportunity count, if status is pipeline.
 {%- enddocs %}
 
-{% docs total_pipeline_amount -%}
+{% docs sf_total_pipeline_amount -%}
 The opportunity amount, if status is pipeline.
 {%- enddocs %}
 
-{% docs total_pipeline_forecast_amount -%}
+{% docs sf_total_pipeline_forecast_amount -%}
 The opportunity amount mulitplied by the forecast percentage, if status is pipeline.
 {%- enddocs %}
 
-{% docs total_win_percent -%}
+{% docs sf_total_win_percent -%}
 The booking amount closed, divided by the sum of the booking amount and the lost amount..
 {%- enddocs %}
 
-{% docs win_percent_this_month -%}
+{% docs sf_win_percent_this_month -%}
 The booking amount closed this month, divided by the sum of the booking amount closed this month and the lost amount this month.
 {%- enddocs %}
 
-{% docs win_percent_this_quarter -%}
+{% docs sf_win_percent_this_quarter -%}
 The booking amount closed this quarter, divided by the sum of the booking amount closed this quarter and the lost amount this quarter.
 {%- enddocs %}
 
-{% docs contact_id -%}
+{% docs sf_contact_id -%}
 Unique contact ID.
 {%- enddocs %}
 
-{% docs contact_name -%}
+{% docs sf_contact_name -%}
 Name of contact.
 {%- enddocs %}
 
-{% docs account_id -%}
+{% docs sf_account_id -%}
 ID of contact's account.
 {%- enddocs %}
 
-{% docs department -%}
+{% docs sf_department -%}
 The contact’s department.
 {%- enddocs %}
 
-{% docs contact_description -%}
+{% docs sf_contact_description -%}
 A description of the contact. 
 {%- enddocs %}
 
-{% docs email -%}
+{% docs sf_email -%}
 The contact’s email address.
 {%- enddocs %}
 
-{% docs individual_id -%}
+{% docs sf_individual_id -%}
 ID of the data privacy record associated with this contact. This field is available if Data Protection and Privacy is enabled. This is a relationship field.
 {%- enddocs %}
 
-{% docs contact_is_deleted -%}
+{% docs sf_contact_is_deleted -%}
 Indicates whether the object has been moved to the Recycle Bin (true) or not (false). Label is Deleted.
 {%- enddocs %}
 
-{% docs last_activity_date -%}
+{% docs sf_last_activity_date -%}
 Value is the most recent of either:
 Due date of the most recent event logged against the record.
 Due date of the most recently closed task associated with the record.
 {%- enddocs %}
 
-{% docs lead_source -%}
+{% docs sf_lead_source -%}
 The lead’s source.
 {%- enddocs %}
 
-{% docs mailing_city -%}
+{% docs sf_mailing_city -%}
 Mailing address details.
 {%- enddocs %}
 
-{% docs mailing_country -%}
+{% docs sf_mailing_country -%}
 Mailing address details. 
 {%- enddocs %}
 
-{% docs mailing_country_code -%}
+{% docs sf_mailing_country_code -%}
 Mailing address details. 
 {%- enddocs %}
 
-{% docs mailing_postal_code -%}
+{% docs sf_mailing_postal_code -%}
 The ISO codes for the mailing address’s state and country.
 {%- enddocs %}
 
-{% docs mailing_state -%}
+{% docs sf_mailing_state -%}
 Mailing address details.
 {%- enddocs %}
 
-{% docs mailing_state_code -%}
+{% docs sf_mailing_state_code -%}
 The ISO codes for the mailing address’s state and country.
 {%- enddocs %}
 
-{% docs mailing_street -%}
+{% docs sf_mailing_street -%}
 Street address for mailing address.
 {%- enddocs %}
 
-{% docs master_record_id -%}
+{% docs sf_master_record_id -%}
 If this record was deleted as the result of a merge, this field contains the ID of the record that remains. If this record was deleted for any other reason, or has not been deleted, the value is null.
 {%- enddocs %}
 
-{% docs mobile_phone -%}
+{% docs sf_mobile_phone -%}
 Contact’s mobile phone number.
 {%- enddocs %}
 
-{% docs contact_owner_id -%}
+{% docs sf_ontact_owner_id -%}
 The ID of the owner of the account associated with this contact.
 {%- enddocs %}
 
-{% docs phone -%}
+{% docs sf_phone -%}
 Telephone number for the contact. Label is Business Phone.
 {%- enddocs %}
 
-{% docs reports_to_id -%}
+{% docs sf_reports_to_id -%}
 This field doesn’t appear if IsPersonAccount is true.
 This is a relationship field.
 {%- enddocs %}
 
-{% docs contact_owner_name -%}
+{% docs sf_contact_owner_name -%}
 Name of owner of the account associated with this contact.
 {%- enddocs %}
 
-{% docs account_name -%}
+{% docs sf_account_name -%}
 Name of the account.
 {%- enddocs %}
 
-{% docs account_number -%}
+{% docs sf_account_number -%}
 Account number assigned to this account (not the unique, system-generated ID assigned during creation).
 {%- enddocs %}
 
