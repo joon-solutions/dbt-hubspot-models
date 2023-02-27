@@ -14,7 +14,8 @@ joined as (
         account.industry,
         account.account_name,
         account.number_of_employees,
-        account.account_type
+        account.account_type,
+        account.account_host
     from opportunity
     left join account
         on opportunity.account_id = account.account_id --many-to-one

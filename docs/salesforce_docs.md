@@ -160,10 +160,6 @@ Due date of the most recent event logged against the record.
 Due date of the most recently closed task associated with the record.
 {%- enddocs %}
 
-{% docs sf_lead_source -%}
-The lead’s source.
-{%- enddocs %}
-
 {% docs sf_mailing_city -%}
 Mailing address details.
 {%- enddocs %}
@@ -449,4 +445,60 @@ The dollar amount of all opportunities lost for this day.
 
 {% docs pipeline_amount -%}
 The dollar amount of all opportunities in the pipeline for this day.
+{%- enddocs %}
+
+{% docs sf_lead_source -%}
+The lead’s source.
+{%- enddocs %}
+
+{% docs sf_utm_medium -%}
+The UTM medium
+{%- enddocs %}
+
+{% docs sf_utm_source -%} 
+The UTM source
+{%- enddocs %}
+
+{% docs sf_utm_campaign -%}
+The UTM campaign
+{%- enddocs %}
+
+{% docs sf_total_opportunities -%}
+Total number of opportunities associated with a specified source
+{%- enddocs %}
+
+{% docs sf_total_won_opportunities -%}
+Total number of won opportunities associated with a specified source
+{%- enddocs %}
+
+{% docs sf_total_lost_opportunities -%}
+Total number of lost opportunities associated with a specified source
+{%- enddocs %}
+
+{% docs sf_total_open_opportunities -%}
+Total number of open opportunities associated with a specified source
+{%- enddocs %}
+
+{% docs sf_total_won_amount -%}
+Total amount of won opportunities associated with a specified source
+{%- enddocs %}
+
+{% docs sf_total_open_amount -%}
+Total amount of open opportunities associated with a specified source
+{%- enddocs %}
+
+{% docs sf_unique_leads_count -%}
+Total leads associated with a specified source
+{%- enddocs %}
+
+{% docs sf_unique_prospective_count -%}
+Total prospects (accounts havent had any closed deals yet, only open deals) associated with a specified source
+{%- enddocs %}
+
+{% docs sf_unique_lost_customers_count -%}
+Total lost customers (accounts havent had any won deals yet, only lost deals) associated with a specified source
+{%- enddocs %}
+
+{% docs sf_unique_customers_count -%}
+Total customers (accounts have had at least one deal) associated with a specified source
 {%- enddocs %}
