@@ -5,14 +5,14 @@ with opportunity as (
 ),
 
 users as (
-    select 
+    select
         opportunity_owner_id,
         opportunity_owner_name,
         opportunity_owner_city,
         opportunity_owner_state
 
     from opportunity
-    group by 1,2,3,4
+    group by 1, 2, 3, 4
 ),
 
 booking_by_owner as (
