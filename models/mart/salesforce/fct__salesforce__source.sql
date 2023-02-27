@@ -1,6 +1,37 @@
 with account as (
     select *
-    from {{ ref('int__salesforce__account') }}
+    from {{ ref('int__salesforce__opportunity_account') }}
+),
+
+account_agg as (
+    select
+        account_id,
+        account_name,
+        account_host,
+        industry,
+        coalesce(count(opportunity_id), 0) as opportunity_count,
+        coalesce(sum(case when opportunity_status = 'Won' then amount else 0 end), 0) as total_amount_won,
+        coalesce(sum(case when opportunity_status = 'Lost' then amount else 0 end), 0) as total_amount_lost,
+        coalesce(sum(case when opportunity_status in ('Pipeline', 'Other') then amount else 0 end), 0) as total_amount_open,
+        ----
+        coalesce(count(case when opportunity_status = 'Won' then opportunity_id end), 0) as won_deals_count,
+        coalesce(count(case when opportunity_status = 'Lost' then opportunity_id end), 0) as lost_deals_count,
+        coalesce(count(case when opportunity_status in ('Pipeline', 'Other') then opportunity_id end), 0) as open_deals_count
+    from account
+    {{ dbt_utils.group_by(n=4) }}
+),
+
+account_status as (
+    select
+        *,
+        case
+            when won_deals_count = 0 and open_deals_count > 0 then 'lost_customer' -- customer with no won case 
+            when won_deals_count > 0 then 'customer' -- customer with at least 1 won case
+            when open_deals_count > 0 and won_deals_count + lost_deals_count = 0 then 'prospective'
+            when opportunity_count = 0 then 'lead' -- customer with no open case
+            else 'other'
+        end as account_status
+    from account_agg
 ),
 
 lead as (
@@ -17,26 +48,26 @@ joined as ( --PK = lead_id || account_id
         lead.utm_source,
         lead.utm_campaign,
         ---account
-        account.account_id,
-        account.account_status,
-        account.opportunity_count,
-        account.total_amount_won,
-        account.total_amount_lost,
-        account.total_amount_open,
-        account.won_deals_count,
-        account.lost_deals_count,
-        account.open_deals_count,
-        ---adjusted opportunities metrics
-        account.opportunity_count / count(*) over (partition by account.account_id) as adjusted_opportunity_count,
-        account.total_amount_won / count(*) over (partition by account.account_id) as adjusted_total_amount_won,
-        account.total_amount_lost / count(*) over (partition by account.account_id) as adjusted_total_amount_lost,
-        account.total_amount_open / count(*) over (partition by account.account_id) as adjusted_total_amount_open,
-        account.won_deals_count / count(*) over (partition by account.account_id) as adjusted_won_deals_count,
-        account.lost_deals_count / count(*) over (partition by account.account_id) as adjusted_lost_deals_count,
-        account.open_deals_count / count(*) over (partition by account.account_id) as adjusted_open_deals_count
+        account_status.account_id,
+        account_status.account_status,
+        account_status.opportunity_count,
+        account_status.total_amount_won,
+        account_status.total_amount_lost,
+        account_status.total_amount_open,
+        account_status.won_deals_count,
+        account_status.lost_deals_count,
+        account_status.open_deals_count,
+        ---if multiple leads are mapped with 1 opportunity_id, such opportunity's amount & count will be divided equally for each corresponding lead's source
+        account_status.opportunity_count / count(*) over (partition by account_status.account_id) as adjusted_opportunity_count,
+        account_status.total_amount_won / count(*) over (partition by account_status.account_id) as adjusted_total_amount_won,
+        account_status.total_amount_lost / count(*) over (partition by account_status.account_id) as adjusted_total_amount_lost,
+        account_status.total_amount_open / count(*) over (partition by account_status.account_id) as adjusted_total_amount_open,
+        account_status.won_deals_count / count(*) over (partition by account_status.account_id) as adjusted_won_deals_count,
+        account_status.lost_deals_count / count(*) over (partition by account_status.account_id) as adjusted_lost_deals_count,
+        account_status.open_deals_count / count(*) over (partition by account_status.account_id) as adjusted_open_deals_count
 
     from lead
-    left join account on lead.account_id = account.account_id --many-to-one
+    left join account_status on lead.account_id = account_status.account_id --many-to-one
 ),
 
 

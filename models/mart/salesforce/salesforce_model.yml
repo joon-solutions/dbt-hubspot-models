@@ -152,33 +152,123 @@ models:
           - not_null
           - dbt_utils.at_least_one
       - name: lead_source
-        description: The lead’s source.
+        description: '{{ doc("sf_lead_source")}}'
       - name: utm_medium
-        description: The UTM medium
+        description: '{{ doc("sf_utm_medium")}}'
       - name: utm_source 
-        description: The UTM source
+        description: '{{ doc("sf_utm_source")}}'
       - name: utm_campaign
-        description: The UTM campaign
+        description: '{{ doc("sf_utm_campaign")}}'
       - name: total_opportunities
-        description: Total number of opportunities associated with a specified source
+        description: '{{ doc("sf_total_opportunities")}}'
       - name: total_won_opportunities
-        description:  Total number of won opportunities associated with a specified source
+        description: '{{ doc("sf_total_won_opportunities")}}'
       - name: total_lost_opportunities
-        description: Total number of lost opportunities associated with a specified source
+        description: '{{ doc("sf_total_lost_opportunities")}}'
       - name: total_open_opportunities
-        description: Total number of open opportunities associated with a specified source
+        description: '{{ doc("sf_total_open_opportunities")}}'
       - name: total_won_amount
-        description: Total amount of won opportunities associated with a specified source
+        description: '{{ doc("sf_total_won_amount")}}'
       - name: total_lost_amount
-        description: Total amount of lost opportunities associated with a specified source
+        description: '{{ doc("sf_total_lost_amount")}}'
       - name: total_open_amount
-        description: Total amount of open opportunities associated with a specified source
+        description: '{{ doc("sf_total_open_amount")}}'
       - name: unique_leads_count
-        description: Total leads associated with a specified source
+        description: '{{ doc("sf_unique_leads_count")}}'
       - name: unique_prospective_count
-        description: Total prospects (accounts havent had any closed deals yet, only open deals) associated with a specified source
+        description: '{{ doc("sf_unique_prospective_count")}}'
       - name: unique_lost_customers_count
-        description: Total lost customers (accounts havent had any won deals yet, only lost deals) associated with a specified source
+        description: '{{ doc("sf_unique_lost_customers_count")}}'
       - name: unique_customers_count
-        description: Total customers (accounts have had at least one deal) associated with a specified source
-
+        description: '{{ doc("sf_unique_customers_count")}}'
+        
+  - name: fct__salesforce__owner_performance
+    description: Each record represents an individual member of the sales team, enriched with data about their pipeline, bookings, loses, and win percentages.
+    columns:
+      - name: owner_id
+        description: '{{ doc("sf_owner_id") }}'
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+      - name: sf_avg_bookings_amount
+        description: '{{ doc("sf_avg_bookings_amount") }}'
+      - name: avg_days_open
+        description: '{{ doc("sf_avg_days_open") }}'
+      - name: avg_days_to_close
+        description: '{{ doc("sf_avg_days_to_close") }}'
+      - name: avg_pipeline_opp_amount
+        description: '{{ doc("sf_avg_pipeline_opp_amount") }}'
+      - name: b_manager_id
+        description: Manager ID of the booking_by_owner CTE.  Helper field.
+      - name: b_owner_id
+        description: Owner ID of the booking_by_owner CTE.  Helper field.
+      - name: bookings_amount_closed_this_month
+        description: '{{ doc("sf_bookings_amount_closed_this_month") }}'
+      - name: bookings_amount_closed_this_quarter
+        description: '{{ doc("sf_bookings_amount_closed_this_quarter") }}'
+      - name: bookings_count_closed_this_month
+        description: '{{ doc("sf_bookings_count_closed_this_month") }}'
+      - name: bookings_count_closed_this_quarter
+        description: '{{ doc("sf_bookings_count_closed_this_quarter") }}'
+      - name: l_manager_id
+        description: Manager ID of the lost_by_owner CTE.  Helper field.
+      - name: l_owner_id
+        description: Owner ID of the lost_by_owner CTE.  Helper field.
+      - name: largest_booking
+        description: '{{ doc("sf_largest_booking") }}'
+      - name: largest_deal_in_pipeline
+        description: '{{ doc("sf_largest_deal_in_pipeline") }}'
+      - name: lost_amount_this_month
+        description: '{{ doc("sf_lost_amount_this_month") }}'
+      - name: lost_amount_this_quarter
+        description: '{{ doc("sf_lost_amount_this_quarter") }}'
+      - name: lost_count_this_month
+        description: '{{ doc("sf_lost_count_this_month") }}'
+      - name: lost_count_this_quarter
+        description: '{{ doc("sf_lost_count_this_quarter") }}'
+      - name: manager_id
+        description: Manager ID associated with opportunities.
+      - name: owner_city
+        description: The city associated with the owner.
+      - name: owner_name
+        description: The first and last name of the owner.
+      - name: owner_state
+        description: The state associated with the owner.
+      - name: p_manager_id
+        description: Manager ID of the pipeline_by_owner CTE.  Helper field.
+      - name: p_owner_id
+        description: Owner ID of the pipeline_by_owner CTE.  Helper field.
+      - name: pipeline_count_created_this_month
+        description: '{{ doc("sf_pipeline_count_created_this_month") }}'
+      - name: pipeline_count_created_this_quarter
+        description: '{{ doc("sf_pipeline_count_created_this_quarter") }}'
+      - name: pipeline_created_amount_this_month
+        description: '{{ doc("sf_pipeline_created_amount_this_month") }}'
+      - name: pipeline_created_amount_this_quarter
+        description: '{{ doc("sf_pipeline_created_amount_this_quarter") }}'
+      - name: pipeline_created_forecast_amount_this_month
+        description: '{{ doc("sf_pipeline_created_forecast_amount_this_month") }}'
+      - name: pipeline_created_forecast_amount_this_quarter
+        description: '{{ doc("sf_pipeline_created_forecast_amount_this_quarter") }}'
+      - name: total_bookings_amount
+        description: '{{ doc("sf_total_bookings_amount") }}'
+      - name: total_lost_amount
+        description: '{{ doc("sf_total_lost_amount") }}'
+      - name: total_number_bookings
+        description: '{{ doc("sf_total_number_bookings") }}'
+      - name: total_number_lost
+        description: '{{ doc("sf_total_number_lost") }}'
+      - name: total_number_pipeline
+        description: '{{ doc("sf_total_number_pipeline") }}'
+      - name: total_pipeline_amount
+        description: '{{ doc("sf_total_pipeline_amount") }}'
+      - name: total_pipeline_forecast_amount
+        description: '{{ doc("sf_total_pipeline_forecast_amount") }}'
+      - name: total_win_percent
+        description: '{{ doc("sf_total_win_percent") }}'
+      - name: win_percent_this_month
+        description: '{{ doc("sf_win_percent_this_month") }}'
+      - name: win_percent_this_quarter
+        description: '{{ doc("sf_win_percent_this_quarter") }}'
+    
