@@ -8,12 +8,12 @@ with opportunity_agg_by_owner as (
 final as (
 
     select
-        coalesce(cast(opportunity_agg_by_owner.manager_id as string), 'No Manager Assigned') as manager_id,
-        coalesce(opportunity_agg_by_owner.manager_name, 'No Manager Assigned') as manager_name,
-        opportunity_agg_by_owner.manager_city,
-        opportunity_agg_by_owner.manager_state,
+        coalesce(cast(manager_id as string), 'No Manager Assigned') as manager_id,
+        coalesce(manager_name, 'No Manager Assigned') as manager_name,
+        manager_city,
+        manager_state,
         -- aggregations
-        count(distinct opportunity_agg_by_owner.owner_id) as number_of_direct_reports,
+        count(distinct owner_id) as number_of_direct_reports,
         coalesce(sum(bookings_amount_closed_this_month), 0) as bookings_amount_closed_this_month,
         coalesce(sum(bookings_amount_closed_this_quarter), 0) as bookings_amount_closed_this_quarter,
         coalesce(sum(total_number_bookings), 0) as total_number_bookings,
@@ -55,7 +55,7 @@ final as (
 
     from opportunity_agg_by_owner
     group by 1, 2, 3, 4
-    having count(distinct opportunity_agg_by_owner.owner_id) > 0
+    having count(distinct owner_id) > 0
 )
 
 select * from final
