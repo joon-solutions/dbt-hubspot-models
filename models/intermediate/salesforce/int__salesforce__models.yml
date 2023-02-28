@@ -4,7 +4,7 @@ models:
   - name: int__salesforce__agg_by_owner
     description: Salesforce Opportunity by ownner
     columns:
-      - name: opportunity_owner_id
+      - name: owner_id
         description: '{{ doc("sf_owner_id") }}'
         tests:
           - unique
