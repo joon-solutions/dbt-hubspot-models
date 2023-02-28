@@ -5,12 +5,12 @@ models:
     description: Salesforce Opportunity by ownner
     columns:
       - name: owner_id
-        description: "{{ doc('outreach_sf_account_id') }}"
+        description: '{{ doc("sf_owner_id") }}'
         tests:
           - unique
           - not_null
           - dbt_utils.at_least_one
-          
+      
   - name: int__salesforce__opportunity_account
     description: Represents a Salesforce opportunity enriched with account attributes
     columns:

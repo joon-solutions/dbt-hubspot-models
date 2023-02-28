@@ -32,7 +32,6 @@ opportunity_agg as (
         {{ dbt_utils.datediff('close_date', 'created_date', 'day') }} as days_to_close,
         {{ dbt_utils.date_trunc('month', 'close_date') }} = {{ dbt_utils.date_trunc('month', dbt_utils.current_timestamp()) }} as is_closed_this_month,
         {{ dbt_utils.date_trunc('quarter', 'close_date') }} = {{ dbt_utils.date_trunc('quarter', dbt_utils.current_timestamp()) }} as is_closed_this_quarter
-
     from opportunity
 ),
 
@@ -63,7 +62,12 @@ joined as (
         case when opportunity_agg.is_created_this_month then opportunity_agg.amount else 0 end as created_amount_this_month,
         case when opportunity_agg.is_created_this_quarter then opportunity_agg.amount else 0 end as created_amount_this_quarter,
         case when opportunity_agg.is_closed_this_month then opportunity_agg.amount else 0 end as closed_amount_this_month,
-        case when opportunity_agg.is_closed_this_quarter then opportunity_agg.amount else 0 end as closed_amount_this_quarter
+        case when opportunity_agg.is_closed_this_quarter then opportunity_agg.amount else 0 end as closed_amount_this_quarter,
+        case when opportunity_agg.is_created_this_month then 1 else 0 end as created_count_this_month,
+        case when opportunity_agg.is_created_this_quarter then 1 else 0 end as created_count_this_quarter,
+        case when opportunity_agg.is_closed_this_month then 1 else 0 end as closed_count_this_month,
+        case when opportunity_agg.is_closed_this_quarter then 1 else 0 end as closed_count_this_quarter
+
 
         --The below script allows for pass through columns.
 
