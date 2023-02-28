@@ -272,4 +272,76 @@ models:
         description: '{{ doc("sf_unique_lost_customers_count")}}'
       - name: unique_customers_count
         description: '{{ doc("sf_unique_customers_count")}}'
+
+  - name: fct__salesforce__manager_performance
+    description: Each record represents a manager, enriched with data about their team's pipeline, bookings, loses, and win percentages.
+    columns:
+      - name: manager_id
+        description: The user id of the manager.
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+      - name: bookings_amount_closed_this_month
+        description: '{{ doc("sf_bookings_amount_closed_this_month") }}'
+      - name: bookings_amount_closed_this_quarter
+        description: '{{ doc("sf_bookings_amount_closed_this_quarter") }}'
+      - name: bookings_count_closed_this_month
+        description: '{{ doc("sf_bookings_count_closed_this_month") }}'
+      - name: bookings_count_closed_this_quarter
+        description: '{{ doc("sf_bookings_count_closed_this_quarter") }}'
+      - name: largest_booking
+        description: '{{ doc("sf_largest_booking") }}'
+      - name: largest_deal_in_pipeline
+        description: '{{ doc("sf_largest_deal_in_pipeline") }}'
+      - name: lost_amount_this_month
+        description: '{{ doc("sf_lost_amount_this_month") }}'
+      - name: lost_amount_this_quarter
+        description: '{{ doc("sf_lost_amount_this_quarter") }}'
+      - name: lost_count_this_month
+        description: '{{ doc("sf_lost_count_this_month") }}'
+      - name: lost_count_this_quarter
+        description: '{{ doc("sf_lost_count_this_quarter") }}'
+      - name: manager_city
+        description: The city location of the opportunity owner's manager.
+      - name: manager_name
+        description: The name of the opportunity owner's manager.
+      - name: manager_position
+        description: The position role of the opportunity owner's manager.
+      - name: manager_state
+        description: The state location of the opportunity owner's manager.
+      - name: number_of_direct_reports
+        description: The number of opportunity owners who report to this manager.
+      - name: pipeline_count_created_this_month
+        description: '{{ doc("sf_pipeline_count_created_this_month") }}'
+      - name: pipeline_count_created_this_quarter
+        description: '{{ doc("sf_pipeline_count_created_this_quarter") }}'
+      - name: pipeline_created_amount_this_month
+        description: '{{ doc("sf_pipeline_created_amount_this_month") }}'
+      - name: pipeline_created_amount_this_quarter
+        description: '{{ doc("sf_pipeline_created_amount_this_quarter") }}'
+      - name: pipeline_created_forecast_amount_this_month
+        description: '{{ doc("sf_pipeline_created_forecast_amount_this_month") }}'
+      - name: pipeline_created_forecast_amount_this_quarter
+        description: '{{ doc("sf_pipeline_created_forecast_amount_this_quarter") }}'
+      - name: total_bookings_amount
+        description: '{{ doc("sf_total_bookings_amount") }}'
+      - name: total_lost_amount
+        description: '{{ doc("sf_total_lost_amount") }}'
+      - name: total_number_bookings
+        description: '{{ doc("sf_total_number_bookings") }}'
+      - name: total_number_lost
+        description: '{{ doc("sf_total_number_lost") }}'
+      - name: total_number_pipeline
+        description: '{{ doc("sf_total_number_pipeline") }}'
+      - name: total_pipeline_amount
+        description: '{{ doc("sf_total_pipeline_amount") }}'
+      - name: total_pipeline_forecast_amount
+        description: '{{ doc("sf_total_pipeline_forecast_amount") }}'
+      - name: total_win_percent
+        description: '{{ doc("sf_total_win_percent") }}'
+      - name: win_percent_this_month
+        description: '{{ doc("sf_win_percent_this_month") }}'
+      - name: win_percent_this_quarter
+        description: '{{ doc("sf_win_percent_this_quarter") }}'  
  
