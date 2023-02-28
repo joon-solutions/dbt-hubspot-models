@@ -144,7 +144,7 @@ models:
   - name: fct__salesforce__owner_performance
     description: Each record represents an individual member of the sales team, enriched with data about their pipeline, bookings, loses, and win percentages.
     columns:
-      - name: opportunity_owner_id
+      - name: owner_id
         description: '{{ doc("sf_owner_id") }}'
         tests:
           - unique
