@@ -1,6 +1,6 @@
 {
     "source_schema":"SHOPIFY"
-    ,"source_tables":"ABANDONED_CHECKOUT,CUSTOMER,CUSTOMER_TAG,FULFILLMENT,ORDER,ORDER_ADJUSTMENT,ORDER_DISCOUNT_CODE,ORDER_LINE, ORDER_SHIPPING_LINE,ORDER_TAG,ORDER_URL_TAG,REFUND,TAX_LINE,TENDER_TRANSACTION,TRANSACTION"
+    ,"source_tables":"ABANDONED_CHECKOUT,CUSTOMER,CUSTOMER_TAG,FULFILLMENT,ORDER,ORDER_ADJUSTMENT,ORDER_DISCOUNT_CODE,ORDER_LINE, ORDER_SHIPPING_LINE,ORDER_TAG,ORDER_URL_TAG,REFUND,TAX_LINE,TENDER_TRANSACTION,TRANSACTION, LOCATION"
     ,"relationship":{
         "one-to-many":[
             {
@@ -55,12 +55,8 @@
                 ,"one_2":{"ORDER":"id"}
             },
             {
-                "one_1":{"ORDER_SHIPPING_LINE":"order_id"}
-                ,"one_2":{"ORDER":"id"}
-            },
-            {
-                "one_1":{"ORDER_SHIPPING_TAX_LINE":"order_shipping_line_id"}
-                ,"one_2":{"ORDER_SHIPPING_LINE":"id"}
+                "one_1":{"ORDER":"id"}
+                ,"one_2":{"ORDER_SHIPPING_LINE":"order_id"}
             },
             {
                 "one_1":{"ORDER":"id"}
