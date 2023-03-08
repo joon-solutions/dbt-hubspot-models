@@ -2,33 +2,6 @@ version: 2
 
 models:
 
-  - name: base__shopify__customer_tmp
-    description: Temp table for base__shopify__customer table
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - id
-            - metafield
-    columns:
-      - name: id
-        description: Customer ID
-        tests: 
-          - not_null
-
-  - name: base__shopify__abandoned_checkout_tmp
-    description: Temp table for base__shopify__abandoned_checkout table
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - id
-            - metafield
-    columns:
-      - name: id
-        description: Checkout ID
-        tests: 
-          - not_null
-
-
   - name: base__shopify__customer
     description: Each record represents a customer in Shopify.
     columns:
