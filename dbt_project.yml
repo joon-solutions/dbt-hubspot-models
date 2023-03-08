@@ -147,6 +147,15 @@ vars:
   future_proof_date: '9999-12-31'
   outreach_user: true
 
+  # Shopify
+
+  shopify_schema: shopify
+  shopify_database: joon_solutions
+  shopify_customer_source: "{{ source('shopify','customer') }}"
+  shopify_abandoned_checkout_source: "{{ source('shopify','abandoned_checkout') }}"
+  customer_pass_through_columns: []
+
+
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
 
