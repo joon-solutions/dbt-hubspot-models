@@ -148,11 +148,9 @@ vars:
   outreach_user: true
 
   # Shopify
-
-  shopify_schema: shopify
-  shopify_database: joon_solutions
-  shopify_customer_source: "{{ source('shopify','customer') }}"
-  shopify_abandoned_checkout_source: "{{ source('shopify','abandoned_checkout') }}"
+  has_defined_sources: true
+  shopify_union_schemas: ['shopify'] #[shopify_us, shopify_mx]
+  shopify_union_databases: ['joon_solutions'] #[shopify_us, shopify_mx]
   customer_pass_through_columns: []
 
 

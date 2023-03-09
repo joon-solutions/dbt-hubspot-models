@@ -1,12 +1,25 @@
 version: 2
 
 sources:
+  # - name: shopify_us
+  #   schema: shopify_us
+  #   database: joon_solutions
+  #   tables:
+  #     - name: customer
+  #       description: Each record represents a customer in Shopify.
+
+  # - name: shopify_mx
+  #   schema: shopify_mx
+  #   database: joon_solutions
+  #   tables:
+  #     - name: customer
+  #       description: Each record represents a customer in Shopify.
+
   - name: shopify
-    schema: "{{ var('shopify_schema', 'shopify') }}" # you will need to customize if your schema name is not "shopify"
-    database: "{% if target.type != 'spark'%}{{ var('shopify_database', target.database) }}{% endif %}"
+    schema: shopify
+    database: joon_solutions
     tables:
       - name: customer
-        identifier: "{{ var('shopify_customer_identifier', 'customer') }}" # you will need to customize if the customer name in your database is not "customer" 
         description: Each record represents a customer in Shopify.
         columns:
           - name: _fivetran_synced
@@ -83,7 +96,6 @@ sources:
 
       - name: abandoned_checkout
         description: A checkout is considered abandoned after the customer has added contact information, but before the customer has completed their purchase.
-        identifier: "{{ var('shopify_abandoned_checkout_identifier', 'abandoned_checkout') }}"
         columns:
           - name: _fivetran_deleted
             description: "{{ doc('_fivetran_deleted') }}"

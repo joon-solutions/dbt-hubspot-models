@@ -1,8 +1,8 @@
 with customers as (
 
     select
-        {{ dbt_utils.star(from=ref('base__shopify__customer'), except=["orders_count", "total_spent"]) }}
-    from {{ ref('base__shopify__customer') }}
+        {{ dbt_utils.star(from=ref('stg__shopify__customer'), except=["orders_count", "total_spent"]) }}
+    from {{ ref('stg__shopify__customer') }}
 ),
 
 
@@ -12,7 +12,7 @@ abandoned as (
         customer_id,
         source_relation,
         count(distinct checkout_id) as lifetime_abandoned_checkouts
-    from {{ ref('base__shopify__abandoned_checkout') }}
+    from {{ ref('stg__shopify__abandoned_checkout') }}
     where customer_id is not null
     group by 1, 2
 
