@@ -5,7 +5,7 @@
 
 with base as (
 
-    select * 
+    select *
     from {{ source('shopify','refund') }}
 
 ),
@@ -24,7 +24,7 @@ fields as (
             union_schema_variable='shopify_union_schemas', 
             union_database_variable='shopify_union_databases') 
         }}
-        
+
     from base
 ),
 
@@ -45,5 +45,5 @@ final as (
     from fields
 )
 
-select * 
+select *
 from final

@@ -1,0 +1,13 @@
+version: 2
+
+models:
+
+  - name: int__shopify__order_refund
+    description: Each record represents an order refund in Shopify by order.
+    columns:
+      - name: order_id
+        description: The ID of the order, used for API purposes. This is different from the order_number property, which is the ID used by the shop owner and customer.
+        tests: 
+          - not_null
+          - unique
+          - dbt_utils.at_least_one

@@ -3,14 +3,18 @@ with refunds as (
     select *
     from {{ ref('base__shopify__refund') }}
 
-), order_line_refunds as (
+),
+
+order_line_refunds as (
 
     select *
     from {{ ref('base__shopify__order_line_refund') }}
-    
-), refund_join as (
 
-    select 
+),
+
+refund_join as (
+
+    select
         refunds.refund_id,
         refunds.created_at,
         refunds.order_id,
@@ -26,7 +30,7 @@ with refunds as (
     from refunds
     left join order_line_refunds
         on refunds.refund_id = order_line_refunds.refund_id
-        and refunds.source_relation = order_line_refunds.source_relation
+            and refunds.source_relation = order_line_refunds.source_relation
 
 )
 

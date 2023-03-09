@@ -4,12 +4,16 @@ models:
 
   - name: base__shopify__orders
     description: Each record represents an order in Shopify.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - order_id
+            - source_relation
     columns:
       - name: order_id
         description: The ID of the order, used for API purposes. This is different from the order_number property, which is the ID used by the shop owner and customer.
         tests: 
           - not_null
-          - unique
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: app_id
@@ -193,7 +197,6 @@ models:
         description: The unique identifier of the line item in the refund.
         tests: 
           - not_null
-          - unique
       - name: location_id
         description: TThe unique identifier of the location where the items will be restockedBD
       - name: order_line_id
@@ -237,6 +240,8 @@ models:
         description: The weight of the item in grams.
       - name: order_line_id
         description: The ID of the line item.
+        tests: 
+          - not_null
       - name: name
         description: The name of the product variant.
       - name: order_id
@@ -324,6 +329,8 @@ models:
     columns:
       - name: refund_id
         description: The unique numeric identifier for the refund.
+        tests:
+          - not_null
       - name: created_at
         description: Timestamp of the date when the refund was created.
       - name: processed_at
@@ -353,6 +360,8 @@ models:
     columns:
       - name: order_adjustment_id
         description: The unique numeric identifier for the order adjustment.
+        tests: 
+          - not_null
       - name: order_id
         description: Reference to the order which the adjustment is associated.
       - name: refund_id

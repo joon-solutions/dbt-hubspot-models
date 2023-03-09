@@ -1,6 +1,6 @@
 version: 2
 models:
-  - name: shopify__orders
+  - name: fct__shopify__orders
     description: Each record represents an order in Shopify.
     tests:
       - dbt_utils.unique_combination_of_columns:
@@ -68,6 +68,9 @@ models:
         description: The order's status in terms of fulfilled line items.
       - name: order_id
         description: The ID of the order, used for API purposes. This is different from the order_number property, which is the ID used by the shop owner and customer.
+        tests:
+          - not_null
+          - unique
       - name: landing_site_base_url
         description: The URL for the page where the buyer landed when they entered the shop.
       - name: location_id

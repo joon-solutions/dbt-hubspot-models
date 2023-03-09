@@ -5,7 +5,7 @@
 
 with base as (
 
-    select * 
+    select *
     from {{ source('shopify','order_line_refund') }}
 
 ),
@@ -13,7 +13,7 @@ with base as (
 fields as (
 
     select
-    
+
         {{
             fivetran_utils.fill_staging_columns(
                 source_columns=adapter.get_columns_in_relation(source('shopify','order_line_refund')),

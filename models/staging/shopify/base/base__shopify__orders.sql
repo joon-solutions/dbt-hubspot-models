@@ -3,7 +3,7 @@
 
 with base as (
 
-    select * 
+    select *
     from {{ source('shopify','orders') }}
 
 ),
@@ -11,7 +11,7 @@ with base as (
 fields as (
 
     select
-    
+
         {{
             fivetran_utils.fill_staging_columns(
                 source_columns=adapter.get_columns_in_relation(source('shopify','orders')),
@@ -30,7 +30,7 @@ fields as (
 
 final as (
 
-    select 
+    select
         order_id,
         user_id,
         total_discounts,
@@ -117,7 +117,7 @@ final as (
     from fields
 )
 
-select * 
+select *
 from final
 where not coalesce(is_test_order, false)
-and not coalesce(_fivetran_deleted, false)
+    and not coalesce(_fivetran_deleted, false)
