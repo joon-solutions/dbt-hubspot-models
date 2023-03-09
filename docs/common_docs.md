@@ -21,3 +21,7 @@ The Fivetran calculated exist time of the deal stage.
 {% docs _fivetran_start %}
 The date the deal stage was entered.
 {% enddocs %}
+
+{% docs _fivetran_deleted %}
+The date when a record was deleted from system or not..
+{% enddocs %}

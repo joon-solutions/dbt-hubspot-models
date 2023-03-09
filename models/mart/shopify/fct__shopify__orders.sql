@@ -39,7 +39,7 @@ with orders as (
 
     select
         orders.*,
-        coalesce(cast({{ fivetran_utils.json_parse("total_shipping_price_set",["shop_money","amount"]) }} as {{ dbt.type_float() }}) ,0) as shipping_cost,
+        coalesce(cast({{ fivetran_utils.json_parse("total_shipping_price_set",["shop_money","amount"]) }} as {{ dbt_utils.type_float() }}) ,0) as shipping_cost,
         
         order_adjustments_aggregates.order_adjustment_amount,
         order_adjustments_aggregates.order_adjustment_tax_amount,
@@ -56,7 +56,7 @@ with orders as (
         coalesce(discount_aggregates.percentage_calc_discount_amount, 0) as percentage_calc_discount_amount,
         coalesce(discount_aggregates.fixed_amount_discount_amount, 0) as fixed_amount_discount_amount,
         coalesce(discount_aggregates.count_discount_codes_applied, 0) as count_discount_codes_applied,
-        coalesce(order_lines.order_total_shipping_tax, 0) as order_total_shipping_tax,
+        coalesce(order_lines.order_total_shipping_tax, 0) as order_total_shipping_tax
         -- order_tag.order_tags,
         -- order_url_tag.order_url_tags,
         -- fulfillments.number_of_fulfillments,
