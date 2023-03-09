@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: shopify
+    database: joon_solutions
+    tables:
+      - name: orders
+      - name: refund
+      - name: order_line
+      - name: order_line_refund
+      - name: order_adjustment
