@@ -11,13 +11,17 @@ Timestamp of when a record was first created.
 {% enddocs %}
 
 {% docs _fivetran_active %}
-Boolean indicating whether the deal stage is active.
+Boolean indicating whether the record is active.
 {% enddocs %}
 
 {% docs _fivetran_end %}
-The Fivetran calculated exist time of the deal stage. 
+The Fivetran calculated exist time of the record. 
 {% enddocs %}
 
 {% docs _fivetran_start %}
-The date the deal stage was entered.
+The date a record was entered.
+{% enddocs %}
+
+{% docs _fivetran_deleted %}
+The date when a record was deleted from system or not..
 {% enddocs %}

@@ -1,0 +1,29 @@
+version: 2
+
+models:
+
+  - name: base__shopify__customer
+    description: Each record represents a customer in Shopify.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - id
+            - _dbt_source_relation
+    columns:
+      - name: id
+        description: PK of the table, which is the combination of customer_id & source_relation.
+        tests: 
+          - not_null
+
+  - name: base__shopify__abandoned_checkout
+    description: A checkout is considered abandoned after the customer has added contact information, but before the customer has completed their purchase.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - id
+            - _dbt_source_relation
+    columns:
+      - name: id
+        description: PK of the table, which is the combination of customer_id & source_relation.
+        tests: 
+          - not_null
