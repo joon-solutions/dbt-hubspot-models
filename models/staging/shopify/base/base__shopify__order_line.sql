@@ -81,7 +81,8 @@ final as (
         origin_location_province_code,
         origin_location_zip,
         {{ dbt_date.convert_timezone(column='cast(_fivetran_synced as ' ~ dbt_utils.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
-        source_relation
+        source_relation,
+        {{ dbt_utils.surrogate_key(['order_line_id','source_relation']) }} as unique_id
 
     from fields
 

@@ -15,6 +15,7 @@ order_line_refunds as (
 refund_join as (
 
     select
+        refunds.unique_id,
         refunds.refund_id,
         refunds.created_at,
         refunds.order_id,
