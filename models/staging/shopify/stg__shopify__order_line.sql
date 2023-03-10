@@ -13,10 +13,11 @@ order_lines_agg as (
         avg(order_lines.quantity) as avg_quantity_per_order_line,
         avg(order_lines.total_discount) as product_avg_discount_per_order_line,
         {{ dbt_utils.surrogate_key(['order_id','source_relation']) }} as unique_id
-        
+
     from order_lines
     group by 1, 2
 )
 
-select 
-* from order_lines_agg
+select
+    *
+from order_lines_agg
