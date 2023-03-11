@@ -6,7 +6,7 @@ models:
     description: Each record represents an order refund in Shopify by order.
     columns:
       - name: unique_id
-        description: The ID of the refund, used for API purposes combined with source_relation. This is different from the order_number property, which is the ID used by the shop owner and customer.
+        description: The ID of the order line refund, used for API purposes combined with source_relation. This is different from the order_number property, which is the ID used by the shop owner and customer.
         tests: 
           - not_null
           - unique

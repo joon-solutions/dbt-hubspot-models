@@ -85,13 +85,13 @@ joined as (
 
     from orders
     left join order_lines
-        on orders.order_id = order_lines.order_id
+        on orders.order_id = order_lines.order_id -- one to one relationship
             and orders.source_relation = order_lines.source_relation
     left join refund_aggregates
-        on orders.order_id = refund_aggregates.order_id
+        on orders.order_id = refund_aggregates.order_id -- one to one relationship
             and orders.source_relation = refund_aggregates.source_relation
     left join order_adjustments_aggregates
-        on orders.order_id = order_adjustments_aggregates.order_id
+        on orders.order_id = order_adjustments_aggregates.order_id -- one to one relationship
             and orders.source_relation = order_adjustments_aggregates.source_relation
     -- left join discount_aggregates
     --     on orders.order_id = discount_aggregates.order_id 
