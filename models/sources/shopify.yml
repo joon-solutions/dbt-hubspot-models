@@ -19,6 +19,11 @@ sources:
     schema: shopify
     database: joon_solutions
     tables:
+      - name: orders
+      - name: refund
+      - name: order_line
+      - name: order_line_refund
+      - name: order_adjustment
       - name: customer
         description: Each record represents a customer in Shopify.
         columns:
