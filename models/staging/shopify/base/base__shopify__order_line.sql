@@ -2,15 +2,8 @@
 {{ config(enabled=var('shopify_order_line', True)) }}
 
 with base as (
-
-    {{
-    fivetran_utils.union_data(
-        table_identifier='order_line', 
-        default_database='joon_solutions',
-        default_schema='shopify',
-        union_schema_variable='shopify_union_schemas',
-        union_database_variable='shopify_union_databases'
-    ) }}
+    select *
+    from {{ ref('base__shopify__order_line_refund_tmp') }}
 
 ),
 
@@ -20,7 +13,7 @@ fields as (
 
         {{
             fivetran_utils.fill_staging_columns(
-                source_columns=adapter.get_columns_in_relation(source('shopify','order_line')),
+                source_columns=adapter.get_columns_in_relation(ref('base__shopify__order_line_refund_tmp')),
                 staging_columns=get_shopify_order_line_columns()
             )
         }}

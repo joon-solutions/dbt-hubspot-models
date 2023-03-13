@@ -1,22 +1,21 @@
 --To disable this model, set the below variable within your dbt_project.yml file to False.
-{{ config(enabled=var('shopify_order_line_refund', True)) }}
+{{ config(enabled=var('shopify_tax_line', True)) }}
 
--- this model will be all NULL until you have made an order line refund in Shopify
+-- this model will be all NULL until you have made a refund in Shopify
 
 with base as (
     select *
-    from {{ ref('base__shopify__order_line_refund_tmp') }}
+    from {{ ref('base__shopify__tax_line_tmp') }}
 
 ),
 
 fields as (
 
     select
-
         {{
             fivetran_utils.fill_staging_columns(
-                source_columns=adapter.get_columns_in_relation(ref('base__shopify__order_line_refund_tmp')),
-                staging_columns=get_shopify_order_line_refund_columns()
+                source_columns=adapter.get_columns_in_relation(ref('base__shopify__tax_line_tmp')),
+                staging_columns=get_shopify_tax_line_columns()
             )
         }}
 
@@ -26,25 +25,20 @@ fields as (
         }}
 
     from base
-
 ),
 
 final as (
 
     select
-        order_line_refund_id,
-        location_id,
+        index,
         order_line_id,
-        subtotal,
-        subtotal_set,
-        total_tax,
-        total_tax_set,
-        quantity,
-        refund_id,
-        restock_type,
+        price,
+        price_set,
+        rate,
+        title,
         {{ dbt_date.convert_timezone(column='cast(_fivetran_synced as ' ~ dbt_utils.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
         source_relation,
-        {{ dbt_utils.surrogate_key(['order_line_refund_id','source_relation']) }} as unique_id
+        {{ dbt_utils.surrogate_key(['index', 'order_line_id','source_relation']) }} as unique_id
 
     from fields
 )

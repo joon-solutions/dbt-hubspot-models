@@ -1,14 +1,8 @@
 with orders as (
 
     select *
-    from {{ ref('base__shopify__orders') }}
+    from {{ ref('int__shopify__orders') }}
 
-),
-
-order_lines as (
-
-    select *
-    from {{ ref('stg__shopify__order_line') }}
 ),
 
 order_adjustments as (
@@ -59,22 +53,14 @@ joined as (
         refund_aggregates.refund_subtotal,
         refund_aggregates.refund_total_tax,
 
-        order_lines.quantity_sold,
-        order_lines.subtotal_sold,
-        order_lines.product_total_discount,
-        order_lines.avg_quantity_per_order_line,
-        order_lines.product_avg_discount_per_order_line,
-
         (orders.total_price
             + coalesce(order_adjustments_aggregates.order_adjustment_amount, 0) + coalesce(order_adjustments_aggregates.order_adjustment_tax_amount, 0)
             - coalesce(refund_aggregates.refund_subtotal, 0) - coalesce(refund_aggregates.refund_total_tax, 0)) as order_adjusted_total
-        -- order_lines.line_item_count,
 
         -- coalesce(discount_aggregates.shipping_discount_amount, 0) as shipping_discount_amount,
         -- coalesce(discount_aggregates.percentage_calc_discount_amount, 0) as percentage_calc_discount_amount,
         -- coalesce(discount_aggregates.fixed_amount_discount_amount, 0) as fixed_amount_discount_amount,
         -- coalesce(discount_aggregates.count_discount_codes_applied, 0) as count_discount_codes_applied,
-        -- coalesce(order_lines.order_total_shipping_tax, 0) as order_total_shipping_tax
         -- order_tag.order_tags,
         -- order_url_tag.order_url_tags,
         -- fulfillments.number_of_fulfillments,
@@ -84,9 +70,6 @@ joined as (
 
 
     from orders
-    left join order_lines
-        on orders.order_id = order_lines.order_id -- one to one relationship
-            and orders.source_relation = order_lines.source_relation
     left join refund_aggregates
         on orders.order_id = refund_aggregates.order_id -- one to one relationship
             and orders.source_relation = refund_aggregates.source_relation
