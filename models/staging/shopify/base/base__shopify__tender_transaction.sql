@@ -3,7 +3,7 @@
 
 with base as (
 
-    select * 
+    select *
     from {{ ref('base__shopify__tender_transaction_tmp') }}
 ),
 
@@ -26,8 +26,8 @@ fields as (
 ),
 
 final as (
-    
-    select 
+
+    select
         transaction_id,
         order_id,
         amount,
@@ -38,7 +38,7 @@ final as (
         {{ dbt_date.convert_timezone(column='cast(processed_at as ' ~ dbt_utils.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as processed_at,
         {{ dbt_date.convert_timezone(column='cast(_fivetran_synced as ' ~ dbt_utils.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
         source_relation,
-        {{ dbt_utils.surrogate_key(['transaction_id','source_relation']) }} as unique_id
+        {{ dbt_utils.surrogate_key(['transaction_id','order_id','source_relation']) }} as unique_id
 
     from fields
     where not coalesce(test, false)

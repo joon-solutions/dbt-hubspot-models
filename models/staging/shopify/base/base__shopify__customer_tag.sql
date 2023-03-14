@@ -1,7 +1,6 @@
-
 with base as (
 
-    select * 
+    select *
     from {{ ref('base__shopify__customer_tag_tmp') }}
 ),
 
@@ -24,8 +23,8 @@ fields as (
 ),
 
 final as (
-    
-    select 
+
+    select
         customer_id,
         index,
         value,

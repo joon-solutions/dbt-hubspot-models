@@ -5,17 +5,17 @@ with transactions as (
     select *
     from {{ ref('base__shopify__transaction') }}
 
-), 
+),
 
 tender_transactions as (
 
     select *
     from {{ ref('base__shopify__tender_transaction') }}
 
-), 
+),
 
 joined as (
-    select 
+    select
         transactions.*,
         tender_transactions.payment_method,
         parent_transactions.created_timestamp as parent_created_timestamp,
@@ -25,20 +25,12 @@ joined as (
     from transactions
     left join tender_transactions --one-to-one
         on transactions.transaction_id = tender_transactions.transaction_id
-        and transactions.source_relation = tender_transactions.source_relation
+            and transactions.source_relation = tender_transactions.source_relation
     left join transactions as parent_transactions --many-to-one
         on transactions.parent_id = parent_transactions.transaction_id
-        and transactions.source_relation = parent_transactions.source_relation
+            and transactions.source_relation = parent_transactions.source_relation
 
 )
-
--- exchange_rate as (
-
---     select
---         *
---     from joined
-
--- )
 
 select *
 from joined

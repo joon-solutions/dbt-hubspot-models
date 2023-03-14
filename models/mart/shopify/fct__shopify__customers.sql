@@ -19,11 +19,11 @@ abandoned as (
 
 orders as (
     select *
-    from {{ ref('int__shopify__orders') }} 
+    from {{ ref('int__shopify__orders') }}
 ),
 
 orders_aggregates as (
-    select 
+    select
         --pk
         customer_id,
         source_relation,
@@ -42,10 +42,10 @@ orders_aggregates as (
         max(created_timestamp) as most_recent_order_timestamp,
         count(distinct order_id) as lifetime_count_orders,
         --transaction metrics
-        -- avg(order_value) as avg_order_value,
-        -- sum(order_value) as lifetime_total_spent,
+        avg(order_value) as avg_order_value,
+        sum(order_value) as lifetime_total_spent,
         --refund metrics
-        -- sum(order_refund_value) as lifetime_total_refunded,
+        sum(order_refund_value) as lifetime_total_refunded,
         --order line
         avg(order_total_quantity) as avg_quantity_per_order,
         sum(order_total_tax) as lifetime_total_tax,
@@ -53,7 +53,7 @@ orders_aggregates as (
         sum(order_total_discount) as lifetime_total_discount,
         avg(order_total_discount) as avg_discount_per_order
     from orders
-    group by 1,2
+    group by 1, 2
 ),
 
 joined as (
@@ -75,9 +75,9 @@ joined as (
         orders_aggregates.first_order_timestamp,
         orders_aggregates.most_recent_order_timestamp,
         -- orders_aggregates.avg_order_value,
-        -- coalesce(orders_aggregates.lifetime_total_spent, 0) as lifetime_total_spent,
-        -- coalesce(orders_aggregates.lifetime_total_refunded, 0) as lifetime_total_refunded,
-        -- (coalesce(orders_aggregates.lifetime_total_spent, 0) - coalesce(orders_aggregates.lifetime_total_refunded, 0)) as lifetime_total_net,
+        coalesce(orders_aggregates.lifetime_total_spent, 0) as lifetime_total_spent,
+        coalesce(orders_aggregates.lifetime_total_refunded, 0) as lifetime_total_refunded,
+        (coalesce(orders_aggregates.lifetime_total_spent, 0) - coalesce(orders_aggregates.lifetime_total_refunded, 0)) as lifetime_total_net,
         coalesce(orders_aggregates.lifetime_count_orders, 0) as lifetime_count_orders,
         orders_aggregates.avg_quantity_per_order,
         coalesce(orders_aggregates.lifetime_total_tax, 0) as lifetime_total_tax,
@@ -91,7 +91,7 @@ joined as (
             and customers.source_relation = abandoned.source_relation
     left join orders_aggregates ---one-to-one
         on customers.customer_id = orders_aggregates.customer_id
-        and customers.source_relation = orders_aggregates.source_relation
+            and customers.source_relation = orders_aggregates.source_relation
 )
 
 select *

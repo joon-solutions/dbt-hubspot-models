@@ -13,19 +13,19 @@ customer_tags as (
 ),
 
 customer_tags_aggregated as (
-    
-    select 
+
+    select
         customer_id,
         source_relation,
         {{ fivetran_utils.string_agg("distinct cast(value as " ~ dbt_utils.type_string() ~ ")", "', '") }} as customer_tags
 
     from customer_tags
-    group by 1,2
+    group by 1, 2
 ),
 
 final as (
 
-    select 
+    select
         customer.*,
         customer_tags_aggregated.customer_tags
     from customer

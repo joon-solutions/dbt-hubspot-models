@@ -23,27 +23,27 @@ shipping as (
 
 transactions as (
     select *
-    from {{ ref('stg__shopify__transactions')}}
+    from {{ ref('stg__shopify__transactions') }}
     where lower(status) = 'success'
-    and lower(kind) not in ('authorization', 'void')
-    and lower(gateway) != 'gift_card' -- redeeming a giftcard does not introduce new revenue
+        and lower(kind) not in ('authorization', 'void')
+        and lower(gateway) != 'gift_card' -- redeeming a giftcard does not introduce new revenue
 
 ),
 
--- transaction_aggregates as (
---     -- this is necessary as customers can pay via multiple payment gateways
---     select 
---         order_id,
---         source_relation,
---         kind,
---         sum(currency_exchange_calculated_amount) as currency_exchange_calculated_amount
+transaction_aggregates as (
+    -- this is necessary as customers can pay via multiple payment gateways
+    select
+        order_id,
+        source_relation,
+        kind,
+        sum(currency_exchange_final_amount) as currency_exchange_final_amount
 
---     from transactions
---     {{ dbt_utils.group_by(n=3) }}
--- ),
+    from transactions
+    {{ dbt_utils.group_by(n=3) }}
+),
 
 final as (
-    select 
+    select
         orders.*,
         --shipping metrics
         {% if fivetran_utils.enabled_vars(['shopify__order_shipping_line', 'shopify__order_shipping_tax_line']) %}
@@ -55,29 +55,29 @@ final as (
         order_lines_agg.line_item_count,
         order_lines_agg.order_total_quantity,
         order_lines_agg.order_total_tax,
-        order_lines_agg.order_total_discount
+        order_lines_agg.order_total_discount,
         ---order value
-        -- transaction_aggregates.currency_exchange_calculated_amount as order_value
+        transaction_aggregates.currency_exchange_final_amount as order_value,
         ---refund
-        -- refunds.currency_exchange_calculated_amount as order_refund_value,
+        refunds.currency_exchange_final_amount as order_refund_value
 
     from orders
-    left join order_lines_agg 
+    left join order_lines_agg
         on orders.order_id = order_lines_agg.order_id
-        and orders.source_relation = order_lines_agg.source_relation
+            and orders.source_relation = order_lines_agg.source_relation
     {% if fivetran_utils.enabled_vars(['shopify__order_shipping_line', 'shopify__order_shipping_tax_line']) %}
     left join shipping
         on orders.order_id = shipping.order_id
         and orders.source_relation = shipping.source_relation
     {% endif %}
-    -- left join transaction_aggregates
-    --     on orders.order_id = transaction_aggregates.order_id
-    --     and orders.source_relation = transaction_aggregates.source_relation
-    --     and transaction_aggregates.kind in ('sale','capture')
-    -- left join transaction_aggregates as refunds
-    --     on orders.order_id = refunds.order_id
-    --     and orders.source_relation = refunds.source_relation
-    --     and refunds.kind = 'refund'
+    left join transaction_aggregates
+        on orders.order_id = transaction_aggregates.order_id
+            and orders.source_relation = transaction_aggregates.source_relation
+            and transaction_aggregates.kind in ('sale', 'capture')
+    left join transaction_aggregates as refunds
+        on orders.order_id = refunds.order_id
+            and orders.source_relation = refunds.source_relation
+            and refunds.kind = 'refund'
 )
 
 select * from final

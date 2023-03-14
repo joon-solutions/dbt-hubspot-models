@@ -231,6 +231,7 @@ models:
         tests:
           - not_null
           - unique
+          - dbt_utils.at_least_one
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: created_timestamp

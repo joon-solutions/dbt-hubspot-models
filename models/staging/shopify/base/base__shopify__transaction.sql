@@ -28,7 +28,7 @@ fields as (
 
 final as (
 
-    select 
+    select
         transaction_id,
         order_id,
         refund_id,
@@ -68,5 +68,7 @@ final as (
     where not coalesce(test, false)
 )
 
-select * 
+select
+    *,
+    {{ dbt_utils.surrogate_key(['transaction_id','source_relation']) }} as unique_id
 from final

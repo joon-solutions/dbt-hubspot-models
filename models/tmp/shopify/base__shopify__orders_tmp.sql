@@ -7,4 +7,3 @@ fivetran_utils.union_data(
     union_database_variable='shopify_union_databases'
 )
 }}
-
