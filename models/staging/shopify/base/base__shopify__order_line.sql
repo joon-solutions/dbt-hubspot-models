@@ -3,7 +3,7 @@
 
 with base as (
     select *
-    from {{ ref('base__shopify__order_line_refund_tmp') }}
+    from {{ ref('base__shopify__order_line_tmp') }}
 
 ),
 
@@ -13,7 +13,7 @@ fields as (
 
         {{
             fivetran_utils.fill_staging_columns(
-                source_columns=adapter.get_columns_in_relation(ref('base__shopify__order_line_refund_tmp')),
+                source_columns=adapter.get_columns_in_relation(ref('base__shopify__order_line_tmp')),
                 staging_columns=get_shopify_order_line_columns()
             )
         }}
