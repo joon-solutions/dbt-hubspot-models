@@ -11,3 +11,23 @@ models:
           - not_null
           - unique
           - dbt_utils.at_least_one
+
+  - name: int__shopify__customers
+    description: ""
+    columns:
+      - name: unique_id
+        description: customer_id || source_relation
+        tests: 
+          - not_null
+          - unique
+          - dbt_utils.at_least_one
+
+  - name: int__shopify__orders
+    description: ""
+    columns:
+      - name: unique_id
+        description: order_id || source_relation
+        tests: 
+          - not_null
+          - unique
+          - dbt_utils.at_least_one

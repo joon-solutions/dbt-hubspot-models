@@ -1,10 +1,9 @@
 with customers as (
 
     select
-        {{ dbt_utils.star(from=ref('stg__shopify__customer'), except=["orders_count", "total_spent"]) }}
-    from {{ ref('stg__shopify__customer') }}
+        {{ dbt_utils.star(from=ref('int__shopify__customers'), except=["orders_count", "total_spent"]) }}
+    from {{ ref('int__shopify__customers') }}
 ),
-
 
 abandoned as (
 
@@ -12,44 +11,87 @@ abandoned as (
         customer_id,
         source_relation,
         count(distinct checkout_id) as lifetime_abandoned_checkouts
-    from {{ ref('stg__shopify__abandoned_checkout') }}
+    from {{ ref('base__shopify__abandoned_checkout') }}
     where customer_id is not null
     group by 1, 2
 
+),
+
+orders as (
+    select *
+    from {{ ref('int__shopify__orders') }}
+),
+
+orders_aggregates as (
+    select
+        --pk
+        customer_id,
+        source_relation,
+
+        {% if fivetran_utils.enabled_vars(['shopify__order_shipping_line', 'shopify__order_shipping_tax_line']) %}
+        sum(order_total_shipping) as lifetime_total_shipping,
+        avg(order_total_shipping) as avg_shipping_per_order,
+        sum(order_total_shipping_with_discounts) as lifetime_total_shipping_with_discounts,
+        avg(order_total_shipping_with_discounts) as avg_shipping_with_discounts_per_order,
+        sum(order_total_shipping_tax) as lifetime_total_shipping_tax,
+        avg(order_total_shipping_tax) as avg_shipping_tax_per_order,
+        {% endif %}
+
+        --order metrics
+        min(created_timestamp) as first_order_timestamp,
+        max(created_timestamp) as most_recent_order_timestamp,
+        count(distinct order_id) as lifetime_count_orders,
+        --transaction metrics
+        avg(order_value) as avg_order_value,
+        sum(order_value) as lifetime_total_spent,
+        --refund metrics
+        sum(order_refund_value) as lifetime_total_refunded,
+        --order line
+        avg(order_total_quantity) as avg_quantity_per_order,
+        sum(order_total_tax) as lifetime_total_tax,
+        avg(order_total_tax) as avg_tax_per_order,
+        sum(order_total_discount) as lifetime_total_discount,
+        avg(order_total_discount) as avg_discount_per_order
+    from orders
+    group by 1, 2
 ),
 
 joined as (
 
     select
         customers.*,
-        coalesce(abandoned.lifetime_abandoned_checkouts, 0) as lifetime_abandoned_checkouts
-        -- orders.first_order_timestamp,
-        -- orders.most_recent_order_timestamp,
-        -- orders.customer_tags,
-        -- orders.avg_order_value,
-        -- coalesce(orders.lifetime_total_spent, 0) as lifetime_total_spent,
-        -- coalesce(orders.lifetime_total_refunded, 0) as lifetime_total_refunded,
-        -- (coalesce(orders.lifetime_total_spent, 0) - coalesce(orders.lifetime_total_refunded, 0)) as lifetime_total_net,
-        -- coalesce(orders.lifetime_count_orders, 0) as lifetime_count_orders,
-        -- orders.avg_quantity_per_order,
-        -- coalesce(orders.lifetime_total_tax, 0) as lifetime_total_tax,
-        -- orders.avg_tax_per_order,
-        -- coalesce(orders.lifetime_total_discount, 0) as lifetime_total_discount,
-        -- orders.avg_discount_per_order,
-        -- coalesce(orders.lifetime_total_shipping, 0) as lifetime_total_shipping,
-        -- orders.avg_shipping_per_order,
-        -- coalesce(orders.lifetime_total_shipping_with_discounts, 0) as lifetime_total_shipping_with_discounts,
-        -- orders.avg_shipping_with_discounts_per_order,
-        -- coalesce(orders.lifetime_total_shipping_tax, 0) as lifetime_total_shipping_tax,
-        -- orders.avg_shipping_tax_per_order
+        coalesce(abandoned.lifetime_abandoned_checkouts, 0) as lifetime_abandoned_checkouts,
+        ---order metrics
+
+        {% if fivetran_utils.enabled_vars(['shopify__order_shipping_line', 'shopify__order_shipping_tax_line']) %}
+        coalesce(orders_aggregates.lifetime_total_shipping, 0) as lifetime_total_shipping,
+        orders_aggregates.avg_shipping_per_order,
+        coalesce(orders_aggregates.lifetime_total_shipping_with_discounts, 0) as lifetime_total_shipping_with_discounts,
+        orders_aggregates.avg_shipping_with_discounts_per_order,
+        coalesce(orders_aggregates.lifetime_total_shipping_tax, 0) as lifetime_total_shipping_tax,
+        orders_aggregates.avg_shipping_tax_per_order,
+        {% endif %}
+
+        orders_aggregates.first_order_timestamp,
+        orders_aggregates.most_recent_order_timestamp,
+        -- orders_aggregates.avg_order_value,
+        coalesce(orders_aggregates.lifetime_total_spent, 0) as lifetime_total_spent,
+        coalesce(orders_aggregates.lifetime_total_refunded, 0) as lifetime_total_refunded,
+        (coalesce(orders_aggregates.lifetime_total_spent, 0) - coalesce(orders_aggregates.lifetime_total_refunded, 0)) as lifetime_total_net,
+        coalesce(orders_aggregates.lifetime_count_orders, 0) as lifetime_count_orders,
+        orders_aggregates.avg_quantity_per_order,
+        coalesce(orders_aggregates.lifetime_total_tax, 0) as lifetime_total_tax,
+        orders_aggregates.avg_tax_per_order,
+        coalesce(orders_aggregates.lifetime_total_discount, 0) as lifetime_total_discount,
+        orders_aggregates.avg_discount_per_order
 
     from customers
-    -- left join orders
-    --     on customers.customer_id = orders.customer_id
-    --     and customers.source_relation = orders.source_relation
-    left join abandoned --one-to-one relationship
+    left join abandoned --one-to-one
         on customers.customer_id = abandoned.customer_id
             and customers.source_relation = abandoned.source_relation
+    left join orders_aggregates ---one-to-one
+        on customers.customer_id = orders_aggregates.customer_id
+            and customers.source_relation = orders_aggregates.source_relation
 )
 
 select *

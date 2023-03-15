@@ -225,17 +225,13 @@ models:
   
   - name: fct__shopify__customers
     description: Each record represents a customer in Shopify.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - customer_id
-            - source_relation
     columns:
-      - name: id
+      - name: unique_id
         description: PK of the table, which is the combination of customer_id & source_relation.
         tests:
           - not_null
           - unique
+          - dbt_utils.at_least_one
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: created_timestamp

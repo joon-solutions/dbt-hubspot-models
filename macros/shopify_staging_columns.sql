@@ -322,3 +322,139 @@
 {{ return(columns) }}
 
 {% endmacro %}
+
+
+{% macro get_shopify_order_shipping_line_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "carrier_identifier", "datatype": dbt_utils.type_string()},
+    {"name": "code", "datatype": dbt_utils.type_string()},
+    {"name": "delivery_category", "datatype": dbt_utils.type_string()},
+    {"name": "discounted_price", "datatype": dbt_utils.type_float()},
+    {"name": "discounted_price_set", "datatype": dbt_utils.type_string()},
+    {"name": "id", "datatype": dbt_utils.type_int(), "alias": "order_shipping_line_id"},
+    {"name": "order_id", "datatype": dbt_utils.type_int()},
+    {"name": "phone", "datatype": dbt_utils.type_string()},
+    {"name": "price", "datatype": dbt_utils.type_float()},
+    {"name": "price_set", "datatype": dbt_utils.type_string()},
+    {"name": "requested_fulfillment_service_id", "datatype": dbt_utils.type_string()},
+    {"name": "source", "datatype": dbt_utils.type_string()},
+    {"name": "title", "datatype": dbt_utils.type_string()}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}
+
+
+{% macro get_shopify_shopify_order_shipping_tax_line_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "index", "datatype": dbt_utils.type_int()},
+    {"name": "order_shipping_line_id", "datatype": dbt_utils.type_int()},
+    {"name": "price", "datatype": dbt_utils.type_float()},
+    {"name": "price_set", "datatype": dbt_utils.type_string()},
+    {"name": "rate", "datatype": dbt_utils.type_float()},
+    {"name": "title", "datatype": dbt_utils.type_string()}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}
+
+{% macro get_shopify_tender_transaction_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "amount", "datatype": dbt_utils.type_float()},
+    {"name": "currency", "datatype": dbt_utils.type_string()},
+    {"name": "id", "datatype": dbt_utils.type_int(), "alias": "transaction_id"},
+    {"name": "order_id", "datatype": dbt_utils.type_int()},
+    {"name": "payment_method", "datatype": dbt_utils.type_string()},
+    {"name": "processed_at", "datatype": dbt_utils.type_timestamp()},
+    {"name": "remote_reference", "datatype": dbt_utils.type_string()},
+    {"name": "test", "datatype": "boolean"},
+    {"name": "user_id", "datatype": dbt_utils.type_int()}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}
+
+{% macro get_shopify_transaction_columns() %}
+
+{% set columns = [
+    {"name": "id", "datatype": dbt_utils.type_numeric(), "alias": "transaction_id"},
+    {"name": "order_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "refund_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "amount", "datatype": dbt_utils.type_numeric()},
+    {"name": "created_at", "datatype": dbt_utils.type_timestamp()},
+    {"name": "processed_at", "datatype": dbt_utils.type_timestamp()},
+    {"name": "device_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "gateway", "datatype": dbt_utils.type_string()},
+    {"name": "source_name", "datatype": dbt_utils.type_string()},
+    {"name": "message", "datatype": dbt_utils.type_string()},
+    {"name": "currency", "datatype": dbt_utils.type_string()},
+    {"name": "location_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "parent_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "payment_avs_result_code", "datatype": dbt_utils.type_string()},
+    {"name": "payment_credit_card_bin", "datatype": dbt_utils.type_string()},
+    {"name": "payment_cvv_result_code", "datatype": dbt_utils.type_string()},
+    {"name": "payment_credit_card_number", "datatype": dbt_utils.type_string()},
+    {"name": "payment_credit_card_company", "datatype": dbt_utils.type_string()},
+    {"name": "kind", "datatype": dbt_utils.type_string()},
+    {"name": "receipt", "datatype": dbt_utils.type_string()},
+    {"name": "currency_exchange_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "currency_exchange_adjustment", "datatype": dbt_utils.type_numeric()},
+    {"name": "currency_exchange_original_amount", "datatype": dbt_utils.type_numeric()},
+    {"name": "currency_exchange_final_amount", "datatype": dbt_utils.type_numeric()},
+    {"name": "currency_exchange_currency", "datatype": dbt_utils.type_string()},
+    {"name": "error_code", "datatype": dbt_utils.type_string()},
+    {"name": "status", "datatype": dbt_utils.type_string()},
+    {"name": "test", "datatype": "boolean"},
+    {"name": "user_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "authorization_expires_at", "datatype": dbt_utils.type_timestamp()}
+] %}
+
+{% if target.type in ('redshift','postgres') %}
+ {{ columns.append({"name": "authorization", "datatype": dbt_utils.type_string(), "quote": True, "alias": "authorization_code"}) }}
+{% else %}
+ {{ columns.append({"name": "authorization", "datatype": dbt_utils.type_string(), "alias": "authorization_code"}) }}
+{% endif %}
+
+{{ return(columns) }}
+
+{% endmacro %}
+
+{% macro get_shopify_customer_tag_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "index", "datatype": dbt_utils.type_int()},
+    {"name": "customer_id", "datatype": dbt_utils.type_int()},
+    {"name": "value", "datatype": dbt_utils.type_string()}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}
+
+
+{% macro get_shopify_tax_line_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "index", "datatype": dbt_utils.type_int()},
+    {"name": "order_line_id", "datatype": dbt_utils.type_int()},
+    {"name": "price", "datatype": dbt_utils.type_float()},
+    {"name": "price_set", "datatype": dbt_utils.type_string()},
+    {"name": "rate", "datatype": dbt_utils.type_float()},
+    {"name": "title", "datatype": dbt_utils.type_string()}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}
