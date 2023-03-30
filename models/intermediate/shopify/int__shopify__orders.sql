@@ -48,9 +48,9 @@ order_tag as (
         order_id,
         source_relation,
         {{ fivetran_utils.string_agg("distinct cast(value as " ~ dbt_utils.type_string() ~ ")", "', '") }} as order_tags
-    
+
     from {{ ref('base__shopify__order_tag') }}
-    group by 1,2
+    group by 1, 2
 
 ),
 
@@ -60,9 +60,9 @@ order_url_tag as (
         order_id,
         source_relation,
         {{ fivetran_utils.string_agg("distinct cast(value as " ~ dbt_utils.type_string() ~ ")", "', '") }} as order_url_tags
-    
+
     from {{ ref('base__shopify__order_url_tag') }}
-    group by 1,2
+    group by 1, 2
 ),
 
 final as (

@@ -1,7 +1,6 @@
-
 with base as (
 
-    select * 
+    select *
     from {{ ref('base__shopify__order_discount_code_tmp') }}
 ),
 
@@ -24,8 +23,8 @@ fields as (
 ),
 
 final as (
-    
-    select 
+
+    select
         order_id,
         upper(code) as code,
         type,
@@ -37,6 +36,7 @@ final as (
     where index = 1 -- Sanity check. index should not > 1 but open an issue if that's not the case in your data
 )
 
-select *,
-        {{ dbt_utils.surrogate_key(['order_id','code','source_relation']) }} as unique_id
+select
+    *,
+    {{ dbt_utils.surrogate_key(['order_id','code','source_relation']) }} as unique_id
 from final

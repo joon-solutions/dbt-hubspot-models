@@ -1,7 +1,6 @@
-
 with base as (
 
-    select * 
+    select *
     from {{ ref('base__shopify__order_tag_tmp') }}
 ),
 
@@ -24,8 +23,8 @@ fields as (
 ),
 
 final as (
-    
-    select 
+
+    select
         order_id,
         index,
         value,
@@ -35,7 +34,8 @@ final as (
     from fields
 )
 
-select *,
-       {{ dbt_utils.surrogate_key(['order_id','index','source_relation']) }} as unique_id
+select
+    *,
+    {{ dbt_utils.surrogate_key(['order_id','index','source_relation']) }} as unique_id
 
 from final

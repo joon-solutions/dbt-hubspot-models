@@ -1,7 +1,6 @@
-
 with base as (
 
-    select * 
+    select *
     from {{ ref('base__shopify__order_url_tag_tmp') }}
 ),
 
@@ -24,17 +23,18 @@ fields as (
 ),
 
 final as (
-    
-    select 
+
+    select
         order_id,
         key,
         value,
         {{ dbt_date.convert_timezone(column='cast(_fivetran_synced as ' ~ dbt_utils.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
         source_relation
-        
+
     from fields
 )
 
-select *,
-       {{ dbt_utils.surrogate_key(['order_id','key','source_relation']) }} as unique_id
+select
+    *,
+    {{ dbt_utils.surrogate_key(['order_id','key','source_relation']) }} as unique_id
 from final

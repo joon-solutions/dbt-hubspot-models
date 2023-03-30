@@ -1,7 +1,6 @@
-
 with base as (
 
-    select * 
+    select *
     from {{ ref('base__shopify__fulfillment_tmp') }}
 ),
 
@@ -24,8 +23,8 @@ fields as (
 ),
 
 final as (
-    
-    select 
+
+    select
         fulfillment_id,
         location_id,
         order_id,
@@ -45,6 +44,7 @@ final as (
     from fields
 )
 
-select *,
-        {{ dbt_utils.surrogate_key(['fulfillment_id','source_relation']) }} as unique_id
+select
+    *,
+    {{ dbt_utils.surrogate_key(['fulfillment_id','source_relation']) }} as unique_id
 from final

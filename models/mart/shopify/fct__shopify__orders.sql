@@ -43,7 +43,7 @@ refund_aggregates as (
 
 fulfillments as (
 
-    select 
+    select
         order_id,
         source_relation,
         count(fulfillment_id) as count_fulfillments,
@@ -52,19 +52,19 @@ fulfillments as (
         {{ fivetran_utils.string_agg("distinct cast(tracking_number as " ~ dbt_utils.type_string() ~ ")", "', '") }} as tracking_numbers
 
     from {{ ref('base__shopify__fulfillment') }}
-    group by 1,2
+    group by 1, 2
 ),
 
 order_discount_code as (
-    
+
     select *
     from {{ ref('base__shopify__order_discount_code') }}
 
-), 
+),
 
 discount_aggregates as (
 
-    select 
+    select
         order_id,
         source_relation,
         sum(case when type = 'shipping' then amount else 0 end) as shipping_discount_amount,
@@ -73,7 +73,7 @@ discount_aggregates as (
         count(distinct code) as unique_codes_applied_count
 
     from order_discount_code
-    group by 1,2
+    group by 1, 2
 ),
 
 joined as (
@@ -110,11 +110,11 @@ joined as (
         on orders.order_id = order_adjustments_aggregates.order_id -- one to one relationship
             and orders.source_relation = order_adjustments_aggregates.source_relation
     left join discount_aggregates -- one to one relationship
-        on orders.order_id = discount_aggregates.order_id 
-        and orders.source_relation = discount_aggregates.source_relation
+        on orders.order_id = discount_aggregates.order_id
+            and orders.source_relation = discount_aggregates.source_relation
     left join fulfillments -- one to one relationship
         on orders.order_id = fulfillments.order_id
-        and orders.source_relation = fulfillments.source_relation
+            and orders.source_relation = fulfillments.source_relation
 
 ),
 
