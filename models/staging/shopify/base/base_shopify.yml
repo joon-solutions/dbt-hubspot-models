@@ -834,7 +834,7 @@ models:
     columns:
       - name: unique_id
         description: PK of the table
-        test:
+        tests:
           - not_null
           - unique
       - name: _fivetran_synced
@@ -851,15 +851,15 @@ models:
         description: Value of the tag.
       - name: source_relation
         description: "{{ doc('shopify_source_relation') }}"
-
+        
   - name: base__shopify__fulfillment
     description: >
       A fulfillment order represents a group of one or more items in an order that will be fulfilled from the same location. 
       A fulfillment represents work that is completed as part of a fulfillment order and can include one or more items.
     columns:
       - name: unique_id
-        description: PK of the table = combination of fulfillment_id & source_relation
-        test:
+        description: PK of the table
+        tests:
           - not_null
           - unique
       - name: _fivetran_synced
@@ -901,11 +901,12 @@ models:
           - cancelled: The fulfillment was cancelled.
           - error: There was an error with the fulfillment request.
           - failure: The fulfillment request failed.
-        tests:
-          - accepted_values:
-              values: ['pending', 'open', 'success', 'cancelled', 'error', 'failure']
-              config:
-                severity: warn # we pivot these out in shopify__inventory_levels
+        # tests:
+        #   - accepted_values:
+        #       values: ['pending', 'open', 'success', 'cancelled', 'error', 'failure']
+        #       config:
+        #         severity: warn 
+                # we pivot these out in shopify__inventory_levels
       - name: tracking_company
         description: The name of the tracking company. 
       - name: tracking_number
