@@ -120,7 +120,7 @@ models:
       - name: source_name
         description: Where the order originated. Can be set only during order creation, and is not writeable afterwards.
       - name: source_relation
-        description: The schema or database this record came from, if you are unioning multiple connectors. Null if not.
+        description: "{{ doc('shopify_source_relation') }}"
       - name: subtotal_price
         description: The price of the order in the shop currency after discounts but before shipping, taxes, and tips.
       - name: has_taxes_included
@@ -312,3 +312,37 @@ models:
           field and the deprecated `accepts_marketing` field. Records with the old field will be marked with '(legacy)'.
       - name: lifetime_duration
         description: The amount of time since the customer was first added to the store.
+
+  - name: rpt__shopify__customer_cohorts
+    description: Each record represents a customer's performance in a calendar month.
+    columns:
+      - name: customer_cohort_id
+        description: Unique key representing a customer in a given month. Hashed on 'date_month', 'customer_id', and 'source_relation'.
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+      - name: cohort_month
+        description: The month the cohort belongs to, i.e the first month the customer had an order.
+      - name: cohort_month_number
+        description: The 'number' of the `date_month` of the record, i.e. how many months from their start month this cohort occurred
+      - name: customer_id
+        description: The ID of the related customer.
+      - name: date_month
+        description: The calendar month the customer stats relate to.
+      - name: first_order_timestamp
+        description: The timestamp of the customer's first order.
+      - name: total_line_item_in_month
+        description: Number of line items purchased in the `date_month`
+      - name: total_line_item_lifetime
+        description: Number of line items purchased up until and including this `date_month`.
+      - name: total_order_in_month
+        description: Number of orders purchased in the `date_month`
+      - name: total_order_lifetime
+        description: Number of orders purchased up until and including this `date_month`.
+      - name: total_order_amount_in_month
+        description: Total amount (in shop currency) purchased in the `date_month`
+      - name: total_order_amount_lifetime
+        description: Total amount (in shop currency) up until and including this `date_month`.
+      - name: source_relation
+        description: "{{ doc('shopify_source_relation') }}"
