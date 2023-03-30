@@ -41,6 +41,41 @@ refund_aggregates as (
 
 ),
 
+fulfillments as (
+
+    select
+        order_id,
+        source_relation,
+        count(fulfillment_id) as count_fulfillments,
+        {{ fivetran_utils.string_agg("distinct cast(service as " ~ dbt_utils.type_string() ~ ")", "', '") }} as fulfillment_services,
+        {{ fivetran_utils.string_agg("distinct cast(tracking_company as " ~ dbt_utils.type_string() ~ ")", "', '") }} as tracking_companies,
+        {{ fivetran_utils.string_agg("distinct cast(tracking_number as " ~ dbt_utils.type_string() ~ ")", "', '") }} as tracking_numbers
+
+    from {{ ref('base__shopify__fulfillment') }}
+    group by 1, 2
+),
+
+order_discount_code as (
+
+    select *
+    from {{ ref('base__shopify__order_discount_code') }}
+
+),
+
+discount_aggregates as (
+
+    select
+        order_id,
+        source_relation,
+        sum(case when type = 'shipping' then amount else 0 end) as shipping_discount_amount,
+        sum(case when type = 'percentage' then amount else 0 end) as percentage_calc_discount_amount,
+        sum(case when type = 'fixed_amount' then amount else 0 end) as fixed_amount_discount_amount,
+        count(distinct code) as unique_codes_applied_count
+
+    from order_discount_code
+    group by 1, 2
+),
+
 joined as (
 
     select
@@ -55,18 +90,16 @@ joined as (
 
         (orders.total_price
             + coalesce(order_adjustments_aggregates.order_adjustment_amount, 0) + coalesce(order_adjustments_aggregates.order_adjustment_tax_amount, 0)
-            - coalesce(refund_aggregates.refund_subtotal, 0) - coalesce(refund_aggregates.refund_total_tax, 0)) as order_adjusted_total
+            - coalesce(refund_aggregates.refund_subtotal, 0) - coalesce(refund_aggregates.refund_total_tax, 0)) as order_adjusted_total,
 
-        -- coalesce(discount_aggregates.shipping_discount_amount, 0) as shipping_discount_amount,
-        -- coalesce(discount_aggregates.percentage_calc_discount_amount, 0) as percentage_calc_discount_amount,
-        -- coalesce(discount_aggregates.fixed_amount_discount_amount, 0) as fixed_amount_discount_amount,
-        -- coalesce(discount_aggregates.count_discount_codes_applied, 0) as count_discount_codes_applied,
-        -- order_tag.order_tags,
-        -- order_url_tag.order_url_tags,
-        -- fulfillments.number_of_fulfillments,
-        -- fulfillments.fulfillment_services,
-        -- fulfillments.tracking_companies,
-        -- fulfillments.tracking_numbers
+        coalesce(discount_aggregates.shipping_discount_amount, 0) as shipping_discount_amount,
+        coalesce(discount_aggregates.percentage_calc_discount_amount, 0) as percentage_calc_discount_amount,
+        coalesce(discount_aggregates.fixed_amount_discount_amount, 0) as fixed_amount_discount_amount,
+        coalesce(discount_aggregates.unique_codes_applied_count, 0) as unique_codes_applied_count,
+        fulfillments.count_fulfillments,
+        fulfillments.fulfillment_services,
+        fulfillments.tracking_companies,
+        fulfillments.tracking_numbers
 
 
     from orders
@@ -76,18 +109,12 @@ joined as (
     left join order_adjustments_aggregates
         on orders.order_id = order_adjustments_aggregates.order_id -- one to one relationship
             and orders.source_relation = order_adjustments_aggregates.source_relation
-    -- left join discount_aggregates
-    --     on orders.order_id = discount_aggregates.order_id 
-    --     and orders.source_relation = discount_aggregates.source_relation
-    -- left join order_tag
-    --     on orders.order_id = order_tag.order_id
-    --     and orders.source_relation = order_tag.source_relation
-    -- left join order_url_tag
-    --     on orders.order_id = order_url_tag.order_id
-    --     and orders.source_relation = order_url_tag.source_relation
-    -- left join fulfillments
-    --     on orders.order_id = fulfillments.order_id
-    --     and orders.source_relation = fulfillments.source_relation
+    left join discount_aggregates -- one to one relationship
+        on orders.order_id = discount_aggregates.order_id
+            and orders.source_relation = discount_aggregates.source_relation
+    left join fulfillments -- one to one relationship
+        on orders.order_id = fulfillments.order_id
+            and orders.source_relation = fulfillments.source_relation
 
 ),
 

@@ -805,3 +805,142 @@ models:
         description: Value of the tag.
       - name: source_relation
         description: "{{ doc('shopify_source_relation') }}"
+
+  - name: base__shopify__order_tag
+    description: Tags that the shop owner has attached to the order.
+    columns:
+      - name: unique_id
+        description: PK of the table
+        test:
+          - not_null
+          - unique
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: index
+        description: Index (starting from 1) representing when the tag was placed on the order. 
+        tests:
+          - not_null
+      - name: order_id
+        description: ID of the order being tagged.
+        tests:
+          - not_null
+      - name: value
+        description: Value of the tag.
+      - name: source_relation
+        description: "{{ doc('shopify_source_relation') }}"
+
+  - name: base__shopify__order_url_tag
+    description: Key-value tags that the shop owner has attached to the order url.
+    columns:
+      - name: unique_id
+        description: PK of the table
+        tests:
+          - not_null
+          - unique
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: key
+        description: Key of the tag pair.
+        tests:  
+          - not_null
+      - name: order_id
+        description: ID of the order url being tagged.
+        tests:
+          - not_null
+      - name: value
+        description: Value of the tag.
+      - name: source_relation
+        description: "{{ doc('shopify_source_relation') }}"
+        
+  - name: base__shopify__fulfillment
+    description: >
+      A fulfillment order represents a group of one or more items in an order that will be fulfilled from the same location. 
+      A fulfillment represents work that is completed as part of a fulfillment order and can include one or more items.
+    columns:
+      - name: unique_id
+        description: PK of the table
+        tests:
+          - not_null
+          - unique
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: created_at
+        description: The date and time when the fulfillment was created. The API returns this value in ISO 8601 format.
+      - name: fulfillment_id
+        description: The ID for the fulfillment.
+        tests:
+          - not_null
+      - name: location_id
+        description: The unique identifier of the location that the fulfillment was processed at.
+      - name: name
+        description: >
+          The uniquely identifying fulfillment name, consisting of two parts separated by a .. The first part represents the order name and the second part represents the fulfillment number. 
+          The fulfillment number automatically increments depending on how many fulfillments are in an order (e.g. #1001.1, #1001.2).
+      - name: order_id
+        description: The unique numeric identifier for the order.
+      - name: service
+        description: The fulfillment service associated with the fulfillment.
+      - name: shipment_status
+        description: >
+          The current shipment status of the fulfillment. Valid values include:
+          - label_printed: A label for the shipment was purchased and printed.
+          - label_purchased: A label for the shipment was purchased, but not printed.
+          - attempted_delivery: Delivery of the shipment was attempted, but unable to be completed.
+          - ready_for_pickup: The shipment is ready for pickup at a shipping depot.
+          - confirmed: The carrier is aware of the shipment, but hasn't received it yet.
+          - in_transit: The shipment is being transported between shipping facilities on the way to its destination.
+          - out_for_delivery: The shipment is being delivered to its final destination.
+          - delivered: The shipment was successfully delivered.
+          - failure: Something went wrong when pulling tracking information for the shipment, such as the tracking number was invalid or the shipment was canceled.
+      - name: status
+        description: >
+          The status of the fulfillment. Valid values include:
+          - pending: Shopify has created the fulfillment and is waiting for the third-party fulfillment service to transition it to 'open' or 'success'.
+          - open: The fulfillment has been acknowledged by the service and is in processing.
+          - success: The fulfillment was successful.
+          - cancelled: The fulfillment was cancelled.
+          - error: There was an error with the fulfillment request.
+          - failure: The fulfillment request failed.
+        # tests:
+        #   - accepted_values:
+        #       values: ['pending', 'open', 'success', 'cancelled', 'error', 'failure']
+        #       config:
+        #         severity: warn 
+                # we pivot these out in shopify__inventory_levels
+      - name: tracking_company
+        description: The name of the tracking company. 
+      - name: tracking_number
+        description: Primary tracking number for the order.
+      - name: tracking_numbers
+        description: A list of tracking numbers, provided by the shipping company.
+      - name: tracking_urls
+        description: The URLs of tracking pages for the fulfillment.
+      - name: updated_at
+        description: The date and time (ISO 8601 format) when the fulfillment was last modified.
+      - name: source_relation
+        description: "{{ doc('shopify_source_relation') }}"
+
+  - name: base__shopify__order_discount_code
+    description: Discount codes placed on orders.
+    columns:
+      - name: unique_id
+        description: PK of the table = combination of order_id & code & source_relation
+        test:
+          - not_null
+          - unique
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: amount
+        description: The amount that's deducted from the order total.
+      - name: code
+        description: This property returns the discount code that was entered at checkout. Otherwise this property returns the title of the discount that was applied.
+        tests:
+          - not_null
+      - name: order_id
+        description: Associated order ID.
+        tests:
+          - not_null
+      - name: type
+        description: The type of discount - `fixed_amount`, `percentage`, or `shipping`.
+      - name: source_relation
+        description: "{{ doc('shopify_source_relation') }}"
