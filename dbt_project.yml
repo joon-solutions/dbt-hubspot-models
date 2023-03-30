@@ -155,6 +155,7 @@ vars:
   transaction_pass_through_columns: []
   shopify__order_shipping_line: false
   shopify__order_shipping_tax_line: false
+  shopify_base_dates: "cast('2021-01-01' as date)"
 
 
 # Configuring models
