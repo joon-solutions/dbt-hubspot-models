@@ -346,3 +346,13 @@ models:
         description: Total amount (in shop currency) up until and including this `date_month`.
       - name: source_relation
         description: "{{ doc('shopify_source_relation') }}"
+
+  - name: base__shopify__calendar
+    description: A date spine table which starts at the date specified in variable shopify_base_dates in profile_yml file.
+    columns:
+      - name: date_day
+        description: PK of the table
+        tests:
+          - not_null
+          - unique
+          - dbt_utils.at_least_one
