@@ -216,7 +216,7 @@ models:
         description: The total amount of discount (in shop currency) allocated via a percentage-based discount
       - name: fixed_amount_discount_amount
         description: The total amount of discount (in shop currency) allocated via a fixed-amount discount
-      - name: count_discount_codes_applied
+      - name: unique_codes_applied_count
         description: Distinct discount codes applied on the order
       - name: source_identifier
         description: The ID of the order placed on the originating platform. This value doesn't correspond to the Shopify ID that's generated from a completed draft.

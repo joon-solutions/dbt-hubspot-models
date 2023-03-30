@@ -458,3 +458,70 @@
 {{ return(columns) }}
 
 {% endmacro %}
+
+{% macro get_shopify_order_tag_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "index", "datatype": dbt_utils.type_int()},
+    {"name": "order_id", "datatype": dbt_utils.type_int()},
+    {"name": "value", "datatype": dbt_utils.type_string()}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}
+
+
+{% macro get_shopify_order_url_tag_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "key", "datatype": dbt_utils.type_string()},
+    {"name": "order_id", "datatype": dbt_utils.type_int()},
+    {"name": "value", "datatype": dbt_utils.type_string()}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}
+
+{% macro get_shopify_fulfillment_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "created_at", "datatype": dbt_utils.type_timestamp()},
+    {"name": "id", "datatype": dbt_utils.type_int(), "alias": "fulfillment_id"},
+    {"name": "location_id", "datatype": dbt_utils.type_int()},
+    {"name": "name", "datatype": dbt_utils.type_string()},
+    {"name": "order_id", "datatype": dbt_utils.type_int()},
+    {"name": "service", "datatype": dbt_utils.type_string()},
+    {"name": "shipment_status", "datatype": dbt_utils.type_string()},
+    {"name": "status", "datatype": dbt_utils.type_string()},
+    {"name": "tracking_company", "datatype": dbt_utils.type_string()},
+    {"name": "tracking_number", "datatype": dbt_utils.type_string()},
+    {"name": "tracking_numbers", "datatype": dbt_utils.type_string()},
+    {"name": "tracking_urls", "datatype": dbt_utils.type_string()},
+    {"name": "updated_at", "datatype": dbt_utils.type_timestamp()}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}
+
+{% macro get_shopify_order_discount_code_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "amount", "datatype": dbt_utils.type_float()},
+    {"name": "code", "datatype": dbt_utils.type_string()},
+    {"name": "index", "datatype": dbt_utils.type_int()},
+    {"name": "order_id", "datatype": dbt_utils.type_int()},
+    {"name": "type", "datatype": dbt_utils.type_string()}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}
+
+

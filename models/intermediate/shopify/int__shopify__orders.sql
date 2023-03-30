@@ -42,6 +42,29 @@ transaction_aggregates as (
     {{ dbt_utils.group_by(n=3) }}
 ),
 
+order_tag as (
+
+    select
+        order_id,
+        source_relation,
+        {{ fivetran_utils.string_agg("distinct cast(value as " ~ dbt_utils.type_string() ~ ")", "', '") }} as order_tags
+    
+    from {{ ref('base__shopify__order_tag') }}
+    group by 1,2
+
+),
+
+order_url_tag as (
+
+    select
+        order_id,
+        source_relation,
+        {{ fivetran_utils.string_agg("distinct cast(value as " ~ dbt_utils.type_string() ~ ")", "', '") }} as order_url_tags
+    
+    from {{ ref('base__shopify__order_url_tag') }}
+    group by 1,2
+),
+
 final as (
     select
         orders.*,
@@ -59,7 +82,10 @@ final as (
         ---order value
         transaction_aggregates.currency_exchange_final_amount as order_value,
         ---refund
-        refunds.currency_exchange_final_amount as order_refund_value
+        refunds.currency_exchange_final_amount as order_refund_value,
+        ---refund
+        order_tag.order_tags,
+        order_url_tag.order_url_tags
 
     from orders
     left join order_lines_agg
@@ -78,6 +104,12 @@ final as (
         on orders.order_id = refunds.order_id
             and orders.source_relation = refunds.source_relation
             and refunds.kind = 'refund'
+    left join order_tag
+        on orders.order_id = order_tag.order_id
+            and orders.source_relation = order_tag.source_relation
+    left join order_url_tag
+        on orders.order_id = order_url_tag.order_id
+            and orders.source_relation = order_url_tag.source_relation
 )
 
 select * from final
