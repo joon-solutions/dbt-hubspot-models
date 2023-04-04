@@ -74,6 +74,7 @@ joined as (
 
         orders_aggregates.first_order_timestamp,
         orders_aggregates.most_recent_order_timestamp,
+        datediff(day, orders_aggregates.most_recent_order_timestamp, convert_timezone('UTC', {{ var('shopify_timezone', "'UTC'") }}, sysdate() )) as days_since_last_orders,
         -- orders_aggregates.avg_order_value,
         coalesce(orders_aggregates.lifetime_total_spent, 0) as lifetime_total_spent,
         coalesce(orders_aggregates.lifetime_total_refunded, 0) as lifetime_total_refunded,

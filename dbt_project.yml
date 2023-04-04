@@ -156,6 +156,8 @@ vars:
   shopify__order_shipping_line: false
   shopify__order_shipping_tax_line: false
   shopify_base_dates: "cast('2021-01-01' as date)"
+  m_weight: 1
+  f_weight: 1
 
 
 # Configuring models
