@@ -359,95 +359,54 @@ models:
           - unique
           - dbt_utils.at_least_one
 
-  - name: rpt__shopify__customer_rfm
+  - name: rpt__shopify__customer_rfm_scd
     description: Each record represents a customer in Shopify.
     columns:
       - name: unique_id
-        description: PK of the table, which is the combination of customer_id & source_relation.
+        description: PK of the table, which is the combination of customer_id & source_relation & date_month.
         tests:
           - not_null
           - unique
           - dbt_utils.at_least_one
-      - name: _fivetran_synced
-        description: "{{ doc('_fivetran_synced') }}"
+
+      - name: date_month
+        description: The report month
       - name: created_timestamp
         description: The date and time when the customer was created.
       - name: default_address_id
         description: The default address for the customer. 
       - name: email
         description: The unique email address of the customer. Attempting to assign the same email address to multiple customers returns an error.
-      - name: first_name
-        description: The customer's first name.
+      - name: full_name
+        description: The customer's full name.
       - name: customer_id
         description: A unique identifier for the customer.
-      - name: last_name
-        description: The customer's last name.
-      - name: lifetime_count_orders
-        description: The number of orders associated with this customer.
       - name: phone
         description: The unique phone number (E.164 format) for this customer. Attempting to assign the same phone number to multiple customers returns an error.
       - name: account_state
         description: The state of the customer's account with a shop.
-      - name: is_tax_exempt
-        description: Whether the customer is exempt from paying taxes on their order. If true, then taxes won't be applied to an order at checkout. If false, then taxes will be applied at checkout.
-      - name: updated_timestamp
-        description: The date and time when the customer information was last updated.
-      - name: is_verified_email
-        description: Whether the customer has verified their email address.
       - name: first_order_timestamp
         description: The timestamp the customer completed their first order.
-      - name: most_recent_order_timestamp
-        description: The timestamp the customer completed their most recent order.
-      - name: avg_order_value
-        description: The average order value for the customer.
+      - name: source_relation
+        description: "{{ doc('shopify_source_relation') }}"
+      - name: customer_tags
+        description: A string aggregated list of all tags associated with a customer. 
+      - name: lifetime_count_orders
+        description: The number of orders associated with this customer.
       - name: lifetime_total_spent
         description: The total amount of money in shop currency that the customer has spent on orders across their order history.
       - name: lifetime_total_refunded
         description: The total amount of money that the customer has been refunded on orders across their order history.
       - name: lifetime_total_net
         description: The total amount of money (minus refunds) that the customer has spent across their order history.
-      - name: source_relation
-        description: "{{ doc('shopify_source_relation') }}"
-      - name: lifetime_abandoned_checkouts
-        description: Total number of abandoned checkouts abandoned by the customer.
-      - name: customer_tags
-        description: A string aggregated list of all tags associated with a customer. 
-      - name: avg_quantity_per_order
-        description: Average quantity of items per order customer orders.
-      - name: lifetime_total_tax
-        description: Total amount of tax attributed to the customer.
-      - name: avg_tax_per_order
-        description: Average tax per order attributed to the customer.
-      - name: lifetime_total_discount
-        description: Total discounts attributed to the customer.
-      - name: avg_discount_per_order
-        description: Average discount per order attributed to the customer.
       - name: lifetime_total_shipping
         description: Total shipping costs attributed to the customer.
-      - name: avg_shipping_per_order
-        description: Average shipping cost per order attributed to the customer.
-      - name: lifetime_total_shipping_with_discounts
-        description: Total shipping costs after discounts attributed to the customer.
-      - name: avg_shipping_with_discounts_per_order
-        description: Average shipping costs after discounts per order attributed to the customer.
-      - name: lifetime_total_shipping_tax
-        description: Total shipping tax attributed to the customer.
-      - name: avg_shipping_tax_per_order
-        description: Average shipping tax per order attributed to the customer.
-      - name: currency
-        description: The three-letter code (ISO 4217 format) for the currency that the customer used when they paid for their last order. Defaults to the shop currency. Returns the shop currency for test orders.
-      - name: note
-        description: A note about the customer.
-      - name: marketing_consent_updated_at
-        description: The date and time when the customer consented to receive marketing material by email. If no date is provided, then the date and time when the consent information was sent is used.
-      - name: marketing_opt_in_level
-        description: The marketing subscription opt-in level, as described in the M3AAWG Sender Best Common Practices, that the customer gave when they consented to receive marketing material by email.
-      - name: marketing_consent_state
-        description: >
-          Field indicating if the customer has consented to receive marketing material via email. Coalescing of the new `email_marketing_consent_state`
-          field and the deprecated `accepts_marketing` field. Records with the old field will be marked with '(legacy)'.
-      - name: lifetime_duration
-        description: The amount of time since the customer was first added to the store.
+      - name: lifetime_total_tax
+        description: Total amount of tax attributed to the customer.
+      - name: lifetime_total_discount
+        description: Total discounts attributed to the customer.
+      - name: most_recent_order_timestamp
+        description: The timestamp the customer completed their most recent order up until the date_month specified.
       - name: rfm_frequency_score
         description: The lifetime number of orders divided into 5 buckets in increasing order of amount, with 5 corresponding to the largest orders count and 1 corresponding to the smallest
       - name: rfm_monetary_score

@@ -82,11 +82,11 @@ joined as (
         orders.*,
         coalesce(cast({{ fivetran_utils.json_parse("total_shipping_price_set",["shop_money","amount"]) }} as {{ dbt_utils.type_float() }}), 0) as shipping_cost,
 
-        order_adjustments_aggregates.order_adjustment_amount,
-        order_adjustments_aggregates.order_adjustment_tax_amount,
+        coalesce(order_adjustments_aggregates.order_adjustment_amount, 0) as order_adjustment_amount,
+        coalesce(order_adjustments_aggregates.order_adjustment_tax_amount, 0) as order_adjustment_tax_amount,
 
-        refund_aggregates.refund_subtotal,
-        refund_aggregates.refund_total_tax,
+        coalesce(refund_aggregates.refund_subtotal, 0) as refund_subtotal,
+        coalesce(refund_aggregates.refund_total_tax, 0) as refund_total_tax,
 
         (orders.total_price
             + coalesce(order_adjustments_aggregates.order_adjustment_amount, 0) + coalesce(order_adjustments_aggregates.order_adjustment_tax_amount, 0)
@@ -96,7 +96,7 @@ joined as (
         coalesce(discount_aggregates.percentage_calc_discount_amount, 0) as percentage_calc_discount_amount,
         coalesce(discount_aggregates.fixed_amount_discount_amount, 0) as fixed_amount_discount_amount,
         coalesce(discount_aggregates.unique_codes_applied_count, 0) as unique_codes_applied_count,
-        fulfillments.count_fulfillments,
+        coalesce(fulfillments.count_fulfillments, 0) as count_fulfillments,
         fulfillments.fulfillment_services,
         fulfillments.tracking_companies,
         fulfillments.tracking_numbers
