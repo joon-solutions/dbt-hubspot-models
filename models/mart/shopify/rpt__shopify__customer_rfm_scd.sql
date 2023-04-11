@@ -41,6 +41,7 @@ orders_agg as (
 
 ),
 
+---- Set the partition window to calculate the accumulative metrics of each customer from the beginning up till the report_month
 {% set partition_string = 'partition by customers.customer_id, customers.source_relation order by date_month rows between unbounded preceding and current row' %}
 
 orders_calendar as (
@@ -71,11 +72,13 @@ orders_calendar as (
         coalesce(sum(orders_agg.total_tax) over ({{ partition_string }}), 0) as lifetime_total_tax,
         coalesce(sum(orders_agg.total_discount) over ({{ partition_string }}), 0) as lifetime_total_discount,
         max(orders_agg.most_recent_order_timestamp_within_month) over ({{ partition_string }}) as most_recent_order_timestamp,
+        ---For current month, days since last orders will be calculated from today backwards. For other historical months, its calculated from last day of same month backwards
         case when date_trunc('month', sysdate()) = calendar.date_day then datediff(day, most_recent_order_timestamp, convert_timezone('UTC', {{ var('shopify_timezone', "'UTC'") }}, sysdate() ))
             else datediff(day, most_recent_order_timestamp, convert_timezone('UTC', {{ var('shopify_timezone', "'UTC'") }}, last_day(calendar.date_day) ))
         end as days_since_last_orders
 
     from calendar
+    --need to join with customeres first to create a customer base - even customers who didnt have any order in the same month were still present
     left join customers on calendar.date_day >= date(customers.created_timestamp)  --one-to-many
     left join orders_agg on customers.customer_id = orders_agg.customer_id
                             and customers.source_relation = orders_agg.source_relation
