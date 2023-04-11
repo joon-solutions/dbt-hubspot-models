@@ -32,6 +32,7 @@ final as (
         lower(email) as email,
         first_name,
         last_name,
+        trim(first_name) || '' || trim(last_name) as full_name,
         orders_count,
         default_address_id,
         phone,

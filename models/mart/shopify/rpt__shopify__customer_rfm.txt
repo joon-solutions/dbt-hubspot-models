@@ -9,8 +9,8 @@ rfm_bin as (
 
     select
         *,
-        ntile(5) over (order by lifetime_total_net asc) as rfm_frequency_score,
-        ntile(5) over (order by lifetime_count_orders asc) as rfm_monetary_score,
+        ntile(5) over (order by lifetime_count_orders asc) as rfm_frequency_score,
+        ntile(5) over (order by lifetime_total_net asc) as rfm_monetary_score,
         ntile(5) over (order by days_since_last_orders desc) as rfm_recency_score
     from customers
 

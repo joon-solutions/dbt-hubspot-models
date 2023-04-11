@@ -70,22 +70,22 @@ final as (
         orders.*,
         --shipping metrics
         {% if fivetran_utils.enabled_vars(['shopify__order_shipping_line', 'shopify__order_shipping_tax_line']) %}
-        shipping.shipping_price as order_total_shipping,
-        shipping.discounted_shipping_price as order_total_shipping_with_discounts,
-        shipping.shipping_tax as order_total_shipping_tax,
+        coalesce(shipping.shipping_price, 0) as order_total_shipping,
+        coalesce(shipping.discounted_shipping_price, 0) as order_total_shipping_with_discounts,
+        coalesce(shipping.shipping_tax, 0) as order_total_shipping_tax,
         {% endif %}
         ---order_line metrics
-        order_lines_agg.line_item_count,
-        order_lines_agg.order_total_quantity,
-        order_lines_agg.order_total_tax,
-        order_lines_agg.order_total_discount,
+        coalesce(order_lines_agg.line_item_count, 0) as line_item_count,
+        coalesce(order_lines_agg.order_total_quantity, 0) as order_total_quantity,
+        coalesce(order_lines_agg.order_total_tax, 0) as order_total_tax,
+        coalesce(order_lines_agg.order_total_discount, 0) as order_total_discount,
         ---order value
-        transaction_aggregates.currency_exchange_final_amount as order_value,
+        coalesce(transaction_aggregates.currency_exchange_final_amount, 0) as order_value,
         ---refund
-        refunds.currency_exchange_final_amount as order_refund_value,
-        ---refund
-        order_tag.order_tags,
-        order_url_tag.order_url_tags
+        coalesce(refunds.currency_exchange_final_amount, 0) as order_refund_value,
+        ---tags
+        order_tag.order_tags as order_tags,
+        order_url_tag.order_url_tags as order_url_tags
 
     from orders
     left join order_lines_agg
