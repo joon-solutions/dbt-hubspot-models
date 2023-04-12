@@ -421,3 +421,13 @@ models:
           - not_null
       - name: days_since_last_orders
         description: The number of days from the lastest order date til current day (of specified timezone, or default UTC)
+
+  - name: fct__shopify__fulfillment
+    description: fct table for fulfillment joined with orders
+    columns:
+      - name: unique_id
+        description: PK of the table
+        tests:
+          - not_null
+          - unique
+          - dbt_utils.at_least_one
