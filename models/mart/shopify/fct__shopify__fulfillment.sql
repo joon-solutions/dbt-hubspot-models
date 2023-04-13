@@ -36,7 +36,7 @@ joined as (
     from fulfillment
     left join orders
         on fulfillment.order_id = orders.order_id -- many to 1 relationship
-        and fulfillment.source_relation = orders.source_relation
+            and fulfillment.source_relation = orders.source_relation
 )
 
 select * from joined
