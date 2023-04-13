@@ -26,6 +26,7 @@ joined as (
         --status
         fulfillment_event.event_status,
         fulfillment.tracking_company,
+        fulfillment.tracking_number,
         fulfillment.name,
         fulfillment.service,
         fulfillment.shipment_status,
