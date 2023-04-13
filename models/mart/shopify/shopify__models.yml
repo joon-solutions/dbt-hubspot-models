@@ -368,7 +368,8 @@ models:
           - not_null
           - unique
           - dbt_utils.at_least_one
-
+      - name: customer_globalid
+        description: Unique ID for customer across sources = the combination of customer_id & source_relation
       - name: date_month
         description: The report month
       - name: created_timestamp

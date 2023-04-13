@@ -126,5 +126,6 @@ segment as (
 
 select
     *,
+    {{ dbt_utils.surrogate_key(['customer_id', 'source_relation']) }} as customer_globalid,
     {{ dbt_utils.surrogate_key(['date_month', 'customer_id', 'source_relation']) }} as unique_id
 from segment
