@@ -31,3 +31,13 @@ models:
           - not_null
           - unique
           - dbt_utils.at_least_one
+
+  - name: int__shopify__fulfillment
+    description: ""
+    columns:
+      - name: unique_id
+        description: fulfillment_event_id || source_relation
+        tests: 
+          - not_null
+          - unique
+          - dbt_utils.at_least_one

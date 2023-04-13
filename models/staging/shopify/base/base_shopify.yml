@@ -925,7 +925,7 @@ models:
     columns:
       - name: unique_id
         description: PK of the table = combination of order_id & code & source_relation
-        test:
+        tests:
           - not_null
           - unique
       - name: _fivetran_synced
@@ -942,5 +942,38 @@ models:
           - not_null
       - name: type
         description: The type of discount - `fixed_amount`, `percentage`, or `shipping`.
+      - name: source_relation
+        description: "{{ doc('shopify_source_relation') }}"
+
+  - name: base__shopify__fulfillment_event
+    description: > 
+        This represents tracking events that belong to a fulfillment of one or more items in an order. 
+        Fulfillment events are displayed on the order status page to update customers on the status of their shipment.
+    columns:
+      - name: unique_id
+        description: PK of the table = combination of fulfillment_event_id & source_relation
+        tests:
+          - not_null
+          - unique
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: message
+        description: An arbitrary message describing the status. Can be provided by a shipping carrier.
+      - name: status
+        description: >
+          The status of the fulfillment event. 
+          Valid values: 
+            - label_printed: A label for the shipment was purchased and printed. 
+            - label_purchased: A label for the shipment was purchased, but not printed. 
+            - attempted_delivery: Delivery of the shipment was attempted, but unable to be completed. 
+            - ready_for_pickup: The shipment is ready for pickup at a shipping depot. 
+            - picked_up: The fulfillment was successfully picked up. 
+            - confirmed: The carrier is aware of the shipment, but hasn't received it yet. 
+            - in_transit: The shipment is being transported between shipping facilities on the way to its destination. 
+            - out_for_delivery: The shipment is being delivered to its final destination. 
+            - delivered: The shipment was successfully delivered. 
+            - failure: Something went wrong when pulling tracking information for the shipment, such as the tracking number was invalid or the shipment was canceled.
+      - name: order_id
+        description: Associated order ID.
       - name: source_relation
         description: "{{ doc('shopify_source_relation') }}"

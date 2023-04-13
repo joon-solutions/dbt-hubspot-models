@@ -422,3 +422,71 @@ models:
           - not_null
       - name: days_since_last_orders
         description: The number of days from the lastest order date til current day (of specified timezone, or default UTC)
+
+  - name: fct__shopify__fulfillment
+    description: fct table for fulfillment joined with orders
+    columns:
+      - name: unique_id
+        description: PK of the table
+        tests:
+          - not_null
+          - unique
+          - dbt_utils.at_least_one
+      - name: fulfillment_event_id
+        description: The unique ID for fulfillment event per source.
+      - name: source_relation
+        description:  "{{ doc('shopify_source_relation') }}"
+      - name: event_status
+        description: >
+          The status of the fulfillment. 
+          Valid values include: 
+            - pending: Shopify has created the fulfillment and is waiting for the third-party fulfillment service to transition it to 'open' or 'success'. 
+            - open: The fulfillment has been acknowledged by the service and is in processing. 
+            - success: The fulfillment was successful. 
+            - cancelled: The fulfillment was cancelled. 
+            - error: There was an error with the fulfillment request. 
+            - failure: The fulfillment request failed.
+      - name: city
+        description: The city where the fulfillment event occurred.
+      - name: country
+        description: The country where the fulfillment event occurred.
+      - name: tracking_company
+        description: The name of the tracking company.
+      - name: name
+        description: > 
+          The uniquely identifying fulfillment name, consisting of two parts separated by a .. 
+          The first part represents the order name and the second part represents the fulfillment number. 
+          The fulfillment number automatically increments depending on how many fulfillments are in an order (e.g. #1001.1, #1001.2).
+      - name: service
+        description: The fulfillment service associated with the fulfillment.
+      - name: shipment_status
+        description: >
+          The current shipment status of the fulfillment. 
+          Valid values include: 
+            - label_printed: A label for the shipment was purchased and printed. 
+            - label_purchased: A label for the shipment was purchased, but not printed. 
+            - attempted_delivery: Delivery of the shipment was attempted, but unable to be completed. 
+            - ready_for_pickup: The shipment is ready for pickup at a shipping depot. 
+            - confirmed: The carrier is aware of the shipment, but hasn't received it yet. 
+            - in_transit: The shipment is being transported between shipping facilities on the way to its destination. 
+            - out_for_delivery: The shipment is being delivered to its final destination. 
+            - delivered: The shipment was succesfully delivered. 
+            - failure: Something went wrong when pulling tracking information for the shipment, such as the tracking number was invalid or the shipment was canceled.
+      - name: created_timestamp
+        description: The date and time when the fulfillment event was created. The API returns this value in ISO 8601 format.
+      - name: order_id
+        description: The unique numeric identifier for the order.
+      - name: order_value
+        description: Order Value
+      - name: order_refund_value
+        description: Order Refund Value
+      - name: order_total_quantity
+        description: Order Total Quantity
+      - name: order_total_tax
+        description: Order Total Tax
+      - name: order_total_discount
+        description: Order Total Discount
+      - name: estimated_delivery_at
+        description: >
+          The estimated delivery date based on the fulfillment's tracking number, as long as it's provided by one of the following carriers: USPS, FedEx, UPS, or Canada Post (Canada only). 
+          Value is `null` if no tracking number is available or if the tracking number is from an unsupported carrier. This property is available only when carrier calculated rates are in use.
