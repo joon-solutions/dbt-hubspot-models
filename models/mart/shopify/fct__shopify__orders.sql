@@ -46,8 +46,8 @@ fulfillments as (
     select
         order_id,
         source_relation,
-        count(fulfillment_id) as count_fulfillments,
-        count(fulfillment_event_id) as count_fulfillment_events,
+        count(distinct fulfillment_id) as count_fulfillments,
+        count(distinct fulfillment_event_id) as count_fulfillment_events,
         {{ fivetran_utils.string_agg("distinct cast(service as " ~ dbt_utils.type_string() ~ ")", "', '") }} as fulfillment_services,
         {{ fivetran_utils.string_agg("distinct cast(tracking_company as " ~ dbt_utils.type_string() ~ ")", "', '") }} as tracking_companies,
         {{ fivetran_utils.string_agg("distinct cast(tracking_number as " ~ dbt_utils.type_string() ~ ")", "', '") }} as tracking_numbers
