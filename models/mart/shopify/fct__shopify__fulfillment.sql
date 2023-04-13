@@ -20,6 +20,7 @@ joined as (
         fulfillment.name,
         fulfillment.service,
         fulfillment.shipment_status,
+        fulfillment.estimated_delivery_at,
         -- order 
         {% if fivetran_utils.enabled_vars(['shopify__order_shipping_line', 'shopify__order_shipping_tax_line']) %}
         orders.order_total_shipping,
@@ -34,7 +35,8 @@ joined as (
 
     from fulfillment
     left join orders
-        on fulfillment.order_id = orders.order_id -- 1 to 1 relationship
+        on fulfillment.order_id = orders.order_id -- many to 1 relationship
+        and fulfillment.source_relation = orders.source_relation
 )
 
 select * from joined
