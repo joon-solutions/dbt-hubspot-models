@@ -3,7 +3,7 @@ models:
   - name: fct__shopify__orders
     description: Each record represents an order in Shopify.
     columns:
-      - name: unique_id
+      - name: order_globalid
         description: PK = order_id || source_relation
         tests:
           - not_null
@@ -226,7 +226,7 @@ models:
   - name: fct__shopify__customers
     description: Each record represents a customer in Shopify.
     columns:
-      - name: unique_id
+      - name: customer_globalid
         description: PK of the table, which is the combination of customer_id & source_relation.
         tests:
           - not_null
@@ -426,7 +426,7 @@ models:
   - name: fct__shopify__fulfillment
     description: fct table for fulfillment joined with orders
     columns:
-      - name: unique_id
+      - name: fulfillment_event_globalid
         description: PK of the table
         tests:
           - not_null

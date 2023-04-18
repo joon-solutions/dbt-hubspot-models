@@ -11,11 +11,12 @@ joined as (
 
     select
         -- id
-        fulfillment_event.unique_id,
+        fulfillment_event.fulfillment_event_globalid,
         fulfillment_event.source_relation,
         fulfillment_event.fulfillment_event_id,
-        fulfillment_event.fulfillment_id,
+        fulfillment_event.fulfillment_globalid,
         fulfillment_event.order_id,
+        fulfillment_event.order_globalid,
         fulfillment_event.shop_id,
         -- address
         fulfillment_event.address_1,
@@ -40,7 +41,7 @@ joined as (
         fulfillment.updated_at
     from fulfillment_event
     left join fulfillment
-        on fulfillment_event.fulfillment_id = fulfillment.fulfillment_id
+        on fulfillment_event.fulfillment_globalid = fulfillment.fulfillment_globalid
 )
 
 select * from joined

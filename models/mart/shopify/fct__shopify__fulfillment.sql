@@ -9,7 +9,7 @@ orders as (
 joined as (
     select
         --pk
-        fulfillment.unique_id,
+        fulfillment.fulfillment_event_globalid,
         fulfillment.fulfillment_event_id,
         fulfillment.source_relation,
         -- fulfillment
@@ -35,8 +35,8 @@ joined as (
 
     from fulfillment
     left join orders
-        on fulfillment.order_id = orders.order_id -- many to 1 relationship
-            and fulfillment.source_relation = orders.source_relation
+        on fulfillment.order_globalid = orders.order_globalid -- many to 1 relationship
+-- and fulfillment.source_relation = orders.source_relation
 )
 
 select * from joined

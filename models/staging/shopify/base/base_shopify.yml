@@ -5,7 +5,7 @@ models:
   - name: base__shopify__customer
     description: Each record represents a customer in Shopify.
     columns:
-      - name: unique_id
+      - name: customer_globalid
         description: PK of the table, which is the combination of customer_id & source_relation.
         tests: 
           - not_null
@@ -61,7 +61,7 @@ models:
   - name: base__shopify__abandoned_checkout
     description: A checkout is considered abandoned after the customer has added contact information, but before the customer has completed their purchase.
     columns:
-      - name: unique_id
+      - name: checkout_globalid
         description: PK of the table, which is the combination of checkout_id & source_relation.
         tests: 
           - not_null
@@ -200,7 +200,7 @@ models:
   - name: base__shopify__orders
     description: Each record represents an order in Shopify.
     columns:
-      - name: unique_id
+      - name: order_globalid
         description: PK = order_id || source_relation
         tests:
           - not_null
@@ -379,7 +379,7 @@ models:
   - name: base__shopify__order_line_refund
     description: Each record represents a line item from an order in Shopify.
     columns:
-      - name: unique_id
+      - name: order_line_refund_globalid
         description: PK = order_line_refund_id || source_relation
         tests:
           - not_null
@@ -412,7 +412,7 @@ models:
   - name: base__shopify__order_line
     description: Each record represents a line item from an order in Shopify.
     columns:
-      - name: unique_id
+      - name: order_line_globalid
         description: PK = order_line_id || source_relation
         tests:
           - not_null
@@ -511,7 +511,7 @@ models:
   - name: base__shopify__refund
     description: Each record represents a refund within Shopify.
     columns:
-      - name: unique_id
+      - name: refund_globalid
         description: PK = refund_id || source_relation
         tests:
           - not_null
@@ -540,7 +540,7 @@ models:
   - name: base__shopify__order_adjustment
     description: Each record represents and adjustment to and order within Shopify.
     columns:
-      - name: unique_id
+      - name: order_adjustment_globalid
         description: PK = order_adjustment_id || source_relation
         tests:
           - not_null
@@ -571,7 +571,7 @@ models:
   - name: base__shopify__order_shipping_line
     description: Represents the shipping details that the customer chose for their order.
     columns:
-      - name: unique_id
+      - name: order_shipping_line_globalid
         description: PK = order_shipping_line_id || source_relation
         tests:
           - not_null
@@ -612,7 +612,7 @@ models:
   - name: base__shopify__order_shipping_tax_line
     description: Represents taxes associated with order shipping lines.
     columns:
-      - name: unique_id
+      - name: order_shipping_tax_line_globalid
         description: PK = order_shipping_line_id || index || source_relation
         tests:
           - not_null
@@ -641,7 +641,7 @@ models:
   - name: base__shopify__tax_line
     description: Represents a single tax applied to the associated line item.
     columns:
-      - name: unique_id
+      - name: tax_line_globalid
         description: PK = order_line_id || index || source_relation
         tests:
           - not_null
@@ -664,7 +664,7 @@ models:
   - name: base__shopify__transaction
     description: Each record represents a transaction in Shopify.
     columns:
-      - name: unique_id
+      - name: transaction_globalid
         description: PK = transaction_id || source_relation
         tests:
           - not_null
@@ -742,8 +742,8 @@ models:
       represents a transaction where the customer paid money to the merchant. A negative amount represents a transaction where the 
       merchant refunded money back to the customer. Tender transactions represent transactions that modify the shop's balance.
     columns:
-      - name: unique_id
-        description: PK = transaction_id || source_relation
+      - name: tender_transaction_globalid
+        description: PK = transaction_id || source_relation || order_id
         tests:
           - not_null
           - unique
@@ -786,11 +786,15 @@ models:
   - name: base__shopify__customer_tag
     description: Tags that the shop owner has attached to the customer. A customer can have up to 250 tags.
     columns:
-      - name: unique_id
+      - name: customer_tag_globalid
         description: PK = customer_id || index || source_relation
         tests:
           - not_null
           - unique
+      - name: customer_globalid
+        description: Customer Global ID, which is the combination of customer_id & source_relation.
+        tests: 
+          - not_null
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: index
@@ -809,7 +813,7 @@ models:
   - name: base__shopify__order_tag
     description: Tags that the shop owner has attached to the order.
     columns:
-      - name: unique_id
+      - name: order_tag_globalid
         description: PK of the table
         test:
           - not_null
@@ -832,8 +836,8 @@ models:
   - name: base__shopify__order_url_tag
     description: Key-value tags that the shop owner has attached to the order url.
     columns:
-      - name: unique_id
-        description: PK of the table
+      - name: order_url_tag_globalid
+        description: PK of the table (order_id || key || source_relation)
         tests:
           - not_null
           - unique
@@ -857,7 +861,7 @@ models:
       A fulfillment order represents a group of one or more items in an order that will be fulfilled from the same location. 
       A fulfillment represents work that is completed as part of a fulfillment order and can include one or more items.
     columns:
-      - name: unique_id
+      - name: fulfillment_globalid
         description: PK of the table
         tests:
           - not_null
@@ -923,8 +927,8 @@ models:
   - name: base__shopify__order_discount_code
     description: Discount codes placed on orders.
     columns:
-      - name: unique_id
-        description: PK of the table = combination of order_id & code & source_relation
+      - name: order_discount_code_globalid
+        description: PK of the table = combination of order_id || code || source_relation
         tests:
           - not_null
           - unique
@@ -950,7 +954,7 @@ models:
         This represents tracking events that belong to a fulfillment of one or more items in an order. 
         Fulfillment events are displayed on the order status page to update customers on the status of their shipment.
     columns:
-      - name: unique_id
+      - name: fulfillment_event_globalid
         description: PK of the table = combination of fulfillment_event_id & source_relation
         tests:
           - not_null

@@ -50,5 +50,7 @@ final as (
 
 select
     *,
-    {{ dbt_utils.surrogate_key(['fulfillment_event_id','source_relation']) }} as unique_id
+    {{ dbt_utils.surrogate_key(['fulfillment_event_id','source_relation']) }} as fulfillment_event_globalid,
+    {{ dbt_utils.surrogate_key(['fulfillment_id','source_relation']) }} as fulfillment_globalid,
+    {{ dbt_utils.surrogate_key(['order_id','source_relation']) }} as order_globalid
 from final

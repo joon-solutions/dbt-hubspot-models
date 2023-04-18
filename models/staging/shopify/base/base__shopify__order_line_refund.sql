@@ -44,7 +44,10 @@ final as (
         restock_type,
         {{ dbt_date.convert_timezone(column='cast(_fivetran_synced as ' ~ dbt_utils.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
         source_relation,
-        {{ dbt_utils.surrogate_key(['order_line_refund_id','source_relation']) }} as unique_id
+        {{ dbt_utils.surrogate_key(['order_line_refund_id','source_relation']) }} as order_line_refund_globalid,
+        {{ dbt_utils.surrogate_key(['location_id','source_relation']) }} as location_globalid,
+        {{ dbt_utils.surrogate_key(['order_line_id','source_relation']) }} as order_line_globalid,
+        {{ dbt_utils.surrogate_key(['refund_id','source_relation']) }} as refund_globalid
 
     from fields
 )

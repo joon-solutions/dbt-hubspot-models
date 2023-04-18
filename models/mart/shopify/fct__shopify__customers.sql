@@ -8,12 +8,13 @@ with customers as (
 abandoned as (
 
     select
+        customer_globalid,
         customer_id,
         source_relation,
-        count(distinct checkout_id) as lifetime_abandoned_checkouts
+        count(distinct checkout_globalid) as lifetime_abandoned_checkouts
     from {{ ref('base__shopify__abandoned_checkout') }}
-    where customer_id is not null
-    group by 1, 2
+    where customer_globalid is not null
+    group by 1, 2, 3
 
 ),
 
@@ -25,6 +26,7 @@ orders as (
 orders_aggregates as (
     select
         --pk
+        customer_globalid,
         customer_id,
         source_relation,
 
@@ -40,7 +42,7 @@ orders_aggregates as (
         --order metrics
         min(created_timestamp) as first_order_timestamp,
         max(created_timestamp) as most_recent_order_timestamp,
-        count(distinct order_id) as lifetime_count_orders,
+        count(distinct order_globalid) as lifetime_count_orders,
         --transaction metrics
         avg(order_value) as avg_order_value,
         sum(order_value) as lifetime_total_spent,
@@ -53,7 +55,7 @@ orders_aggregates as (
         sum(order_total_discount) as lifetime_total_discount,
         avg(order_total_discount) as avg_discount_per_order
     from orders
-    group by 1, 2
+    group by 1, 2, 3
 ),
 
 joined as (
@@ -88,11 +90,11 @@ joined as (
 
     from customers
     left join abandoned --one-to-one
-        on customers.customer_id = abandoned.customer_id
-            and customers.source_relation = abandoned.source_relation
+        on customers.customer_globalid = abandoned.customer_globalid
+    -- and customers.source_relation = abandoned.source_relation
     left join orders_aggregates ---one-to-one
-        on customers.customer_id = orders_aggregates.customer_id
-            and customers.source_relation = orders_aggregates.source_relation
+        on customers.customer_globalid = orders_aggregates.customer_globalid
+-- and customers.source_relation = orders_aggregates.source_relation
 )
 
 select *

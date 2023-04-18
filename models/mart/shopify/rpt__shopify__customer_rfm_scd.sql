@@ -21,6 +21,7 @@ orders as (
 orders_agg as (
 
     select
+        customer_globalid,
         customer_id,
         source_relation,
         cast({{ dbt_utils.date_trunc('month', 'created_timestamp') }} as date) as order_month,
@@ -37,18 +38,19 @@ orders_agg as (
         sum(order_total_tax) as total_tax,
         sum(order_total_discount) as total_discount
     from orders
-    group by 1, 2, 3
+    group by 1, 2, 3, 4
 
 ),
 
 ---- Set the partition window to calculate the accumulative metrics of each customer from the beginning up till the report_month
-{% set partition_string = 'partition by customers.customer_id, customers.source_relation order by date_month rows between unbounded preceding and current row' %}
+{% set partition_string = 'partition by customers.customer_globalid order by date_month rows between unbounded preceding and current row' %}
 
 orders_calendar as (
 
     select
         calendar.date_day as date_month,
         ----customers attributes
+        customers.customer_globalid,
         customers.customer_id,
         customers.source_relation,
         customers.email,
@@ -80,8 +82,8 @@ orders_calendar as (
     from calendar
     --need to join with customeres first to create a customer base - even customers who didnt have any order in the same month were still present
     left join customers on calendar.date_day >= date(customers.created_timestamp)  --one-to-many
-    left join orders_agg on customers.customer_id = orders_agg.customer_id
-                            and customers.source_relation = orders_agg.source_relation
+    left join orders_agg on customers.customer_globalid = orders_agg.customer_globalid
+                            -- and customers.source_relation = orders_agg.source_relation
                             and calendar.date_day = orders_agg.order_month --one-to-one
 
 ),
@@ -126,6 +128,5 @@ segment as (
 
 select
     *,
-    {{ dbt_utils.surrogate_key(['customer_id', 'source_relation']) }} as customer_globalid,
     {{ dbt_utils.surrogate_key(['date_month', 'customer_id', 'source_relation']) }} as unique_id
 from segment

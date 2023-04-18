@@ -95,5 +95,6 @@ final as (
 
 select
     *,
-    {{ dbt_utils.surrogate_key(['checkout_id', 'source_relation']) }} as unique_id
+    {{ dbt_utils.surrogate_key(['checkout_id', 'source_relation']) }} as checkout_globalid,
+    {{ dbt_utils.surrogate_key(['customer_id', 'source_relation']) }} as customer_globalid
 from final

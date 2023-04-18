@@ -25,6 +25,7 @@ customer_calendar as (
     select
         calendar.date_day as date_month,
         customers.customer_id,
+        customers.customer_globalid,
         customers.first_order_timestamp,
         customers.source_relation,
         {{ dbt_utils.date_trunc('month', 'first_order_timestamp') }} as cohort_month
@@ -39,6 +40,7 @@ orders_joined as (
     select
         customer_calendar.date_month,
         customer_calendar.customer_id,
+        customer_calendar.customer_globalid,
         customer_calendar.first_order_timestamp,
         customer_calendar.cohort_month,
         customer_calendar.source_relation,
@@ -47,10 +49,10 @@ orders_joined as (
         coalesce(sum(orders.line_item_count), 0) as total_line_item_in_month
     from customer_calendar
     left join orders
-        on customer_calendar.customer_id = orders.customer_id
-            and customer_calendar.source_relation = orders.source_relation
+        on customer_calendar.customer_globalid = orders.customer_globalid
+            -- and customer_calendar.source_relation = orders.source_relation
             and customer_calendar.date_month = cast({{ dbt_utils.date_trunc('month', 'created_timestamp') }} as date)
-    {{ dbt_utils.group_by(n=5) }}
+    {{ dbt_utils.group_by(n=6) }}
 
 ),
 

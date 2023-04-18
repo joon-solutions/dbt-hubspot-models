@@ -70,5 +70,8 @@ final as (
 
 select
     *,
-    {{ dbt_utils.surrogate_key(['transaction_id','source_relation']) }} as unique_id
+    {{ dbt_utils.surrogate_key(['transaction_id','source_relation']) }} as transaction_globalid,
+    {{ dbt_utils.surrogate_key(['order_id','source_relation']) }} as order_globalid,
+    {{ dbt_utils.surrogate_key(['refund_id','source_relation']) }} as refund_globalid,
+    {{ dbt_utils.surrogate_key(['parent_id','source_relation']) }} as parent_globalid
 from final
