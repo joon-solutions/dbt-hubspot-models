@@ -42,7 +42,7 @@ orders_aggregates as (
         --order metrics
         min(created_timestamp) as first_order_timestamp,
         max(created_timestamp) as most_recent_order_timestamp,
-        count(distinct order_globalid) as lifetime_count_orders,
+        count(order_globalid) as lifetime_count_orders,
         --transaction metrics
         avg(order_value) as avg_order_value,
         sum(order_value) as lifetime_total_spent,
