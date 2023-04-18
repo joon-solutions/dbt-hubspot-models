@@ -46,8 +46,8 @@ fulfillments as (
     select
         order_globalid,
         source_relation,
-        count(distinct fulfillment_globalid) as count_fulfillments,
-        count(distinct fulfillment_event_globalid) as count_fulfillment_events,
+        count(fulfillment_globalid) as count_fulfillments,
+        count(fulfillment_event_globalid) as count_fulfillment_events,
         {{ fivetran_utils.string_agg("distinct cast(service as " ~ dbt_utils.type_string() ~ ")", "', '") }} as fulfillment_services,
         {{ fivetran_utils.string_agg("distinct cast(tracking_company as " ~ dbt_utils.type_string() ~ ")", "', '") }} as tracking_companies,
         {{ fivetran_utils.string_agg("distinct cast(tracking_number as " ~ dbt_utils.type_string() ~ ")", "', '") }} as tracking_numbers

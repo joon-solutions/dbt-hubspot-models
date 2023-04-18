@@ -11,7 +11,7 @@ abandoned as (
         customer_globalid,
         customer_id,
         source_relation,
-        count(distinct checkout_globalid) as lifetime_abandoned_checkouts
+        count(checkout_globalid) as lifetime_abandoned_checkouts
     from {{ ref('base__shopify__abandoned_checkout') }}
     where customer_globalid is not null
     group by 1, 2, 3

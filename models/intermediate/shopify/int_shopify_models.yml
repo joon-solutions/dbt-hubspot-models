@@ -35,7 +35,7 @@ models:
   - name: int__shopify__fulfillment
     description: ""
     columns:
-      - name: fulfillment_globalid
+      - name: fulfillment_event_globalid
         description: fulfillment_event_id || source_relation
         tests: 
           - not_null
