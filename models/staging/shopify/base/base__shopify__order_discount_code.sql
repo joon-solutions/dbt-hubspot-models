@@ -38,5 +38,6 @@ final as (
 
 select
     *,
-    {{ dbt_utils.surrogate_key(['order_id','code','source_relation']) }} as unique_id
+    {{ dbt_utils.surrogate_key(['order_id','code','source_relation']) }} as order_discount_code_globalid,
+    {{ dbt_utils.surrogate_key(['order_id','source_relation']) }} as order_globalid
 from final

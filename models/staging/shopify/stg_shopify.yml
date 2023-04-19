@@ -5,7 +5,7 @@ models:
   - name: stg__shopify__order_line_aggregates
     description: Each record represents an order line aggregation in Shopify by order.
     columns:
-      - name: unique_id
+      - name: order_globalid
         description: PK = order_id || source_relations
         tests: 
           - not_null
@@ -16,7 +16,7 @@ models:
   - name: stg__shopify__order__shipping_aggregates
     description: Each record represents an order_id with shipping attributes.
     columns:
-      - name: unique_id
+      - name: order_globalid
         description: PK = order_id || source_relations
         tests: 
           - not_null
@@ -27,7 +27,7 @@ models:
   - name: stg__shopify__transactions
     description: Each record represents a transaction_id.
     columns:
-      - name: unique_id
+      - name: transaction_globalid
         description: PK = transaction_id || source_relations
         tests: 
           - not_null

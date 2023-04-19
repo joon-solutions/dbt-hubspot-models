@@ -14,7 +14,7 @@ order_adjustments as (
 
 order_adjustments_aggregates as (
     select
-        order_id,
+        order_globalid,
         source_relation,
         sum(amount) as order_adjustment_amount,
         sum(tax_amount) as order_adjustment_tax_amount
@@ -32,7 +32,7 @@ refunds as (
 
 refund_aggregates as (
     select
-        order_id,
+        order_globalid,
         source_relation,
         sum(subtotal) as refund_subtotal,
         sum(total_tax) as refund_total_tax
@@ -44,10 +44,10 @@ refund_aggregates as (
 fulfillments as (
 
     select
-        order_id,
+        order_globalid,
         source_relation,
-        count(distinct fulfillment_id) as count_fulfillments,
-        count(distinct fulfillment_event_id) as count_fulfillment_events,
+        count(distinct fulfillment_globalid) as count_fulfillments,
+        count(fulfillment_event_globalid) as count_fulfillment_events,
         {{ fivetran_utils.string_agg("distinct cast(service as " ~ dbt_utils.type_string() ~ ")", "', '") }} as fulfillment_services,
         {{ fivetran_utils.string_agg("distinct cast(tracking_company as " ~ dbt_utils.type_string() ~ ")", "', '") }} as tracking_companies,
         {{ fivetran_utils.string_agg("distinct cast(tracking_number as " ~ dbt_utils.type_string() ~ ")", "', '") }} as tracking_numbers
@@ -66,7 +66,7 @@ order_discount_code as (
 discount_aggregates as (
 
     select
-        order_id,
+        order_globalid,
         source_relation,
         sum(case when type = 'shipping' then amount else 0 end) as shipping_discount_amount,
         sum(case when type = 'percentage' then amount else 0 end) as percentage_calc_discount_amount,
@@ -105,17 +105,17 @@ joined as (
 
     from orders
     left join refund_aggregates
-        on orders.order_id = refund_aggregates.order_id -- one to one relationship
-            and orders.source_relation = refund_aggregates.source_relation
+        on orders.order_globalid = refund_aggregates.order_globalid -- one to one relationship
+    -- and orders.source_relation = refund_aggregates.source_relation
     left join order_adjustments_aggregates
-        on orders.order_id = order_adjustments_aggregates.order_id -- one to one relationship
-            and orders.source_relation = order_adjustments_aggregates.source_relation
+        on orders.order_globalid = order_adjustments_aggregates.order_globalid -- one to one relationship
+    -- and orders.source_relation = order_adjustments_aggregates.source_relation
     left join discount_aggregates -- one to one relationship
-        on orders.order_id = discount_aggregates.order_id
-            and orders.source_relation = discount_aggregates.source_relation
+        on orders.order_globalid = discount_aggregates.order_globalid
+    -- and orders.source_relation = discount_aggregates.source_relation
     left join fulfillments -- one to one relationship
-        on orders.order_id = fulfillments.order_id
-            and orders.source_relation = fulfillments.source_relation
+        on orders.order_globalid = fulfillments.order_globalid
+            -- and orders.source_relation = fulfillments.source_relation
 
 ),
 

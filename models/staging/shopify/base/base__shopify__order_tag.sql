@@ -36,6 +36,7 @@ final as (
 
 select
     *,
-    {{ dbt_utils.surrogate_key(['order_id','index','source_relation']) }} as unique_id
+    {{ dbt_utils.surrogate_key(['order_id','index','source_relation']) }} as order_tag_globalid,
+    {{ dbt_utils.surrogate_key(['order_id','source_relation']) }} as order_globalid
 
 from final

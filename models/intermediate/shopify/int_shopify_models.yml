@@ -5,7 +5,7 @@ models:
   - name: int__shopify__order_refund
     description: Each record represents an order refund in Shopify by order.
     columns:
-      - name: unique_id
+      - name: order_line_refund_globalid
         description: The ID of the order line refund, used for API purposes combined with source_relation. This is different from the order_number property, which is the ID used by the shop owner and customer.
         tests: 
           - not_null
@@ -15,7 +15,7 @@ models:
   - name: int__shopify__customers
     description: ""
     columns:
-      - name: unique_id
+      - name: customer_globalid
         description: customer_id || source_relation
         tests: 
           - not_null
@@ -25,7 +25,7 @@ models:
   - name: int__shopify__orders
     description: ""
     columns:
-      - name: unique_id
+      - name: order_globalid
         description: order_id || source_relation
         tests: 
           - not_null
@@ -35,7 +35,7 @@ models:
   - name: int__shopify__fulfillment
     description: ""
     columns:
-      - name: unique_id
+      - name: fulfillment_event_globalid
         description: fulfillment_event_id || source_relation
         tests: 
           - not_null

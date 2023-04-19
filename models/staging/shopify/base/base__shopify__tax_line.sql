@@ -38,7 +38,8 @@ final as (
         title,
         {{ dbt_date.convert_timezone(column='cast(_fivetran_synced as ' ~ dbt_utils.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
         source_relation,
-        {{ dbt_utils.surrogate_key(['index', 'order_line_id','source_relation']) }} as unique_id
+        {{ dbt_utils.surrogate_key(['index', 'order_line_id','source_relation']) }} as tax_line_globalid,
+        {{ dbt_utils.surrogate_key(['order_line_id','source_relation']) }} as order_line_globalid
 
     from fields
 )
