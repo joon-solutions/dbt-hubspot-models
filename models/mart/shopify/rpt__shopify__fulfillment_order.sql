@@ -1,5 +1,5 @@
 with fulfillment as (
-    select 
+    select
         *,
         case when event_status = 'confirmed' then event_updated_at end as confirmed_at,
         case when event_status = 'delivered' then event_updated_at end as delivered_at,
@@ -27,7 +27,7 @@ fulfillment_agg as (
         {% if fivetran_utils.enabled_vars(['shopify__order_shipping_line', 'shopify__order_shipping_tax_line']) %}
         avg(order_total_shipping) as order_total_shipping,
         {% endif %}
-        avg(order_value) as order_value, 
+        avg(order_value) as order_value,
         avg(order_refund_value) as order_refund_value,
         avg(order_total_quantity) as order_total_quantity,
         --timestamp
@@ -38,10 +38,10 @@ fulfillment_agg as (
 
     from fulfillment
     {{ dbt_utils.group_by(n=3) }}
-), 
+),
 
 final as (
-    select 
+    select
         *,
         timestampdiff(day, confirmed_at, delivered_at) as lead_time
     from fulfillment_agg
