@@ -490,3 +490,13 @@ models:
         description: >
           The estimated delivery date based on the fulfillment's tracking number, as long as it's provided by one of the following carriers: USPS, FedEx, UPS, or Canada Post (Canada only). 
           Value is `null` if no tracking number is available or if the tracking number is from an unsupported carrier. This property is available only when carrier calculated rates are in use.
+  
+  - name: rpt__shopify__fulfillment_order
+    description: rpt table for fulfillment joined with orders along with leap time
+    columns:
+      - name: order_globalid
+        description: PK of the table
+        tests:
+          - not_null
+          - unique
+          - dbt_utils.at_least_one
