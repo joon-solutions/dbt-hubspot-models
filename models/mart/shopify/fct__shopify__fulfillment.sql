@@ -8,10 +8,11 @@ orders as (
 
 joined as (
     select
-        --pk
+        -- id 
         fulfillment.fulfillment_event_globalid,
         fulfillment.fulfillment_event_id,
-        fulfillment.source_relation,
+        fulfillment.fulfillment_id,
+        fulfillment.fulfillment_globalid,
         -- fulfillment
         fulfillment.event_status,
         fulfillment.city,
@@ -26,23 +27,12 @@ joined as (
         {% if fivetran_utils.enabled_vars(['shopify__order_shipping_line', 'shopify__order_shipping_tax_line']) %}
         orders.order_total_shipping,
         {% endif %}
-        orders.created_timestamp,
-        orders.order_globalid,
-        orders.order_id,
-        orders.order_value,
-        orders.order_refund_value,
-        orders.order_total_quantity,
-        orders.order_total_tax,
-        orders.order_total_discount,
-        orders.shipping_address_country,
-        orders.shipping_address_latitude,
-        orders.shipping_address_longitude,
-        orders.total_shipping_price_set
+        orders.*
 
     from fulfillment
     left join orders
         on fulfillment.order_globalid = orders.order_globalid -- many to 1 relationship
--- and fulfillment.source_relation = orders.source_relation
+
 )
 
 select * from joined
