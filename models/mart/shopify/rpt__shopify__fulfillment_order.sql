@@ -11,6 +11,17 @@ with fulfillment as (
     from {{ ref('fct__shopify__fulfillment') }}
 ),
 
+fulfillment_flag as (
+    select
+        *,
+        case
+            when is_delivered = 1 and estimated_delivery_at > delivered_at then 1
+            when is_delivered = 1 and estimated_delivery_at < delivered_at then 0
+            when is_delivered = 0 then null
+        end as is_on_time
+    from fulfillment
+),
+
 fulfillment_agg as (
     select
         -- pk
@@ -48,9 +59,10 @@ fulfillment_agg as (
         max(out_for_delivery_at) as out_for_delivery_at,
         max(ready_for_picked_up_at) as ready_for_picked_up_at,
         max(transit_at) as transit_at,
-        max(is_delivered) as is_delivered
+        max(is_delivered) as is_delivered,
+        max(is_on_time) as is_on_time
 
-    from fulfillment
+    from fulfillment_flag
     {{ dbt_utils.group_by(n=14) }}
 ),
 

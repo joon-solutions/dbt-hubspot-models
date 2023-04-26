@@ -13,6 +13,7 @@ joined as (
         fulfillment.fulfillment_event_id,
         fulfillment.fulfillment_id,
         fulfillment.fulfillment_globalid,
+        fulfillment.source_relation,
         -- fulfillment
         fulfillment.event_status,
         fulfillment.city,
@@ -27,7 +28,16 @@ joined as (
         {% if fivetran_utils.enabled_vars(['shopify__order_shipping_line', 'shopify__order_shipping_tax_line']) %}
         orders.order_total_shipping,
         {% endif %}
-        orders.*
+        orders.order_globalid,
+        orders.order_id,
+        orders.shipping_address_country,
+        orders.shipping_address_latitude,
+        orders.shipping_address_longitude,
+        orders.order_value,
+        orders.order_refund_value,
+        orders.order_total_quantity,
+        orders.order_total_tax,
+        orders.order_total_discount
 
     from fulfillment
     left join orders
