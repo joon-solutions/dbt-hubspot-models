@@ -15,11 +15,19 @@ tax_aggregates as (
 
 order_lines_agg as (
     select
-        order_lines.order_line_globalid,
-        order_lines.order_line_id,
+        -- order_lines.order_line_globalid,
+        -- order_lines.order_line_id,
         order_lines.order_id,
         order_lines.source_relation,
         order_lines.order_globalid,
+        max(
+            concat(
+                order_lines.origin_location_city, ', ',
+                order_lines.origin_location_country_code, ' - ',
+                order_lines.destination_location_city, ', ',
+                order_lines.destination_location_country_code
+            )
+        ) as order_route,
         count(*) as line_item_count,
         sum(order_lines.quantity) as order_total_quantity,
         -- sum(order_lines.pre_tax_price) as ,
@@ -31,7 +39,7 @@ order_lines_agg as (
     left join tax_aggregates
         on tax_aggregates.order_line_globalid = order_lines.order_line_globalid
     -- and tax_aggregates.source_relation = order_lines.source_relation
-    group by 1, 2, 3, 4, 5
+    {{ dbt_utils.group_by(n=3) }}
 )
 
 select *
