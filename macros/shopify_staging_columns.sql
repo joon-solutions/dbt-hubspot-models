@@ -575,4 +575,33 @@
 
 {% endmacro %}
 
+{% macro get_shopify_fulfillment_order_line_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "order_line_id", "datatype": dbt_utils.type_int()},
+    {"name": "product_id", "datatype": dbt_utils.type_int()},
+    {"name": "variant_id", "datatype": dbt_utils.type_int()},
+    {"name": "fulfillable_quantity", "datatype": dbt_utils.type_int()},
+    {"name": "fulfillment_service", "datatype": dbt_utils.type_string()},
+    {"name": "fulfillment_id", "datatype": dbt_utils.type_int()},
+    {"name": "gift_card", "datatype": dbt_utils.type_string()},
+    {"name": "grams", "datatype": dbt_utils.type_float()},
+    {"name": "price_set", "datatype": dbt_utils.type_float()},
+    {"name": "price", "datatype": dbt_utils.type_float()},
+    {"name": "properties", "datatype": dbt_utils.type_string()},
+    {"name": "quantity", "datatype": dbt_utils.type_int()},
+    {"name": "requires_shipping", "datatype": 'boolean'},
+    {"name": "sku", "datatype": dbt_utils.type_string()},
+    {"name": "taxable", "datatype": 'boolean'},
+    {"name": "title", "datatype": dbt_utils.type_string()},
+    {"name": "variant_title", "datatype": dbt_utils.type_string()},
+    {"name": "vendor", "datatype": dbt_utils.type_string()},
+    {"name": "_fivetran_deleted", "datatype": 'boolean'}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}
+
 
