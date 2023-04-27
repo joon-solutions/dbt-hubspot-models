@@ -40,7 +40,12 @@ fulfillment_agg as (
         shipping_address_country,
         shipping_address_latitude,
         shipping_address_longitude,
-        -- orders
+        concat(
+            origin_location_city, ', ',
+            origin_location_country_code, ' - ',
+            destination_location_city, ', ',
+            destination_location_country_code)
+        as order_route,
         coalesce(max(order_value), 0) as order_value,
         coalesce(max(order_refund_value), 0) as order_refund_value,
         coalesce(max(order_total_quantity), 0) as order_total_quantity,
@@ -51,6 +56,7 @@ fulfillment_agg as (
         coalesce(max(order_total_shipping_with_discounts),0) as order_total_shipping_with_discounts,
         coalesce(max(order_total_shipping_tax),0) as order_total_shipping_tax,
         {% endif %}
+        -- orders
         -- timestamp
         max(estimated_delivery_at) as estimated_delivery_at,
         max(event_updated_at) as event_updated_at,
@@ -63,15 +69,25 @@ fulfillment_agg as (
         max(is_on_time) as is_on_time
 
     from fulfillment_flag
-    {{ dbt_utils.group_by(n=14) }}
+    {{ dbt_utils.group_by(n=15) }}
 ),
 
-final as (
+lead_time as (
     select
         *,
         timestampdiff(day, confirmed_at, delivered_at) as lead_time,
         timestampdiff(day, ready_for_picked_up_at, delivered_at) as net_lead_time
     from fulfillment_agg
+),
+
+final as (
+    select
+        *,
+        avg(lead_time) over (partition by order_route) as route_lead_time,
+        avg(net_lead_time) over (partition by order_route) as route_net_lead_time,
+        (lead_time - route_lead_time) as lead_time_diff,
+        (net_lead_time - route_net_lead_time) as net_lead_time_diff
+    from lead_time
 )
 
 select * from final
