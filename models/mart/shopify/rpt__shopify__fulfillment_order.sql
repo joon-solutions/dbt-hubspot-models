@@ -40,12 +40,7 @@ fulfillment_agg as (
         shipping_address_country,
         shipping_address_latitude,
         shipping_address_longitude,
-        concat(
-            origin_location_city, ', ',
-            origin_location_country_code, ' - ',
-            destination_location_city, ', ',
-            destination_location_country_code)
-        as order_route,
+        order_route,
         coalesce(max(order_value), 0) as order_value,
         coalesce(max(order_refund_value), 0) as order_refund_value,
         coalesce(max(order_total_quantity), 0) as order_total_quantity,
