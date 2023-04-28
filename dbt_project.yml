@@ -169,7 +169,7 @@ vars:
 models:
   canvas_dbt:
     materialized: table
-    +database: 'JOON_SOLUTIONS'
+    #+database: 'JOON_SOLUTIONS'
 
     tmp:
       +materialized: table
