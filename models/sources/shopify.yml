@@ -17,7 +17,6 @@ sources:
 
   - name: shopify
     schema: shopify
-    database: joon_solutions
     tables:
       - name: orders
       - name: refund

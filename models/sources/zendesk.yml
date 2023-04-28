@@ -2,7 +2,6 @@ version: 2
 
 sources:
   - name: zendesk
-    database: joon_solutions
     tables:
       - name: ticket
       - name: ticket_tag

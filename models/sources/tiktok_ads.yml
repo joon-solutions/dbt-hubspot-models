@@ -2,7 +2,6 @@ version: 2
 
 sources:
   - name: tiktok_ads
-    database: joon_solutions
     tables:
       - name: adgroup_history
       - name: adgroup_report_hourly

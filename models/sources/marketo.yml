@@ -2,7 +2,6 @@ version: 2
 
 sources:
   - name: marketo
-    database: joon_solutions
     tables:
       - name: lead
       - name: lead_describe

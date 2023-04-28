@@ -2,7 +2,6 @@ version: 2
 
 sources:
   - name: snapchat_ads
-    database: joon_solutions
     tables:
       - name: ad_account_history
       - name: ad_history

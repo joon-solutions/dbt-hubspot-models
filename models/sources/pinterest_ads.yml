@@ -2,7 +2,6 @@ version: 2
 
 sources:
   - name: pinterest_ads
-    database: joon_solutions
     tables:
       - name: ad_group_history
       - name: campaign_history

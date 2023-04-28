@@ -2,7 +2,6 @@ version: 2
 
 sources:
   - name: linkedin_ads
-    database: joon_solutions
     tables:
       - name: account_history
       - name: ad_analytics_by_creative

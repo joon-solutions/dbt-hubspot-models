@@ -2,7 +2,6 @@ version: 2
 
 sources:
   - name: twitter_ads
-    database: joon_solutions
     tables:
       - name: account_history
       - name: campaign_history
