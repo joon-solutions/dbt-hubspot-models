@@ -14,7 +14,8 @@ on:
 env:
 
   DBT_PROFILES_DIR: ./
-  
+  ARTIFACT_DBT_MANIFEST_NAME: dbt_manifest
+  WORKFLOW_DBT_MANIFEST: push_to_master.yml
   DBT_USER: ${{ secrets.DBT_USER }}
   DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
   DBT_SCHEMA_CI: ${{ secrets.DBT_SCHEMA_CI }}
@@ -59,14 +60,39 @@ jobs:
           git fetch origin main:main
           git diff main --name-only --diff-filter=d | egrep '^models/.*sql$$' | xargs -r sqlfluff lint
 
+      ## Download dbt manifest uploaded in another workflow (default: push_to_master.yml).
+      # This manifest file will be used to filter out delta models.
+      - name: Download dbt manifest
+        id: download_dbt_manifest
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          github_token: ${{ secrets.GIT_TOKEN }}
+          workflow: ${{ env.WORKFLOW_DBT_MANIFEST }}
+          workflow_conclusion: success
+          branch: main
+          name: ${{ env.ARTIFACT_DBT_MANIFEST_NAME }}
+          path: .
+          check_artifacts:  false
+        continue-on-error: true
+
+      ## In some case, manifest file artifact cannot be downloaded.
+      # Then, compile current code to create a new manifest file.
+      # Note, because previous dbt state is missing, all models will be
+      # run and tested.
+      - name: Create new Dbt manifest if cannot download
+        if: steps.download_dbt_manifest.outcome == 'failure'
+        run: |
+          dbt compile
+          cp target/manifest.json .
+            
       ## Run delta models
       - name: Run models
         id: run_dbt
-        run: dbt run --target ci
+        run: dbt run --target ci -m state:modified+ --state .
 
       ## Test delta models
       - name: Test models
-        run: dbt test --target ci
+        run: dbt test --target ci -m state:modified+ --state .
 
       # remove as we no longer use Lightdash
       # - name: Lightdash CLI start preview
