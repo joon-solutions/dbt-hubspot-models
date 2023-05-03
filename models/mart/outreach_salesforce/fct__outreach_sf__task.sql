@@ -1,6 +1,4 @@
-{{ config(enabled=var('salesforce__task_enabled')) }}
-{{ config(enabled = var('outreach_opportunity')) }}
-{{ config(enabled = var('salesforce__opportunity_enabled')) }}
+{{ config(enabled=var('salesforce__task_enabled') and var('outreach_opportunity') and var('salesforce__opportunity_enabled')) }}
 
 with task_base as (
     select *
