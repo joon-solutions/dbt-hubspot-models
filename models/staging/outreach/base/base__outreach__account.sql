@@ -1,4 +1,3 @@
-
 {{ config(enabled = var('outreach_account') ) }}
 
 with source as (
