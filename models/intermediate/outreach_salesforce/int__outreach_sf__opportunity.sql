@@ -1,4 +1,5 @@
-{{ config(enabled = var('outreach_opportunity')) and config(enabled=var('salesforce__opportunity_enabled', False)) }}
+{{ config(enabled = var('outreach_opportunity')) }}
+{{ config(enabled = var('salesforce__opportunity_enabled')) }}
 with outreach as (
 
     select
