@@ -1,4 +1,5 @@
 {{ config(enabled = var('outreach_opportunity_stage') ) }}
+{{ config(enabled = var('salesforce__opportunity_enabled')) }}
 
 with outreach as (
 
