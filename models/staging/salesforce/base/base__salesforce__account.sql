@@ -1,4 +1,4 @@
-{{ config(enabled=var('salesforce__account_enabled', True)) }}
+{{ config(enabled=var('salesforce__account_enabled')) }}
 
 with source as (
 
