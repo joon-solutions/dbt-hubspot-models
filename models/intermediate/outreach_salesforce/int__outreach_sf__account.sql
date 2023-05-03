@@ -1,3 +1,5 @@
+{{ config(enabled=var('salesforce__account_enabled', True)) }}
+
 with sf as (
     select
         *,

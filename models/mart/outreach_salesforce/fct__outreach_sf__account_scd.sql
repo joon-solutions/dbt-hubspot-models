@@ -1,3 +1,5 @@
+{{ config(enabled = var('outreach_opportunity_stage') ) }}
+
 with opportunity as (
     select * from {{ ref('int__outreach_sf__opportunity_scd') }}
 ),

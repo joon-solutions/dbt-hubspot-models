@@ -34,6 +34,8 @@
     {% set _ = staging_file.append(ref('int__tiktok_ads')) %}
     {% endif %}
 
+    {{ log("Staging file" ~ staging_file)}}
+
 
     {{ return(staging_file) }}
 

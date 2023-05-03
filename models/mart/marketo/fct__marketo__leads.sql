@@ -1,3 +1,5 @@
+{{ config(enabled=var('marketo__lead', True)) }}
+
 with leads as (
 
     select *

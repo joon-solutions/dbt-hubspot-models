@@ -1,3 +1,4 @@
+{{ config(enabled=var('zendesk_enabled')) }}
 with users as (
 
     select * from {{ ref('base__zendesk__user') }}

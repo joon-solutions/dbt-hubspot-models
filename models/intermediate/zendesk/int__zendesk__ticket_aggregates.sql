@@ -1,3 +1,5 @@
+{{ config(enabled=var('zendesk_enabled')) }}
+
 with tickets as (
     select *
     from {{ ref('base__zendesk__ticket') }}

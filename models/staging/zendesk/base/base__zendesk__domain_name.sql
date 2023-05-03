@@ -1,5 +1,4 @@
---To disable this model, set the zendesk__domain_names variable within your dbt_project.yml file to False.
-{{ config(enabled=var('zendesk__domain_names', True)) }}
+{{ config(enabled=var('zendesk_enabled')) }}
 
 with base as (
 

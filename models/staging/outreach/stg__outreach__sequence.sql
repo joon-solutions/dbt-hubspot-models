@@ -1,3 +1,4 @@
+{{ config(enabled = var('outreach_sequence')) }}
 with seq as (
     select *
     from {{ ref('base__outreach__sequence') }}

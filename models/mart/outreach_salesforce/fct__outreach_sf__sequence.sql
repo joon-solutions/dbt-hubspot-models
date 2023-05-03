@@ -1,3 +1,5 @@
+{{ config(enabled = var('outreach_sequence')) }}
+
 --where each account is in a sequence
 with seq_base as ( --PK: account_id| sequence_id
     select *

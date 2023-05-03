@@ -1,3 +1,5 @@
+{{ config(enabled=var('salesforce__opportunity_enabled')) }}
+
 {% snapshot salesforce__opportunity_snapshot %}
 
     {{

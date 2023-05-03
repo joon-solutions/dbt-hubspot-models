@@ -1,3 +1,5 @@
+{{ config(enabled=var('salesforce__account_enabled', True)) }}
+
 with account as (
     select * from {{ ref('int__outreach_sf__account') }}
 ),

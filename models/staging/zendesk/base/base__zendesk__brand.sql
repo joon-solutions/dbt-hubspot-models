@@ -1,3 +1,5 @@
+{{ config(enabled=var('zendesk_enabled')) }}
+
 with base as (
 
     select *

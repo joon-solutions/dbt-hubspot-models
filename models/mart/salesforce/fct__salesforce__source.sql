@@ -1,3 +1,5 @@
+{{ config(enabled=var('salesforce__opportunity_enabled', True)) }}
+
 with account as (
     select *
     from {{ ref('int__salesforce__opportunity_account') }}

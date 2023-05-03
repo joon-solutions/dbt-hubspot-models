@@ -1,3 +1,5 @@
+{{ config(enabled = var('outreach_opportunity_stage') ) }}
+
 with outreach as (
 
     select

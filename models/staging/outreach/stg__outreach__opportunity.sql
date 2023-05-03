@@ -1,3 +1,5 @@
+{{ config(enabled = var('outreach_opportunity') ) }}
+
 with opportunity as (
     select *
     from {{ ref('base__outreach__opportunity') }}

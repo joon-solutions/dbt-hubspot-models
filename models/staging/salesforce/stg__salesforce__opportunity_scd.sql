@@ -1,3 +1,5 @@
+{{ config(enabled=var('salesforce__opportunity_enabled')) }}
+
 with source as (
 
     select *

@@ -1,3 +1,5 @@
+{{ config(enabled=var('salesforce__opportunity_enabled', True)) }}
+
 with opportunity_agg_by_owner as (
 
     select *

@@ -1,5 +1,4 @@
---To disable this model, set the below variable within your dbt_project.yml file to False.
-{{ config(enabled=var('shopify_orders', True)) }}
+{{ config(enabled=var('shopify_enabled', True)) }}
 
 with base as (
     select *

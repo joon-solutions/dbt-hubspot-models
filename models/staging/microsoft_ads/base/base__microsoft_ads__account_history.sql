@@ -1,4 +1,5 @@
-{{ config(enabled=var('ad_reporting__microsoft_ads_enabled')) }}
+{{ config(enabled=var('ad_reporting__microsoft_ads_enabled', True)) }}
+
 with source as (
 
     select * from {{ source('microsoft_ads', 'account_history') }}

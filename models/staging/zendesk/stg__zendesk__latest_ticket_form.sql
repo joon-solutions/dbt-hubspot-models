@@ -1,3 +1,5 @@
+{{ config(enabled=var('zendesk_enabled')) }}
+
 with ticket_form_history as (
     select *
     from {{ ref('base__zendesk__ticket_form_history') }}

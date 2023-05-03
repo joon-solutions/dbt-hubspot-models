@@ -1,4 +1,3 @@
-
 {{ config(enabled = var('outreach_opportunity_stage') ) }}
 
 with source as (

@@ -1,3 +1,5 @@
+{{ config(enabled=var('shopify_enabled', True)) }}
+
 with calendar as (
 
     select *

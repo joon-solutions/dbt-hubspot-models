@@ -1,3 +1,5 @@
+{{ config(enabled = var('outreach_user') ) }}
+
 with outreach as (
 
     select

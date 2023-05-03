@@ -1,3 +1,5 @@
+{{ config(enabled=var('salesforce__task_enabled', True)) }}
+
 with unions as (
 
     {{ dbt_utils.union_relations(

@@ -1,3 +1,5 @@
+{{ config(enabled=var('shopify_enabled', True)) }}
+
 with base as (
 
     select *

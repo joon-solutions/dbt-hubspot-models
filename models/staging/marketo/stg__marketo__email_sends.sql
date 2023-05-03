@@ -1,3 +1,5 @@
+{{ config(enabled=var('marketo__activity_send_email', True)) }}
+
 with sends as (
 
     select *

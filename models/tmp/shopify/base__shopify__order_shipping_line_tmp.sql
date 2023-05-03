@@ -1,4 +1,4 @@
-{{ config(enabled=var('shopify__order_shipping_line', True)) }}
+{{ config(enabled=var('shopify_enabled', True)) }}
 
 {{
 fivetran_utils.union_data(

@@ -1,3 +1,5 @@
+{{ config(enabled=var('marketo__email_template_history', True)) }}
+
 with latest_email_templates as (
 
     select *

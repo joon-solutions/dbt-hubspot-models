@@ -1,3 +1,5 @@
+{{ config(enabled=var('salesforce__task_enabled', True)) }}
+
 with task_base as (
     select *
     from {{ ref('int__outreach_sf__task') }}
