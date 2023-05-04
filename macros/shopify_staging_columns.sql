@@ -347,7 +347,6 @@
 
 {% endmacro %}
 
-
 {% macro get_shopify_shopify_order_shipping_tax_line_columns() %}
 
 {% set columns = [
@@ -552,6 +551,48 @@
 
 {% endmacro %}
 
+{% macro get_shopify_product_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_deleted", "datatype": "boolean"},
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "created_at", "datatype": dbt_utils.type_timestamp()},
+    {"name": "handle", "datatype": dbt_utils.type_string()},
+    {"name": "id", "datatype": dbt_utils.type_numeric(), "alias": "product_id"},
+    {"name": "product_type", "datatype": dbt_utils.type_string()},
+    {"name": "published_at", "datatype": dbt_utils.type_timestamp()},
+    {"name": "published_scope", "datatype": dbt_utils.type_string()},
+    {"name": "title", "datatype": dbt_utils.type_string()},
+    {"name": "updated_at", "datatype": dbt_utils.type_timestamp()},
+    {"name": "vendor", "datatype": dbt_utils.type_string()},
+    {"name": "status", "datatype": dbt_utils.type_string()}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}
+
+{% macro get_shopify_product_image_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_deleted", "datatype": "boolean"},
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "created_at", "datatype": dbt_utils.type_timestamp()},
+    {"name": "height", "datatype": dbt_utils.type_int()},
+    {"name": "id", "datatype": dbt_utils.type_int(), "alias": "product_image_id"},
+    {"name": "position", "datatype": dbt_utils.type_int()},
+    {"name": "product_id", "datatype": dbt_utils.type_int()},
+    {"name": "src", "datatype": dbt_utils.type_string()},
+    {"name": "updated_at", "datatype": dbt_utils.type_timestamp()},
+    {"name": "variant_ids", "datatype": dbt_utils.type_string()},
+    {"name": "width", "datatype": dbt_utils.type_int()}
+    
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}
+
 {% macro get_shopify_order_shipping_tax_line_columns() %}
 
 {% set columns = [
@@ -569,6 +610,56 @@
     {"name": "requested_fulfillment_service_id", "datatype": dbt_utils.type_string()},
     {"name": "source", "datatype": dbt_utils.type_string()},
     {"name": "title", "datatype": dbt_utils.type_string()}
+
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}
+
+{% macro get_shopify_product_tag_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "index", "datatype": dbt_utils.type_int()},
+    {"name": "product_id", "datatype": dbt_utils.type_int()},
+    {"name": "value", "datatype": dbt_utils.type_string()}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}
+
+{% macro get_shopify_product_variant_columns() %}
+
+{% set columns = [
+    {"name": "id", "datatype": dbt_utils.type_numeric(), "alias": "product_variant_id"},
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "created_at", "datatype": dbt_utils.type_timestamp()},
+    {"name": "updated_at", "datatype": dbt_utils.type_timestamp()},
+    {"name": "product_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "inventory_item_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "image_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "title", "datatype": dbt_utils.type_string()},
+    {"name": "price", "datatype": dbt_utils.type_float()},
+    {"name": "sku", "datatype": dbt_utils.type_string()},
+    {"name": "position", "datatype": dbt_utils.type_numeric()},
+    {"name": "inventory_policy", "datatype": dbt_utils.type_string()},
+    {"name": "compare_at_price", "datatype": dbt_utils.type_float()},
+    {"name": "fulfillment_service", "datatype": dbt_utils.type_string()},
+    {"name": "inventory_management", "datatype": dbt_utils.type_string()},
+    {"name": "taxable", "datatype": "boolean", "alias": "is_taxable"},
+    {"name": "barcode", "datatype": dbt_utils.type_string()},
+    {"name": "grams", "datatype": dbt_utils.type_float()},
+    {"name": "old_inventory_quantity", "datatype": dbt_utils.type_numeric()},
+    {"name": "inventory_quantity", "datatype": dbt_utils.type_numeric()},
+    {"name": "weight", "datatype": dbt_utils.type_float()},
+    {"name": "weight_unit", "datatype": dbt_utils.type_string()},
+    {"name": "option_1", "datatype": dbt_utils.type_string()},
+    {"name": "option_2", "datatype": dbt_utils.type_string()},
+    {"name": "option_3", "datatype": dbt_utils.type_string()},
+    {"name": "tax_code", "datatype": dbt_utils.type_string()}
+
 ] %}
 
 {{ return(columns) }}
@@ -603,5 +694,3 @@
 {{ return(columns) }}
 
 {% endmacro %}
-
-
