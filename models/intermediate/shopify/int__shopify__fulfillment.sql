@@ -14,6 +14,7 @@ joined as (
         fulfillment_event.fulfillment_event_globalid,
         fulfillment_event.source_relation,
         fulfillment_event.fulfillment_event_id,
+        fulfillment_event.fulfillment_id,
         fulfillment_event.fulfillment_globalid,
         fulfillment_event.order_id,
         fulfillment_event.order_globalid,

@@ -347,7 +347,6 @@
 
 {% endmacro %}
 
-
 {% macro get_shopify_shopify_order_shipping_tax_line_columns() %}
 
 {% set columns = [
@@ -587,6 +586,31 @@
     {"name": "updated_at", "datatype": dbt_utils.type_timestamp()},
     {"name": "variant_ids", "datatype": dbt_utils.type_string()},
     {"name": "width", "datatype": dbt_utils.type_int()}
+    
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}
+
+{% macro get_shopify_order_shipping_tax_line_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "carrier_identifier", "datatype": dbt_utils.type_string()},
+    {"name": "code", "datatype": dbt_utils.type_string()},
+    {"name": "delivery_category", "datatype": dbt_utils.type_string()},
+    {"name": "discounted_price", "datatype": dbt_utils.type_float()},
+    {"name": "discounted_price_set", "datatype": dbt_utils.type_string()},
+    {"name": "id", "datatype": dbt_utils.type_int(), "alias": "order_shipping_line_id"},
+    {"name": "order_id", "datatype": dbt_utils.type_int()},
+    {"name": "phone", "datatype": dbt_utils.type_string()},
+    {"name": "price", "datatype": dbt_utils.type_float()},
+    {"name": "price_set", "datatype": dbt_utils.type_string()},
+    {"name": "requested_fulfillment_service_id", "datatype": dbt_utils.type_string()},
+    {"name": "source", "datatype": dbt_utils.type_string()},
+    {"name": "title", "datatype": dbt_utils.type_string()}
+
 ] %}
 
 {{ return(columns) }}
@@ -635,9 +659,38 @@
     {"name": "option_2", "datatype": dbt_utils.type_string()},
     {"name": "option_3", "datatype": dbt_utils.type_string()},
     {"name": "tax_code", "datatype": dbt_utils.type_string()}
+
 ] %}
 
 {{ return(columns) }}
 
 {% endmacro %}
 
+{% macro get_shopify_fulfillment_order_line_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "order_line_id", "datatype": dbt_utils.type_int()},
+    {"name": "product_id", "datatype": dbt_utils.type_int()},
+    {"name": "variant_id", "datatype": dbt_utils.type_int()},
+    {"name": "fulfillable_quantity", "datatype": dbt_utils.type_int()},
+    {"name": "fulfillment_service", "datatype": dbt_utils.type_string()},
+    {"name": "fulfillment_id", "datatype": dbt_utils.type_int()},
+    {"name": "gift_card", "datatype": dbt_utils.type_string()},
+    {"name": "grams", "datatype": dbt_utils.type_float()},
+    {"name": "price_set", "datatype": dbt_utils.type_float()},
+    {"name": "price", "datatype": dbt_utils.type_float()},
+    {"name": "properties", "datatype": dbt_utils.type_string()},
+    {"name": "quantity", "datatype": dbt_utils.type_int()},
+    {"name": "requires_shipping", "datatype": 'boolean'},
+    {"name": "sku", "datatype": dbt_utils.type_string()},
+    {"name": "taxable", "datatype": 'boolean'},
+    {"name": "title", "datatype": dbt_utils.type_string()},
+    {"name": "variant_title", "datatype": dbt_utils.type_string()},
+    {"name": "vendor", "datatype": dbt_utils.type_string()},
+    {"name": "_fivetran_deleted", "datatype": 'boolean'}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}

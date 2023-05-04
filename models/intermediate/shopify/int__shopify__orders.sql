@@ -78,6 +78,7 @@ final as (
         coalesce(shipping.shipping_tax, 0) as order_total_shipping_tax,
         {% endif %}
         ---order_line metrics
+        order_lines_agg.order_route,
         coalesce(order_lines_agg.line_item_count, 0) as line_item_count,
         coalesce(order_lines_agg.order_total_quantity, 0) as order_total_quantity,
         coalesce(order_lines_agg.order_total_tax, 0) as order_total_tax,

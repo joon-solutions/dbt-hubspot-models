@@ -1138,3 +1138,19 @@ models:
       - name: source_relation
         description: "{{ doc('shopify_source_relation') }}"
 
+  - name: base__shopify__fulfillment_order_line
+    description: > 
+        This represents tracking events that belong to a fulfillment of one or more items in an order. 
+        Fulfillment events are displayed on the order status page to update customers on the status of their shipment.
+    columns:
+      - name: fulfillment_order_line_globalid
+        description: PK of the table = combination of fulfillment_id & order_line_id & source_relation
+        tests:
+          - not_null
+          - unique
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: order_id
+        description: Associated order ID.
+      - name: source_relation
+        description: "{{ doc('shopify_source_relation') }}"
