@@ -694,3 +694,37 @@
 {{ return(columns) }}
 
 {% endmacro %}
+
+
+{% macro get_shopify_collection_product_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "collection_id", "datatype": dbt_utils.type_int()},
+    {"name": "product_id", "datatype": dbt_utils.type_int()}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}
+
+{% macro get_shopify_collection_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_deleted", "datatype": "boolean", "alias": "is_deleted"},
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "disjunctive", "datatype": "boolean"},
+    {"name": "handle", "datatype": dbt_utils.type_string()},
+    {"name": "id", "datatype": dbt_utils.type_int(), "alias": "collection_id"},
+    {"name": "published_at", "datatype": dbt_utils.type_timestamp()},
+    {"name": "published_scope", "datatype": dbt_utils.type_string()},
+    {"name": "rules", "datatype": dbt_utils.type_string()},
+    {"name": "sort_order", "datatype": dbt_utils.type_string()},
+    {"name": "title", "datatype": dbt_utils.type_string()},
+    {"name": "updated_at", "datatype": dbt_utils.type_timestamp()}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}
+

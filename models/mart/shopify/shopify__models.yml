@@ -533,3 +533,64 @@ models:
           The estimated delivery date based on the fulfillment's tracking number, as long as it's provided by one of the following carriers: USPS, FedEx, UPS, or Canada Post (Canada only). 
           Value is `null` if no tracking number is available or if the tracking number is from an unsupported carrier. This property is available only when carrier calculated rates are in use.
   
+  - name: fct__shopify__products
+    description: Each record represents a product in Shopify.
+    columns:
+      - name: product_globalid
+        description: PK = product_id || source_relations
+        tests: 
+          - not_null
+          - unique
+          - dbt_utils.at_least_one
+      - name: is_deleted
+        description: Whether the record has been deleted in the source system.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: created_timestamp
+        description: The date and time when the product was created.
+      - name: handle
+        description: A unique human-friendly string for the product. Automatically generated from the product's title.
+      - name: product_id
+        description: An unsigned 64-bit integer that's used as a unique identifier for the product. Each id is unique across the Shopify system. No two products will have the same id, even if they're from different shops.
+      - name: product_type
+        description: A categorization for the product used for filtering and searching products.
+      - name: published_timestamp
+        description: The date and time (ISO 8601 format) when the product was published. Can be set to null to unpublish the product from the Online Store channel.
+      - name: published_scope
+        description: Whether the product is published to the Point of Sale channel.
+      - name: title
+        description: The name of the product.
+      - name: updated_timestamp
+        description: The date and time when the product was last modified.
+      - name: vendor
+        description: The name of the product's vendor.
+      - name: line_item_count
+        description: Count of order line items.
+      - name: order_count
+        description: Count of orders.
+      - name: total_quantity_sold
+        description: Quantity of the product sold.
+      - name: subtotal_sold
+        description: Total amount (in shop currency) of the product sold.
+      - name: source_relation
+        description: The schema or database this record came from, if you are unioning multiple connectors. Null if not.
+      - name: avg_quantity_per_order_line
+        description: Average quantity per order line with this product.
+      - name: product_total_discount
+        description: Total discounts associated with the product.
+      - name: product_avg_discount_per_order_line
+        description: Average discount per order line with this product.
+      - name: count_variants
+        description: Count of product variants.
+      - name: has_product_image
+        description: If the product has an image.
+      - name: status
+        description: >
+          The status of the product. Valid values:
+          - active: The product is ready to sell and is available to customers on the online store, sales channels, and apps. By default, existing products are set to active.
+          - archived: The product is no longer being sold and isn't available to customers on sales channels and apps.
+          - draft: The product isn't ready to sell and is unavailable to customers on sales channels and apps. By default, duplicated and unarchived products are set to draft.
+      - name: collections
+        description: Comma-separated list of collections associated with the product.
+      - name: tags
+        description: Comma-separated list of tags associated with the product.
