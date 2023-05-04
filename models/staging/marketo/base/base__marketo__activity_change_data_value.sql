@@ -1,4 +1,4 @@
-{{ config(enabled=var('marketo__activity_change_data_value', True)) }}
+{{ config(enabled=var('marketo__activity_change_data_value')) }}
 
 with base as (
 

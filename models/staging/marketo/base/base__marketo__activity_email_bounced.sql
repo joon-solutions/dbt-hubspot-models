@@ -1,4 +1,4 @@
-{{ config(enabled=var('marketo__activity_email_bounced', True)) }}
+{{ config(enabled=var('marketo__activity_email_bounced')) }}
 
 with base as (
 

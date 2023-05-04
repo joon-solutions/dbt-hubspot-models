@@ -143,10 +143,10 @@ vars:
   outreach_sequence: true
   outreach_sequence_state: true
   outreach_task: true
+  outreach_user: true
   max_base_dates: '2023-12-31'
   min_base_dates: '2022-12-01'
   future_proof_date: '9999-12-31'
-  outreach_user: true
 
   # Shopify
   shopify_enabled: true
