@@ -20,6 +20,8 @@ order_lines_agg as (
         order_lines.order_id,
         order_lines.source_relation,
         order_lines.order_globalid,
+        order_lines.product_id,
+        order_lines.product_globalid,
         max(
             concat(
                 order_lines.origin_location_city, ', ',
@@ -39,7 +41,7 @@ order_lines_agg as (
     left join tax_aggregates
         on tax_aggregates.order_line_globalid = order_lines.order_line_globalid
     -- and tax_aggregates.source_relation = order_lines.source_relation
-    {{ dbt_utils.group_by(n=3) }}
+    {{ dbt_utils.group_by(n=5) }}
 )
 
 select *
