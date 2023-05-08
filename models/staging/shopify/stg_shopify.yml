@@ -34,3 +34,21 @@ models:
           - unique
       - name: order_id
         description: The ID of the order, used for API purposes. This is different from the order_number property, which is the ID used by the shop owner and customer.
+
+  - name: stg__shopify__products
+    description: Each record represents a product in Shopify with product attributes.
+    columns:
+      - name: product_globalid
+        description: PK = product_id || source_relations
+        tests: 
+          - not_null
+          - unique
+
+  - name: stg__shopify__product_order_line_aggregates
+    description: Each record represents a product in Shopify with order metrics.
+    columns:
+      - name: product_globalid
+        description: PK = product_id || source_relations
+        tests: 
+          - not_null
+          - unique
