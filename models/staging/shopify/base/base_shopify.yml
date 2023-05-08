@@ -1154,3 +1154,85 @@ models:
         description: Associated order ID.
       - name: source_relation
         description: "{{ doc('shopify_source_relation') }}"
+
+  - name: base__shopify__collection_product
+    description: Table relating products to the collections they belong to. Use this instead of the deprecated `COLLECT` table.
+    columns:
+      - name: unique_key
+        description: PK of the table = combination of collection_id & product_id & source_relation
+        tests:
+          - not_null
+          - unique
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: collection_id
+        description: ID referencing the `collection` the product belongs to.
+        tests:
+          - not_null
+      - name: product_id
+        description: ID referencing the `product`.
+        tests:
+          - not_null
+      - name: product_globalid
+        description: combination of product_id & source_relation
+        tests:
+          - not_null
+      - name: collection_globalid
+        description: combination of collection_id & source_relation
+        tests:
+          - not_null
+      - name: source_relation
+        description: "{{ doc('shopify_source_relation') }}"
+
+  - name: base__shopify__collection
+    description: >
+      A collection is a grouping of products that merchants can create to make their stores easier to browse.
+      Merchants can create collections by selecting products individually or by defining rules that automatically determine whether products are included (aka a "smart collection").
+    columns:
+      - name: collection_globalid
+        description: PK of the table = combination of collection_id & source_relation
+        tests:
+          - not_null
+          - unique
+      - name: is_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: disjunctive
+        description: Whether the `rules` are disjunctive (logical `OR`) or conjunctive (logical `AND`)
+      - name: handle
+        description: A unique, human-readable string for the collection automatically generated from its title. This is used in themes by the Liquid templating language to refer to the collection.
+      - name: collection_id
+        description: The ID for the collection.
+        tests:
+          - not_null
+      - name: published_at
+        description: The time and date (ISO 8601 format) when the collection was made visible. Returns null for a hidden collection.
+      - name: published_scope
+        description: >
+          Whether the collection is published to the Point of Sale channel. Valid values `web` (the collection is published to the Online Store channel but not published to the Point of Sale channel)
+          and `global` (the collection is published to both the Online Store channel and the Point of Sale channel).
+      - name: rules
+        description: >
+          An array of rules that define what products go into the smart collection. Each rule (`column` -- `relation` --> `condition`) has these properties:
+          - `column`: the property of a product being used to populate the smart collection. Ex: 'tag', 'type', 'vendor', 'variant_price', etc.
+          - `relation`: The comparative relationship between the column choice, and the condition ('equals', 'contains', 'greater_than', etc.)
+          - condition: Select products for a smart collection using a condition. Values are either strings or numbers, depending on the relation value.
+          See the [Shopify docs](https://shopify.dev/api/admin-rest/2022-10/resources/smartcollection#resource-object) for more.
+      - name: sort_order
+        description: >
+          The order of the products in the collection. Valid values incline
+          - `alpha-asc`: The products are sorted alphabetically from A to Z.
+          - `alpha-des`: The products are sorted alphabetically from Z to A.
+          - `best-selling`: The products are sorted by number of sales.
+          - `created`: The products are sorted by the date they were created, from oldest to newest.
+          - `created-desc`: The products are sorted by the date they were created, from newest to oldest.
+          - `manual`: The products are manually sorted by the shop owner.
+          - `price-asc`: The products are sorted by price from lowest to highest.
+          - `price-desc`: The products are sorted by price from highest to lowest.
+      - name: title
+        description: The name of the collection
+      - name: updated_at
+        description: The date and time (ISO 8601 format) when the collection was last modified.
+      - name: source_relation
+        description: "{{ doc('shopify_source_relation') }}"
