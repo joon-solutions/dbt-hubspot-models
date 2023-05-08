@@ -7,7 +7,7 @@ orders as (
 ),
 
 joined as (
-    select 
+    select
         orders.order_globalid,
         orders.customer_globalid,
         orders.closed_timestamp,
@@ -36,14 +36,14 @@ basket as (
         product_b.vendor as product_b_vendor,
         product_b.status as product_b_status,
         count(*) as frequency
-    from joined product_a
-    inner join joined product_b on product_a.customer_globalid = product_b.customer_globalid
-    and product_a.closed_timestamp = product_b.closed_timestamp
+    from joined as product_a
+    inner join joined as product_b on product_a.customer_globalid = product_b.customer_globalid
+        and product_a.closed_timestamp = product_b.closed_timestamp
     {{ dbt_utils.group_by(n=12) }}
-    order by count(*) desc
+    order by 13 desc
 )
 
-select 
+select
     *,
     {{ dbt_utils.surrogate_key(['product_a_globalid','product_b_globalid']) }} as basket_id
 from basket

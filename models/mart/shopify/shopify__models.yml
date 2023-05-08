@@ -542,3 +542,13 @@ models:
           - not_null
           - unique
           - dbt_utils.at_least_one
+      - name: product_a_globalid
+        description: The first product of the combination global id
+      - name: product_b_globalid
+        description: The second product of the combination global id
+      - name: product_a_type
+        description: The first product of the combination type
+      - name: product_b_type
+        description: The second product of the combination type
+      - name: frequency
+        description: The frequency that these two products go together
