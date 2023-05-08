@@ -23,7 +23,7 @@ joined as (
         on orders.order_globalid = order_lines.order_globalid
 )
 
-select 
+select
     *,
     {{ dbt_utils.surrogate_key(['product_globalid','order_globalid']) }} as unique_id
 from joined
