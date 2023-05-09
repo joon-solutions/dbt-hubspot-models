@@ -52,3 +52,12 @@ models:
         tests: 
           - not_null
           - unique
+  
+  - name: stg__shopify__product_order_aggregates
+    description: Each record represents a product in Shopify with order metrics.
+    columns:
+      - name: unique_id
+        description: PK = product_globalid || order_globalid
+        tests: 
+          - not_null
+          - unique
