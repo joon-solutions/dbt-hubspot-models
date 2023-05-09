@@ -28,7 +28,7 @@ final as (
         basket.products_handle_list,
         basket.products_title_list
     from basket
-    left join orders on basket.order_globalid = orders.order_globalid --one-to-one
+    inner join orders on basket.order_globalid = orders.order_globalid --one-to-one
 )
 
 select *
