@@ -41,3 +41,13 @@ models:
           - not_null
           - unique
           - dbt_utils.at_least_one
+
+  - name: int__shopify__products_order_line
+    description: ""
+    columns:
+      - name: id
+        description: product_globalid || product_globalid
+        tests: 
+          - not_null
+          - unique
+          - dbt_utils.at_least_one

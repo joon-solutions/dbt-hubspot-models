@@ -533,6 +533,26 @@ models:
           The estimated delivery date based on the fulfillment's tracking number, as long as it's provided by one of the following carriers: USPS, FedEx, UPS, or Canada Post (Canada only). 
           Value is `null` if no tracking number is available or if the tracking number is from an unsupported carrier. This property is available only when carrier calculated rates are in use.
   
+  - name: fct__shopify__product_basket
+    description: Each record represents an order in Shopify, with list of purchased products with products attributes
+    columns:
+      - name: order_globalid
+        description: PK of the table
+        tests:
+          - not_null
+          - unique
+          - dbt_utils.at_least_one
+      - name: products_list
+        description: The first product of the combination global id
+      - name: product_tag_list
+        description: The second product of the combination global id
+      - name: products_type_list
+        description: The first product of the combination type
+      - name: products_handle_list
+        description: The second product of the combination type
+      - name: products_title_list
+        description: The frequency that these two products go together
+        
   - name: fct__shopify__products
     description: Each record represents a product in Shopify.
     columns:
@@ -594,3 +614,11 @@ models:
         description: Comma-separated list of collections associated with the product.
       - name: tags
         description: Comma-separated list of tags associated with the product.
+      - name: first_order_timestamp
+        description: Time of first recent order of a product
+      - name: most_recent_order_timestamp
+        description: Time of most recent order of a product
+      - name: product_total_tax
+        description: Average tax of all orders of a product
+      - name: product_avg_tax_per_order_line
+        description: Average tax per each order line of a product

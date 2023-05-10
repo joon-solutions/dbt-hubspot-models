@@ -1,28 +1,48 @@
-with product_aggregated as (
-
+with products as (
     select *
-    from {{ ref('stg__shopify__product_order_line_aggregates') }}
+    from {{ ref('int__shopify__products_order_line') }}
 
 ),
 
-products as (
-
+--to get orders attributes
+orders as (
     select *
-    from {{ ref('stg__shopify__products') }}
+    from {{ ref('int__shopify__orders') }}
 ),
 
 final as (
     select
-        products.*,
-        coalesce(product_aggregated.line_item_count, 0) as line_item_count,
-        coalesce(product_aggregated.order_count, 0) as order_count,
-        coalesce(product_aggregated.quantity_sold, 0) as total_quantity_sold,
-        coalesce(product_aggregated.avg_quantity_per_order_line, 0) as avg_quantity_per_order_line,
-        coalesce(product_aggregated.subtotal_sold, 0) as subtotal_sold,
-        coalesce(product_aggregated.product_total_discount, 0) as product_total_discount,
-        coalesce(product_aggregated.product_avg_discount_per_order_line, 0) as product_avg_discount_per_order_line
+        products.product_globalid,
+        products.product_id,
+        products.handle,
+        products.product_type,
+        products.title,
+        products.vendor,
+        products.status,
+        products.created_timestamp,
+        products.collections,
+        products.tags,
+        products.count_variants,
+        products.has_product_image,
+        count(*) as line_item_count,
+        count(distinct products.order_globalid) as order_count,
+        ---
+        sum(products.order_line_quantity) as total_quantity_sold,
+        avg(products.order_line_quantity) as avg_quantity_per_order_line,
+        ---
+        sum(products.order_line_pre_tax_price) as subtotal_sold,
+        ---
+        sum(products.order_line_discount) as product_total_discount,
+        avg(products.order_line_discount) as product_avg_discount_per_order_line,
+        ---
+        sum(products.order_line_tax) as product_total_tax,
+        avg(products.order_line_tax) as product_avg_tax_per_order_line,
+        ---
+        min(orders.created_timestamp) as first_order_timestamp,
+        max(orders.created_timestamp) as most_recent_order_timestamp
     from products
-    left join product_aggregated on products.product_globalid = product_aggregated.product_globalid
+    left join orders on products.order_globalid = orders.order_globalid --many-to-one
+    {{ dbt_utils.group_by(n=12) }}
 )
 
 select *
