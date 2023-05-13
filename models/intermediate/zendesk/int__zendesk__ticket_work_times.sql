@@ -1,4 +1,4 @@
-{{ config(enabled=var('zendesk_enabled')) }}
+{{ config(enabled=var('zendesk_enabled') and var("using_user_tags")) }}
 
 {% set status_dict = {
   "'pending'":"agent_wait_time_in_minutes", 
