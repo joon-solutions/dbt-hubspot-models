@@ -1,4 +1,4 @@
-{{ config(enabled=var('zendesk_enabled')) }}
+{{ config(enabled=var('zendesk_enabled') and var("using_user_tags")) }}
 
 with ticket as (
 
