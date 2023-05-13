@@ -45,7 +45,7 @@ final as (
         number_of_employees,
         industry,
         website,
-        parse_url(website) as extract_domain
+        parse_url(website, 1) as extract_domain
 
 
         --The below script allows for pass through columns.

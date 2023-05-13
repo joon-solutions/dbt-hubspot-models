@@ -46,7 +46,7 @@ final as (
         custom_id,
         account_name,
         touched_at,
-        parse_url(website) as extract_domain
+        parse_url(website, 1) as extract_domain
     from renamed
 )
 
