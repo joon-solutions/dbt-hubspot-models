@@ -622,3 +622,7 @@ models:
         description: Average tax of all orders of a product
       - name: product_avg_tax_per_order_line
         description: Average tax per each order line of a product
+      - name: order_value
+        description: Total order value
+      - name: order_refund_value
+        description: Total order refund value
