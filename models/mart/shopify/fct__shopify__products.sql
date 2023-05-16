@@ -19,6 +19,7 @@ final as (
         products.title,
         products.vendor,
         products.status,
+        products.published_scope,
         products.created_timestamp,
         products.collections,
         products.tags,
@@ -38,11 +39,15 @@ final as (
         sum(products.order_line_tax) as product_total_tax,
         avg(products.order_line_tax) as product_avg_tax_per_order_line,
         ---
+        ---
+        sum(orders.order_value) as total_order_value,
+        ---
+        sum(orders.order_refund_value) as total_order_refund_value,
         min(orders.created_timestamp) as first_order_timestamp,
         max(orders.created_timestamp) as most_recent_order_timestamp
     from products
     left join orders on products.order_globalid = orders.order_globalid --many-to-one
-    {{ dbt_utils.group_by(n=12) }}
+    {{ dbt_utils.group_by(n=13) }}
 )
 
 select *
