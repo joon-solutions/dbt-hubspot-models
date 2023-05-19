@@ -1,3 +1,5 @@
+{{ config(enabled=var('shopify_enabled', True)) }}
+
 with order_lines as (
     select *
     from {{ ref('base__shopify__order_line') }}
