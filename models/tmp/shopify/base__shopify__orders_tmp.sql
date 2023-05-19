@@ -2,7 +2,7 @@
 
 {{
 fivetran_utils.union_data(
-    table_identifier='orders', 
+    table_identifier='order',
     default_database=target.database,
     default_schema='shopify',
     union_schema_variable='shopify_union_schemas',
