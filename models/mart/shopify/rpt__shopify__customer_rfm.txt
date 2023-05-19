@@ -1,3 +1,4 @@
+{{ config(enabled=var('shopify_enabled', True)) }}
 with customers as (
 
     select *

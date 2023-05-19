@@ -1,3 +1,5 @@
+{{ config(enabled=var('shopify_enabled', True)) }}
+
 with product as (
     select * from {{ ref('int__shopify__products_order_line') }}
 ),
