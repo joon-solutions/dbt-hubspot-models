@@ -982,6 +982,162 @@ models:
       - name: source_relation
         description: "{{ doc('shopify_source_relation') }}"
 
+  - name: base__shopify__product
+    description: Each record represents a product in Shopify.
+    columns:
+      - name: product_globalid
+        description: product_id || source_relation
+        tests:
+          - not_null
+          - unique
+      - name: is_deleted
+        description: Whether the record has been deleted in the source system.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: created_timestamp
+        description: The date and time when the product was created.
+      - name: handle
+        description: A unique human-friendly string for the product. Automatically generated from the product's title.
+      - name: product_id
+        description: An unsigned 64-bit integer that's used as a unique identifier for the product. Each id is unique across the Shopify system. No two products will have the same id, even if they're from different shops.
+      - name: product_type
+        description: A categorization for the product used for filtering and searching products.
+      - name: published_timestamp
+        description: The date and time (ISO 8601 format) when the product was published. Can be set to null to unpublish the product from the Online Store channel.
+      - name: published_scope
+        description: Whether the product is published to the Point of Sale channel.
+      - name: title
+        description: The name of the product.
+      - name: updated_timestamp
+        description: The date and time when the product was last modified.
+      - name: vendor
+        description: The name of the product's vendor.
+      - name: source_relation
+        description: "{{ doc('shopify_source_relation') }}"
+      - name: status
+        description: >
+          The status of the product. Valid values:
+          - active: The product is ready to sell and is available to customers on the online store, sales channels, and apps. By default, existing products are set to active.
+          - archived: The product is no longer being sold and isn't available to customers on sales channels and apps.
+          - draft: The product isn't ready to sell and is unavailable to customers on sales channels and apps. By default, duplicated and unarchived products are set to draft.
+  
+  - name: base__shopify__product_variant
+    description: Each record represents a product variant in Shopify
+    columns:
+      - name: product_variant_globalid
+        description: product_variant_id || source_relation
+        tests:
+          - not_null
+          - unique
+      - name: barcode
+        description: The barcode, UPC, or ISBN number for the product.
+      - name: compare_at_price
+        description: The original price of the item before an adjustment or a sale in shop currency
+      - name: created_timestamp
+        description: The date and time (ISO 8601 format) when the product variant was created.
+      - name: fulfillment_service
+        description: The fulfillment service associated with the product variant.
+      - name: grams
+        description: The weight of the product variant in grams.
+      - name: variant_id
+        description: The unique numeric identifier for the product variant.
+      - name: image_id
+        description: The unique numeric identifier for a product's image. The image must be associated to the same product as the variant.
+      - name: inventory_item_id
+        description: The unique identifier for the inventory item, which is used in the Inventory API to query for inventory information.
+      - name: inventory_management
+        description: The fulfillment service that tracks the number of items in stock for the product variant.
+      - name: inventory_policy
+        description: Whether customers are allowed to place an order for the product variant when it's out of stock.
+      - name: inventory_quantity
+        description: An aggregate of inventory across all locations. To adjust inventory at a specific location, use the InventoryLevel resource.
+      - name: option_1
+        description: "The custom properties that a shop owner uses to define product variants. You can define three options for a product variant: option1, option2, option3."
+      - name: option_2
+        description: "The custom properties that a shop owner uses to define product variants. You can define three options for a product variant: option1, option2, option3."
+      - name: option_3
+        description: "The custom properties that a shop owner uses to define product variants. You can define three options for a product variant: option1, option2, option3."
+      - name: position
+        description: The order of the product variant in the list of product variants. The first position in the list is 1. The position of variants is indicated by the order in which they are listed.
+      - name: price
+        description: The price of the product variant.
+      - name: product_id
+        description: The unique numeric identifier for the product.
+      - name: sku
+        description: A unique identifier for the product variant in the shop. Required in order to connect to a FulfillmentService.
+      - name: is_taxable
+        description: Whether a tax is charged when the product variant is sold.
+      - name: tax_code
+        description: This parameter applies only to the stores that have the Avalara AvaTax app installed. Specifies the Avalara tax code for the product variant.
+      - name: title
+        description: The title of the product variant. The title field is a concatenation of the option1, option2, and option3 fields. You can only update title indirectly using the option fields.
+      - name: updated_timestamp
+        description: The date and time when the product variant was last modified. Gets returned in ISO 8601 format.
+      - name: weight
+        description: The weight of the product variant in the unit system specified with weight_unit.
+      - name: weight_unit
+        description: "The unit of measurement that applies to the product variant's weight. If you don't specify a value for weight_unit, then the shop's default unit of measurement is applied. Valid values: g, kg, oz, and lb."
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: source_relation
+        description: "{{ doc('shopify_source_relation') }}"
+
+  - name: base__shopify__product_tag
+    description: Tags that the shop owner has attached to the product.
+    columns:
+      - name: product_tag_globalid
+        description: product_tag_id || source_relation
+        tests:
+          - not_null
+          - unique
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: index
+        description: Index (starting from 1) representing when the tag was placed on the product. 
+        tests:
+          - not_null
+      - name: product_id
+        description: ID of the product being tagged.
+        tests:
+          - not_null
+      - name: value
+        description: Value of the tag.
+      - name: source_relation
+        description: "{{ doc('shopify_source_relation') }}"
+
+  - name: base__shopify__product_image
+    description: Table storing hosted images of products.
+    columns:
+      - name: product_image_globalid
+        description: product_image_id || source_relation
+        tests:
+          - not_null
+          - unique
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: created_at
+        description: The date and time when the product image was created. The API returns this value in ISO 8601 format.
+      - name: height
+        description: Height dimension of the image which is determined on upload.
+      - name: product_image_id
+        description: Unique numeric identifier of the product image.
+        tests:
+          - not_null
+      - name: position
+        description: The order of the product image in the list. The first product image is at position 1 and is the "main" image for the product.
+      - name: product_id
+        description: The id of the product associated with the image.
+      - name: src
+        description: Specifies the location of the product image. This parameter supports URL filters that you can use to retrieve modified copies of the image.
+      - name: updated_at
+        description: The date and time when the product image was last modified. The API returns this value in ISO 8601 format.
+      - name: variant_ids
+        description: An array of variant ids associated with the image.
+      - name: width
+        description: Width dimension of the image which is determined on upload.
+      - name: source_relation
+        description: "{{ doc('shopify_source_relation') }}"
+
   - name: base__shopify__fulfillment_order_line
     description: > 
         This represents tracking events that belong to a fulfillment of one or more items in an order. 
@@ -996,5 +1152,87 @@ models:
         description: "{{ doc('_fivetran_synced') }}"
       - name: order_id
         description: Associated order ID.
+      - name: source_relation
+        description: "{{ doc('shopify_source_relation') }}"
+
+  - name: base__shopify__collection_product
+    description: Table relating products to the collections they belong to. Use this instead of the deprecated `COLLECT` table.
+    columns:
+      - name: unique_key
+        description: PK of the table = combination of collection_id & product_id & source_relation
+        tests:
+          - not_null
+          - unique
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: collection_id
+        description: ID referencing the `collection` the product belongs to.
+        tests:
+          - not_null
+      - name: product_id
+        description: ID referencing the `product`.
+        tests:
+          - not_null
+      - name: product_globalid
+        description: combination of product_id & source_relation
+        tests:
+          - not_null
+      - name: collection_globalid
+        description: combination of collection_id & source_relation
+        tests:
+          - not_null
+      - name: source_relation
+        description: "{{ doc('shopify_source_relation') }}"
+
+  - name: base__shopify__collection
+    description: >
+      A collection is a grouping of products that merchants can create to make their stores easier to browse.
+      Merchants can create collections by selecting products individually or by defining rules that automatically determine whether products are included (aka a "smart collection").
+    columns:
+      - name: collection_globalid
+        description: PK of the table = combination of collection_id & source_relation
+        tests:
+          - not_null
+          - unique
+      - name: is_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: disjunctive
+        description: Whether the `rules` are disjunctive (logical `OR`) or conjunctive (logical `AND`)
+      - name: handle
+        description: A unique, human-readable string for the collection automatically generated from its title. This is used in themes by the Liquid templating language to refer to the collection.
+      - name: collection_id
+        description: The ID for the collection.
+        tests:
+          - not_null
+      - name: published_at
+        description: The time and date (ISO 8601 format) when the collection was made visible. Returns null for a hidden collection.
+      - name: published_scope
+        description: >
+          Whether the collection is published to the Point of Sale channel. Valid values `web` (the collection is published to the Online Store channel but not published to the Point of Sale channel)
+          and `global` (the collection is published to both the Online Store channel and the Point of Sale channel).
+      - name: rules
+        description: >
+          An array of rules that define what products go into the smart collection. Each rule (`column` -- `relation` --> `condition`) has these properties:
+          - `column`: the property of a product being used to populate the smart collection. Ex: 'tag', 'type', 'vendor', 'variant_price', etc.
+          - `relation`: The comparative relationship between the column choice, and the condition ('equals', 'contains', 'greater_than', etc.)
+          - condition: Select products for a smart collection using a condition. Values are either strings or numbers, depending on the relation value.
+          See the [Shopify docs](https://shopify.dev/api/admin-rest/2022-10/resources/smartcollection#resource-object) for more.
+      - name: sort_order
+        description: >
+          The order of the products in the collection. Valid values incline
+          - `alpha-asc`: The products are sorted alphabetically from A to Z.
+          - `alpha-des`: The products are sorted alphabetically from Z to A.
+          - `best-selling`: The products are sorted by number of sales.
+          - `created`: The products are sorted by the date they were created, from oldest to newest.
+          - `created-desc`: The products are sorted by the date they were created, from newest to oldest.
+          - `manual`: The products are manually sorted by the shop owner.
+          - `price-asc`: The products are sorted by price from lowest to highest.
+          - `price-desc`: The products are sorted by price from highest to lowest.
+      - name: title
+        description: The name of the collection
+      - name: updated_at
+        description: The date and time (ISO 8601 format) when the collection was last modified.
       - name: source_relation
         description: "{{ doc('shopify_source_relation') }}"

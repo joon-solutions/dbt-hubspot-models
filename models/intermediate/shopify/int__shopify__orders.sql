@@ -7,10 +7,27 @@ with orders as (
 
 ),
 
-order_lines_agg as (
+order_lines as (
 
     select *
-    from {{ ref('stg__shopify__order_line_aggregates') }}
+    from {{ ref('stg__shopify__order_lines') }}
+
+),
+
+order_lines_agg as (
+
+    select
+        order_globalid,
+        count(*) as line_item_count,
+        sum(quantity) as order_total_quantity,
+        -- sum(pre_tax_price) as ,
+        sum(total_discount) as order_total_discount,
+        -- avg(quantity) as avg_quantity_per_order_line,
+        -- avg(total_discount) as product_avg_discount_per_order_line,
+        sum(order_line_tax) as order_total_tax,
+        max(order_route) as order_route
+    from order_lines
+    group by 1
 
 ),
 

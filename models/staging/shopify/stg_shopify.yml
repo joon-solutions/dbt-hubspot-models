@@ -2,11 +2,11 @@ version: 2
 
 models:
 
-  - name: stg__shopify__order_line_aggregates
-    description: Each record represents an order line aggregation in Shopify by order.
+  - name: stg__shopify__order_lines
+    description: Each record represents an order line in Shopify.
     columns:
-      - name: order_globalid
-        description: PK = order_id || source_relations
+      - name: order_line_globalid
+        description: PK = order_line_id || source_relations
         tests: 
           - not_null
           - unique
@@ -34,3 +34,12 @@ models:
           - unique
       - name: order_id
         description: The ID of the order, used for API purposes. This is different from the order_number property, which is the ID used by the shop owner and customer.
+
+  - name: stg__shopify__products
+    description: Each record represents a product in Shopify with product attributes.
+    columns:
+      - name: product_globalid
+        description: PK = product_id || source_relations
+        tests: 
+          - not_null
+          - unique
