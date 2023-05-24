@@ -22,7 +22,7 @@
     {% set _ = staging_file.append(ref('int__google_ads')) %}
     {% endif %}
 
-    {% if var('ad_reporting__facebook_ads_enabled') %} 
+    {% if var('ad_reporting__facebook_ads_enabled') and var('ad_reporting__facebook_ads_basic_ad_enabled') %}
     {% set _ = staging_file.append(ref('int__facebook_ads')) %}
     {% endif %}
 
