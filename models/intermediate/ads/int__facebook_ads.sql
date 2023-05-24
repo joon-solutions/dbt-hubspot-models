@@ -1,4 +1,4 @@
-{{ config(enabled=var('ad_reporting__facebook_ads_enabled')) }}
+{{ config(enabled=var('ad_reporting__facebook_ads_enabled') and var('ad_reporting__facebook_ads_basic_ad_enabled')) }}
 
 with base as (
 
