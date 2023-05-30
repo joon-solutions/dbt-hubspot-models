@@ -637,8 +637,14 @@ models:
           - unique
           - dbt_utils.at_least_one
       - name: order_globalid
-        description: The ID of the order, used for API purposes. This is different from the order_number property, which is the ID used by the shop owner and customer.
+        description: PK = order_id || source_relations
       - name: refund_globalid
+        description: PK = refund_id || source_relations
+      - name: parent_globalid
+        description: PK = parent_id || source_relations
+      - name: order_id
+        description: The ID of the order, used for API purposes. This is different from the order_number property, which is the ID used by the shop owner and customer.
+      - name: refund_id
         description: The ID associated with a refund in the refund table
       - name: amount
         description: The amount of money included in the transaction in shop currency
@@ -654,7 +660,7 @@ models:
         description: The three-letter code (ISO 4217 format) for the currency used for the payment
       - name: location_id
         description: The ID of the physical location where the transaction was processed
-      - name: parent_globalid
+      - name: parent_id
         description: The ID of an associated transaction
       - name: payment_avs_result_code
         description: The response code from the address verification system
