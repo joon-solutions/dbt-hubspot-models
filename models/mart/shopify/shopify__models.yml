@@ -635,6 +635,7 @@ models:
         tests: 
           - not_null
           - unique
+          - dbt_utils.at_least_one
       - name: order_globalid
         description: The ID of the order, used for API purposes. This is different from the order_number property, which is the ID used by the shop owner and customer.
       - name: refund_globalid
