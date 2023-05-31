@@ -637,11 +637,11 @@ models:
           - unique
           - dbt_utils.at_least_one
       - name: order_globalid
-        description: PK = order_id || source_relations
+        description: order_id || source_relations
       - name: refund_globalid
-        description: PK = refund_id || source_relations
+        description: refund_id || source_relations
       - name: parent_globalid
-        description: PK = parent_id || source_relations
+        description: parent_id || source_relations
       - name: order_id
         description: The ID of the order, used for API purposes. This is different from the order_number property, which is the ID used by the shop owner and customer.
       - name: refund_id
@@ -700,8 +700,12 @@ models:
         description: The country of the location
       - name: created_date
         description: The date of created timestamp
+      - name: created_week
+        description: The first day of week of created timestamp
       - name: created_hour
         description: The hour of created timestamp
+      - name: created_minute
+        description: The minute of created timestamp
       - name: fraud_credit_card_count
         description: The number of times a credit card has been used within an hour per day
       - name: fraud_user_count
