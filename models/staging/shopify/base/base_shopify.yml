@@ -1236,3 +1236,37 @@ models:
         description: The date and time (ISO 8601 format) when the collection was last modified.
       - name: source_relation
         description: "{{ doc('shopify_source_relation') }}"
+
+  # - name: base__shopify__abandoned_checkout
+  #   description: A checkout is considered abandoned after the customer has added contact information, but before the customer has completed their purchase.
+  #   columns:
+  #     - name: location_id
+  #       description: The ID of the location
+  #       tests: 
+  #         - not_null
+  #         - unique
+  #     - name: province
+  #       description: The province, state, or district of the location
+  #     - name: city
+  #       description: The city the location is in
+  #     - name: country
+  #       description: The country the location is in (two-letter code)
+  #     - name: _fivetran_synced
+  #       description: The time when a record was last updated by Fivetran
+  
+  - name: base__shopify__location
+    description: A location represents a geographical location of your user
+    columns:
+      - name: location_id
+        description: PK of the table
+        tests:
+          - not_null
+          - unique
+      - name: province
+        description: The province, state, or district of the location
+      - name: city
+        description: The city of the location
+      - name: country
+        description: The country of the location
+      - name: _fivetran_synced
+        description: The time when a record was last updated by Fivetran

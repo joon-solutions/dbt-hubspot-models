@@ -728,3 +728,16 @@
 
 {% endmacro %}
 
+{% macro get_shopify_location_columns() %}
+
+{% set columns = [
+    {"name": "id", "datatype": dbt_utils.type_numeric(), "alias": "location_id"},
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "province", "datatype": dbt_utils.type_string()},
+    {"name": "city", "datatype": dbt_utils.type_string()},
+    {"name": "country", "datatype": dbt_utils.type_string()}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}
