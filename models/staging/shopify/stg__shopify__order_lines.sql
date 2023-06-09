@@ -17,6 +17,7 @@ final as (
     select
         order_lines.order_line_globalid,
         order_lines.order_line_id,
+        coalesce(order_lines.sku, 'URBD0001') as sku,
         order_lines.order_id,
         order_lines.source_relation,
         order_lines.order_globalid,
