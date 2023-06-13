@@ -1,4 +1,4 @@
-{{ config(enabled=var('zendesk_enabled', False) and var("using_user_tags"), False) }}
+{{ config(enabled=var('zendesk_enabled', False) and var("using_user_tags", False)) }}
 
 with ticket_comment as (
 
