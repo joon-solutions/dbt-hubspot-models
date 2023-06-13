@@ -1,4 +1,4 @@
-{{ config(enabled=var('salesforce__opportunity_enabled') and False) }}
+{{ config(enabled=var('salesforce__opportunity_enabled', False)) }}
 
 with source as (
 

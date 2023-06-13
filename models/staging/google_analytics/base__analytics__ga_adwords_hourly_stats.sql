@@ -1,4 +1,4 @@
-{{ config(enabled = var('ga_adwords_hourly_stats_enabled') ) }}
+{{ config(enabled = var('ga_adwords_hourly_stats_enabled', False) ) }}
 
 with source as (
 

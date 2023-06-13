@@ -1,4 +1,4 @@
-{{ config(enabled = var('hubspot__deal') and var('hubspot__owner') ) }}
+{{ config(enabled = var('hubspot__deal', False) and var('hubspot__owner', False) ) }}
 
 with deals_enhanced as (
 

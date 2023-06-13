@@ -1,4 +1,4 @@
-{{ config(enabled = var('contact_enabled') ) }}
+{{ config(enabled = var('contact_enabled', False) ) }}
 
 with source as (
 

@@ -1,4 +1,4 @@
-{{ config(enabled = var('email_subscription_change_enabled') ) }}
+{{ config(enabled = var('email_subscription_change_enabled', False) ) }}
 
 with source as (
 

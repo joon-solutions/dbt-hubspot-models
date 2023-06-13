@@ -1,4 +1,4 @@
-{{ config(enabled = var('ga_events_overview_enabled') ) }}
+{{ config(enabled = var('ga_events_overview_enabled', False) ) }}
 
 with source as (
 

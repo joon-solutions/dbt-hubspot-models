@@ -1,4 +1,4 @@
-{{ config(enabled = var('hubspot__deal_pipeline_stage') ) }}
+{{ config(enabled = var('hubspot__deal_pipeline_stage', False) ) }}
 
 with source as (
 

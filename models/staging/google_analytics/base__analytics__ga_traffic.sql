@@ -1,4 +1,4 @@
-{{ config(enabled = var('ga_traffic_enabled') ) }}
+{{ config(enabled = var('ga_traffic_enabled', False) ) }}
 
 with source as (
 

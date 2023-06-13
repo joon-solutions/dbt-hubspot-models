@@ -1,4 +1,4 @@
-{{ config(enabled = var('hubspot__deal') ) }}
+{{ config(enabled = var('hubspot__deal', False) ) }}
 
 with source as (
 

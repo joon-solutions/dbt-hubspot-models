@@ -1,4 +1,4 @@
-{{ config(enabled=var('shopify_enabled')) }}
+{{ config(enabled=var('shopify_enabled', False)) }}
 {{
 fivetran_utils.union_data(
     table_identifier='transaction', 

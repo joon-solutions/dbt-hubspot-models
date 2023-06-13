@@ -1,4 +1,4 @@
-{{ config(enabled=var('shopify__order_shipping_line') and var('shopify__order_shipping_tax_line')) }}
+{{ config(enabled=var('shopify__order_shipping_line', False) and var('shopify__order_shipping_tax_line', False)) }}
 
 with order_shipping_line as (
 

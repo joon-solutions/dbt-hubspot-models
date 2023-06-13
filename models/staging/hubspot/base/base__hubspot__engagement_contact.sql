@@ -1,4 +1,4 @@
-{{ config(enabled = var('hubspot__engagement_contact') ) }}
+{{ config(enabled = var('hubspot__engagement_contact', False) ) }}
 
 with base as (
 

@@ -1,4 +1,4 @@
-{{ config(enabled = var('outreach_opportunity_stage') and var('salesforce__opportunity_enabled') ) }}
+{{ config(enabled = var('outreach_opportunity_stage', False) and var('salesforce__opportunity_enabled', False) ) }}
 
 with opportunity as (
     select * from {{ ref('int__outreach_sf__opportunity_scd') }}

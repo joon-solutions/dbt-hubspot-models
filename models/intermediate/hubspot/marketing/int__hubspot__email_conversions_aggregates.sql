@@ -1,4 +1,4 @@
-{{ config(enabled = var('contact_form_submission_enabled') ) }}
+{{ config(enabled = var('contact_form_submission_enabled', False) ) }}
 
 with contact_form_submission as (
 

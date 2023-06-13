@@ -1,5 +1,5 @@
 
-{{ config(enabled = var('ga_browser_and_operating_system_overview_enabled') ) }}
+{{ config(enabled = var('ga_browser_and_operating_system_overview_enabled', False) ) }}
 
 with source as (
 

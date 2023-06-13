@@ -1,4 +1,4 @@
-{{ config(enabled = var('outreach_user') and var('salesforce__user_enabled') ) }}
+{{ config(enabled = var('outreach_user', False) and var('salesforce__user_enabled', False) ) }}
 
 with outreach as (
 

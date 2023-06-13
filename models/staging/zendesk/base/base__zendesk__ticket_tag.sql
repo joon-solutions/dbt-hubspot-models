@@ -1,4 +1,4 @@
-{{ config(enabled=var('zendesk_enabled')) }}
+{{ config(enabled=var('zendesk_enabled', False)) }}
 
 with base as (
 

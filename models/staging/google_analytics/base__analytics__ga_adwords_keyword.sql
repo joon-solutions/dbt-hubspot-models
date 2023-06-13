@@ -1,4 +1,4 @@
-{{ config(enabled = var('ga_adwords_keyword_enabled') ) }}
+{{ config(enabled = var('ga_adwords_keyword_enabled', False) ) }}
 
 with source as (
 

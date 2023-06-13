@@ -1,4 +1,4 @@
-{{ config(enabled = var('ga_social_media_acquisitions_enabled') ) }}
+{{ config(enabled = var('ga_social_media_acquisitions_enabled', False) ) }}
 
 with source as (
 

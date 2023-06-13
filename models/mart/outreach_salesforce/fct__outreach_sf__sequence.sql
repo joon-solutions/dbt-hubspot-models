@@ -1,4 +1,4 @@
-{{ config(enabled = var('outreach_sequence') and var('salesforce__opportunity_enabled')) }}
+{{ config(enabled = var('outreach_sequence', False) and var('salesforce__opportunity_enabled', False)) }}
 
 --where each account is in a sequence
 with seq_base as ( --PK: account_id| sequence_id

@@ -1,4 +1,4 @@
-{{ config(enabled = var('outreach_opportunity_stage') ) }}
+{{ config(enabled = var('outreach_opportunity_stage', False) ) }}
 
 with opportunity as (
     select *

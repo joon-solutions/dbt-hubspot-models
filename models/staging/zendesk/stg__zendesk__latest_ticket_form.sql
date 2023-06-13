@@ -1,4 +1,4 @@
-{{ config(enabled=var('zendesk_enabled')) }}
+{{ config(enabled=var('zendesk_enabled', False)) }}
 
 with ticket_form_history as (
     select *

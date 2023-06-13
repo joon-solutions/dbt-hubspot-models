@@ -1,4 +1,4 @@
-{{ config(enabled=var('ad_reporting__snapchat_ads_enabled')) }}
+{{ config(enabled=var('ad_reporting__snapchat_ads_enabled', False)) }}
 with source as (
 
     select * from {{ source('snapchat_ads', 'ad_hourly_report') }}

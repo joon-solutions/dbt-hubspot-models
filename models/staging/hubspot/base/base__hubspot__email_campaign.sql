@@ -1,4 +1,4 @@
-{{ config(enabled = var('email_campaign_enabled') ) }}
+{{ config(enabled = var('email_campaign_enabled', False) ) }}
 
 with source as (
 

@@ -1,4 +1,4 @@
-{{ config(enabled = var('ga_campaign_performance_enabled') ) }}
+{{ config(enabled = var('ga_campaign_performance_enabled', False) ) }}
 
 with source as (
 

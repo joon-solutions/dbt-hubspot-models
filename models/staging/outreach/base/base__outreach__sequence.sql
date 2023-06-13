@@ -1,4 +1,4 @@
-{{ config(enabled = var('outreach_sequence') ) }}
+{{ config(enabled = var('outreach_sequence', False) ) }}
 
 with source as (
 

@@ -1,4 +1,4 @@
-{{ config(enabled=var('ad_reporting__linkedin_ads_enabled')) }}
+{{ config(enabled=var('ad_reporting__linkedin_ads_enabled', False)) }}
 with source as (
 
     select * from {{ source('linkedin_ads', 'account_history') }}

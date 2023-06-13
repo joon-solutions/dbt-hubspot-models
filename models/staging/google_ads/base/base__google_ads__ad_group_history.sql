@@ -1,4 +1,4 @@
-{{ config(enabled=var('ad_reporting__google_ads_enabled')) }}
+{{ config(enabled=var('ad_reporting__google_ads_enabled', False)) }}
 with source as (
 
     select * from {{ source('google_ads', 'ad_group_history') }}
