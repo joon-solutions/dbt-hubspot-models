@@ -39,73 +39,73 @@ vars:
 # Hubpost source
 ## MKT source
   email_metrics: ['sends', 'bounces', 'clicks', 'deferrals', 'deliveries', 'drops', 'forwards', 'opens', 'prints', 'spam_reports']
-  contact_form_submission_enabled: true
-  contact_list_member_enabled: true
-  contact_list_enabled: true
-  contact_enabled: true
-  email_campaign_enabled: true
-  email_event_enabled: true
-  email_subscription_change_enabled: true
-  email_subscription_enabled: true
+  contact_form_submission_enabled: false
+  contact_list_member_enabled: false
+  contact_list_enabled: false
+  contact_enabled: false
+  email_campaign_enabled: false
+  email_event_enabled: false
+  email_subscription_change_enabled: false
+  email_subscription_enabled: false
 
 ## Sales source
-  hubspot__engagement: true
-  hubspot__engagement_contact: true
-  hubspot__engagement_deal: true
-  hubspot__deal: true
-  hubspot__deal_pipeline: true
-  hubspot__deal_stage: true
-  hubspot__deal_pipeline_stage: true
-  hubspot__engagement_company: true
-  hubspot__company: true
+  hubspot__engagement: false
+  hubspot__engagement_contact: false
+  hubspot__engagement_deal: false
+  hubspot__deal: false
+  hubspot__deal_pipeline: false
+  hubspot__deal_stage: false
+  hubspot__deal_pipeline_stage: false
+  hubspot__engagement_company: false
+  hubspot__company: false
 
 # HubSpot passthrough columns
   hubspot__company_pass_through_columns: []
   hubspot__pass_through_all_columns: false # overwrite any passthrough columns var by just passing all columns
-  hubspot__owner: true
+  hubspot__owner: false
 
 # Google analytics source
-  ga_adwords_campaigns_enabled: true
-  ga_adwords_hourly_stats_enabled: true
-  ga_adwords_keyword_enabled: true
-  ga_audience_overview_enabled: true
-  ga_browser_and_operating_system_overview_enabled: true
-  ga_campaign_performance_enabled: true
-  ga_channel_traffic_enabled: true
-  ga_events_overview_enabled: true
-  ga_social_media_acquisitions_enabled: true
-  ga_traffic_enabled: true
+  ga_adwords_campaigns_enabled: false
+  ga_adwords_hourly_stats_enabled: false
+  ga_adwords_keyword_enabled: false
+  ga_audience_overview_enabled: false
+  ga_browser_and_operating_system_overview_enabled: false
+  ga_campaign_performance_enabled: false
+  ga_channel_traffic_enabled: false
+  ga_events_overview_enabled: false
+  ga_social_media_acquisitions_enabled: false
+  ga_traffic_enabled: false
 
 # Ads source
   ## Linkedin
-  ad_reporting__linkedin_ads_enabled: true
+  ad_reporting__linkedin_ads_enabled: false
   linkedin__use_local_currency: false
   linkedin__passthrough_metrics: []
   ## Microsoft
-  ad_reporting__microsoft_ads_enabled: true
+  ad_reporting__microsoft_ads_enabled: false
   microsoft_auto_tagging_enabled: false
   ## Pinterest
-  ad_reporting__pinterest_enabled: true
+  ad_reporting__pinterest_enabled: false
   pin_promotion_report_pass_through_metric: []
   ## Google 
-  ad_reporting__google_ads_enabled: true
+  ad_reporting__google_ads_enabled: false
   google_ads__ad_stats_passthrough_metrics: []
   ## Twitter
-  ad_reporting__twitter_ads_enabled: true
+  ad_reporting__twitter_ads_enabled: false
   ## Facebook
-  ad_reporting__facebook_ads_enabled: true
+  ad_reporting__facebook_ads_enabled: false
   ## Snapchat
-  ad_reporting__snapchat_ads_enabled: true
+  ad_reporting__snapchat_ads_enabled: false
   ## Tiktok
-  ad_reporting__tiktok_ads_enabled: true
+  ad_reporting__tiktok_ads_enabled: false
 
 # Salesforce
-  salesforce__user_role_enabled: true
-  salesforce__user_enabled: true
-  salesforce__account_enabled: true
-  salesforce__opportunity_enabled: true
-  salesforce__task_enabled: true
-  salesforce__lead_enabled: true
+  salesforce__user_role_enabled: false
+  salesforce__user_enabled: false
+  salesforce__account_enabled: false
+  salesforce__opportunity_enabled: false
+  salesforce__task_enabled: false
+  salesforce__lead_enabled: false
 
  # Salesforce pass through column variables
   account_pass_through_columns: []
@@ -114,48 +114,48 @@ vars:
   user_pass_through_columns: []
 
 # Zendesk
-  zendesk_enabled: true
+  zendesk_enabled: false
   zendesk__ticket_passthrough_columns: []
-  zendesk__ticket_field_history: true
+  zendesk__ticket_field_history: false
   zendesk__organization_tag: false
   zendesk__domain_names: false
 
 # Marketo
-  marketo__activity_change_data_value: true
-  marketo__activity_click_email: true 
-  marketo__activity_delete_lead_enabled: true 
-  marketo__activity_email_bounced: true
-  marketo__activity_email_delivered: true 
-  marketo__activity_merge_leads: true 
-  marketo__activity_open_email: true 
-  marketo__activity_send_email: true 
-  marketo__activity_unsubscribe_email: true 
-  marketo__campaign: true
-  marketo__email_template_history: true 
-  marketo__lead_describe: true
-  marketo__lead: true 
-  marketo__program: true 
+  marketo__activity_change_data_value: false
+  marketo__activity_click_email: false 
+  marketo__activity_delete_lead_enabled: false 
+  marketo__activity_email_bounced: false
+  marketo__activity_email_delivered: false 
+  marketo__activity_merge_leads: false 
+  marketo__activity_open_email: false 
+  marketo__activity_send_email: false 
+  marketo__activity_unsubscribe_email: false 
+  marketo__campaign: false
+  marketo__email_template_history: false 
+  marketo__lead_describe: false
+  marketo__lead: false 
+  marketo__program: false 
 
   # Outreach
-  outreach_account: true
-  outreach_opportunity: true
-  outreach_opportunity_stage: true
-  outreach_sequence: true
-  outreach_sequence_state: true
-  outreach_task: true
-  outreach_user: true
+  outreach_account: false
+  outreach_opportunity: false
+  outreach_opportunity_stage: false
+  outreach_sequence: false
+  outreach_sequence_state: false
+  outreach_task: false
+  outreach_user: false
   max_base_dates: '2023-12-31'
   min_base_dates: '2022-12-01'
   future_proof_date: '9999-12-31'
 
   # Shopify
-  shopify_enabled: true
+  shopify_enabled: false
   has_defined_sources: true
   shopify_union_schemas: ['shopify']  #[shopify_us, shopify_mx]
   shopify_union_databases: ['joon_solutions'] #[shopify_us, shopify_mx]
   customer_pass_through_columns: []
   transaction_pass_through_columns: []
-  shopify__order_shipping_line: true
+  shopify__order_shipping_line: false
   shopify__order_shipping_tax_line: false
   shopify_base_dates: "cast('2021-01-01' as date)"
   m_weight: 1
