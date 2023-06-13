@@ -730,3 +730,14 @@ models:
         description: The actual number of items purchased
       - name: forecasted_quantity
         description: The forecasted number of items purchased
+
+  - name: fct__shopify__order_lines
+    description: Each record represents an order line in Shopify.
+    columns:
+      - name: order_line_globalid
+        description: PK = order_line_id || source_relations
+        tests: 
+          - not_null
+          - unique
+      - name: order_id
+        description: The ID of the order, used for API purposes. This is different from the order_number property, which is the ID used by the shop owner and customer.
