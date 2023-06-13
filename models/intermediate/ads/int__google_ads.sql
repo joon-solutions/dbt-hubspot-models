@@ -1,4 +1,4 @@
-{{ config(enabled=var('ad_reporting__google_ads_enabled')) }}
+{{ config(enabled=var('ad_reporting__google_ads_enabled', False)) }}
 
 with base as (
 

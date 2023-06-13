@@ -1,4 +1,4 @@
-{{ config(enabled=var('marketo__lead', False }}
+{{ config(enabled=var('marketo__lead', False)) }}
 
 with base as (
 
