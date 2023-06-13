@@ -1,4 +1,4 @@
-{{ config(enabled=var('zendesk_enabled') and var('using_domain_names')) }}
+{{ config(enabled=var('zendesk_enabled', false) and var('using_domain_names', false)) }}
 
 with base as (
 

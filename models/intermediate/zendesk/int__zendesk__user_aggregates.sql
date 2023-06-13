@@ -1,4 +1,4 @@
-{{ config(enabled=var('zendesk_enabled') and var("using_user_tags")) }}
+{{ config(enabled=var('zendesk_enabled', false) and var("using_user_tags", false)) }}
 with users as (
 
     select * from {{ ref('base__zendesk__user') }}

@@ -1,4 +1,4 @@
-{{ config(enabled=var('zendesk_enabled') and var('using_organization_tags')) }}
+{{ config(enabled=var('zendesk_enabled', false) and var('using_organization_tags', false)) }}
 
 with base as (
 
