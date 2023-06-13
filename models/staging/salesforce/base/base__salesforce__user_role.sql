@@ -1,5 +1,5 @@
 --To disable this model, set the below variable within your dbt_project.yml file to False.
-{{ config(enabled=var('salesforce__user_role_enabled', True)) }}
+{{ config(enabled=var('salesforce__user_role_enabled', False)) }}
 
 with source as (
 

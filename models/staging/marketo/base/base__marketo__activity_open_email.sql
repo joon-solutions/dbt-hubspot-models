@@ -1,4 +1,4 @@
-{{ config(enabled=var('marketo__activity_open_email', True)) }}
+{{ config(enabled=var('marketo__activity_open_email', False }}
 
 with base as (
 

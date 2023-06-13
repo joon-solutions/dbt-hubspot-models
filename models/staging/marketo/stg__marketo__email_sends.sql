@@ -1,4 +1,4 @@
-{{ config(enabled=var('marketo__activity_send_email', True)) }}
+{{ config(enabled=var('marketo__activity_send_email', False)) }}
 
 with sends as (
 

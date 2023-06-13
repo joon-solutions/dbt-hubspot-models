@@ -1,4 +1,4 @@
-{{ config(enabled=var('shopify_enabled', True)) }}
+{{ config(enabled=var('shopify_enabled', False)) }}
 
 with product as (
     select * from {{ ref('int__shopify__products_order_line') }}

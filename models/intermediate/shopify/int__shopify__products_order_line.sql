@@ -1,4 +1,4 @@
-{{ config(enabled=var('shopify_enabled', True)) }}
+{{ config(enabled=var('shopify_enabled', False)) }}
 with order_lines as (
 
     select *

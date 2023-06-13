@@ -1,4 +1,4 @@
-{{ config(enabled=var('marketo__program', True)) }}
+{{ config(enabled=var('marketo__program', False)) }}
 
 with programs as ( --PK=program_id
 

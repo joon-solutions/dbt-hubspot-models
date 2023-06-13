@@ -1,4 +1,4 @@
-{{ config(enabled=var('marketo__campaign', True)) }}
+{{ config(enabled=var('marketo__campaign', False)) }}
 
 with base as (
 

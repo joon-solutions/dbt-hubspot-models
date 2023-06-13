@@ -1,4 +1,4 @@
-{{ config(enabled=var('marketo__email_template_history', True)) }}
+{{ config(enabled=var('marketo__email_template_history', False)) }}
 
 with latest_email_templates as (
 

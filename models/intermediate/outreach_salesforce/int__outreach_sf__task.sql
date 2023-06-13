@@ -1,4 +1,4 @@
-{{ config(enabled=var('salesforce__task_enabled', True) and var('outreach_task')) }}
+{{ config(enabled=var('salesforce__task_enabled', False) and var('outreach_task', False)) }}
 
 with unions as (
 

@@ -1,4 +1,4 @@
-{{ config(enabled=var('shopify_enabled', True)) }}
+{{ config(enabled=var('shopify_enabled', False)) }}
 -- this model will be all NULL until you have made an order adjustment in Shopify
 with base as (
 

@@ -1,4 +1,4 @@
-{{ config(enabled=var('salesforce__opportunity_enabled', True)) }}
+{{ config(enabled=var('salesforce__opportunity_enabled', False)) }}
 
 with account as (
     select *
