@@ -1,4 +1,4 @@
-{{ config(enabled=var('ad_reporting__facebook_ads_enabled')) }}
+{{ config(enabled=var('ad_reporting__facebook_ads_enabled', False)) }}
 
 {% set url_field = "coalesce(page_link,template_page_link)" %}
 

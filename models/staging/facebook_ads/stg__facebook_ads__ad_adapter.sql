@@ -1,4 +1,4 @@
-{{ config(enabled=var('ad_reporting__facebook_ads_enabled') and var('ad_reporting__facebook_ads_basic_ad_enabled')) }}
+{{ config(enabled=var('ad_reporting__facebook_ads_enabled', False) and var('ad_reporting__facebook_ads_basic_ad_enabled', False)) }}
 with report as (
 
     select *

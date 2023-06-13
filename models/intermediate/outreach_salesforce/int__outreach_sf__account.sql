@@ -1,4 +1,4 @@
-{{ config(enabled=var('outreach_account') and var('salesforce__account_enabled') ) }}
+{{ config(enabled=var('outreach_account', False) and var('salesforce__account_enabled', False) ) }}
 
 with sf as (
     select

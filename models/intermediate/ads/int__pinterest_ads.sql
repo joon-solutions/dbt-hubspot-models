@@ -1,4 +1,4 @@
-{{ config(enabled=var('ad_reporting__pinterest_enabled')) }}
+{{ config(enabled=var('ad_reporting__pinterest_enabled', False)) }}
 
 with base as (
 
