@@ -39,7 +39,7 @@ order_lines_calendar as (
         calendar.date_day,
         orders_joined.sku,
         orders_joined.min_order_month
-        --orders_joined.max_order_month
+    --orders_joined.max_order_month
     from calendar
     cross join orders_joined
 

@@ -1270,12 +1270,3 @@ models:
         description: The country of the location
       - name: _fivetran_synced
         description: The time when a record was last updated by Fivetran
-  
-  - name: base__shopify__calendar_forecasting
-    description: Each record represents an date day for forecasting model.
-    columns:
-      - name: date_day
-        description: date day for forecasting model
-        tests:
-          - not_null
-          - unique
