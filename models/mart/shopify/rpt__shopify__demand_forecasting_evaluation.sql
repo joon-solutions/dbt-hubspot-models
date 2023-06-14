@@ -8,7 +8,7 @@ with demand_forecasting as (
 final as (
 
     select
-        order_month,
+        --order_month,
         sku,
         regr_r2(quantity, forecast_key) as r_square
     from demand_forecasting
