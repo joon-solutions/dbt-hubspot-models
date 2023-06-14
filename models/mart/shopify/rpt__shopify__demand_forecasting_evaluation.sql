@@ -12,7 +12,7 @@ final as (
         sku,
         regr_r2(quantity, forecast_key) as r_square
     from demand_forecasting
-    group by 1, 2
+    group by 1
 
 )
 
