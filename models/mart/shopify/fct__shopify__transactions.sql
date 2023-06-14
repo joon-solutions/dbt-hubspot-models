@@ -1,5 +1,4 @@
-{{ config(enabled=var('shopify__transaction', True)) }}
-{{ config(enabled=var('shopify__tender_transactions', True)) }}
+{{ config(enabled=var('shopify__transaction', False) and var('shopify__tender_transactions', False)) }}
 
 with transactions as (
 

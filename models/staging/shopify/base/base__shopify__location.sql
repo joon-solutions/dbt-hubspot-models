@@ -1,4 +1,4 @@
-{{ config(enabled=var('shopify__location', True)) }}
+{{ config(enabled=var('shopify__location', False)) }}
 
 with base as (
 
