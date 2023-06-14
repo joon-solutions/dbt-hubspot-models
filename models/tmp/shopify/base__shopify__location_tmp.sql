@@ -1,3 +1,4 @@
+{{ config(enabled=var('shopify__location', False) and var('shopify__location', False)) }}
 {{
 fivetran_utils.union_data(
     table_identifier='location', 
