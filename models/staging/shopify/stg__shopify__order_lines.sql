@@ -17,7 +17,7 @@ final as (
     select
         order_lines.order_line_globalid,
         order_lines.order_line_id,
-        coalesce(order_lines.sku, 'URBD0001') as sku,
+        coalesce(order_lines.sku, 'URBD0001') as sku, -- 'URBD0001' is used to fill in missing skus in dummy data, making demand forecasting per sku less noisy.
         order_lines.order_id,
         order_lines.source_relation,
         order_lines.order_globalid,

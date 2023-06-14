@@ -713,7 +713,7 @@ models:
       - name: fraud_detection
         description: The status of fraud detection
 
-  - name: rpt__shopify__demand_forecasting
+  - name: fct__shopify__demand_forecasting
     description: Each record represents a SKU's actual and forecasted demand.
     columns:
       - name: id
@@ -722,26 +722,16 @@ models:
           - unique
           - not_null
           - dbt_utils.at_least_one
-      - name: order_date
+      - name: order_month
         description: Date month of the order
       - name: sku
         description: The item's SKU (stock keeping unit)
       - name: quantity
         description: The actual number of items purchased
+      - name: forecasted_key
+        description: The forecasted key derived from order month
       - name: forecasted_quantity
         description: The forecasted number of items purchased
-
-  - name: fct__shopify__order_lines
-    description: Each record represents an order line in Shopify.
-    columns:
-      - name: order_line_globalid
-        description: PK = order_line_id || source_relations
-        tests: 
-          - not_null
-          - unique
-          - dbt_utils.at_least_one
-      - name: order_id
-        description: The ID of the order, used for API purposes. This is different from the order_number property, which is the ID used by the shop owner and customer.
   
   - name: rpt__shopify__demand_forecasting_evaluation
     description: Each record represents a SKU's r-square.
@@ -752,3 +742,5 @@ models:
           - unique
           - not_null
           - dbt_utils.at_least_one
+      - name: r_square
+        description: R-squared (ranging from 0-1) measures how much of the variance can be explained by our fit line

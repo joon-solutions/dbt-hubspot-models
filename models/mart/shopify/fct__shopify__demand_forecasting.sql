@@ -1,7 +1,7 @@
 with calendar as (
 
     select *
-    from {{ ref('base__shopify__calendar') }}
+    from {{ ref('base__shopify__calendar_forecasting') }}
     where cast({{ dbt_utils.date_trunc('month','date_day') }} as date) = date_day
 
 ),
@@ -9,23 +9,22 @@ with calendar as (
 order_lines as (
 
     select *
-    from {{ ref('fct__shopify__order_lines') }}
+    from {{ ref('stg__shopify__order_lines') }}
 
 ),
 
 orders as (
 
     select *
-    from {{ ref('fct__shopify__orders') }}
+    from {{ ref('int__shopify__orders') }}
 
 ),
 
 orders_joined as (
     select
-        {{ dbt_utils.date_trunc('month','created_timestamp') }} as order_month,
+        {{ dbt_utils.date_trunc('month','orders.created_timestamp') }} as order_month,
         order_lines.sku,
-        min({{ dbt_utils.date_trunc('month','created_timestamp') }}) over (partition by order_lines.sku) as min_order_month,
-        --max({{ dbt_utils.date_trunc('month','created_timestamp') }}) over (partition by order_lines.sku) as max_order_month,
+        min({{ dbt_utils.date_trunc('month','orders.created_timestamp') }}) over (partition by order_lines.sku) as min_order_month,
         coalesce(sum(order_lines.quantity), 0) as quantity
     from order_lines
     left join orders on order_lines.order_globalid = orders.order_globalid
@@ -39,7 +38,6 @@ order_lines_calendar as (
         calendar.date_day,
         orders_joined.sku,
         orders_joined.min_order_month
-    --orders_joined.max_order_month
     from calendar
     cross join orders_joined
 
@@ -55,7 +53,6 @@ orders_calendar as (
     from order_lines_calendar
     left join orders_joined on order_lines_calendar.date_day = orders_joined.order_month
         and order_lines_calendar.sku = orders_joined.sku
-    --where order_lines_calendar.date_day between order_lines_calendar.min_order_month and order_lines_calendar.max_order_month
     where order_lines_calendar.date_day >= order_lines_calendar.min_order_month
 
 ),
@@ -66,6 +63,7 @@ regr as (
         regr_slope(quantity, forecast_key) as slope,
         regr_intercept(quantity, forecast_key) as intercept
     from orders_calendar
+    where order_month < {{ dbt_utils.date_trunc('month','current_date') }}
     group by 1
 
 ),
@@ -76,6 +74,8 @@ final as (
         orders_calendar.sku,
         orders_calendar.quantity,
         orders_calendar.forecast_key,
+        regr.slope,
+        regr.intercept,
         orders_calendar.forecast_key * regr.slope + regr.intercept as forecasted_quantity
     from orders_calendar
     left join regr on orders_calendar.sku = regr.sku
