@@ -712,3 +712,35 @@ models:
         description: The number of credit cards a certain user id has attempted within an hour per day
       - name: fraud_detection
         description: The status of fraud detection
+
+  - name: fct__shopify__demand_forecasting
+    description: Each record represents a SKU's actual and forecasted demand.
+    columns:
+      - name: id
+        description: Unique key representing a sku in a given month. Hashed on 'order_date', 'sku'
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+      - name: order_month
+        description: Date month of the order
+      - name: sku
+        description: The item's SKU (stock keeping unit)
+      - name: quantity
+        description: The actual number of items purchased
+      - name: forecasted_key
+        description: The forecasted key derived from order month
+      - name: forecasted_quantity
+        description: The forecasted number of items purchased
+  
+  - name: rpt__shopify__demand_forecasting_evaluation
+    description: Each record represents a SKU's r-square.
+    columns:
+      - name: order_month
+        description: Unique key representing a order month
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+      - name: r_square
+        description: R-squared (ranging from 0-1) measures how much of the variance can be explained by our fit line
