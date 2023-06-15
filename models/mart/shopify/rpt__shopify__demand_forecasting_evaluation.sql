@@ -8,8 +8,7 @@ with demand_forecasting as (
 final as (
 
     select
-        --order_month,
-        sku,
+        order_month,
         regr_r2(quantity, forecast_key) as r_square
     from demand_forecasting
     group by 1
@@ -18,4 +17,4 @@ final as (
 
 select *
 from final
-order by 2, 1
+order by 1
