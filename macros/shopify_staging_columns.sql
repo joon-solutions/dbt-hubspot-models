@@ -741,3 +741,18 @@
 {{ return(columns) }}
 
 {% endmacro %}
+
+{% macro get_shopify_inventory_level_columns() %}
+
+{% set columns = [
+    {"name": "sku", "datatype": dbt_utils.type_string()},
+    {"name": "inventory_item_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "location_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "available", "datatype": dbt_utils.type_numeric()},
+    {"name": "updated_at", "datatype": dbt_utils.type_timestamp()}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}

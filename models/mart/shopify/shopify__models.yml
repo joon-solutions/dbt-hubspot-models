@@ -744,3 +744,32 @@ models:
           - dbt_utils.at_least_one
       - name: r_square
         description: R-squared (ranging from 0-1) measures how much of the variance can be explained by our fit line
+  
+  - name: rpt__shopify__inventory_alert
+    description: This report table contains info about daily inventory level and reorder quantity
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - date_day
+            - sku
+    columns:
+      - name: date_day
+        description: Reporting date
+        tests: ['not_null', 'dbt_utils.at_least_one']
+      - name: sku
+        description: The item's SKU (stock keeping unit)
+        tests: ['not_null', 'dbt_utils.at_least_one']
+      - name: available_inventory
+        description: Remaining inventory on hand
+      - name: forecasted_daily_sales
+        description: Forecasted sales derived from the demand forecasting model
+      - name: safety_stock
+        description: The amount of extra stock, if any, that sellers keep in their inventory to help avoid stockouts
+      - name: lead_time
+        description: Time taken (in days) to fulfill the order
+      - name: reorder_point
+        description: The specific level at which the stock needs to be replenished. In other words, it tells sellers when to place an order so they won’t run out of stock
+      - name: is_reorder_time
+        description: Used to alert reorder time; when Remaining stock <= Reorder point, it's true else false
+      - name: reorder_quantity
+        description: When Remaining stock <= Reorder point, reorder quanity will equal to reorder point
