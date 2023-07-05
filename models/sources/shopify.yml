@@ -24,6 +24,7 @@ sources:
       - name: order_line
       - name: order_line_refund
       - name: order_adjustment
+      - name: inventory_level
       - name: customer
         description: Each record represents a customer in Shopify.
         columns:

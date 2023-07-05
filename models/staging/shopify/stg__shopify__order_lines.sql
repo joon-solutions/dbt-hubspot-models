@@ -13,6 +13,13 @@ tax_aggregates as (
     group by 1, 2, 3
 ),
 
+orders as (
+
+    select *
+    from {{ ref('base__shopify__orders') }}
+
+),
+
 final as (
     select
         order_lines.order_line_globalid,
@@ -32,11 +39,17 @@ final as (
         order_lines.total_discount,
         order_lines.quantity,
         order_lines.pre_tax_price,
-        tax_aggregates.price as order_line_tax
+        tax_aggregates.price as order_line_tax,
+        {{ dbt_utils.date_trunc('day','orders.created_timestamp') }} as order_date,
+        {{ dbt_utils.date_trunc('month','orders.created_timestamp') }} as order_month,
+        {{ dbt_utils.surrogate_key(['order_lines.sku','order_lines.source_relation']) }} as sku_globalid
 
     from order_lines
     left join tax_aggregates
         on tax_aggregates.order_line_globalid = order_lines.order_line_globalid
+    left join orders
+        on order_lines.order_id = orders.order_id
+
 )
 
 select *

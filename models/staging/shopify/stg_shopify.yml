@@ -43,3 +43,12 @@ models:
         tests: 
           - not_null
           - unique
+  
+  - name: stg__shopify__orders
+    description: Each record represents an order in Shopify.
+    columns:
+      - name: order_globalid
+        description: PK = order_id || source_relations
+        tests: 
+          - not_null
+          - unique
