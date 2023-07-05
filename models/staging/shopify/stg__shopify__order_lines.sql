@@ -41,7 +41,8 @@ final as (
         order_lines.pre_tax_price,
         tax_aggregates.price as order_line_tax,
         {{ dbt_utils.date_trunc('day','orders.created_timestamp') }} as order_date,
-        {{ dbt_utils.date_trunc('month','orders.created_timestamp') }} as order_month
+        {{ dbt_utils.date_trunc('month','orders.created_timestamp') }} as order_month,
+        {{ dbt_utils.surrogate_key(['order_lines.sku','order_lines.source_relation']) }} as sku_globalid
 
     from order_lines
     left join tax_aggregates

@@ -2,7 +2,7 @@
 
 with base as (
 
-    select * from {{ ref('base__shopify__inventory_level_tmp') }}
+    select * from {{ ref('shopify__inventory_level_snapshot') }}
 
 ),
 
@@ -11,7 +11,7 @@ fields as (
     select
         {{
             fivetran_utils.fill_staging_columns(
-                source_columns=adapter.get_columns_in_relation(ref('base__shopify__inventory_level_tmp')),
+                source_columns=adapter.get_columns_in_relation(ref('shopify__inventory_level_snapshot')),
                 staging_columns=get_shopify_inventory_level_columns()
             )
         }}
@@ -33,7 +33,9 @@ final as (
         {{ dbt_date.convert_timezone(column='cast(_fivetran_synced as ' ~ dbt_utils.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
         available,
         updated_at,
-        {{ dbt_utils.surrogate_key(['sku','inventory_item_id','updated_at','location_id']) }} as id
+        source_relation,
+        {{ dbt_utils.surrogate_key(['sku','source_relation']) }} as sku_globalid,
+        {{ dbt_utils.surrogate_key(['inventory_item_id','updated_at','location_id','source_relation']) }} as id
     from fields
 
 )

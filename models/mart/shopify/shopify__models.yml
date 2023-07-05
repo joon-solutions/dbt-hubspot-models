@@ -732,6 +732,10 @@ models:
         description: The forecasted key derived from order month
       - name: forecasted_quantity
         description: The forecasted number of items purchased
+      - name: source_relation
+        description: "{{ doc('shopify_source_relation') }}"
+      - name: sku_globalid
+        description: Unique ID for an sku across sources = the combination of sku_id & source_relation
   
   - name: rpt__shopify__demand_forecasting_evaluation
     description: Each record represents a SKU's r-square.
@@ -775,3 +779,7 @@ models:
         description: When Remaining stock <= Reorder point, reorder quanity will equal to reorder point
       - name: days_stock_covered
         description: Days that remaining stock can cover forecasted demand (used for inventory planning purpose)
+      - name: source_relation
+        description: "{{ doc('shopify_source_relation') }}"
+      - name: sku_globalid
+        description: Unique ID for an sku across sources = the combination of sku_id & source_relation

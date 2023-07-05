@@ -1,8 +1,8 @@
-sku,safety_stock,lead_time
-100,175,7
-1000,100,5
-IKFINISHED00001,200,10
-UBRD0002,300,10
-URBD0001,100,4
-URBD0003,200,2
-URBD0004,1000,15
+source_relation,sku,safety_stock,lead_time
+shopify,100,175,7
+shopify,1000,100,5
+shopify,IKFINISHED00001,200,10
+shopify,UBRD0002,300,10
+shopify,URBD0001,100,4
+shopify,URBD0003,200,2
+shopify,URBD0004,1000,15
