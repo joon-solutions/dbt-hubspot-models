@@ -32,7 +32,8 @@ final as (
         location_id,
         {{ dbt_date.convert_timezone(column='cast(_fivetran_synced as ' ~ dbt_utils.type_timestamp() ~ ')', target_tz=var('shopify_timezone', "UTC"), source_tz="UTC") }} as _fivetran_synced,
         available,
-        updated_at
+        updated_at,
+        {{ dbt_utils.surrogate_key(['sku','inventory_item_id','updated_at','location_id']) }} as id
     from fields
 
 )
