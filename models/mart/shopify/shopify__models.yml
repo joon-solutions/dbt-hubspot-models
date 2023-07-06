@@ -769,7 +769,7 @@ models:
       - name: safety_stock
         description: The amount of extra stock by sku, if any, that sellers keep in their inventory to help avoid stockouts (user-input field)
       - name: lead_time
-        description: Time taken (in days) to fulfill the items of each sku (user-input field)
+        description: Days needed (in days) for vendors to fulfill each sku's items on a reorder (user-input field)
       - name: reorder_point
         description: >
           The specific level at which the stock needs to be replenished. /> Reorder point = Daily average usage * Lead time + Safety stock /> When Remaining stock <= Reorder point, it’s time to reorder the same amount of Reorder point. So that at the end of the order cycle, the remaining stock is equal to safety stock.
