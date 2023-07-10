@@ -251,7 +251,7 @@ vars:
 ### Instructions for user-input file:
 `rpt__shopify__inventory_alert` uses 2 user-input fields: `safety stock` and `lead time` from `inventory_user_input.csv` file. 
 In this file, please read the following descriptions & fill in the fields accordingly
-- Source relation: The schema or database union together from multiple Shopify connectors
+- Source relation: The name of schema/ dataset which your shopify data located
 - Sku: The item's SKU (stock keeping unit)
 - Safety stock: The amount of extra stock by sku, if any, that sellers keep in their inventory to help avoid stockouts
 - Lead time: Days needed (in days) for vendors to fulfill each sku's items on a reorder
