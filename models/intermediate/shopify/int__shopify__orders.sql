@@ -1,7 +1,7 @@
 with orders as (
 
     select *
-    from {{ ref('stg__shopify__orders') }}
+    from {{ ref('base__shopify__orders') }}
 
 ),
 
