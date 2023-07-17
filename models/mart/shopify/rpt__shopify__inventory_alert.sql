@@ -38,7 +38,7 @@ inventory_level_calendar as (
         inventory_level.sku_globalid,
         inventory_level.source_relation,
         case
-            when {{ dbt_utils.date_trunc('month','calendar.date_day') }} = inventory_level.updated_at
+            when calendar.date_day = inventory_level.updated_at
                 then inventory_level.available
         end as available_inventory
     from calendar
@@ -61,7 +61,8 @@ joins as (
             and inventory_level_calendar.sku_globalid = demand_forecasting.sku_globalid
     left join inventory_user_input
         on inventory_level_calendar.sku_globalid = inventory_user_input.sku_globalid
-    where inventory_level_calendar.available_inventory is not null and inventory_level_calendar.date_day >= demand_forecasting.first_order_date
+    where inventory_level_calendar.date_day >= demand_forecasting.first_order_date
+        and inventory_level_calendar.available_inventory is not null -- exclude duplicates due to cross join
 
 ),
 
