@@ -1,16 +1,18 @@
 {%- set source_relation = adapter.get_relation(
-      database=source('shopify', 'inventory_level_user_input').database,
-      schema=source('shopify', 'inventory_level_user_input').schema,
-      identifier=source('shopify', 'inventory_level_user_input').name) -%}
+      database=source('gsheet', 'inventory_level_user_input').database,
+      schema=source('gsheet', 'inventory_level_user_input').schema,
+      identifier=source('gsheet', 'inventory_level_user_input').name) -%}
 
-{% set table_exists=source_relation is not none %}
+{% set is_using_gsheet=source_relation is not none %}
 
-{% if table_exists %}
+select
+    *,
+    {{ dbt_utils.surrogate_key(['sku','source_relation']) }} as sku_globalid
 
-select * from {{ source('shopify', 'inventory_level_user_input') }}
+    {% if is_using_gsheet %}
+from {{ source('gsheet', 'inventory_level_user_input') }}
 
 {% else %}
+from {{ ref('seed__shopify__inventory_user_input') }}
 
-select * from {{ ref('seed__shopify__inventory_user_input') }}
-
-{% endif %}
+    {% endif %}

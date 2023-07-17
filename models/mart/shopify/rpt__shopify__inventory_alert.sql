@@ -36,24 +36,13 @@ inventory_level_calendar as (
         calendar.date_day,
         inventory_level.sku,
         inventory_level.sku_globalid,
-        inventory_level.source_relation
+        inventory_level.source_relation,
+        case
+            when {{ dbt_utils.date_trunc('month','calendar.date_day') }} = inventory_level.updated_at
+                then inventory_level.available
+        end as available_inventory
     from calendar
     cross join inventory_level
-
-),
-
-inventory_joins as (
-
-    select
-        inventory_level_calendar.date_day,
-        inventory_level_calendar.sku,
-        inventory_level_calendar.source_relation,
-        inventory_level_calendar.sku_globalid,
-        coalesce(sum(inventory_level.available), 0) as available_inventory -- remaining stock at hand
-    from inventory_level_calendar
-    left join inventory_level
-        on inventory_level_calendar.sku_globalid = inventory_level.sku_globalid and {{ dbt_utils.date_trunc('month','inventory_level_calendar.date_day') }} = inventory_level.updated_at
-    group by 1, 2, 3, 4
 
 ),
 
@@ -61,19 +50,18 @@ inventory_joins as (
 joins as (
 
     select
-        inventory_joins.*,
-        count(distinct inventory_joins.date_day) over (partition by {{ dbt_utils.date_trunc('month','inventory_joins.date_day') }}) as days_count,
-        demand_forecasting.forecasted_quantity / count(distinct inventory_joins.date_day) over (partition by {{ dbt_utils.date_trunc('month','inventory_joins.date_day') }}) as forecasted_daily_sales,
+        inventory_level_calendar.*,
+        count(distinct inventory_level_calendar.date_day) over (partition by {{ dbt_utils.date_trunc('month','inventory_level_calendar.date_day') }}) as days_count,
+        demand_forecasting.forecasted_quantity / count(distinct inventory_level_calendar.date_day) over (partition by {{ dbt_utils.date_trunc('month','inventory_level_calendar.date_day') }}) as forecasted_daily_sales,
         inventory_user_input.safety_stock,
         inventory_user_input.lead_time
-    from inventory_joins
+    from inventory_level_calendar
     left join demand_forecasting
-        on {{ dbt_utils.date_trunc('month','inventory_joins.date_day') }} = demand_forecasting.order_month
-            and inventory_joins.sku_globalid = demand_forecasting.sku_globalid
+        on {{ dbt_utils.date_trunc('month','inventory_level_calendar.date_day') }} = demand_forecasting.order_month
+            and inventory_level_calendar.sku_globalid = demand_forecasting.sku_globalid
     left join inventory_user_input
-        on inventory_joins.sku = inventory_user_input.sku
-            and inventory_joins.source_relation = inventory_user_input.source_relation
-    where inventory_joins.date_day >= demand_forecasting.first_order_date
+        on inventory_level_calendar.sku_globalid = inventory_user_input.sku_globalid
+    where inventory_level_calendar.available_inventory is not null and inventory_level_calendar.date_day >= demand_forecasting.first_order_date
 
 ),
 

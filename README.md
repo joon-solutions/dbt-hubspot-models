@@ -252,8 +252,8 @@ vars:
 `rpt__shopify__inventory_alert` uses 2 user-input fields: `safety stock` and `lead time`.
 Setting up the user-input file:
 - You can either import google sheet file directly to your data warehhouse or use dbt seed file
-- With the first option, please create the table named `inventory_level_user_input` and connect it to your google sheet file
-- If you opt for the latter, please ensure that your data warehouse does not contain a table named `inventory_level_user_input` and use the seed file `seed__shopify__inventory_user_input`
+- With the first option, please set up the table name using variable "schema" & "identifier" (by default, it's `shopify.inventory_level_user_input`) and connect it to your google sheet file
+- If you opt for the latter, please ensure that your data warehouse does not contain a table connected with gsheet file as above, and use the seed file `seed__shopify__inventory_user_input`
 
 Editting the user-input file:
 Please read the following descriptions & fill in the data fields accordingly

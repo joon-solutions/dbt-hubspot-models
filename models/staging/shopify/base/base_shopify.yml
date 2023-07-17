@@ -56,7 +56,15 @@ models:
         description: "{{ doc('shopify_source_relation') }}"
       - name: note
         description: A note about the customer.
-
+  
+  - name: base__shopify__inventory_user_input
+    description: User-input table containinng inventory level.
+    columns:
+      - name: sku_globalid
+        description: PK of the table, which is the combination of sku & source_relation.
+        tests: 
+          - not_null
+          - unique
 
   - name: base__shopify__abandoned_checkout
     description: A checkout is considered abandoned after the customer has added contact information, but before the customer has completed their purchase.
