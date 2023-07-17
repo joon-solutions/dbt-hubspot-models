@@ -16,10 +16,10 @@ sources:
   #       description: Each record represents a customer in Shopify.
   
   - name: gsheet
-    schema: "{{ var('schema', 'shopify') }}"
+    schema: "{{ var('shopify_inventory_schema', 'shopify') }}"
     tables:
     - name: inventory_level_user_input
-      identifier: "{{ var('identifier', 'inventory_level_user_input') }}"
+      identifier: "{{ var('shopify_inventory_identifier', 'inventory_level_user_input') }}"
 
   - name: shopify
     schema: shopify
