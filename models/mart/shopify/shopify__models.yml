@@ -783,3 +783,25 @@ models:
         description: "{{ doc('shopify_source_relation') }}"
       - name: sku_globalid
         description: Unique ID for an sku across sources = the combination of sku_id & source_relation
+
+  - name: rpt__shopify__revenue_forecasting
+    description: Each record represents a SKU's forecasted revenue.
+    columns:
+      - name: id
+        description: Unique key representing a sku in a given month. Hashed on 'order_date', 'sku'
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+      - name: order_month
+        description: Date month of the order
+      - name: sku
+        description: The item's SKU (stock keeping unit)
+      - name: forecasted_quantity
+        description: The forecasted number of items purchased
+      - name: sku_globalid
+        description: Unique ID for an sku across sources = the combination of sku_id & source_relation
+      - name: avg_price_per_item
+        description: Average price per item of each SKU in the most recent month
+      - name: forecast_revenue
+        description: The forecasted revenue, based on forecasted quantity and average price per item

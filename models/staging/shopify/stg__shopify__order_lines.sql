@@ -29,6 +29,7 @@ final as (
             order_lines.destination_location_city, ', ',
             order_lines.destination_location_country_code
         ) as order_route,
+        order_lines.price,
         order_lines.total_discount,
         order_lines.quantity,
         order_lines.pre_tax_price,
