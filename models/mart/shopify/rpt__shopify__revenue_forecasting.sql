@@ -36,7 +36,7 @@ final as (
         demand_forecasting.sku_globalid,
         demand_forecasting.forecasted_quantity,
         recent_orders.avg_price_per_item,
-        demand_forecasting.forecasted_quantity * recent_orders.avg_price_per_item as forecast_revenue
+        demand_forecasting.forecasted_quantity * recent_orders.avg_price_per_item as forecasted_revenue
     from demand_forecasting
     left join recent_orders 
         on demand_forecasting.sku_globalid = recent_orders.sku_globalid

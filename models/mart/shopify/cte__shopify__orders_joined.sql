@@ -12,10 +12,12 @@ orders as (
     select *
     from {{ ref('int__shopify__orders') }}
 
-)
+),
 
-select
-    date(orders.created_timestamp) as order_date,
+final as (
+
+    select
+        date(orders.created_timestamp) as order_date,
     order_lines.sku_globalid,
     order_lines.sku,
     order_lines.source_relation,
@@ -26,3 +28,10 @@ select
 from order_lines
 left join orders on order_lines.order_globalid = orders.order_globalid
 group by 1, 2, 3, 4
+
+)
+
+select
+    *,
+    {{ dbt_utils.surrogate_key(['order_date', 'sku_globalid']) }} as id
+from final
