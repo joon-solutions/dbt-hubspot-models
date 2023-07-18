@@ -63,7 +63,6 @@ joins as (
     left join inventory_user_input
         on inventory_level_calendar.sku_globalid = inventory_user_input.sku_globalid
     where inventory_level_calendar.date_day >= demand_forecasting.first_order_date
-        and inventory_level_calendar.available_inventory is not null -- exclude duplicates due to cross join
 
 ),
 
