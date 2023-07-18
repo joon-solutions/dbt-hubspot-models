@@ -248,6 +248,19 @@ To convert the timezone of **all** timestamps in the package, update the `shopif
 vars:
     shopify_timezone: "America/New_York" # Replace with your timezone
 ```
+### Instructions for user-input file:
+`rpt__shopify__inventory_alert` uses 2 user-input fields: `safety stock` and `lead time`.
+Setting up the user-input file:
+- You can either import google sheet file directly to your data warehhouse or use dbt seed file
+- With the first option, please set up the table name using variable `shopify_inventory_schema` & `shopify_inventory_identifier` (by default, it's `shopify.inventory_level_user_input`) and connect it to your google sheet file
+- If you opt for the latter, please ensure that your data warehouse does not contain a table connected with gsheet file as above, and use the seed file `seed__shopify__inventory_user_input`
+
+Editting the user-input file:
+Please read the following descriptions & fill in the data fields accordingly
+- Source relation: The name of schema/ dataset which your shopify data located
+- Sku: The item's SKU (stock keeping unit)
+- Safety stock: The amount of extra stock by sku, if any, that sellers keep in their inventory to help avoid stockouts
+- Lead time: Days needed (in days) for vendors to fulfill each sku's items on a reorder
 
 ### Resources:
 - Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
