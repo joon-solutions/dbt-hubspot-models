@@ -37,12 +37,13 @@ inventory_level_calendar as (
         inventory_level.sku,
         inventory_level.sku_globalid,
         inventory_level.source_relation,
-        case
+        sum(coalesce(case
             when calendar.date_day = inventory_level.updated_at
                 then inventory_level.available
-        end as available_inventory
+            end, 0)) as available_inventory
     from calendar
     cross join inventory_level
+    group by 1, 2, 3, 4
 
 ),
 
