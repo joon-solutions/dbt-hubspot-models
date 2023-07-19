@@ -805,29 +805,3 @@ models:
         description: Average price per item of each SKU in the most recent month
       - name: forecast_revenue
         description: The forecasted revenue, based on forecasted quantity and average price per item
-
-  - name: cte__shopify__orders_joined
-    description: orders_joined CTE that is both used in fct__shopify__demand_forecasting and rpt__shopify__revenue_forecasting
-    columns:
-      - name: id
-        description: Unique key representing a sku in a given month. Hashed on 'order_date', 'sku'
-        tests:
-          - unique
-          - not_null
-          - dbt_utils.at_least_one
-      - name: sku_globalid
-        description: Unique ID for an sku across sources = the combination of sku_id & source_relation
-      - name: sku
-        description: The item's SKU (stock keeping unit)
-      - name: order_date
-        description: Date of the order
-      - name: source_relation
-        description: "{{ doc('shopify_source_relation') }}"
-      - name: first_order_date
-        description: The first order date of each sku
-      - name: quantity
-        description: The actual number of items purchased
-      - name: order_items_count
-        description: The number of item lines purchased, used to calculate avg price per item
-      - name: price_sum
-        description: The total amout of price, used to calculate avg price per item
