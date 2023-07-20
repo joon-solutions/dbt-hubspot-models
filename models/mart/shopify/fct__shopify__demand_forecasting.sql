@@ -8,7 +8,7 @@ with calendar as (
 
 order_lines as (
 
-    select 
+    select
         sku_globalid,
         sku,
         source_relation,
@@ -32,7 +32,7 @@ orders_joined as (
         order_lines.sku_globalid,
         order_lines.sku,
         order_lines.source_relation,
-        median(variant_price) as variant_price, -- to address cases when 1 sku is mapped with many product variant, thus many variant_price, if it ever happens
+        median(order_lines.variant_price) as variant_price, -- to address cases when 1 sku is mapped with many product variant, thus many variant_price, if it ever happens
         min(date(orders.created_timestamp)) over (partition by order_lines.sku_globalid) as first_order_date,
         coalesce(sum(order_lines.quantity), 0) as quantity
     from order_lines
