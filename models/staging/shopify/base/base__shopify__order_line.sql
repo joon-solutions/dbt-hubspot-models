@@ -77,7 +77,8 @@ final as (
         source_relation,
         {{ dbt_utils.surrogate_key(['order_line_id','source_relation']) }} as order_line_globalid,
         {{ dbt_utils.surrogate_key(['order_id','source_relation']) }} as order_globalid,
-        {{ dbt_utils.surrogate_key(['product_id','source_relation']) }} as product_globalid
+        {{ dbt_utils.surrogate_key(['product_id','source_relation']) }} as product_globalid,
+        {{ dbt_utils.surrogate_key(['variant_id','source_relation']) }} as product_variant_globalid
 
     from fields
 

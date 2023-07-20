@@ -783,3 +783,9 @@ models:
         description: "{{ doc('shopify_source_relation') }}"
       - name: sku_globalid
         description: Unique ID for an sku across sources = the combination of sku_id & source_relation
+      - name: forecast_revenue
+        description: The forecasted revenue, based on forecasted quantity and average price per item
+      - name: forecasted_gross_revenue
+        description: The forecasted gross revenue, based on forecasted quantity and product varient unit price
+      - name: actual_gross_revenue
+        description: The actual gross revenue, based on actual order quantity and product varient unit price
