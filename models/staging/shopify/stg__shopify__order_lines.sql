@@ -41,11 +41,11 @@ final as (
         order_lines.total_discount,
         order_lines.quantity,
         order_lines.pre_tax_price,
-        order_lines.price * order_lines.quantity as gross_revenue,
         tax_aggregates.price as order_line_tax,
         product_variants.compare_at_price as variant_compare_at_price,
         product_variants.price as variant_price,
         product_variants.sku as variant_sku,
+        product_variants.price * order_lines.quantity as gross_revenue,
         {{ dbt_utils.surrogate_key(['order_lines.sku','order_lines.source_relation']) }} as sku_globalid
 
     from order_lines

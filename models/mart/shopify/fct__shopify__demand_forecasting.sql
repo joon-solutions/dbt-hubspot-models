@@ -8,7 +8,13 @@ with calendar as (
 
 order_lines as (
 
-    select *
+    select 
+        sku_globalid,
+        sku,
+        source_relation,
+        quantity,
+        variant_price,
+        order_globalid
     from {{ ref('stg__shopify__order_lines') }}
 
 ),
@@ -26,6 +32,7 @@ orders_joined as (
         order_lines.sku_globalid,
         order_lines.sku,
         order_lines.source_relation,
+        median(variant_price) as variant_price, -- to address cases when 1 sku is mapped with many product variant, thus many variant_price, if it ever happens
         min(date(orders.created_timestamp)) over (partition by order_lines.sku_globalid) as first_order_date,
         coalesce(sum(order_lines.quantity), 0) as quantity
     from order_lines
@@ -56,7 +63,8 @@ orders_calendar as (
         order_lines_calendar.source_relation,
         order_lines_calendar.first_order_date,
         row_number() over (partition by order_lines_calendar.sku_globalid order by order_lines_calendar.date_day asc) as forecast_key,
-        coalesce(sum(orders_joined.quantity), 0) as quantity
+        coalesce(sum(orders_joined.quantity), 0) as quantity,
+        coalesce(max(orders_joined.variant_price), 0) as variant_price
     from order_lines_calendar
     left join orders_joined on order_lines_calendar.date_day = {{ dbt_utils.date_trunc('month','orders_joined.order_date') }}
         and order_lines_calendar.sku_globalid = orders_joined.sku_globalid
@@ -89,7 +97,10 @@ final as (
         orders_calendar.first_order_date,
         regr.slope,
         regr.intercept,
-        orders_calendar.forecast_key * regr.slope + regr.intercept as forecasted_quantity
+        orders_calendar.forecast_key * regr.slope + regr.intercept as forecasted_quantity,
+        ---gross revenue
+        orders_calendar.quantity * orders_calendar.variant_price as actual_gross_revenue,
+        forecasted_quantity * orders_calendar.variant_price as forecasted_gross_revenue
     from orders_calendar
     left join regr on orders_calendar.sku_globalid = regr.sku_globalid
 
