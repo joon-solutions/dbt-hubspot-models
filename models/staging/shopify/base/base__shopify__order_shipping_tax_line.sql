@@ -12,7 +12,7 @@ fields as (
         {{
             fivetran_utils.fill_staging_columns(
                 source_columns=adapter.get_columns_in_relation(ref('base__shopify__order_shipping_tax_line_tmp')),
-                staging_columns=get_order_shipping_tax_line_columns()
+                staging_columns=get_shopify_order_shipping_tax_line_columns()
             )
         }}
 
