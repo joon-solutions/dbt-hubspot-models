@@ -62,5 +62,6 @@ final as (
 select
     *,
     {{ dbt_utils.surrogate_key(['product_id','source_relation']) }} as product_globalid,
-    {{ dbt_utils.surrogate_key(['product_variant_id','source_relation']) }} as product_variant_globalid
+    {{ dbt_utils.surrogate_key(['product_variant_id','source_relation']) }} as product_variant_globalid,
+    {{ dbt_utils.surrogate_key(['sku','source_relation']) }} as sku_globalid
 from final

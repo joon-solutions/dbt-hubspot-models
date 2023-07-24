@@ -150,7 +150,6 @@ vars:
 
   # Shopify
   shopify_enabled: false
-  has_defined_sources: true
   shopify_union_schemas: ['shopify']  #[shopify_us, shopify_mx]
   shopify_union_databases: ['joon_solutions'] #[shopify_us, shopify_mx]
   customer_pass_through_columns: []

@@ -712,3 +712,80 @@ models:
         description: The number of credit cards a certain user id has attempted within an hour per day
       - name: fraud_detection
         description: The status of fraud detection
+
+  - name: fct__shopify__demand_forecasting
+    description: Each record represents a SKU's actual and forecasted demand.
+    columns:
+      - name: id
+        description: Unique key representing a sku in a given month. Hashed on 'order_date', 'sku'
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+      - name: order_month
+        description: Date month of the order
+      - name: sku
+        description: The item's SKU (stock keeping unit)
+      - name: quantity
+        description: The actual number of items purchased
+      - name: forecasted_key
+        description: The forecasted key derived from order month
+      - name: forecasted_quantity
+        description: The forecasted number of items purchased
+      - name: source_relation
+        description: "{{ doc('shopify_source_relation') }}"
+      - name: sku_globalid
+        description: Unique ID for an sku across sources = the combination of sku_id & source_relation
+  
+  - name: rpt__shopify__demand_forecasting_evaluation
+    description: Each record represents a SKU's r-square.
+    columns:
+      - name: order_month
+        description: Unique key representing a order month
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+      - name: r_square
+        description: R-squared (ranging from 0-1) measures how much of the variance can be explained by our fit line
+  
+  - name: rpt__shopify__inventory_alert
+    description: This report table contains info about daily inventory level and reorder quantity
+    columns:
+      - name: id
+        description: PK of the table = 'sku' + 'date_day'
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+      - name: date_day
+        description: Reporting date
+      - name: sku
+        description: The item's SKU (stock keeping unit)
+      - name: available_inventory
+        description: Remaining inventory on hand
+      - name: forecasted_daily_sales
+        description: Forecasted sales derived from the demand forecasting model
+      - name: safety_stock
+        description: The amount of extra stock by sku, if any, that sellers keep in their inventory to help avoid stockouts (user-input field)
+      - name: lead_time
+        description: Days needed (in days) for vendors to fulfill each sku's items on a reorder (user-input field)
+      - name: reorder_point
+        description: >
+          The specific level at which the stock needs to be replenished. /> Reorder point = Daily average usage * Lead time + Safety stock /> When Remaining stock <= Reorder point, it’s time to reorder the same amount of Reorder point. So that at the end of the order cycle, the remaining stock is equal to safety stock.
+      - name: is_reorder_time
+        description: Used to alert reorder time; when Remaining stock <= Reorder point, it's true else false
+      - name: reorder_quantity
+        description: When Remaining stock <= Reorder point, reorder quanity will equal to reorder point
+      - name: days_stock_covered
+        description: Days that remaining stock can cover forecasted demand (used for inventory planning purpose)
+      - name: source_relation
+        description: "{{ doc('shopify_source_relation') }}"
+      - name: sku_globalid
+        description: Unique ID for an sku across sources = the combination of sku_id & source_relation
+      - name: forecast_revenue
+        description: The forecasted revenue, based on forecasted quantity and average price per item
+      - name: forecasted_gross_revenue
+        description: The forecasted gross revenue, based on forecasted quantity and product varient unit price
+      - name: actual_gross_revenue
+        description: The actual gross revenue, based on actual order quantity and product varient unit price
