@@ -6,12 +6,13 @@ with order_shipping_line as (
         order_globalid,
         order_id,
         source_relation,
+        order_shipping_line_globalid,
         order_shipping_line_id,
         sum(price) as shipping_price,
         sum(discounted_price) as discounted_shipping_price
         
     from {{ ref('base__shopify__order_shipping_line') }}
-    group by 1,2,3
+    group by 1,2,3,4,5
 
 ), 
 
@@ -41,7 +42,7 @@ aggregated as (
     left join order_shipping_tax_line
         on order_shipping_line.order_shipping_line_globalid = order_shipping_tax_line.order_shipping_line_globalid
         -- and order_shipping_line.source_relation = order_shipping_tax_line.source_relation
-    group by 1,2
+    group by 1,2,3
 )
 
 select * from aggregated
