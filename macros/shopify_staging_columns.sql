@@ -347,7 +347,7 @@
 
 {% endmacro %}
 
-{% macro get_shopify_shopify_order_shipping_tax_line_columns() %}
+{% macro get_shopify_order_shipping_tax_line_columns() %}
 
 {% set columns = [
     {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
