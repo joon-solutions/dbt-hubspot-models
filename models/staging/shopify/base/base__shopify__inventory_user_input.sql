@@ -1,3 +1,5 @@
+{{ config(enabled=var('shopify_enabled', False)) }}
+
 {%- set source_relation = adapter.get_relation(
       database=source('gsheet', 'inventory_level_user_input').database,
       schema=source('gsheet', 'inventory_level_user_input').schema,

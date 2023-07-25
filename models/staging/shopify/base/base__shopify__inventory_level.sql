@@ -1,4 +1,4 @@
-{{ config(enabled=var('shopify__inventory_level', True)) }}
+{{ config(enabled=var('shopify__inventory_level', False)) }}
 
 with base as (
 

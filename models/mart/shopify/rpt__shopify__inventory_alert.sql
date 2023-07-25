@@ -1,3 +1,5 @@
+{{ config(enabled=var('shopify_enabled', False)) }}
+
 with
 
 -- Import CTEs
