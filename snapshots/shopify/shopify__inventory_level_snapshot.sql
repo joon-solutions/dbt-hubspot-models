@@ -1,3 +1,4 @@
+{{ config(enabled=var('shopify_enabled', False)) }}
 {% snapshot shopify__inventory_level_snapshot %}
 
     {{
@@ -11,7 +12,7 @@
 {{
 fivetran_utils.union_data(
     table_identifier='inventory_level', 
-    default_database='joon_solutions',
+    default_database=target.database,
     default_schema='shopify',
     default_variable='inventory_level_source',
     union_schema_variable='shopify_union_schemas',
