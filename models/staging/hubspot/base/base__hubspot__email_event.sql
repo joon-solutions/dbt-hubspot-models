@@ -2,7 +2,7 @@
 
 with source as (
 
-    select * from {{ source(var('hubspot_schema', 'hubspot'), 'email_event') }}
+    select * from {{ source('hubspot', 'email_event') }}
 
 ),
 
@@ -12,7 +12,7 @@ renamed as (
 
         {{
             fill_staging_columns(
-                source_columns=adapter.get_columns_in_relation(source(var('hubspot_schema', 'hubspot'), 'email_event')),
+                source_columns=adapter.get_columns_in_relation(source('hubspot', 'email_event')),
                 staging_columns = get_hubspot_email_event_columns()
             )
         }}

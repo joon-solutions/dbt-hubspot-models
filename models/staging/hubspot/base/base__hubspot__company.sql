@@ -3,7 +3,7 @@
 with base as (
 
     select *
-    from {{ source(var('hubspot_schema', 'hubspot'), 'company') }}
+    from {{ source('hubspot', 'company') }}
 
 ),
 
@@ -12,7 +12,7 @@ macro as (
     select
         {{
             fivetran_utils.fill_staging_columns(
-                source_columns=adapter.get_columns_in_relation(source(var('hubspot_schema', 'hubspot'), 'company')),
+                source_columns=adapter.get_columns_in_relation(source('hubspot', 'company')),
                 staging_columns=get_hubspot_company_columns()
             )
         }}
@@ -30,7 +30,7 @@ fields as (
         
         {{ 
             fivetran_utils.remove_prefix_from_columns(
-                columns=adapter.get_columns_in_relation(source(var('hubspot_schema', 'hubspot'), 'company')), 
+                columns=adapter.get_columns_in_relation(source('hubspot', 'company')), 
                 prefix='property_', exclude=['id','property_name']
             ) 
         }}
