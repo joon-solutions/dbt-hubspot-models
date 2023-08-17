@@ -2,7 +2,7 @@
 
 with source as (
 
-    select * from {{ source('hubspot', 'owner') }}
+    select * from {{ source(var('hubspot_schema', 'hubspot'), 'owner') }}
 
 ),
 
@@ -11,7 +11,7 @@ renamed as (
     select
         {{
             fivetran_utils.fill_staging_columns(
-                source_columns=adapter.get_columns_in_relation(source('hubspot', 'owner')),
+                source_columns=adapter.get_columns_in_relation(source(var('hubspot_schema', 'hubspot'), 'owner')),
                 staging_columns=get_hubspot_owner_columns()
             )
         }}

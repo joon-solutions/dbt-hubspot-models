@@ -2,7 +2,7 @@
 
 with source as (
 
-    select * from {{ source('hubspot', 'contact_list_member') }}
+    select * from {{ source(var('hubspot_schema', 'hubspot'), 'contact_list_member') }}
 
 ),
 
@@ -12,7 +12,7 @@ renamed as (
 
         {{
             fill_staging_columns(
-                source_columns=adapter.get_columns_in_relation(source('hubspot', 'contact_list_member')),
+                source_columns=adapter.get_columns_in_relation(source(var('hubspot_schema', 'hubspot'), 'contact_list_member')),
                 staging_columns = get_hubspot_contact_list_member_columns()
             )
         }}
