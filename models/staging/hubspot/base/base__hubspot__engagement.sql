@@ -3,7 +3,7 @@
 with base as (
 
     select *
-    from {{ source('hubspot','engagement') }}
+    from {{ source(var('hubspot_schema', 'hubspot'),'engagement') }}
 
 ),
 
@@ -12,7 +12,7 @@ macro as (
     select
         {{
             fivetran_utils.fill_staging_columns(
-                source_columns=adapter.get_columns_in_relation(source('hubspot','engagement')),
+                source_columns=adapter.get_columns_in_relation(source(var('hubspot_schema', 'hubspot'),'engagement')),
                 staging_columns=get_hubspot_engagement_columns()
             )
         }}
