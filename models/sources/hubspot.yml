@@ -2,7 +2,7 @@ version: 2
 
 sources:
   - name: hubspot
-    schema: hubspot
+    schema: "{{ var('hubspot_schema', 'hubspot') }}"
     tables:
       - name: calendar_event
       # - name: calendar_user
