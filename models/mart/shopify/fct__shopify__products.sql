@@ -49,7 +49,7 @@ final as (
         max(orders.created_timestamp) as most_recent_order_timestamp
     from products
     left join orders on products.order_globalid = orders.order_globalid --many-to-one
-    {{ dbt_utils.group_by(n=13) }}
+    {{ dbt_utils.group_by(n=14) }}
 )
 
 select *
