@@ -22,6 +22,7 @@ final as (
         products.status,
         products.published_scope,
         products.created_timestamp,
+        products.published_timestamp,
         products.collections,
         products.tags,
         products.count_variants,
