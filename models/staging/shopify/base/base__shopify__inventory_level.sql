@@ -3,6 +3,7 @@
 with base as (
 
     select * from {{ ref('shopify__inventory_level_snapshot') }}
+    where dbt_valid_to is null
 
 ),
 
