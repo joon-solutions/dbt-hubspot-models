@@ -1,4 +1,4 @@
-## Canvas dbt project!
+## Hubspt dbt models by Joon Solutions!
 
 Below are guides on how to set up & maintain this project
 ### Setting up Python environment
@@ -225,42 +225,6 @@ vars:
             metrics:
                 count_schedule_agg:
                     type: sum
-
-
-### Shopify source: 
-#### Union multiple connectors
-If you have multiple Shopify connectors in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. The package will union all of the data together and pass the unioned table into the transformations. You will be able to see which source it came from in the `source_relation` column of each model. To use this functionality, you will need to set either the `shopify_union_schemas` OR `shopify_union_databases` variables (cannot do both) in your root `dbt_project.yml` file:
-
-```yml
-# dbt_project.yml
-
-vars:
-    shopify_union_schemas: ['shopify_usa','shopify_canada'] # use this if the data is in different schemas/datasets of the same database/project
-    shopify_union_databases: ['shopify_usa','shopify_canada'] # use this if the data is in different databases/projects but uses the same schema name
-```
-#### Setting your timezone
-By default, the data in your Shopify schema is in UTC. However, you may want reporting to reflect a specific timezone for more realistic analysis or data validation. 
-
-To convert the timezone of **all** timestamps in the package, update the `shopify_timezone` variable to your target zone in [IANA tz Database format](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones):
-```yml
-# dbt_project.yml
-
-vars:
-    shopify_timezone: "America/New_York" # Replace with your timezone
-```
-### Instructions for user-input file:
-`rpt__shopify__inventory_alert` uses 2 user-input fields: `safety stock` and `lead time`.
-Setting up the user-input file:
-- You can either import google sheet file directly to your data warehhouse or use dbt seed file
-- With the first option, please set up the table name using variable `shopify_inventory_schema` & `shopify_inventory_identifier` (by default, it's `shopify.inventory_level_user_input`) and connect it to your google sheet file
-- If you opt for the latter, please ensure that your data warehouse does not contain a table connected with gsheet file as above, and use the seed file `seed__shopify__inventory_user_input`
-
-Editting the user-input file:
-Please read the following descriptions & fill in the data fields accordingly
-- Source relation: The name of schema/ dataset which your shopify data located
-- Sku: The item's SKU (stock keeping unit)
-- Safety stock: The amount of extra stock by sku, if any, that sellers keep in their inventory to help avoid stockouts
-- Lead time: Days needed (in days) for vendors to fulfill each sku's items on a reorder
 
 ### Resources:
 - Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
